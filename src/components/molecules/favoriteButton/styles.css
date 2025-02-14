@@ -1,0 +1,8 @@
+.favorite-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: fit-content;
+    height: fit-content;
+    z-index: 30;
+}

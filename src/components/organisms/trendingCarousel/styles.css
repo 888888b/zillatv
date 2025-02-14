@@ -1,0 +1,13 @@
+.trending-slides .embla__container {
+    column-gap: 15px;
+}
+
+.trending-slides .slide-container {
+    position: relative;
+}
+
+@media screen and ( width >= 1024px ) {
+    .trending-slides .embla__container {
+        column-gap: 20px;
+    }
+}
