@@ -15,6 +15,6 @@ export const fetchMoviesByIdList = async ( idsList: string[] ): Promise<(tmdbObj
         } catch (error) {
             console.error( error );  
             reject( error ); 
-        }
+        };
     });
 };

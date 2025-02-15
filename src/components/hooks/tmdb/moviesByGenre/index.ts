@@ -5,14 +5,16 @@ export const fetchMoviesByGenre = async ( genre: string, page: number = 1 ): Pro
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${token}&with_genres=${genre}&language=pt-BR&include_image_language=pt&page=${page}`);
+        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${token}&with_genres=${genre}&language=pt-BR&include_image_language=pt&page=${page}`,{
+            cache: 'force-cache',
+            next: { revalidate: 43200 }
+        });
         if ( response.ok ) {
             const fetchData = await response.json();
             return fetchData.results
         };
 
-    } catch (error) {
+    } catch ( error ) {
         console.error(error);
-        return;
-    }
+    };
 };
