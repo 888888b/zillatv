@@ -1,0 +1,103 @@
+.movie-serie-section-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat( auto-fill, minmax(150px, 1fr) );
+    column-gap: 15px;
+    row-gap: 40px;
+    margin-top: 12px;
+}
+
+.movie-serie-section-container .card {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 1 / 1.35;
+};
+
+.movie-serie-section-container .image-box {
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    height: 100%;
+}
+
+.movie-serie-section-container .image {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(22, 20, 43);
+    object-fit: cover;
+}
+
+.movie-serie-section-container .image-box::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    background-image: radial-gradient( ellipse, rgb(2, 5, 21), transparent, transparent );
+    z-index: 10;
+}
+
+.movie-serie-section-container .play-icon-box {
+    display: none;
+}
+
+@media screen and ( width >= 768px ) {
+    .movie-serie-section-container {
+        grid-template-columns: repeat( auto-fill, minmax(200px, 1fr) );
+    }
+
+    .movie-serie-section-container .image-box::before {
+        display: none;
+    }
+
+    .movie-serie-section-container .image {
+        transition: opacity 0.3s ease;
+        will-change: opacity;
+    }
+
+    .movie-serie-section-container .card:hover .image {
+        opacity: 40%;
+    } 
+
+    .movie-serie-section-container .play-icon-box {
+        opacity: 0;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.3s linear;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 11;
+        cursor: pointer;
+        background-color: white;
+        border-radius: 50%;
+    }
+
+    .movie-serie-section-container .card:hover .play-icon-box {
+        opacity: 100%;
+    }
+
+    .movie-serie-section-container .card button {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .movie-serie-section-container .card:hover button {
+        opacity: 100%;
+    }
+}
+
+@media screen and ( width >= 1024px ) {
+    .movie-serie-section-container {
+        column-gap: 20px;
+    }
+}

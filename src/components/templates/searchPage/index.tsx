@@ -1,30 +1,39 @@
 'use client';
 
-import { useRef, useEffect, MutableRefObject, MouseEvent, useState } from 'react';
+// hooks
+import { useRef, useEffect, MouseEvent, useState } from 'react';
 import useTmdbFetch from '@/components/hooks/tmdb';
 
-// Componente para mostrar os resultados da pesquisa do usuario
-import SearchResults from '@/components/pages/searchPage/results';
-
-// Interface de tipos para objetos retornados pela api do TMDB
+// tipos
 import { tmdbObjProps } from '@/components/contexts/tmdbContext';
 
+// icones
 import { FiSearch } from "react-icons/fi";
 import { HiXMark } from "react-icons/hi2";
 
+// funções utilitarias
 import { handlePromise } from '@/components/utils/tmdbApiData/promise';
 import { checkAvailability } from '@/components/utils/tmdbApiData/availability';
+import ResultsSectionTitle from '@/components/molecules/resultSectionTitle';
 
-import './index.css';
+// elementos
+import SearchResults from '@/components/organisms/moviesSeriesSection';
+
+import './styles.css';
 
 export default function SearchPage() {
 
-    const searchButtonsRef: MutableRefObject<(HTMLButtonElement |  null)[]> = useRef([]);
-    const searchInputRef: MutableRefObject<(HTMLInputElement | null)> = useRef( null );
+    const searchButtonsRef = useRef<(HTMLButtonElement |  null)[]>([]);
+    const searchInputRef = useRef<(HTMLInputElement | null)>( null );
     const [ contentData, setContentData ] = useState<tmdbObjProps[]>([]);
     const [ selectedType, setSelectedType ] = useState( 'movie' );
     const [ isLoading, setIsLoading ] = useState( true );
-    const { fetchReleasedMovies, fetchReleasedSeries, fetchSerieByTerm, fetchMovieByTerm } = useTmdbFetch();
+    const { 
+        fetchReleasedMovies, 
+        fetchReleasedSeries, 
+        fetchSerieByTerm, 
+        fetchMovieByTerm 
+    } = useTmdbFetch();
 
     const fetchReleaseContent = async ( type: string ) => {
         const content = [];
@@ -51,7 +60,7 @@ export default function SearchPage() {
         searchButtonsRef.current.forEach( element => {
             if ( element?.id !== eventRef.id ) {
                 element?.style && Object.assign( element?.style, { 
-                    backgroundColor: '#16142b', color: '#f5f5f5' 
+                    backgroundColor: 'rgba(72, 61, 139, 0.2)', color: '#f5f5f5' 
                 });
             };
         });
@@ -114,9 +123,9 @@ export default function SearchPage() {
     }, []);
 
     return (
-        <section style={{ opacity: isLoading ? 0 : 1 }} className="flex flex-col px-4 w-full min-h-screen mt-32 font-noto_sans font-normal md:px-6 lg:px-8 ease-linear duration-200">
-            <div className='w-full flex flex-col gap-y-3'>
-                <div className='bg-darkpurple flex items-center rounded-md px-4 w-full'>
+        <section style={{ opacity: isLoading ? 0 : 1 }} className='search-page-container font-noto_sans'>
+            <div className='w-full flex flex-col gap-y-3 z-[2]'>
+                <div className='bg-darkslateblue/20 flex items-center rounded-md px-4 w-full'>
                     <FiSearch className='text-2xl text-neutral-100'/>
                     <input
                         type="text"
@@ -135,7 +144,7 @@ export default function SearchPage() {
                 <div className='text-[17px] lg:text-lg'>
                     <button 
                         ref={(e) => { searchButtonsRef.current[0] = e }} 
-                        className='h-9 px-7 rounded-md text-neutral-100 bg-darkpurple border-none outline-none'
+                        className='h-9 px-7 rounded-md text-neutral-100 bg-darkslateblue/20 border-none outline-none'
                         onClick={(e) => { handleSelectedButton(e) }}
                         id='movie'
                         >Filmes
@@ -143,7 +152,7 @@ export default function SearchPage() {
 
                     <button  
                         ref={(e) => { searchButtonsRef.current[1] = e }} 
-                        className='ml-3 h-9 px-7 rounded-md text-neutral-100 bg-darkpurple border-none outline-none'
+                        className='ml-3 h-9 px-7 rounded-md text-neutral-100 bg-darkslateblue/20 border-none outline-none'
                         onClick={(e) => { handleSelectedButton(e) }}
                         id='serie'
                         >Series
@@ -151,7 +160,8 @@ export default function SearchPage() {
                 </div>
             </div>
 
-            <div className='py-7'>
+            <div className='my-10 z-[3]'>
+                <ResultsSectionTitle contentType={selectedType} searchTerm={searchInputRef.current?.value}/>
                 <SearchResults typeOfId={selectedType} fetchData={contentData}/>
             </div>
         </section>
