@@ -1,23 +1,28 @@
 'use client';
 
+// hooks
 import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import useFirebase from "@/components/hooks/firebase";
 
+// componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
 import FavoriteButton from '@/components/molecules/favoriteButton';
 
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/opacity.css';
-
+// icones
 import { FaPlay } from "react-icons/fa";
 
+// contextos
 import { UserDataContext } from '@/components/contexts/authenticationContext';
 import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
 
+// tipos
 import { tmdbObjProps } from '@/components/contexts/tmdbContext';
 
+// funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
+
+import { tmdbConfig } from '@/app/constants';
 
 import './styles.css';
 
@@ -29,6 +34,11 @@ export default function PopularSeriesCarousel( props: CarouselProps ) {
     
     const router = useRouter(); 
     const { setModalsController } = useContext( GlobalEventsContext );
+    const { 
+        low_resolution_poster, 
+        low_resolution_backdrop 
+    } = tmdbConfig;
+
     const { 
         addUserFavoritesToDb, 
         deleteUserFavoritesOnDb 
@@ -77,55 +87,42 @@ export default function PopularSeriesCarousel( props: CarouselProps ) {
                                     />
             
                                     {/* Imagem do conteudo a ser exibido */}
-                                    <div className="w-full relative h-60 md:h-64 bg-darkpurple rounded-md">
-                                        <LazyLoadImage
-                                            src={`https://image.tmdb.org/t/p/original${item.poster_path ?? item.backdrop_path}`}
-                                            alt={`${item.name} movie/serie presentation image`}
-                                            effect="opacity"
-                                            width={'100%'}
-                                            height={'100%'}
-                                            placeholderSrc={`https://image.tmdb.org/t/p/w92/${item.poster_path ?? item.backdrop_path}`}
-                                            className='w-full h-full object-cover bg-darkpurple rounded-md'
+                                    <div className="w-[376px] max-[calc(100%-32px)] h-60 md:h-64 bg-darkpurple rounded-md">
+                                        <img
+                                            src={item.poster_path ? `${low_resolution_poster}${item.poster_path}` : `${low_resolution_backdrop}${item.backdrop_path}`}
+                                            alt={`${item.title ?? item.name} serie presentation image`}
+                                            className="w-full h-full object-cover"
                                         />
                                     </div>
 
                                     {/* overlay */}
-                                    <div
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            zIndex: 1,
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            backgroundImage: 'linear-gradient(to bottom, rgba(2, 5, 21, 0.8), rgba(2, 5, 21, 0.5), rgba(2, 5, 21, 0.8)',
-                                        }}
-                                    ></div>
+                                    <div className='overlay'></div>
 
                                     {/* posição do slide dentro da lista dos conteudos em 'trending' */}
-                                    <div className='absolute h-16 w-16 bottom-0 left-0 -translate-x-[1px] bg-darkpurple flex items-center justify-center rounded-tr-xl rounded-bl-md z-[3]'>
-                                        <span className='text-4xl lg:text-5xl font-bold font-raleway text-white'>
+                                    <div className='absolute h-16 w-16 bottom-0 left-0 -translate-x-0.5 bg-darkpurple flex items-center justify-center rounded-tr-xl z-[3]'>
+                                        <span className='text-4xl lg:text-5xl font-bold text-white'>
                                             { index + 1 }
                                         </span>
                                     </div>
 
                                     {/* container com informações do filmes/serie */}
-                                    <div className='absolute top-3 left-3 font-raleway pr-3 z-[2]'>
-                                        <span className='text-neutral-400 text-lg'>
+                                    <div className='absolute top-3 left-3 pr-3 z-[2]'>
+                                        <span className='text-neutral-400 text-lg lg:text-xl'>
                                             { item.number_of_seasons ?
                                                 `Temporadas (${item.number_of_seasons})` : null
                                             }
                                         </span>
-                                        <h4 className='text-xl font-bold'>
+                                        <h4 className='text-lg font-bold line-clamp-2 md:text-xl md:line-clamp-none xl:text-2xl'>
                                             { item.name }
                                         </h4>
-                                        <span className='text-neutral-400 text-lg'>
+                                        <span className='text-neutral-400 text-lg lg:text-xl'>
                                             {getReleaseDate( item.first_air_date )}
                                         </span>
                                     </div>
                                     <button
                                         onClick={() => router.push(`player/serie/${item.id}`, { scroll: true })}
-                                        className='btn absolute bottom-2 right-4 w-[calc(100%-96px)] h-[54px] rounded-lg bg-orangered md:bg-orange-950 md:hover:bg-orangered z-[4] text-lg font-raleway font-medium duration-200 ease-linear outline-none border-none text-white md:text-neutral-400 md:hover:text-white'
+                                        className='btn absolute bottom-2 right-4 w-[calc(100%-96px)] h-[54px] rounded-lg bg-orangered md:bg-orange-950 md:hover:bg-orangered z-[4] text-lg font-medium duration-200 outline-none border-none text-white md:text-neutral-400 md:hover:text-white'
+                                        style={{animationTimingFunction: 'ease'}}
                                         >
                                         <FaPlay className='text-xl'/> Ir para a série
                                     </button>

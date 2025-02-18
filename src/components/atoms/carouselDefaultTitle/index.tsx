@@ -5,7 +5,7 @@ type ElementProps = {
 } & HTMLAttributes<HTMLElement>;
 
 export const CarouselDefaultTitle = ( props: ElementProps ) => {
-    const { 
+    const {
         children, 
         className, 
         ...rest 
@@ -14,7 +14,7 @@ export const CarouselDefaultTitle = ( props: ElementProps ) => {
     return (
         <h2 
             { ...rest } 
-            className={`font-raleway text-lg lg:text-[20px] font-semibold ${className}`}
+            className={`font-raleway text-[20px] md:text-xl lg:text-2xl font-bold mb-3 ${className}`}
             >
             { children }
         </h2>

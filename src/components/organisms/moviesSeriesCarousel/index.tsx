@@ -1,24 +1,26 @@
 'use client';
 
+// hooks
 import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import useFirebase from "@/components/hooks/firebase";
 
+// componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
+import FavoriteButton from '@/components/molecules/favoriteButton';
 
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/opacity.css';
-
+// icones
 import { FaPlay, FaStar } from "react-icons/fa";
 
+// contextos
 import { UserDataContext } from '@/components/contexts/authenticationContext';
 import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
 
-// Retorna o ano de lançamento do filme/serie formatado
+// funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
 import { tmdbObjProps } from '@/components/contexts/tmdbContext';
 
-import FavoriteButton from '@/components/molecules/favoriteButton';
+import { tmdbConfig } from '@/app/constants';
 
 import './styles.css';
 
@@ -28,8 +30,14 @@ type ComponentProps = {
 };
 
 export default function MoviesSeriesCarousel( props: ComponentProps ) {
+
     const router = useRouter(); 
     const { setModalsController } = useContext( GlobalEventsContext );
+    const {
+        low_resolution_poster,
+        low_resolution_backdrop
+    } = tmdbConfig;
+
     const { contentType } = props;
     const { 
         addUserFavoritesToDb, 
@@ -62,7 +70,7 @@ export default function MoviesSeriesCarousel( props: ComponentProps ) {
     };
 
     return props.contentData ? (             
-        <div className='carousel-container'>
+        <div className='movie-serie-carousel'>
             <EmblaCarousel navigationType='default' dragFree={true}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
                 { props.contentData.map((item) => (   
@@ -75,32 +83,33 @@ export default function MoviesSeriesCarousel( props: ComponentProps ) {
                                     buttonId={item.id}
                                     isFavorite={favoriteMovies?.includes(item.id) || favoriteSeries?.includes(item.id) ? true : false}
                                 />
-                                
-                                <FaPlay className="play-icon" onClick={() => router.push(`/player/${contentType}/${item.id}`, {scroll: true})} />
+                                <div className='play-icon-box'>
+                                    <FaPlay 
+                                        className="text-richblack text-lg translate-x-px" 
+                                        onClick={() => router.push(`/player/${contentType}/${item.id}`, {scroll: true})} 
+                                    />
+                                </div>
                                 {/* Imagem do conteudo a ser exibido */}
                                 <div className="scale-animation" onClick={() => router.push(`/player/${contentType}/${item.id}`, {scroll: true})}>
-                                    <LazyLoadImage
-                                        src={`https://image.tmdb.org/t/p/original${item.poster_path ?? item.backdrop_path}`}
-                                        alt={`${item.title ?? item.name} movie/serie presentation image`}
-                                        effect="opacity"
-                                        loading='lazy'
-                                        placeholderSrc={`https://image.tmdb.org/t/p/w92/${item.poster_path ?? item.backdrop_path}`}
-                                        className='image w-44 h-64 object-cover bg-darkpurple rounded-md'
+                                    <img
+                                        src={item.poster_path ? `${low_resolution_poster}${item.poster_path}` : `${low_resolution_backdrop}${item.backdrop_path}`}
+                                        alt={`${item.title ?? item.name} ${contentType} presentation image`}
+                                        className="image"
                                     />
                                 </div>
                             </div>
     
                             {/* Container de informações sobre o conteudo */}
-                            <div className="mt-2 relative pr-2 max-w-44">      
+                            <div className="mt-2 relative pr-2 max-w-[150px] md:max-w-[200px] xl:max-w-56">      
                                 {/* Titulo */}
-                                <p className="font-raleway font-bold text-[15px] text-white line-clamp-1">{item.title ?? item.name}</p>
-                                <div className="flex items-center gap-x-3 font-normal font-noto_sans text-neutral-400">
+                                <p className="font-raleway font-bold text-[15px] text-white line-clamp-1 xl:text-lg">{item.title ?? item.name}</p>
+                                <div className="flex items-center gap-x-3 font-normal font-noto_sans text-neutral-400 text-[15px] xl:text-[17px]">
                                     {/* Data de lançamento */}
-                                    <p className="text-[15px]">
+                                    <p>
                                         {getReleaseDate(item.release_date ?? item.first_air_date)}
                                     </p>
                                     {/* Nota do publico ao conteudo */}
-                                    <p className="text-[15px] flex items-center gap-x-1">
+                                    <p className="flex items-center gap-x-1">
                                         <FaStar className="" />
                                         {(item.vote_average).toFixed(0)}/10
                                     </p>

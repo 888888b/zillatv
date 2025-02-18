@@ -1,20 +1,21 @@
 'use client';
-
+// hooks
 import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import useFirebase from "@/components/hooks/firebase";
 
+// elementos
 import EmblaCarousel from '@/components/organisms/emblaSlides';
 import FavoriteButton from '@/components/molecules/favoriteButton';
 
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/opacity.css';
-
+// contextos
 import { UserDataContext } from '@/components/contexts/authenticationContext';
 import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
 
+// funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
 
+// tipos
 import { tmdbObjProps } from '@/components/contexts/tmdbContext';
 
 import './styles.css';
@@ -25,6 +26,8 @@ type CarouselProps = {
 
 export default function TrendingCarousel( props: CarouselProps ) {
 
+    const posterUrl = 'https://image.tmdb.org/t/p/w500/';
+    const backdropUrl = 'https://image.tmdb.org/t/p/w780/'
     const router = useRouter(); 
     const { setModalsController } = useContext( GlobalEventsContext );
     const { 
@@ -59,7 +62,7 @@ export default function TrendingCarousel( props: CarouselProps ) {
 
     return props.contentData ? (             
         <div className='trending-slides'>
-            <EmblaCarousel navigationType='default'>
+            <EmblaCarousel navigationType='default' dragFree={true}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
                 { props.contentData.map((item, index) => (
                     <div
@@ -77,33 +80,28 @@ export default function TrendingCarousel( props: CarouselProps ) {
                                     />
                                     {/* Imagem do conteudo a ser exibido */}
                                     <div
-                                        className="w-full relative h-60 md:h-64 rounded-md cursor-pointer"
                                         onClick={() => router.push(`/player/${item.media_type}/${item.id}`, {scroll: true})}>
-                                        <LazyLoadImage
-                                            src={`https://image.tmdb.org/t/p/original${item.poster_path ?? item.backdrop_path}`}
-                                            alt={`${item.title ?? item.name} movie/serie presentation image`}
-                                            width={176}
-                                            effect="opacity"
-                                            height={'100%'}
-                                            placeholderSrc={`https://image.tmdb.org/t/p/w92/${item.poster_path ?? item.backdrop_path}`}
-                                            className='w-44 h-full object-cover rounded-md opacity-30'
+                                        <img
+                                            src={item.poster_path ? `${posterUrl}${item.poster_path}` : `${backdropUrl}${item.backdrop_path}`}
+                                            alt={`${item.title ?? item.name} ${item.media_type} presentation image`}
+                                            className="image"
                                         />
                                     </div>
                                     {/* posição do slide dentro da lista dos conteudos em 'trending' */}
-                                    <div className='absolute h-16 w-16 bottom-0 left-0 bg-darkpurple flex items-center justify-center rounded-tr-xl rounded-bl-[5px] z-[2]'>
-                                        <span className='text-4xl lg:text-5xl font-bold font-raleway text-white'>
+                                    <div className='absolute h-16 w-16 bottom-0 left-0 bg-darkpurple flex items-center justify-center rounded-tr-xl rounded-bl-[5px] z-[2] md:w-20 md:h-20 xl:w-24 xl:h-24'>
+                                        <span className='text-4xl md:text-5xl font-bold font-raleway text-white'>
                                             { index + 1 }
                                         </span>
                                     </div>
                                     {/* container com informações do filmes/serie */}
                                     <div className='absolute top-3 left-3 font-raleway z-[3]'>
-                                        <span className='text-neutral-400 text-lg'>
+                                        <span className='text-neutral-400 text-lg lg:text-xl'>
                                             { item.media_type === 'movie' ? 'filme' : 'serie' }
                                         </span>
-                                        <h4 className='text-xl font-bold'>
+                                        <h4 className='text-lg font-bold line-clamp-2 md:text-xl md:line-clamp-none xl:text-2xl'>
                                             { item.name ?? item.title }
                                         </h4>
-                                        <span className='text-neutral-400 text-lg'>
+                                        <span className='text-neutral-400 text-lg lg:text-xl'>
                                             {getReleaseDate( item.first_air_date ?? item.release_date )}
                                         </span>
                                     </div>
