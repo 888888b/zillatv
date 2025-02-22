@@ -1,0 +1,17 @@
+.account-info {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    row-gap: 17px;
+}
+
+.dropdown {
+    width: fit-content;
+    position: fixed;
+    top: 65px;
+    display: none;
+}
+
+.account-info:hover .dropdown {
+    display: block;
+}

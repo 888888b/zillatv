@@ -1,7 +1,7 @@
 
 import React, { MutableRefObject, useEffect, useRef, useContext } from "react";
 import { usePathname } from "next/navigation";
-import useFirebase from "@/components/hooks/firebaseHook";
+import useFirebase from "@/components/hooks/firebase";
 
 import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
 import { UserDataContext } from "@/components/contexts/authenticationContext";

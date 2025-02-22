@@ -1,8 +1,8 @@
-// Hooks
+// hooks
 import { useContext } from "react";
-import useFirebase from "@/components/hooks/firebaseHook";
+import useFirebase from "@/components/hooks/firebase";
 
-// Icones do React-icons
+// icones
 import { FaUserLarge, FaPencil } from "react-icons/fa6";
 import { AiFillDelete } from "react-icons/ai";
 import { BsDoorOpenFill } from "react-icons/bs";
@@ -14,6 +14,7 @@ import { CgNotes } from "react-icons/cg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 
+// contextos
 import { UserDataContext } from "@/components/contexts/authenticationContext";
 import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
 
@@ -63,7 +64,7 @@ export default function AccountDropdown() {
                 </button>
                 { userData.isLoggedIn && userData.name ? (
                     <div className="hidden xl:block">
-                        <p className="text-neutral-300 text-xl">Ola, <span className="font-semibold text-neutral-100">{ userData.name }</span></p>
+                        <p className="text-neutral-300 text-xl lg:text-[22px]">Ola, <span className="font-semibold text-neutral-100">{ userData.name }</span></p>
                     </div>
                 ) : (
                     <p className="text-xl font-semibold text-neutral-300">
