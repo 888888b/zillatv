@@ -4,7 +4,6 @@
     padding: 0 16px;
     width: 100%;
     min-height: 100vh;
-    margin-top: 128px;
     font-weight: 400;
     transition: opacity 0.2s ease;
 }
@@ -15,21 +14,20 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-image: linear-gradient( to bottom, #020515,#16142B, #16142B, #020515);
+    background-image: linear-gradient( to bottom, #16142B,#16142B, #16142B, #020515);
     height: 550px;
     z-index: 1;
 }
   
 @media (min-width: 768px) {
     .search-page-container {
-        padding: 0 24px;
+        padding: 0 32px;
     }
 }
   
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
     .search-page-container {
-        padding-left: 32px;
-        padding-right: 32px;
+        padding: 0 40px;
     }
 }
   

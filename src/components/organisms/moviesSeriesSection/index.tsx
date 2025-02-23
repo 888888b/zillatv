@@ -1,3 +1,5 @@
+'use client';
+
 // hooks
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
@@ -24,14 +26,14 @@ import { tmdbConfig } from '@/app/constants';
 import './styles.css';
 
 type ComponentProps = {
-    fetchData: tmdbObjProps[];
-    typeOfId: string;
+    data: tmdbObjProps[];
+    mediaType?: string
 };
 
 export default function MoviesSeriesSection( props: ComponentProps ) {
 
+    const { data, mediaType } = props;
     const router = useRouter();
-    const { typeOfId } = props;
     const {
         favoriteMovies,
         favoriteSeries,
@@ -45,19 +47,23 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
 
     const { setModalsController } = useContext( GlobalEventsContext );
 
-    const nextNavigate = ( content: tmdbObjProps ) => {
-        router.push(`player/${typeOfId}/${content.id}`, { scroll: true });
+    const nextNavigate = ( mediaType: string, id: string ) => {
+        router.push(`player/${mediaType}/${id}`, { 
+            scroll: true 
+        });
     };
 
     // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
-    const updateUserFavorites = async ( contentId: string ) => {
+    const updateUserFavorites = async ( contentId: string, mediaType: string ) => {
+        const type = mediaType === 'tv' ? 'serie' : 'movie';
+
         if ( isLoggedIn ) {
             if (!favoriteMovies?.includes(contentId) && !favoriteSeries?.includes(contentId)) {
-                addUserFavoritesToDb( contentId, typeOfId );
+                addUserFavoritesToDb( contentId, type );
                 return;
             };
             
-            deleteUserFavoritesOnDb( contentId, typeOfId );
+            deleteUserFavoritesOnDb( contentId, type );
             return;
         }; 
 
@@ -68,55 +74,79 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
         }));    
     };
 
-    return props.fetchData[0] ? (
+    const getSlideType = ( mediaType: string ) => {
+        if ( mediaType === 'movie' ) {
+            return 'Filme';
+        };
+
+        return 'Série'
+    };
+
+    return data.length ? (
         <>
-            <div className='movie-serie-section-container'>
-                { props.fetchData.map(( content, index ) => (
-                    <div key={`${content.id}-${index}`}>
-                        <div className='card'>
-                            {/* Opção para adicionar o filme/serie aos favoritos */}
-                            <FavoriteButton
-                                updateFavorites={updateUserFavorites}
-                                buttonId={content.id}
-                                isFavorite={favoriteMovies?.includes(content.id) || favoriteSeries?.includes(content.id) ? true : false}
-                            />
-
-                            <div className='play-icon-box'>
-                                <FaPlay className="text-richblack text-lg translate-x-px" onClick={() => {nextNavigate( content )}} />
-                            </div>
-
-                            <div onClick={() => {nextNavigate( content )}} className='image-box'>
-                                {/* Imagem do conteudo */}
-                                <img
-                                    src={content.poster_path ? `${tmdbConfig.low_resolution_poster}${content.poster_path}` : `${tmdbConfig.low_resolution_backdrop}${content.backdrop_path}`}
-                                    alt={`${content.title ?? content.name} serie/movie presentation image`}
-                                    className="image"
-                                    loading='lazy'
+            <div className='movie-serie-section-container font-inter'>
+                { data.map(( content, index ) => (
+                    content.media_type !== 'person' ? (
+                        <div key={`${content.id}-${index}`}>
+                            <div className='card'>
+                                {/* Opção para adicionar o filme/serie aos favoritos */}
+                                <FavoriteButton
+                                    updateFavorites={updateUserFavorites}
+                                    buttonId={content.id}
+                                    isFavorite={favoriteMovies?.includes(content.id) || favoriteSeries?.includes(content.id) ? true : false}
+                                    mediaType={mediaType ?? content.media_type}
                                 />
+
+                                <div 
+                                    className='play-icon-box'
+                                    onClick={() => {
+                                    nextNavigate( mediaType ?? content.media_type, content.id )
+                                    }} >
+                                    <FaPlay className="text-richblack text-lg translate-x-px"/>
+                                </div>
+
+                                <div 
+                                    onClick={() => {
+                                    nextNavigate( mediaType ?? content.media_type, content.id )
+                                    }}
+                                    className='image-box'>
+                                    {/* Imagem do conteudo */}
+                                    <img
+                                        src={content.poster_path ? `${tmdbConfig.low_resolution_poster}${content.poster_path}` : `${tmdbConfig.low_resolution_backdrop}${content.backdrop_path}`}
+                                        alt={`${content.title ?? content.name} serie/movie presentation image`}
+                                        className="image"
+                                        loading='lazy'
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Container de informações sobre o conteudo */}
-                        <div className="mt-2 relative">
-                            {/* Titulo */}
-                            <p className="font-raleway font-bold text-[15px] text-white line-clamp-1 xl:text-lg">
-                                { content.title ?? content.name }
-                            </p>
-
-                            <div className="flex items-center gap-x-3 font-normal font-noto_sans text-neutral-400 text-[15px] xl:text-[17px]">
-                                {/* Data de lançamento */}
-                                <p>
-                                    {getReleaseDate( content.release_date ?? content.first_air_date )}
+                            {/* Container de informações sobre o conteudo */}
+                            <div className="mt-2 relative">
+                                {/* Titulo */}
+                                <p className="font-raleway font-bold text-base text-white line-clamp-1 xl:text-[17px]">
+                                    { content.title ?? content.name }
                                 </p>
 
-                                {/* Nota do publico ao conteudo */}
-                                <p className="flex items-center gap-x-1">
-                                    <FaStar className=""/> 
-                                    {( content.vote_average).toFixed(0 )}/10
+                                <div className="flex items-center gap-x-3 font-normal text-neutral-400 text-[15px] xl:text-[17px]">
+                                    {/* Data de lançamento */}
+                                    <p>
+                                        {getReleaseDate( content.release_date ?? content.first_air_date )}
+                                    </p>
+
+                                    {/* Nota do publico ao conteudo */}
+                                    <p className="flex items-center gap-x-1">
+                                        <FaStar className=""/> 
+                                        {( content.vote_average).toFixed(0 )}/10
+                                    </p>
+                                </div>
+                                
+                                {/* tipo do slide. filme/serie */}
+                                <p className='text-primary text-[15px] xl:text-base'>
+                                    {getSlideType(  mediaType ?? content.media_type )}
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    ) : null
                 ))}
             </div>
         </>
