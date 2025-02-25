@@ -123,7 +123,7 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
                             {/* Container de informações sobre o conteudo */}
                             <div className="mt-2 relative">
                                 {/* Titulo */}
-                                <p className="font-raleway font-bold text-base text-white line-clamp-1 xl:text-[17px]">
+                                <p className="font-bold text-base text-white line-clamp-1 xl:text-[17px]">
                                     { content.title ?? content.name }
                                 </p>
 

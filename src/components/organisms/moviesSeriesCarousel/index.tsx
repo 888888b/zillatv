@@ -73,50 +73,60 @@ export default function MoviesSeriesCarousel( props: ComponentProps ) {
         <div className='movie-serie-carousel'>
             <EmblaCarousel navigationType='default' dragFree={true}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
-                { props.contentData.map((item) => (   
-                    <div className='embla__slide' key={`main-slides-${item.id}`}>  
-                        <>
-                            <div className='slide-image-container'>
-                                {/* Opção para adicionar o filme/serie aos favoritos */}
-                                <FavoriteButton
-                                    updateFavorites={updateUserFavorites}
-                                    buttonId={item.id}
-                                    isFavorite={favoriteMovies?.includes(item.id) || favoriteSeries?.includes(item.id) ? true : false}
-                                />
-                                <div className='play-icon-box'>
-                                    <FaPlay 
-                                        className="text-richblack text-lg translate-x-px" 
-                                        onClick={() => router.push(`/player/${contentType}/${item.id}`, {scroll: true})} 
+                { props.contentData.map((content) => (  
+                    content.poster_path || content.backdrop_path ? (
+                        <div className='embla__slide' key={`main-slides-${content.id}`}>  
+                            <>
+                                <div className='slide-image-container'>
+                                    {/* Opção para adicionar o filme/serie aos favoritos */}
+                                    <FavoriteButton
+                                        updateFavorites={updateUserFavorites}
+                                        buttonId={content.id}
+                                        isFavorite={favoriteMovies?.includes(content.id) || favoriteSeries?.includes(content.id) ? true : false}
                                     />
+                                    
+                                    <div className='play-icon-box'>
+                                        <FaPlay 
+                                            className="text-richblack text-lg translate-x-px" 
+                                            onClick={() => router.push(`/player/${contentType}/${content.id}`, {scroll: true})} 
+                                        />
+                                    </div>
+
+                                    {/* Imagem do conteudo a ser exibido */}
+                                    <div 
+                                        className="scale-animation" 
+                                        onClick={() => router.push(`/player/${contentType}/${content.id}`, {scroll: true})}>
+                                        <img
+                                            src={content.poster_path ? `${low_resolution_poster}${content.poster_path}` : `${low_resolution_backdrop}${content.backdrop_path}`}
+                                            alt={`${content.title ?? content.name} ${contentType} presentation image`}
+                                            className="image"
+                                        />
+                                    </div>
                                 </div>
-                                {/* Imagem do conteudo a ser exibido */}
-                                <div className="scale-animation" onClick={() => router.push(`/player/${contentType}/${item.id}`, {scroll: true})}>
-                                    <img
-                                        src={item.poster_path ? `${low_resolution_poster}${item.poster_path}` : `${low_resolution_backdrop}${item.backdrop_path}`}
-                                        alt={`${item.title ?? item.name} ${contentType} presentation image`}
-                                        className="image"
-                                    />
+        
+                                {/* Container de informações sobre o conteudo */}
+                                <div className="mt-2 relative pr-2 max-w-[150px] md:max-w-[200px] xl:max-w-56">      
+                                    {/* Titulo */}
+                                    <h3 
+                                        className="font-bold text-base text-white line-clamp-1 md:text-[17px]">
+                                        {content.title ?? content.name}
+                                    </h3>
+
+                                    <div 
+                                        className="flex items-center gap-x-3 font-normal text-neutral-400 text-[15px] md:text-base">
+                                        {/* Data de lançamento */}
+                                        <p>
+                                            {getReleaseDate(content.release_date ?? content.first_air_date)}
+                                        </p>
+                                        {/* Nota do publico ao conteudo */}
+                                        <p className="flex items-center gap-x-1 text-primary">
+                                            {(content.vote_average).toFixed(0)}/10
+                                        </p>
+                                    </div> 
                                 </div>
-                            </div>
-    
-                            {/* Container de informações sobre o conteudo */}
-                            <div className="mt-2 relative pr-2 max-w-[150px] md:max-w-[200px] xl:max-w-56">      
-                                {/* Titulo */}
-                                <p className="font-raleway font-bold text-[15px] text-white line-clamp-1 xl:text-lg">{item.title ?? item.name}</p>
-                                <div className="flex items-center gap-x-3 font-normal font-noto_sans text-neutral-400 text-[15px] xl:text-[17px]">
-                                    {/* Data de lançamento */}
-                                    <p>
-                                        {getReleaseDate(item.release_date ?? item.first_air_date)}
-                                    </p>
-                                    {/* Nota do publico ao conteudo */}
-                                    <p className="flex items-center gap-x-1">
-                                        <FaStar className="" />
-                                        {(item.vote_average).toFixed(0)}/10
-                                    </p>
-                                </div>
-                            </div>
-                        </>
-                    </div>
+                            </>
+                        </div>
+                    ) : null
                 ))}
             </EmblaCarousel>
         </div>

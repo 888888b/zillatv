@@ -96,7 +96,7 @@ export default function AccountDropdown() {
                     
                     {/* desconectar conta */}
                     <li 
-                        className="bg-white/20 hover:bg-white/20 px-3 btn rounded-lg flex items-center justify-start gap-x-4 text-sm cursor-pointer text-white w-48"
+                        className="bg-white/20 hover:bg-white/20 px-3 btn rounded-lg flex items-center justify-start gap-x-4 text-sm cursor-pointer text-white w-48 outline-none border-none"
                         onClick={signOut}>
                         { isSigningOut ? (
                             <>Desconectando <span className="loading loading-bars loading-md"/></>
@@ -107,7 +107,7 @@ export default function AccountDropdown() {
 
                     {/* encerrar conta */}
                     <li 
-                        className="bg-red-800 btn hover:bg-red-800 px-3 rounded-lg flex items-center justify-start gap-x-4 text-sm cursor-pointer w-48 text-white"
+                        className="bg-red-800 btn hover:bg-red-800 px-3 rounded-lg flex items-center justify-start gap-x-4 text-sm cursor-pointer w-48 text-white outline-none border-none"
                         onClick={deleteAccount}>
                         { isClosingAccount ? (
                             <>Encerrando conta <span className="loading loading-bars loading-md"/></>

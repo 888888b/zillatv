@@ -32,9 +32,7 @@ export default async function SearchPage( props: SearchPageProps ) {
         const filtered = await checkAvailability( content ); 
         contentData.push( ...filtered );
         contentType = undefined;
-    };
-
-    if ( !keyword ) {
+    } else {
         const movies = await fetchMoviesByGenre('878');    
         const filtered = await checkAvailability( movies );    
         contentData.push( ...filtered );

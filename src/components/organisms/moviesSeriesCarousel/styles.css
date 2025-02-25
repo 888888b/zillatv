@@ -1,10 +1,10 @@
 .movie-serie-carousel .embla__container {
-    column-gap: 15px;
+    column-gap: 10px;
 }
 
 .movie-serie-carousel .scale-animation {
     width: 150px;
-    aspect-ratio: 1 / 1.35;
+    aspect-ratio: 1 / 1.5;
     position: relative;
     cursor: pointer;
     overflow: hidden;
@@ -79,18 +79,12 @@
         transform: translate(-50%, -50%);
         z-index: 11;
         cursor: pointer;
-        background-color: white;
+        background-color: #ffff13;
         border-radius: 50%;
     }
 
     .slide-image-container:hover .play-icon-box {
         opacity: 100%;
-    }
-}
-
-@media screen and ( width >= 1024px ) {
-    .movie-serie-carousel .embla__container {
-        column-gap: 20px;
     }
 }
 

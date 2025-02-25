@@ -101,7 +101,7 @@ export default function TrendingCarousel( props: CarouselProps ) {
                                         <h4 className='text-lg font-bold line-clamp-2 md:text-xl md:line-clamp-none xl:text-2xl'>
                                             { item.name ?? item.title }
                                         </h4>
-                                        <span className='text-neutral-400 text-lg lg:text-xl'>
+                                        <span className='text-primary text-lg lg:text-xl'>
                                             {getReleaseDate( item.first_air_date ?? item.release_date )}
                                         </span>
                                     </div>

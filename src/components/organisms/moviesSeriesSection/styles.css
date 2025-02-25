@@ -2,7 +2,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat( auto-fill, minmax(150px, 1fr) );
-    column-gap: 15px;
+    column-gap: 10px;
     row-gap: 40px;
     margin-top: 12px;
 }
@@ -12,7 +12,7 @@
     width: 100%;
     overflow: hidden;
     border-radius: 4px;
-    aspect-ratio: 1 / 1.35;
+    aspect-ratio: 1 / 1.5;
 };
 
 .movie-serie-section-container .image-box {
@@ -93,11 +93,5 @@
 
     .movie-serie-section-container .card:hover button {
         opacity: 100%;
-    }
-}
-
-@media screen and ( width >= 1024px ) {
-    .movie-serie-section-container {
-        column-gap: 20px;
     }
 }

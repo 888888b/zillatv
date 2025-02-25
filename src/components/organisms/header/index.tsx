@@ -57,7 +57,7 @@ export default function Header() {
                         <span></span>
                     </label>
                     {/* logo do projeto lado esquerdo */}
-                    <h1 className="text-[22px] text-primary font-raleway font-extrabold ml-3 md:text-2xl">
+                    <h1 className="text-[22px] text-primary font-raleway font-extrabold ml-3 md:text-2xl lg:ml-0">
                         Zillu TV
                     </h1>
                     {/* barra com links para navegação meio */}

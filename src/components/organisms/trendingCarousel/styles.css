@@ -1,5 +1,5 @@
 .trending-slides .embla__container {
-    column-gap: 15px;
+    column-gap: 10px;
 }
 
 .trending-slides .slide-container {
@@ -24,12 +24,6 @@
 @media screen and ( width >= 768px ) {
     .slide-container .image {
         width: 200px;
-    }
-}
-
-@media screen and ( width >= 1024px ) {
-    .trending-slides .embla__container {
-        column-gap: 20px;
     }
 }
 

@@ -12,11 +12,11 @@ export default function NavLinksBar({ isUserLoggedIn }:{ isUserLoggedIn: boolean
 
     const updateLinkStyle = () => {
         navLinksRef.current.forEach( link => {
-            if ( link && `/${link.id}` === pathname ) {
-                Object.assign(link.style, { color: '#ffff13' });
-            };
+            if ( !link ) return
 
-            if ( link && `/${link.id}` !== pathname && link ) {
+            if ( `/${link.id}` === pathname ) {
+                Object.assign(link.style, { color: '#ffff13' });
+            } else {
                 Object.assign(link.style, { color: 'white' });
             };
         });
@@ -31,7 +31,6 @@ export default function NavLinksBar({ isUserLoggedIn }:{ isUserLoggedIn: boolean
             <ul className='text-lg flex gap-x-10 items-center *:cursor-pointer *:duration-300'>
                 <li 
                     onClick={() => push('/')} 
-                    className='hover:text-primary'
                     id=''
                     ref={(e) => {navLinksRef.current[0] = e}}>
                     Inicio
@@ -39,14 +38,12 @@ export default function NavLinksBar({ isUserLoggedIn }:{ isUserLoggedIn: boolean
 
                 <li 
                     onClick={() => push('/movies')} 
-                    className='hover:text-primary'
                     id="movies"
                     ref={(e) => {navLinksRef.current[1] = e}}>
                     Filmes
                 </li>
                 <li 
                     onClick={() => push('/series')} 
-                    className='hover:text-primary'
                     id="series"
                     ref={(e) => {navLinksRef.current[2] = e}}>
                     Series
@@ -54,7 +51,6 @@ export default function NavLinksBar({ isUserLoggedIn }:{ isUserLoggedIn: boolean
                 { isUserLoggedIn && (
                     <li 
                         onClick={() => push('/favorites')} 
-                        className="hover:text-primary"
                         id="favorites"
                         ref={(e) => {navLinksRef.current[3] = e}}>
                         Favoritos

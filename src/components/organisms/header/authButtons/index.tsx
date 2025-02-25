@@ -33,13 +33,13 @@ export default function AuthButtons() {
             <button
                 style={{ animationTimingFunction: 'ease' }}
                 onClick={() => handleButtonclick('register')}
-                className="px-4 h-11 lg:h-[46px] rounded-[10px] bg-accent md:hover:scale-105 duration-300 text-black text-sm font-bold">
+                className="px-4 h-11 lg:h-[46px] rounded-[10px] bg-accent md:hover:scale-105 duration-300 text-black text-sm font-bold outline-none border-none">
                 Criar conta
             </button>
 
             {/* botão de login */}
             <button 
-                className="text-white text-sm"
+                className="text-white text-sm outline-none border-none"
                 onClick={() => handleButtonclick('login')}>
                 Entrar
             </button>

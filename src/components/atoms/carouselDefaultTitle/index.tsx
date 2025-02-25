@@ -14,7 +14,7 @@ export const CarouselDefaultTitle = ( props: ElementProps ) => {
     return (
         <h2 
             { ...rest } 
-            className={`font-raleway text-[20px] md:text-xl lg:text-2xl font-bold mb-3 ${className}`}
+            className={`text-[20px] md:text-xl lg:text-2xl font-bold mb-3 ${className}`}
             >
             { children }
         </h2>

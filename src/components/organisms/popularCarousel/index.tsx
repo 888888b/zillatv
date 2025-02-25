@@ -32,7 +32,7 @@ type CarouselProps = {
 
 export default function PopularSeriesCarousel( props: CarouselProps ) {
     
-    const router = useRouter(); 
+    const { push } = useRouter(); 
     const { setModalsController } = useContext( GlobalEventsContext );
     const { 
         low_resolution_poster, 
@@ -69,63 +69,76 @@ export default function PopularSeriesCarousel( props: CarouselProps ) {
         }));    
     };
 
+    console.log(props.contentData);
+
     return props.contentData ? (             
-        <div className='popular-slides'>
+        <div className='popular-slides font-inter'>
             <EmblaCarousel navigationType='default'>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
-                {props.contentData.map((item, index) => (
-                    <div key={`main-slides-${item.id}`} className='embla__slide'>
+                {props.contentData.map( serie => (
+                    <div key={`main-slides-${serie.id}`} className='embla__slide'>
                         {
-                            item.poster_path || item.backdrop_path ? (
-                                <div className="slide-container">
-                                    {/* Opção para adicionar o filme/serie aos favoritos */}
-                                    <FavoriteButton 
-                                        updateFavorites={updateUserFavorites}
-                                        buttonId={item.id}
-                                        mediaType={'serie'}
-                                        isFavorite={favoriteMovies?.includes(item.id) || favoriteSeries?.includes(item.id) ? true : false}
-                                    />
-            
-                                    {/* Imagem do conteudo a ser exibido */}
-                                    <div className="w-[376px] max-[calc(100%-32px)] h-60 md:h-64 bg-darkpurple rounded-md">
-                                        <img
-                                            src={item.poster_path ? `${low_resolution_poster}${item.poster_path}` : `${low_resolution_backdrop}${item.backdrop_path}`}
-                                            alt={`${item.title ?? item.name} serie presentation image`}
-                                            className="w-full h-full object-cover"
+                            serie.poster_path || serie.backdrop_path ? (
+                                <div className="w-[400px] max-w-[calc(100vw-32px)] overflow-hidden relative">
+                                    <div className='slide-image-container'>
+                                        {/* Opção para adicionar o filme/serie aos favoritos */}
+                                        <FavoriteButton
+                                            updateFavorites={updateUserFavorites}
+                                            buttonId={serie.id}
+                                            mediaType={'serie'}
+                                            isFavorite={favoriteMovies?.includes(serie.id) || favoriteSeries?.includes(serie.id) ? true : false}
                                         />
-                                    </div>
 
-                                    {/* overlay */}
-                                    <div className='overlay'></div>
+                                        <div className='play-icon-box'>
+                                            <FaPlay 
+                                                className="text-richblack text-lg translate-x-px" 
+                                                onClick={() => push(`/player/serie/${serie.id}`, {scroll: true})} 
+                                            />
+                                        </div>
 
-                                    {/* posição do slide dentro da lista dos conteudos em 'trending' */}
-                                    <div className='absolute h-16 w-16 bottom-0 left-0 -translate-x-0.5 bg-darkpurple flex items-center justify-center rounded-tr-xl z-[3]'>
-                                        <span className='text-4xl lg:text-5xl font-bold text-white'>
-                                            { index + 1 }
-                                        </span>
+                                        {/* Imagem do conteudo a ser exibido */}
+                                        <div 
+                                            onClick={() => push(`/player/serie/${serie.id}`)}
+                                            className="w-full aspect-[1/0.5] bg-darkpurple rounded-[4px] overflow-hidden">
+                                            <img
+                                                src={
+                                                    serie.backdrop_path ? 
+                                                    `${low_resolution_backdrop}${serie.backdrop_path}` : 
+                                                    `${low_resolution_poster}${serie.poster_path}`
+                                                }
+                                                alt={`${serie.title ?? serie.name} serie presentation image`}
+                                                className="image"
+                                            />
+                                        </div>
                                     </div>
 
                                     {/* container com informações do filmes/serie */}
-                                    <div className='absolute top-3 left-3 pr-3 z-[2]'>
-                                        <span className='text-neutral-400 text-lg lg:text-xl'>
-                                            { item.number_of_seasons ?
-                                                `Temporadas (${item.number_of_seasons})` : null
-                                            }
-                                        </span>
-                                        <h4 className='text-lg font-bold line-clamp-2 md:text-xl md:line-clamp-none xl:text-2xl'>
-                                            { item.name }
-                                        </h4>
-                                        <span className='text-neutral-400 text-lg lg:text-xl'>
-                                            {getReleaseDate( item.first_air_date )}
-                                        </span>
+                                    <div className='mt-2'>
+                                        {/* titulo */}
+                                        <h3 
+                                            className="font-bold text-base text-white line-clamp-1 md:text-[17px]">
+                                            { serie.name }
+                                        </h3>
+
+                                        <div className='flex items-center gap-x-3 font-normal text-neutral-400 text-base md:text-[17px]'>
+                                            {/* numero de temporadas */}
+                                            { serie.number_of_seasons && (
+                                                <p>
+                                                    { serie.number_of_seasons } Temporada(s)
+                                                </p>
+                                            )}
+                                            
+                                            {/* Nota do publico ao conteudo */}
+                                            <p className="flex items-center gap-x-1 text-primary">
+                                                {(serie.vote_average).toFixed(0)}/10
+                                            </p>
+
+                                            {/* data de lançamento */}
+                                            <p>
+                                                {getReleaseDate(serie.release_date ?? serie.first_air_date)}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <button
-                                        onClick={() => router.push(`player/serie/${item.id}`, { scroll: true })}
-                                        className='btn absolute bottom-2 right-4 w-[calc(100%-96px)] h-[54px] rounded-lg bg-orangered md:bg-orange-950 md:hover:bg-orangered z-[4] text-lg font-medium duration-200 outline-none border-none text-white md:text-neutral-400 md:hover:text-white'
-                                        style={{animationTimingFunction: 'ease'}}
-                                        >
-                                        <FaPlay className='text-xl'/> Ir para a série
-                                    </button>
                                 </div>
                             ) : null
                         }

@@ -49,12 +49,12 @@ export default async function HomePage() {
     };
 
     return (
-        <section className="min-h-screen font-raleway">
+        <section className="min-h-screen font-inter">
             <HeaderCarousel currentPage="home" contentData={contentData.headerSlidesData}/>
 
-            <div className="mt-6 flex flex-col gap-y-11 pb-6 px-4 md:px-6 lg:px-8 md:gap-y-14">
+            <div className="mt-6 flex flex-col gap-y-11 pb-6 px-4 md:px-8 xl:px-10 md:gap-y-14 xl:gap-y-16">
                 {/* Carousel com filmes de ficção */}
-                <div>
+                <div className="flex flex-col gap-y-1">
                     {/* Titulo */}
                     <CarouselDefaultTitle>{tmdbGenres.fiction.title}</CarouselDefaultTitle>
                     {/* Carousel */}
@@ -67,7 +67,7 @@ export default async function HomePage() {
                 <div>
                     {/* Titulo */}
                     <CarouselFeatureTitle>Em alta</CarouselFeatureTitle>
-                    <p className="font-medium text-lg text-neutral-400 mb-5 lg:text-xl">
+                    <p className="font-normal text-[17px] text-neutral-400 mb-5 md:text-lg">
                         Top 20 filmes e séries mais assistidos hoje!
                     </p>
                     {/* Carousel */}
@@ -77,10 +77,9 @@ export default async function HomePage() {
                 <div className="w-full h-px bg-white/20 md:hidden"></div>
 
                 {/* Carousel com filmes de terror */}
-                <div>
+                <div className="flex flex-col gap-y-1">
                     {/* Titulo */}
                     <CarouselDefaultTitle>{tmdbGenres.horror.title}</CarouselDefaultTitle>
-                    {/* <div className='w-full h-0.5 bg-gradient-to-r mb-3 from-orangered to-transparent'/> */}
                     {/* Carousel */}
                     <MovieSerieCarousel contentData={contentData.horrorMovies} contentType='movie'/>
                 </div>
@@ -89,8 +88,8 @@ export default async function HomePage() {
 
                 {/* Carousel com series populares */}
                 <div>     
-                    <CarouselFeatureTitle>Populares</CarouselFeatureTitle>
-                    <p className="font-medium text-lg text-neutral-400 mb-5 lg:text-xl">
+                    <CarouselFeatureTitle>Popular</CarouselFeatureTitle>
+                    <p className="font-normal text-[17px] text-neutral-400 mb-5 md:text-lg">
                         Confira as séries mais avaliadas.
                     </p>  
                     <PopularSeriesCarousel contentData={contentData.popularSeries}/>
@@ -99,10 +98,9 @@ export default async function HomePage() {
                 <div className="w-full h-px bg-white/20 md:hidden"></div>
 
                 {/* Carousel com documentarios */}
-                <div>
+                <div className="flex flex-col gap-y-1">
                      {/* Titulo */}
                      <CarouselDefaultTitle>{tmdbGenres.documentary.title}</CarouselDefaultTitle>
-                    {/* <div className='w-full h-0.5 bg-gradient-to-r mb-3 from-orangered to-transparent'/> */}
                     {/* Carousel */}
                     <MovieSerieCarousel contentData={contentData.documentaryMovies} contentType='movie'/>
                 </div>
