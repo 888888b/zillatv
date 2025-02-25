@@ -4,7 +4,7 @@ import "./globals.css";
 
 import * as fonts from '@/app/fonts/index';
 
-import Header from "@/components/header";
+import Header from "@/components/organisms/header";
 import Footer from "@/components/footer";
 import LoginModal from "@/components/authenticationModals/login";
 import RegisterModal from "@/components/authenticationModals/register";
@@ -29,7 +29,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="pt-br">
-      <body className={` ${ fonts.raleway.variable } ${ fonts.noto_sans.variable }`}>
+      <body className={` 
+        ${ fonts.raleway.variable } 
+        ${ fonts.noto_sans.variable }
+        ${ fonts.inter.variable }
+      `}>
         <div className="relative overflow-x-hidden max-w-[2200px] mx-auto min-h-screen flex flex-col justify-between">
           <TmdbProvider>
               <UserDataProvider>
