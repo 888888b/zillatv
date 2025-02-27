@@ -1,12 +1,14 @@
+// hooks
 import { ReactNode, useCallback, useEffect, memo } from "react";
-
 import useEmblaCarousel from "embla-carousel-react";
-import DefaultNavigation from "@/components/molecules/emblaDefaultNavigation";
-import HeaderNavigation from "@/components/molecules/emblaHeaderNavigation";
-
 import { useDotButton } from "@/components/hooks/embla/useDotButton";
 import { usePrevNextButtons } from "@/components/hooks/embla/usePrevNextButtons";
 
+// componentes
+import DefaultNavigation from "@/components/molecules/emblaDefaultNavigation";
+import HeaderNavigation from "@/components/molecules/emblaHeaderNavigation";
+
+// plugins do embla
 import autoplay from 'embla-carousel-autoplay';
 
 import './styles.css';
@@ -19,13 +21,14 @@ type EmblaCarouselProps = {
     autoplay?: boolean;
     navigationType: 'default' | 'header';
     dragFree?: boolean
+    activeSlide?: ( index: number ) => void
 };
 
 export type EmblaStateProps = {
-    isBeginning: boolean; 
-    isOver: boolean;
-    numberOfSlides: number;
-    activeIndex: number;
+    isBeginning: boolean
+    isOver: boolean
+    numberOfSlides: number
+    activeIndex: number
 };
 
 const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
@@ -41,7 +44,11 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
         autoplay({delay: 7000, stopOnInteraction: false})
     ] : [];
 
-    const [emblaRef, emblaApi] = useEmblaCarousel( emblaConfig, emblaPlugins );
+    const [
+        emblaRef, 
+        emblaApi
+    ] = useEmblaCarousel( emblaConfig, emblaPlugins );
+
     const { 
         selectedIndex, 
         scrollSnaps, 
@@ -56,9 +63,21 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     } = usePrevNextButtons(emblaApi);
 
     useEffect(() => {
+        if ( props.activeSlide ) {
+            props.activeSlide(selectedIndex);
+        };
+    }, [ selectedIndex ]);
+
+    useEffect(() => {
         if ( emblaApi ) {
-            // props.autoplay && emblaApi.reInit({}, [autoplay({delay: 7000, stopOnInteraction: false})]);
             emblaApi.on('slidesChanged', () => scrollToIndex( 0 ));
+        };
+        
+        return () => {
+            if ( emblaApi ) {
+                emblaApi.off('slidesChanged', () => scrollToIndex(0));
+                emblaApi.destroy();
+            };
         };
     }, [ emblaApi ]);
 

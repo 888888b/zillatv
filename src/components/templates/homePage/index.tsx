@@ -27,18 +27,19 @@ export default async function HomePage() {
         fetchAllTrending,
         fetchPopularSeries,
         fetchSeriesByIdList,
-        fetchMoviesByIdList
+        fetchMoviesByIdList,
+        fetchPopularMovies
     } = useTmdbFetch();
    
 
     try {
-        contentData.latestMovies = await fetchReleasedMovies();
-        const moviesIdList = await getContentId( contentData.latestMovies );
+        const popularMovies = await fetchPopularMovies();
+        const moviesIdList = await getContentId( popularMovies );
         const movies = await fetchMoviesByIdList( moviesIdList );
         contentData.headerSlidesData = await checkAvailability( movies );
         contentData.fictionMovies = await fetchMoviesByGenre('878');
         contentData.horrorMovies = await fetchMoviesByGenre('27');
-        contentData.documentaryMovies = await fetchMoviesByGenre('99');
+        contentData.cartoonShows = await fetchMoviesByGenre('16');
         contentData.allTrending = await fetchAllTrending();
         const popularSeries = await fetchPopularSeries();
         const idList = await getContentId( popularSeries );
@@ -50,9 +51,13 @@ export default async function HomePage() {
 
     return (
         <section className="min-h-screen font-inter">
-            <HeaderCarousel currentPage="home" contentData={contentData.headerSlidesData}/>
+            <HeaderCarousel 
+                contentType="movie" 
+                contentData={contentData.headerSlidesData}
+                currentPage="home"
+            />
 
-            <div className="mt-6 flex flex-col gap-y-11 pb-6 px-4 md:px-8 xl:px-10 md:gap-y-14 xl:gap-y-16">
+            <div className="mt-6 flex flex-col gap-y-11 pb-6 lg:pb-0 px-4 md:px-8 xl:px-10 md:gap-y-14 lg:-translate-y-40 z-10 relative">
                 {/* Carousel com filmes de ficção */}
                 <div className="flex flex-col gap-y-1">
                     {/* Titulo */}
@@ -61,7 +66,7 @@ export default async function HomePage() {
                     <MovieSerieCarousel contentData={contentData.fictionMovies} contentType='movie'/>
                 </div>
 
-                <div className="w-full h-px bg-white/20 md:hidden"></div>
+                <div className="w-full h-px bg-white/20"></div>
 
                 {/* Carousel com filmes/series em alta no momento */}
                 <div>
@@ -74,17 +79,17 @@ export default async function HomePage() {
                     <TrendingCarousel contentData={contentData.allTrending}/>
                 </div>
 
-                <div className="w-full h-px bg-white/20 md:hidden"></div>
+                <div className="w-full h-px bg-white/20"></div>
 
-                {/* Carousel com filmes de terror */}
-                <div className="flex flex-col gap-y-1">
+                 {/* Carousel com desenhos/animes */}
+                 <div className="flex flex-col gap-y-1">
                     {/* Titulo */}
-                    <CarouselDefaultTitle>{tmdbGenres.horror.title}</CarouselDefaultTitle>
+                    <CarouselDefaultTitle>{tmdbGenres.cartoon.title}</CarouselDefaultTitle>
                     {/* Carousel */}
-                    <MovieSerieCarousel contentData={contentData.horrorMovies} contentType='movie'/>
+                    <MovieSerieCarousel contentData={contentData.cartoonShows} contentType='movie'/>
                 </div>
 
-                <div className="w-full h-px bg-white/20 md:hidden"></div>
+                <div className="w-full h-px bg-white/20"></div>
 
                 {/* Carousel com series populares */}
                 <div>     
@@ -95,15 +100,16 @@ export default async function HomePage() {
                     <PopularSeriesCarousel contentData={contentData.popularSeries}/>
                 </div>
 
-                <div className="w-full h-px bg-white/20 md:hidden"></div>
+                <div className="w-full h-px bg-white/20"></div>
 
-                {/* Carousel com documentarios */}
+                {/* Carousel com filmes de terror */}
                 <div className="flex flex-col gap-y-1">
-                     {/* Titulo */}
-                     <CarouselDefaultTitle>{tmdbGenres.documentary.title}</CarouselDefaultTitle>
+                    {/* Titulo */}
+                    <CarouselDefaultTitle>{tmdbGenres.horror.title}</CarouselDefaultTitle>
                     {/* Carousel */}
-                    <MovieSerieCarousel contentData={contentData.documentaryMovies} contentType='movie'/>
+                    <MovieSerieCarousel contentData={contentData.horrorMovies} contentType='movie'/>
                 </div>
+                
             </div>
         </section>
     );

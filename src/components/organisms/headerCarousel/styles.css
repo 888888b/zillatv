@@ -1,49 +1,53 @@
+
 .header-slides {
-    position: relative;
+  position: relative;
 }
 
 .header-slides .embla__slide {
+  width: 100%;
+}
+
+.header-image-container {
+    width: 100%;
+    height: 660px;
+    max-height: 100vh;
+    overflow: hidden;
     position: relative;
 }
 
-.header-slides .overlay {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-    background-image: linear-gradient( to top, #020515, #020515, rgba(2, 5, 21, 0.3), transparent);
+.header-image-container::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to bottom, #020515, transparent, #020515, #020515);
 }
 
-@media screen and ( width >= 768px ) {
-    .header-slides {
-        background-color: #020515;
-        margin-top: 80px;
-    }
-    
-    .header-slides .overlay {
-        left: 50%;
-        width: 90px;
-        transform: translateX(-50%);
-        background-image: linear-gradient( to right, #020515, #020515, transparent);
-    }
-
-    .header-slides .slide-container::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 50vw;
-        height: 100%;
-        background-image: linear-gradient( to right, #020515, transparent);
-        z-index: 12;
-    }
+@media (min-width: 640px) {
+  .header-image-container {
+    height: 500px;
+  }
 }
 
-@media screen and ( width >= 1024px ) {
-    .header-slides .second-overlay {
-        width: 800px;
-        background-image: linear-gradient( to right, #020515, rgba(2, 5, 21, 0.5), transparent);   
-    }
+@media (min-width: 768px) {
+  .header-image-container {
+    height: 80vh;
+    max-height: 750px;
+  }
+
+  .header-image-container::before {
+    background: linear-gradient(to bottom, #020515, transparent, #020515);
+  }
 }
+
+@media (min-width: 1024px) {
+  .header-image-container {
+    height: 100vh;
+    max-height: 750px;
+  }
+}
+
+
+  

@@ -6,11 +6,11 @@ export const getRunTime = ( runtime: number ) => {
     };
 
     if ( runtime < 60 ) {
-        return <span className="font-noto_sans whitespace-nowrap text-base font-normal text-neutral-400">{ runtime }m</span>
+        return <>{ runtime }m</>
     };
 
     const hours = ( runtime / 60 ).toFixed(0);
     const minites = runtime % 60;
 
-    return  <span className="font-noto_sans whitespace-nowrap text-base font-normal text-neutral-300">{ hours }h { minites }m</span>
+    return  <>{ hours }h { minites }m</>
 };

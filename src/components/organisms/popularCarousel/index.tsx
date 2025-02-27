@@ -69,8 +69,6 @@ export default function PopularSeriesCarousel( props: CarouselProps ) {
         }));    
     };
 
-    console.log(props.contentData);
-
     return props.contentData ? (             
         <div className='popular-slides font-inter'>
             <EmblaCarousel navigationType='default'>
