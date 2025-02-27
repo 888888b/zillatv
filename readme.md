@@ -1,13 +1,13 @@
 # Plataforma de Filmes, Séries e Animes
 
-Bem-vindo à documentação do ZilloCine. Este é um projeto web que oferece informações detalhadas sobre filmes, séries e animes, com funcionalidades intuitivas e uma interface amigável.
+Bem-vindo à documentação do zilluTV. Este é um projeto web que oferece informações detalhadas sobre filmes, séries e animes, com funcionalidades intuitivas e uma interface amigável.
 
 ## **Demonstração**
 
 - **Link de deploy:** https://plataforma-filmes-three.vercel.app/
 - **Captura de Tela:**
 
-  ![Tela Inicial](/public/Zillocine_Screenshot.png)
+  ![Tela Inicial](/public/zilluTV_home.png)
 
 ## **Funcionalidades**
 
@@ -31,7 +31,6 @@ Bem-vindo à documentação do ZilloCine. Este é um projeto web que oferece inf
 - **Next.js**
 - **TypeScript**
 - **Tailwind CSS**
-- **Styled Components**
 
 ### **Backend e Serviços**
 - **Firebase**
@@ -42,8 +41,7 @@ Bem-vindo à documentação do ZilloCine. Este é um projeto web que oferece inf
 - **Node.js**
 
 ### **Bibliotecas e Ferramentas**
-- **Swiper.js**: para carrosséis de conteúdo.
-- **LazyLoadImage**: carregamento otimizado de imagens.
+- **Embla Carousel**: para carrosséis de conteúdo.
 - **Zod & HookForm**: Validação de formulários.
 - **ReactIcons**: Inclusão de ícones ao projeto.
 - **DaisyUi**: Inclusão de componentes UI pré-construídos e estilizados. 
