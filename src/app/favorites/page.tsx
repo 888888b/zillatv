@@ -1,4 +1,4 @@
-import FavoritesPage from "@/components/pages/favoritesPage";
+import FavoritesPage from "@/components/templates/favoritesPage";
 
 export default function Favorites() {
     return <FavoritesPage/>
