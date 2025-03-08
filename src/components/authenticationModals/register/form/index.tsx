@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 // Contexto(s)
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 export const registerSchema = z.object({
     name: z.string()
@@ -42,19 +42,24 @@ type componentProps = {
 };
 
 export default function RegisterForm( props: componentProps ) {
-    const globalEvents = useContext( GlobalEventsContext );
 
-    const { register, handleSubmit, reset, formState: { errors }, setError }  = useForm<RegisterProps>({
+    const globalContext = useContext( GlobalEventsContext );
+    const authErrors = globalContext.errors;
+
+    const { 
+        register, 
+        handleSubmit, 
+        reset, 
+        formState: { errors }
+    }  = useForm<RegisterProps>({
         mode: 'all',
         criteriaMode: 'all',
         resolver: zodResolver(registerSchema),
     });
 
     useEffect(() => {
-        if ( !globalEvents.isRegisterModalActive ) {
-            reset();
-        }
-    },[ globalEvents.isRegisterModalActive ]);
+        reset();
+    },[ globalContext.isRegisterModalActive ]);
 
     return (
         <form onSubmit={handleSubmit(props.registerUser)} className="flex flex-col">
@@ -83,14 +88,14 @@ export default function RegisterForm( props: componentProps ) {
                 maxLength={41}
                 { ...register('email') }
                 style={{
-                    borderColor: errors.email || globalEvents.registerErrorMessage ? 'orangered' : 'transparent'
+                    borderColor: errors.email || authErrors.register ? 'orangered' : 'transparent'
                 }}
             />
 
             {/* Renderiza o erro passado pelo contexto caso houver, se não, renderiza o erro do registerSchema */}
-            { globalEvents.registerErrorMessage ? (
+            { authErrors.register ? (
                 <p 
-                    className="text-orangered font-medium mt-1 text-base max-[620px]:static">{globalEvents.registerErrorMessage}
+                    className="text-orangered font-medium mt-1 text-base max-[620px]:static">{authErrors.register}
                 </p>
             ) : (
                 <>
@@ -122,11 +127,11 @@ export default function RegisterForm( props: componentProps ) {
             <button 
                 className="mt-6 w-full rounded-md bg-darkslateblue flex items-center justify-center h-12 font-semibold border-none outline-none btn hover:bg-darkslateblue text-white ease-linear duration-150"
                 style={{ 
-                    backgroundColor: !globalEvents.isUserCreatingAnAccount ? 'darkslateblue' : 'rgba(72, 61, 139, 0.4)',
-                    fontSize: !globalEvents.isUserCreatingAnAccount ? '16px' : '17px'
+                    backgroundColor: !globalContext.isUserCreatingAnAccount ? 'darkslateblue' : 'rgba(72, 61, 139, 0.4)',
+                    fontSize: !globalContext.isUserCreatingAnAccount ? '16px' : '17px'
                 }}
             >
-                { globalEvents.isUserCreatingAnAccount ? (
+                { globalContext.isUserCreatingAnAccount ? (
                     <>
                         Criando conta
                         <span className="loading loading-bars loading-md"></span>

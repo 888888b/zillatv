@@ -1,56 +1,70 @@
 'use client';
 
-import React, { MutableRefObject, useEffect, useRef, useContext, useState } from "react";
-
-// Hook personalisado com funções de authenticação e registro
+// hooks
+import { 
+    useEffect, 
+    useRef, 
+    useContext,
+    useCallback 
+} from "react";
 import useFirebase from "@/components/hooks/firebase";
 
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+// contextos
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
-// Icones com React-icons
+// icones
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
-// Formulario de registro
+// componentes
 import RegisterForm from "./form";
 
-// Interface de tipos para os valores do formulario de registro
+// tipos
 import { RegisterProps } from "./form";
 
 export default function RegisterModal() {
 
-    const { registerUser, signInWithGoogle, signInWithGithub } = useFirebase();
-    const checkboxInputRef: MutableRefObject<(HTMLInputElement | null)> = useRef( null );
-    const globalEvents = useContext( GlobalEventsContext );
+    // ações do usuario
+    const { 
+        registerUser, 
+        signInWithGoogle, 
+        signInWithGithub 
+    } = useFirebase();
+
+    // controle do modal de registro
+    const {
+        isRegisterModalActive,
+        dispatch,
+        errors
+    } = useContext( GlobalEventsContext );
+
+    const checkboxInputRef = useRef<(HTMLInputElement | null)>( null );
 
     // Simula um click para o input que exibe/esconde o modal de regitro
     const checkboxToggle = () => {
-        if ( globalEvents.clicksCount >= 1 ) {
-            checkboxInputRef.current?.click();
-        };
+        if ( checkboxInputRef.current ) {
+            if ( isRegisterModalActive ) {
+                checkboxInputRef.current.checked = true;
+                return;
+            };
 
-        globalEvents.setModalsController( prev => ({
-            ...prev,
-            clicksCount: prev.clicksCount + 1
-        }));
+            checkboxInputRef.current.checked = false;
+        };
     };
 
     useEffect(() => {
         checkboxToggle();
-    },[ globalEvents.isRegisterModalActive ]);
+    },[ isRegisterModalActive ]);
 
     // Tenta registrar o usuario, se for sucesso, atualiza os dados do usuario dentro do contexto e fecha o modal
-    const handleFormSubmit = ( schemaData: RegisterProps ) => {
-        registerUser( schemaData.name.trimEnd(), schemaData.email.trimEnd(), schemaData.password.trimEnd() );
-    };
-
-    const closeRegisterModal = () => {
-        globalEvents.setModalsController( prev => ({
-            ...prev,
-            isRegisterModalActive: !prev.isRegisterModalActive,
-        }));
-    };
+    const handleFormSubmit = useCallback(( schemaData: RegisterProps ) => {
+        registerUser( 
+            schemaData.name.trimEnd(), 
+            schemaData.email.trimEnd(), 
+            schemaData.password.trimEnd() 
+        );
+    }, []);
 
     return (
         <>
@@ -60,41 +74,40 @@ export default function RegisterModal() {
                 <div className="z-50 bg-darkpurple rounded-md font-noto_sans px-4 my-10 py-5 w-[calc(100%-32px)] max-w-[420px] relative">
                    <h3 className="text-2xl font-raleway font-bold">Registre-se</h3>
 
-                   { globalEvents.formInstructionsMessage ? (
+                   { errors.formInstructions ? (
                         <p 
-                            className="text-orangered font-normal mt-1 text-[17px] max-[620px]:static">{globalEvents.formInstructionsMessage}
+                            className="text-orangered font-normal mt-1 text-[17px] max-[620px]:static">
+                            {errors.formInstructions}
                         </p>
                     ) : null } 
                    
                    {/* Botão de login com google */}
                    <button 
                         className="w-full h-12 rounded-md mt-7 bg-white text-black text-base font-semibold px-3 flex items-center gap-x-2 border-none outline-none btn hover:bg-white justify-start"
-                        onClick={() => {signInWithGoogle('register')}}
-                    >
-                    <FcGoogle className="text-3xl"/>
-                    continuar com o google
+                        onClick={() => {signInWithGoogle('register')}}>
+                        <FcGoogle className="text-3xl"/>
+                        continuar com o google
                    </button>
 
                    {/* Renderiza o erro passado pelo contexto caso houver, se não, renderiza o erro do registerSchema */}
-                   { globalEvents.googleAuthErrorMessage ? (
+                   { errors.googleAuth ? (
                         <p 
-                            className="text-orangered font-medium mt-1 text-base max-[620px]:static">{globalEvents.googleAuthErrorMessage}
+                            className="text-orangered font-medium mt-1 text-base max-[620px]:static">{errors.googleAuth}
                         </p>
                     ) : null }
 
                     {/* Botão de login com github */}
                    <button 
                         className="w-full h-12 rounded-md mt-4 bg-deepnight text-white text-base font-semibold px-3 flex items-center gap-x-2 border-none justify-start outline-none btn hover:bg-deepnight"
-                        onClick={() => {signInWithGithub('register')}}
-                    >
-                    <FaGithub className="text-3xl"/>
-                    continuar com o github
+                        onClick={() => {signInWithGithub('register')}}>
+                        <FaGithub className="text-3xl"/>
+                        continuar com o github
                    </button>
 
                     {/* Renderiza o erro passado pelo contexto caso houver, se não, renderiza o erro do registerSchema */}
-                    { globalEvents.githubAuthErrorMessage ? (
+                    { errors.githubAuth ? (
                         <p 
-                            className="text-orangered font-medium mt-1 text-base max-[620px]:static">{globalEvents.githubAuthErrorMessage}
+                            className="text-orangered font-medium mt-1 text-base max-[620px]:static">{errors.githubAuth}
                         </p>
                     ) : null }
 
@@ -103,12 +116,12 @@ export default function RegisterModal() {
                    </div>
 
                     {/* Formulario de registro em src/components/authenticateUsers/registerModal/form */}
-                   <RegisterForm
-                        registerUser={handleFormSubmit}
-                   />
+                   <RegisterForm registerUser={handleFormSubmit}/>
 
                     {/* Botão de fechamento do modal */}
-                    <button onClick={closeRegisterModal} className="modal-actio bg-darkslateblue w-10 h-10 rounded-full flex items-center justify-center absolute top-0 right-0 -translate-y-1/3 translate-x-1/3 cursor-pointer border-none outline-none">
+                    <button 
+                        onClick={() => dispatch({type:'IS_REGISTER_MODAL_ACTIVE', payload: false})} 
+                        className="modal-actio bg-darkslateblue w-10 h-10 rounded-full flex items-center justify-center absolute top-0 right-0 -translate-y-1/3 translate-x-1/3 cursor-pointer border-none outline-none">
                         <IoClose className='text-xl'/>
                     </button>
                 </div>

@@ -12,7 +12,7 @@ import { getRunTime } from "@/components/utils/tmdbApiData/runtime";
 import { getImdbReviews } from "@/components/utils/tmdbApiData/reviews";
 
 // tipos
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 import { tmdbConfig } from "@/app/constants";
 

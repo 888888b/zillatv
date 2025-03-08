@@ -13,8 +13,8 @@ import { getDownloadURL, uploadBytes, getStorage, ref as getStorageRef, deleteOb
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, deleteUser, signOut, updateProfile, User as UserInterface, verifyBeforeUpdateEmail } from "firebase/auth";
 
 // Contextos
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
-import { UserDataContext } from "@/components/contexts/authenticationContext";
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
+import { UserDataContext } from "@/contexts/authenticationContext";
 
 import { toast } from "react-toastify";
 import { CommentProps, ReplyProps } from "@/components/pages/playerPage/main/commentsSection";
@@ -56,7 +56,9 @@ const firebaseErrorMessages = {
 export default function useFirebase() {
 
     const userData = useContext( UserDataContext );
-    const globalEvents = useContext( GlobalEventsContext );
+    const {
+        dispatch
+    } = useContext( GlobalEventsContext );
 
     const firebaseConfig = {
         apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -161,10 +163,7 @@ export default function useFirebase() {
                 }));
 
                 // Desativa o loading após a operação bem-sucedida
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isProfilePhotoUpdating: false
-                }));
+                dispatch({type: 'IS_PROFILE_PHOTO_UPDATING', payload: false});
 
                 // Exibe mensagem de sucesso
                 toast.success( 'Imagem de perfil atualizada', { 
@@ -184,10 +183,7 @@ export default function useFirebase() {
         const user = auth.currentUser;
 
         // Aciona um elemento de loading durante o processo de upload da nova imagem de perfil para o Firebase Storage
-        globalEvents.setModalsController( prev => ({
-            ...prev,
-            isProfilePhotoUpdating: true
-        }));
+        dispatch({type: 'IS_PROFILE_PHOTO_UPDATING', payload: true});
 
         if (user) {
             const storageRef = getStorageRef( storage, `users/${user.uid}/profilePhoto` );
@@ -203,10 +199,7 @@ export default function useFirebase() {
                 console.error("Erro ao fazer upload da imagem:", error);
 
                 // Desativa o loading caso ocorra um erro na operação
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isProfilePhotoUpdating: false
-                }));
+                dispatch({type: 'IS_PROFILE_PHOTO_UPDATING', payload: false});
             };
         };
     };
@@ -231,11 +224,12 @@ export default function useFirebase() {
                 console.error( error );
 
                 if ( error instanceof FirebaseError ) {    
-                    globalEvents.setModalsController(prev => ({
-                        ...prev,
-                        isLoginModalActive: !prev.isLoginModalActive,
-                        formInstructionsMessage: firebaseErrorMessages[ error.code as keyof typeof firebaseErrorMessages ] || 'Faça login novamente para encerrar sua conta.'
-                    }));
+                    dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: true});
+                    dispatch({type: 'SET_ERROR', payload: {
+                        type: 'formInstructions',
+                        message: firebaseErrorMessages[ error.code as keyof typeof firebaseErrorMessages ] || 'Faça login novamente para encerrar sua conta.'
+                    }})
+
                 } else {
                     toast.error('Não foi possível encerrar sua conta, tente novamente', {
                         position: 'bottom-right',
@@ -316,11 +310,8 @@ export default function useFirebase() {
                 updateUserContext( user.user );
                 
                 // Fecha o modal que estiver aberto após o login
-                globalEvents.setModalsController(prev => ({
-                    ...prev,
-                    isLoginModalActive: modalType === 'login' ? !prev.isLoginModalActive : prev.isLoginModalActive,
-                    isRegisterModalActive: modalType === 'register' ? !prev.isRegisterModalActive : prev.isRegisterModalActive,
-                }));
+                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
+                dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: false});
                 
                 // Exibe mensagem de boas-vindas ao usuário
                 const userName = await extractName( user.user.displayName );
@@ -335,10 +326,10 @@ export default function useFirebase() {
                 console.error( error.message );
                 
                 // Atualiza o modal com a mensagem de erro
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    githubAuthErrorMessage: error.message
-                }));
+                dispatch({type: 'SET_ERROR', payload: {
+                    type: 'googleAuth',
+                    message: error.message
+                }});
             };
         };
     };
@@ -360,11 +351,8 @@ export default function useFirebase() {
                 updateUserContext( user.user );
                 
                 // Fecha o modal que estiver aberto após o login
-                globalEvents.setModalsController(prev => ({
-                    ...prev,
-                    isLoginModalActive: modalType === 'login' ? !prev.isLoginModalActive : prev.isLoginModalActive,
-                    isRegisterModalActive: modalType === 'register' ? !prev.isRegisterModalActive : prev.isRegisterModalActive,
-                }));
+                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
+                dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: false});
                 
                 // Exibe mensagem de boas-vindas ao usuário
                 const userName = await extractName( user.user.displayName );
@@ -379,10 +367,11 @@ export default function useFirebase() {
                 console.error( error.message );
                 
                 // Atualiza o modal com a mensagem de erro
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    githubAuthErrorMessage: error.message
-                }));
+                // Atualiza o modal com a mensagem de erro
+                dispatch({type: 'SET_ERROR', payload: {
+                    type: 'githubAuth',
+                    message: error.message
+                }});
             };
         };
     };
@@ -409,10 +398,7 @@ export default function useFirebase() {
 
     const registerUser = async ( name: string, email: string, password: string ) => {
         // Controla uma animação de carregamento
-        globalEvents.setModalsController( prev => ({
-            ...prev,
-            isUserCreatingAnAccount: true
-        }));
+        dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: true});
 
         try {
             // Cria o usuário
@@ -441,29 +427,20 @@ export default function useFirebase() {
                 });
                 
                 // Fecha o modal do formulário de registro
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isRegisterModalActive: !prev.isRegisterModalActive
-                }));
+                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
 
                 // Controla uma animação de carregamento
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isUserCreatingAnAccount: false
-                }));
+                dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: false});
 
             } else {
                 // Atualiza o modal com a mensagem de erro
-                globalEvents.setModalsController(prev => ({
-                    ...prev,
-                    registerErrorMessage: 'Não foi possível criar sua conta, tente novamente'
-                }));
+                dispatch({type: 'SET_ERROR', payload: {
+                    type: 'register',
+                    message: 'Não foi possível criar sua conta, tente novamente'
+                }});
 
                 // Controla uma animação de carregamento
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isUserCreatingAnAccount: false
-                }));
+                dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: false});
             };
         
         } catch ( error ) {
@@ -471,18 +448,15 @@ export default function useFirebase() {
 
                 if ( error.code !== "auth/network-request-failed" ) {        
                     // Atualiza o modal com a mensagem de erro
-                    globalEvents.setModalsController(prev => ({
-                        ...prev,
-                        registerErrorMessage: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível criar sua conta, tente novamente'
-                    }));
-                }
+                    dispatch({type: 'SET_ERROR', payload: {
+                        type: 'register',
+                        message: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível criar sua conta, tente novamente'
+                    }});
+                };
             };
 
             // Controla uma animação de carregamento
-            globalEvents.setModalsController( prev => ({
-                ...prev,
-                isUserCreatingAnAccount: false
-            }));
+            dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: false});
         };
     };
 
@@ -506,10 +480,7 @@ export default function useFirebase() {
 
     const authenticateUser = async ( email: string, password: string, modalType: string ): Promise<void> => {
         // Controla uma animação de carregamento
-        globalEvents.setModalsController( prev => ({
-            ...prev,
-            isUserLoggingIntoAccount: true
-        }));
+        dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: true});
 
         try {
             // Autentica o usuário com email e senha
@@ -528,11 +499,10 @@ export default function useFirebase() {
                 updateUserContext( auth.currentUser );
 
                 // Fecha o modal de login ou registro com base no tipo
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isLoginModalActive: modalType === 'login' ? !prev.isLoginModalActive : prev.isLoginModalActive,
-                    isRegisterModalActive: modalType === 'register' ? !prev.isRegisterModalActive : prev.isRegisterModalActive,
-                }));
+                dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: false});
+                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
+                // Controla uma animação de carregamento
+                dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false});
         
                 // Exibe mensagem de boas-vindas ao usuário
                 const name = await extractName( auth.currentUser.displayName );
@@ -541,24 +511,15 @@ export default function useFirebase() {
                     autoClose: 3000
                 });
 
-                // Controla uma animação de carregamento
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isUserLoggingIntoAccount: false
-                }));
-
             } else {
                 // Atualiza o modal com a mensagem de erro
-                globalEvents.setModalsController(prev => ({
-                    ...prev,
-                    loginErrorMessage: 'Não foi possível acessar sua conta, tente novamente'
-                }));
+                dispatch({type: 'SET_ERROR', payload: {
+                    type: 'login',
+                    message: 'Não foi possível acessar sua conta, tente novamente'
+                }});
 
                 // Controla uma animação de carregamento
-                globalEvents.setModalsController( prev => ({
-                    ...prev,
-                    isUserLoggingIntoAccount: false
-                }));
+                dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false});    
             };;
             
         } catch ( error ) {
@@ -567,18 +528,15 @@ export default function useFirebase() {
     
                 if ( error.code !== "auth/network-request-failed" ) {
                     // Lança uma mensagem ao modal para indicar erro na operação
-                    globalEvents.setModalsController(prev => ({
-                        ...prev,
-                        loginErrorMessage: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível acessar sua conta, tente novamente' 
-                    }));
+                    dispatch({type: 'SET_ERROR', payload: {
+                        type: 'login',
+                        message: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível acessar sua conta, tente novamente'
+                    }});
                 };
             };
 
             // Controla uma animação de carregamento
-            globalEvents.setModalsController( prev => ({
-                ...prev,
-                isUserLoggingIntoAccount: false
-            }));
+            dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false});    
         };
     };    
 
@@ -594,14 +552,17 @@ export default function useFirebase() {
 
                 if ( response.ok ) {
                     const { isUnique } = await response.json();
-                    globalEvents.setModalsController( prev => ({
-                        ...prev,
-                        verificationErrorMessage: !isUnique ? 'Já existe uma conta vinculada a este email' : null
-                    }));
+                    if ( isUnique ) {
+                        dispatch({type: 'SET_ERROR', payload: {
+                            type: 'emailVerification',
+                            message: 'Já existe uma conta vinculada a este email'
+                        }})
 
-                    isUnique && await verifyNewUserEmail( newEmail );
-                    return isUnique ? { success: true } 
-                    : { success: false, message: 'Já existe uma conta vinculada a este email' };
+                        return { success: true };
+                    };
+
+                    return { success: false, message: 'Já existe uma conta vinculada a este email'};
+
                 };
             };
     
@@ -653,12 +614,11 @@ export default function useFirebase() {
                     console.error(error.message);
     
                     // Avisa o usuário de que é preciso se autenticar novamente
-                    globalEvents.setModalsController(prev => ({
-                        ...prev,
-                        isLoginModalActive: !prev.isLoginModalActive,
-                        isProfileModalActive: !prev.isProfileModalActive,
-                        formInstructionsMessage: 'Faça login novamente para solicitar um link de atualização de email'
-                    }));
+                    dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: true});
+                    dispatch({type: 'SET_ERROR', payload: {
+                        type: 'formInstructions',
+                        message: 'Faça login novamente para solicitar um link de atualização de email'
+                    }})
                 };
             };
         };

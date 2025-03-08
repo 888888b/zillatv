@@ -16,8 +16,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 
 // Contextos
-import { UserDataContext } from "@/components/contexts/authenticationContext";
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { UserDataContext } from "@/contexts/authenticationContext";
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 import { CommentOptions } from '@/components/pages/playerPage/styles'
 
@@ -52,7 +52,7 @@ export default function UsersComments() {
 
     const { addUserCommentsToDb, getCommentsOnDb, updateUserReactionOnDb, getUserReactionOnDb, addUserReplyToDb, getRepliesOnDb } = useFirebase();
     const userData = useContext( UserDataContext );
-    const globalEvents = useContext( GlobalEventsContext );
+    const { dispatch } = useContext( GlobalEventsContext );
     const [ commentsList, setCommentsList ] = useState<CommentProps[]>([]);
     const urlPath = usePathname();
     const contentId = urlPath.split('/').pop();
@@ -209,11 +209,12 @@ export default function UsersComments() {
 
     const handleUserReaction = async ( commentId: string, reaction: string ) => {
         if ( !userData.isLoggedIn ) {
-            globalEvents.setModalsController( prev => ({
-                ...prev,
-                isRegisterModalActive: !prev.isRegisterModalActive,
-                formInstructionsMessage: 'Faça login ou crie uma conta para interagir com outros usuários'
-            }));
+            dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
+            
+            dispatch({type: 'SET_ERROR', payload: {
+                type: 'formInstructions',
+                message: 'Faça login ou crie uma conta para interagir com outros usuários'
+            }});
             return;
         };
 
@@ -288,11 +289,12 @@ export default function UsersComments() {
         const comment = textareaRef.value;
 
         if ( !userData.isLoggedIn || !userData.uid ) {
-            globalEvents.setModalsController( prev => ({
-                ...prev,
-                isRegisterModalActive: !prev.isRegisterModalActive,
-                formInstructionsMessage: 'Faça login ou crie uma conta para adicionar comentários em filmes ou series.'
-            }));
+            dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
+            
+            dispatch({type: 'SET_ERROR', payload: {
+                type: 'formInstructions',
+                message: 'Faça login ou crie uma conta para adicionar comentários em filmes ou series'
+            }});
             return
         };
 
@@ -328,11 +330,12 @@ export default function UsersComments() {
         const reply = textareaRef.value;
 
         if ( !userData.isLoggedIn || !userData.uid ) {
-            globalEvents.setModalsController( prev => ({
-                ...prev,
-                isRegisterModalActive: !prev.isRegisterModalActive,
-                formInstructionsMessage: 'Faça login ou crie uma conta para adicionar respostas em comentários.'
-            }));
+            dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
+            
+            dispatch({type: 'SET_ERROR', payload: {
+                type: 'formInstructions',
+                message: 'Faça login ou crie uma conta para adicionar respostas em comentários'
+            }});
             return
         };
 

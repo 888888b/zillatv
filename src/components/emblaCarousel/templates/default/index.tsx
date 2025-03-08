@@ -13,14 +13,14 @@ import 'react-lazy-load-image-component/src/effects/opacity.css';
 // Icones com React-icons
 import { FaRegHeart, FaHeart, FaPlay, FaStar } from "react-icons/fa";
 
-import { UserDataContext } from '@/components/contexts/authenticationContext';
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { UserDataContext } from '@/contexts/authenticationContext';
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
-import { tmdbObjProps } from '@/components/contexts/tmdbContext';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
 
-import './index.css';
+// import './index.css';
 
 type ComponentProps = {
     contentType: string;
@@ -31,7 +31,7 @@ export default function DefaultCarousel( props: ComponentProps ) {
     
     const router = useRouter(); 
     const userData = useContext( UserDataContext );
-    const globalEvents = useContext( GlobalEventsContext );
+    const { dispatch } = useContext( GlobalEventsContext );
     const { addUserFavoritesToDb, deleteUserFavoritesOnDb } = useFirebase();
 
     // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
@@ -46,12 +46,12 @@ export default function DefaultCarousel( props: ComponentProps ) {
             e.currentTarget.classList.toggle('favorite-button');
             return;
         }; 
+        dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
 
-        globalEvents.setModalsController( prev => ({
-            ...prev,
-            isRegisterModalActive: !prev.isRegisterModalActive,
-            formInstructionsMessage: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
-        }));    
+        dispatch({type: 'SET_ERROR', payload: {
+            type: 'formInstructions',
+            message: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
+        }});
     };
 
     return (             

@@ -13,11 +13,11 @@ import FavoriteButton from '@/components/molecules/favoriteButton';
 import { FaPlay } from "react-icons/fa";
 
 // contextos
-import { UserDataContext } from '@/components/contexts/authenticationContext';
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { UserDataContext } from '@/contexts/authenticationContext';
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 // tipos
-import { tmdbObjProps } from '@/components/contexts/tmdbContext';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
@@ -33,7 +33,7 @@ type CarouselProps = {
 export default function PopularSeriesCarousel( props: CarouselProps ) {
     
     const { push } = useRouter(); 
-    const { setModalsController } = useContext( GlobalEventsContext );
+    const { dispatch } = useContext( GlobalEventsContext );
     const { 
         low_resolution_poster, 
         low_resolution_backdrop 
@@ -62,11 +62,12 @@ export default function PopularSeriesCarousel( props: CarouselProps ) {
             return;
         }; 
 
-        setModalsController( prev => ({
-            ...prev,
-            isRegisterModalActive: !prev.isRegisterModalActive,
-            formInstructionsMessage: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
-        }));    
+        dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
+            
+        dispatch({type: 'SET_ERROR', payload: {
+            type: 'formInstructions',
+            message: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
+        }});   
     };
 
     return props.contentData ? (             

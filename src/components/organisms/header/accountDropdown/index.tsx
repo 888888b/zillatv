@@ -3,8 +3,8 @@ import { useContext, useState } from "react";
 import useFirebase from "@/components/hooks/firebase";
 
 // contextos
-import { UserDataContext } from "@/components/contexts/authenticationContext";
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { UserDataContext } from "@/contexts/authenticationContext";
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 // icones
 import { TbLogout2 } from "react-icons/tb";
@@ -35,7 +35,7 @@ export default function AccountDropdown() {
 
     // controlador de modais
     const {
-        setModalsController
+        dispatch
     } = useContext( GlobalEventsContext );
 
     // desconecta o usurio atual
@@ -53,10 +53,7 @@ export default function AccountDropdown() {
     };
 
     const openProfileModal = () => {
-        setModalsController( prev => ({
-            ...prev,
-            isProfileModalActive: true
-        }));
+        dispatch({type: 'IS_PROFILE_MODAL_ACTIVE', payload: true});
     };
 
     return (

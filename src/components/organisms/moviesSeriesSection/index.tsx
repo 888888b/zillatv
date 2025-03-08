@@ -6,14 +6,14 @@ import { useContext } from 'react';
 import useFirebase from '@/components/hooks/firebase';
 
 // tipos
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // icones
 import { FaPlay, FaStar } from "react-icons/fa";
 
 // contextos
-import { UserDataContext } from '@/components/contexts/authenticationContext';
-import { GlobalEventsContext } from '@/components/contexts/globalEventsContext';
+import { UserDataContext } from '@/contexts/authenticationContext';
+import { GlobalEventsContext } from '@/contexts/globalEventsContext';
 
 // funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
@@ -45,7 +45,7 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
         deleteUserFavoritesOnDb 
     } = useFirebase();
 
-    const { setModalsController } = useContext( GlobalEventsContext );
+    const { dispatch } = useContext( GlobalEventsContext );
 
     const nextNavigate = ( mediaType: string, id: string ) => {
         router.push(`player/${mediaType}/${id}`, { 
@@ -67,11 +67,12 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
             return;
         }; 
 
-        setModalsController( prev => ({
-            ...prev,
-            isRegisterModalActive: !prev.isRegisterModalActive,
-            formInstructionsMessage: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
-        }));    
+        dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
+            
+        dispatch({type: 'SET_ERROR', payload: {
+            type: 'formInstructions',
+            message: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
+        }});
     };
 
     const getSlideType = ( mediaType: string ) => {

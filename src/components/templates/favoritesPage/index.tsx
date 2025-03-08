@@ -5,10 +5,10 @@ import { useState, useEffect, useContext } from "react";
 import useTmdbFetch from "@/components/hooks/tmdb";
 
 // tipos
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // contextos
-import { UserDataContext } from "@/components/contexts/authenticationContext";
+import { UserDataContext } from "@/contexts/authenticationContext";
 
 // componentes
 import UnauthenticatedUserMsg from "./unauthenticatedUser";

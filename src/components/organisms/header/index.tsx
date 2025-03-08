@@ -11,7 +11,7 @@ import MobileMenu from './mobileMenu';
 import AccountDropdown from './accountDropdown';
 
 // contextos
-import { UserDataContext } from '@/components/contexts/authenticationContext';
+import { UserDataContext } from '@/contexts/authenticationContext';
 
 export default function Header() {
 

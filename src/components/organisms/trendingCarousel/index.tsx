@@ -9,14 +9,14 @@ import EmblaCarousel from '@/components/organisms/emblaSlides';
 import FavoriteButton from '@/components/molecules/favoriteButton';
 
 // contextos
-import { UserDataContext } from '@/components/contexts/authenticationContext';
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { UserDataContext } from '@/contexts/authenticationContext';
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 // funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
 
 // tipos
-import { tmdbObjProps } from '@/components/contexts/tmdbContext';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 import './styles.css';
 
@@ -29,7 +29,7 @@ export default function TrendingCarousel( props: CarouselProps ) {
     const posterUrl = 'https://image.tmdb.org/t/p/w500/';
     const backdropUrl = 'https://image.tmdb.org/t/p/w780/'
     const router = useRouter(); 
-    const { setModalsController } = useContext( GlobalEventsContext );
+    const { dispatch } = useContext( GlobalEventsContext );
     const { 
         addUserFavoritesToDb, 
         deleteUserFavoritesOnDb 
@@ -52,12 +52,13 @@ export default function TrendingCarousel( props: CarouselProps ) {
             deleteUserFavoritesOnDb( contentId, mediaType );
             return;
         }; 
-
-        setModalsController( prev => ({
-            ...prev,
-            isRegisterModalActive: !prev.isRegisterModalActive,
-            formInstructionsMessage: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
-        }));    
+        
+        dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
+            
+        dispatch({type: 'SET_ERROR', payload: {
+            type: 'formInstructions',
+            message: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
+        }});   
     };
 
     return props.contentData ? (             

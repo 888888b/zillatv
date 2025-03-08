@@ -2,7 +2,7 @@
 
 import { useContext, MouseEvent, useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import useFirebase from "@/components/hooks/firebaseHook";
+import useFirebase from "@/components/hooks/firebase";
 
 import * as Style from '@/components/contentCarousel/styles';
 
@@ -19,10 +19,10 @@ import 'react-lazy-load-image-component/src/effects/opacity.css';
 // Icones com React-icons
 import { FaRegHeart, FaHeart, FaPlay, FaStar } from "react-icons/fa";
 
-import { UserDataContext } from '@/components/contexts/authenticationContext';
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { UserDataContext } from '@/contexts/authenticationContext';
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
-import { tmdbObjProps } from '@/components/contexts/tmdbContext';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 type CarouselProps = {
     navigation: { nextEl: string, prevEl: string };
@@ -32,11 +32,11 @@ type CarouselProps = {
 };
 
 export default function Carousel( props: CarouselProps ) {
-
+    
     const swiperBreakPoints = { 1024: { spaceBetween: 20 }};
     const router = useRouter(); 
     const userData = useContext( UserDataContext );
-    const globalEvents = useContext( GlobalEventsContext );
+    const { dispatch } = useContext( GlobalEventsContext );
     const { addUserFavoritesToDb, deleteUserFavoritesOnDb } = useFirebase();
     const swiperRef = useRef<SwiperRef | null>( null );
     const [ swiperState, setSwiperState ] = useState({ isBeginning: true, isEnd: false });
@@ -62,11 +62,12 @@ export default function Carousel( props: CarouselProps ) {
     
             e.currentTarget.classList.toggle('favorite-button');
         } else {
-            globalEvents.setModalsController( prev => ({
-                ...prev,
-                isRegisterModalActive: !prev.isRegisterModalActive,
-                formInstructionsMessage: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
-            }));
+            dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
+            
+            dispatch({type: 'SET_ERROR', payload: {
+                type: 'formInstructions',
+                message: 'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
+            }});
         }
     };
 

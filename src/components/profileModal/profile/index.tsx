@@ -1,13 +1,11 @@
-// Hooks
 import React, { useContext, useEffect, useRef, MutableRefObject, useState, ChangeEvent, Dispatch } from "react";
-import useFirebase from '@/components/hooks/firebaseHook';
+import useFirebase from '@/components/hooks/firebase';
 
 // Icones com React-icons
 import { FaUserLarge, FaPencil } from "react-icons/fa6";
 
-// Contextos
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
-import { UserDataContext } from "@/components/contexts/authenticationContext";
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
+import { UserDataContext } from "@/contexts/authenticationContext";
 
 // Componente para carregamento preguiçoso de imagens
 import { LazyLoadImage } from "react-lazy-load-image-component";

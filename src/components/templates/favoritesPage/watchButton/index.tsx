@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 // Icons com React-icons
 import { FaPlay } from "react-icons/fa";
 
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 type WatchButtonProps = {
     content: tmdbObjProps;

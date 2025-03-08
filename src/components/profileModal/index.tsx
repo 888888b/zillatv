@@ -1,14 +1,20 @@
 'use client';
 
 // Hooks
-import { useContext, useEffect, useRef, MutableRefObject, useState } from "react";
+import { 
+    useContext, 
+    useEffect, 
+    useRef, 
+    useState,
+    useCallback 
+} from "react";
 
-// Icones com React-icons
+// icones
 import { IoClose } from "react-icons/io5";
 
 // Contextos
-import { GlobalEventsContext } from "../contexts/globalEventsContext";
-import { UserDataContext } from "../contexts/authenticationContext";
+import { GlobalEventsContext } from "../../contexts/globalEventsContext";
+import { UserDataContext } from "../../contexts/authenticationContext";
 
 // Modulos do Swiper.js para carousel de slides
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
@@ -16,55 +22,59 @@ import { Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/element/css/navigation';
 
+// componentes
 import Profile from "./profile";
 import EditName from "./editName";
 import EditEmail from "./editEmail";
 
 export default function ProfileModal() {
 
-    const globalEvents = useContext( GlobalEventsContext );
+    // controle do modal de perfil
+    const {
+        isProfileModalActive,
+        dispatch,
+        errors
+    } = useContext( GlobalEventsContext );
+
     const userData = useContext( UserDataContext );
-    const checkboxInputRef: MutableRefObject<(HTMLInputElement | null)> = useRef( null );
-    const swiperRef: MutableRefObject<(SwiperRef | null )> = useRef( null );
+    const checkboxInputRef = useRef<(HTMLInputElement | null)>( null );
+    const swiperRef = useRef<(SwiperRef | null )>( null );
     const [ nextSlide, setNextSlide ] = useState<(string | null)>( null );
 
-    // Simula um click para o input que abre/fecha o modal do perfil do usuario
-    const toggleProfileModal = () => {
-        if (globalEvents.clicksCount >= 1) {
-            checkboxInputRef.current?.click();
+    // Simula um click para o input que exibe/esconde o modal de regitro
+    const checkboxToggle = () => {
+        if ( checkboxInputRef.current ) {
+            if ( isProfileModalActive ) {
+                checkboxInputRef.current.checked = true;
+                return;
+            };
+
+            checkboxInputRef.current.checked = false;
         };
-
-        globalEvents.setModalsController(prev => ({
-            ...prev,
-            clicksCount: prev.clicksCount + 1
-        }));
-
-        returnToFirstSlide( 300 );
     };
 
-    const returnToFirstSlide = ( delay: number ) => {
+    const scrollToFirstSlide = () => {
         setTimeout(() => {
             swiperRef.current && swiperRef.current.swiper.slideTo(0);
             setNextSlide( null );
-        }, delay);
+        }, 300);
     };
 
-    const swiperControllers = ( slideTo: string ) => {
+    const swiperControllers = useCallback(( slideTo: string ) => {
         if ( slideTo === 'next-slide' ) {
             swiperRef.current && swiperRef.current.swiper.slideNext();
-        }
+            return;
+        };
 
-        if ( slideTo === 'prev-slide' ) {
-            swiperRef.current && swiperRef.current.swiper.slidePrev();
-        }
-    };
-
-    useEffect(() => {
-        toggleProfileModal();
-    }, [globalEvents.isProfileModalActive]);
+        swiperRef.current && swiperRef.current.swiper.slidePrev();
+    }, [ swiperRef ]);
 
     useEffect(() => {
-        returnToFirstSlide( 300 );
+        checkboxToggle();
+    }, [ isProfileModalActive ]);
+
+    useEffect(() => {
+        scrollToFirstSlide;
     }, [ userData.name ]);
 
     return (
@@ -104,7 +114,9 @@ export default function ProfileModal() {
                             </SwiperSlide>
                         </Swiper>
                     {/* Botão de fechamento do modal */}
-                    <button onClick={toggleProfileModal} className="modal-actio bg-darkslateblue w-10 h-10 rounded-full flex items-center justify-center absolute top-0 right-0 -translate-y-1/3 translate-x-1/3 z-10 cursor-pointer border-none outline-none">
+                    <button 
+                        onClick={() => dispatch({type:'IS_PROFILE_MODAL_ACTIVE', payload: false})} 
+                        className="modal-actio bg-darkslateblue w-10 h-10 rounded-full flex items-center justify-center absolute top-0 right-0 -translate-y-1/3 translate-x-1/3 z-10 cursor-pointer border-none outline-none">
                         <IoClose className='text-xl' />
                     </button>
                 </div>

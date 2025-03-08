@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useFirebase from "@/components/hooks/firebaseHook";
+import useFirebase from "@/components/hooks/firebase";
 
-import { UserDataContext } from "@/components/contexts/authenticationContext";
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+import { UserDataContext } from "@/contexts/authenticationContext";
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 // Ferramentas para validação de formulario
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -1,3 +1,4 @@
+// hooks
 import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -5,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { GlobalEventsContext } from "@/components/contexts/globalEventsContext";
+// contexto
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 const loginSchema = z.object({
     email: z.string()
@@ -33,19 +35,24 @@ type componentProps = {
 }
 
 export default function LoginForm( props: componentProps ) {
-    const globalEvents = useContext( GlobalEventsContext );
+    
+    const globalContext = useContext( GlobalEventsContext );
+    const authErrors = globalContext.errors;
 
-    const { register, handleSubmit, reset, formState: { errors }, setError }  = useForm<LoginProps>({
+    const { 
+        register, 
+        handleSubmit, 
+        reset, 
+        formState: { errors }
+    }  = useForm<LoginProps>({
         mode: 'all',
         criteriaMode: 'all',
         resolver: zodResolver(loginSchema),
     });
 
     useEffect(() => {
-        if ( !globalEvents.isLoginModalActive ) {
-            reset();
-        }
-    },[ globalEvents.isLoginModalActive ]);
+        reset();
+    },[ globalContext.isLoginModalActive ]);
 
     return (
         <form onSubmit={handleSubmit(props.authenticateUser)} className="flex flex-col">
@@ -57,14 +64,14 @@ export default function LoginForm( props: componentProps ) {
                 maxLength={41}
                 className="font-medium placeholder:font-normal border border-transparent outline-none text-base placeholder:text-neutral-400 mt-2 bg-richblack rounded-md h-12 px-3"
                 style={{
-                    borderColor: errors.password || globalEvents.loginErrorMessage ? 'orangered' : 'transparent'
+                    borderColor: errors.password || authErrors.login ? 'orangered' : 'transparent'
                 }}
             />
 
             {/* Renderiza o erro passado pelo contexto caso houver, se não, renderiza o erro do loginSchema */}
-            { globalEvents.loginErrorMessage ? (
+            { authErrors.login ? (
                 <p 
-                    className="text-orangered font-medium mt-1 text-base max-[620px]:static">{globalEvents.loginErrorMessage}
+                    className="text-orangered font-medium mt-1 text-base max-[620px]:static">{authErrors.login}
                 </p>
             ) : (
                 <>
@@ -84,14 +91,14 @@ export default function LoginForm( props: componentProps ) {
                 maxLength={11}
                 className="font-medium placeholder:font-normal text-base placeholder:text-neutral-400 border-transparent mt-2 bg-richblack rounded-md h-12 px-3 border outline-none"
                 style={{
-                    borderColor: errors.password || globalEvents.loginErrorMessage ? 'orangered' : 'transparent'
+                    borderColor: errors.password || authErrors.login ? 'orangered' : 'transparent'
                 }}
             />
 
             {/* Renderiza o erro passado pelo contexto caso houver, se não, renderiza o erro do loginSchema */}
-            { globalEvents.loginErrorMessage ? (
+            { authErrors.login ? (
                 <p 
-                    className="text-orangered font-medium mt-1 text-base max-[620px]:static">{globalEvents.loginErrorMessage}
+                    className="text-orangered font-medium mt-1 text-base max-[620px]:static">{authErrors.login}
                 </p>
             ) : (
                 <>
@@ -104,11 +111,11 @@ export default function LoginForm( props: componentProps ) {
             <button 
                 className="mt-6 w-full rounded-md bg-darkslateblue flex items-center justify-center h-12 font-semibold border-none outline-none btn hover:bg-darkslateblue text-white"
                 style={{ 
-                    backgroundColor: !globalEvents.isUserLoggingIntoAccount ? 'darkslateblue' : 'rgba(72, 61, 139, 0.4)',
-                    fontSize: !globalEvents.isUserLoggingIntoAccount ? '16px' : '17px'
+                    backgroundColor: !globalContext.isUserLoggingIntoAccount ? 'darkslateblue' : 'rgba(72, 61, 139, 0.4)',
+                    fontSize: !globalContext.isUserLoggingIntoAccount ? '16px' : '17px'
                 }}
             >
-                { globalEvents.isUserLoggingIntoAccount ? (
+                { globalContext.isUserLoggingIntoAccount ? (
                     <>
                         Conectando
                         <span className="loading loading-bars loading-md"></span>

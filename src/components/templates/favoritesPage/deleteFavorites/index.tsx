@@ -1,5 +1,5 @@
 
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // Icons com React-icons
 import { AiFillDelete } from "react-icons/ai";
