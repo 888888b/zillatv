@@ -72,7 +72,7 @@ export default function SeriesSection( props: ComponentProps ) {
                 genresList={serieGenres}
             />
             { contentData ?
-                <MoviesSeriesSection data={contentData} mediaType="movie"/>
+                <MoviesSeriesSection data={contentData} mediaType="serie"/>
             : null }
         </div>
     );

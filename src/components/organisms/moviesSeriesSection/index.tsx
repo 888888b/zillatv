@@ -55,15 +55,13 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
 
     // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
     const updateUserFavorites = async ( contentId: string, mediaType: string ) => {
-        const type = mediaType === 'tv' ? 'serie' : 'movie';
-
         if ( isLoggedIn ) {
             if (!favoriteMovies?.includes(contentId) && !favoriteSeries?.includes(contentId)) {
-                addUserFavoritesToDb( contentId, type );
+                addUserFavoritesToDb( contentId, mediaType );
                 return;
             };
             
-            deleteUserFavoritesOnDb( contentId, type );
+            deleteUserFavoritesOnDb( contentId, mediaType );
             return;
         }; 
 

@@ -673,7 +673,7 @@ export default function useFirebase() {
                     });
                 };   
     
-                if ( contentType === 'serie' ) {
+                if ( contentType === 'serie' || contentType === 'tv' ) {
                     const updatedData = userDataOnDb.favoriteSeries ? [
                         contentId, 
                         ...userDataOnDb.favoriteSeries
