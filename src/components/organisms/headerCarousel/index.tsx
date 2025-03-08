@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import EmblaCarousel from '@/components/organisms/emblaSlides';
 
 // tipos
-import { tmdbObjProps } from '@/components/contexts/tmdbContext';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
@@ -109,7 +109,7 @@ export default function HeaderCarousel( props: HeaderCarouselProps ) {
                         </span>
 
                         {/* generos */}
-                        <p>
+                        <p className='text-center'>
                             {currentSlide?.genres.map(( genre: any ) => (
                                 genre.name
                             )).join(', ')}

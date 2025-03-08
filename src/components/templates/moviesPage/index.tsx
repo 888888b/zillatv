@@ -6,7 +6,7 @@ import HeaderCarousel from '@/components/organisms/headerCarousel';
 import MoviesSection from './moviesSection';
 
 // tipos
-import { tmdbObjProps } from '@/components/contexts/tmdbContext';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
 import { checkAvailability } from '@/components/utils/tmdbApiData/availability';

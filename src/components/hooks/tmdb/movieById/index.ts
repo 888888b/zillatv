@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // faz uma busca mais detalhada de um filme com o id fornecido
 export const fetchMovieById = async ( movieId: string ): Promise<tmdbObjProps | undefined> => {

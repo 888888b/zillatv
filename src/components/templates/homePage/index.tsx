@@ -10,7 +10,7 @@ import { CarouselDefaultTitle } from "@/components/atoms/carouselDefaultTitle";
 import { CarouselFeatureTitle } from "@/components/atoms/carouselFeatureTitle";
 
 // tipos
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // funções utilitarias
 import { getContentId } from "@/components/utils/tmdbApiData/id";

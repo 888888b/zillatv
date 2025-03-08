@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // busca series com base em palavras chaves
 export const fetchSerieByTerm = async ( term: string ): Promise<tmdbObjProps[] | undefined> => {

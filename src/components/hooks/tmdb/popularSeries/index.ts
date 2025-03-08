@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // busca series populares entre os usuarios do TMDB
 export const fetchPopularSeries = async (): Promise<tmdbObjProps[] | undefined> => {

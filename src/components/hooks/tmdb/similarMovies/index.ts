@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // busca filmes similares ao escolhido pelo usuario
 export const fetchSimilarMovies = async ( movieId: string ): Promise<tmdbObjProps[] | undefined> => {

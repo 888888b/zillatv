@@ -4,7 +4,7 @@ import SimilarMovies from './footer/moviesCarousel';
 import useTmdbFetch from '@/components/hooks/tmdb';
 
 // Interface de tipos para objetos retornados pela api do TMDB
-import { tmdbObjProps } from '../../contexts/tmdbContext';
+import { tmdbObjProps } from '../../../contexts/tmdbContext';
 import dynamic from 'next/dynamic';
 
 type PlayerPageProps = {

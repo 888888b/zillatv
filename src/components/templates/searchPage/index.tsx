@@ -6,7 +6,7 @@ import SearchResults from '@/components/organisms/moviesSeriesSection';
 import ResultsSectionTitle from '@/components/molecules/resultSectionTitle';
 
 // tipos
-import { tmdbObjProps } from '@/components/contexts/tmdbContext';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
 import { checkAvailability } from '@/components/utils/tmdbApiData/availability';

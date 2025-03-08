@@ -3,7 +3,7 @@ import { MouseEvent, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 // tipos
-import { tmdbObjProps } from '../../contexts/tmdbContext';
+import { tmdbObjProps } from '../../../contexts/tmdbContext';
 
 import './styles.css';
 

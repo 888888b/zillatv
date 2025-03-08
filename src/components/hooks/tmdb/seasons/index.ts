@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // busca as temporadas de uma serie com base no id da serie e numero da temporada
 export const fetchSeasons = async ( serieId: string, seasonNumber: string ): Promise<tmdbObjProps[] | undefined> => {

@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 export const fetchAllTrending = async (): Promise<tmdbObjProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;

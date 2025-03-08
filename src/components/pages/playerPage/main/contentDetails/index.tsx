@@ -1,6 +1,6 @@
 'use client';
 
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 import './index.css';
 

@@ -14,7 +14,7 @@ import CategoryBar from "@/components/molecules/categoryBar";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
 
 // contextos
-import { TmdbContext, tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { TmdbContext, tmdbObjProps } from "@/contexts/tmdbContext";
 
 // funções utilitarias
 import { checkAvailability } from "@/components/utils/tmdbApiData/availability";

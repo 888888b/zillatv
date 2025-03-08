@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // busca series lançamentos com base na data fornecida
 export const fetchReleasedSeries = async ( page: number = 1 ): Promise<tmdbObjProps[] | undefined> => {

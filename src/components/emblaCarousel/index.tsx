@@ -1,7 +1,5 @@
 import { ReactNode, useCallback, useEffect, memo } from "react";
 
-import { useInView } from 'react-intersection-observer';
-
 import useEmblaCarousel from "embla-carousel-react";
 import EmblaNavigation from "./navigation/default";
 import HeaderNavigation from "./navigation/header";
@@ -40,11 +38,6 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     const [emblaRef, emblaApi] = useEmblaCarousel( emblaConfig );
     const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi)
 
-    const { inView, ref } = useInView({
-        threshold: 0,
-        rootMargin: '600px 0px'
-    });
-
     const {
         prevBtnDisabled,
         nextBtnDisabled,
@@ -66,8 +59,8 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     }, [ emblaApi ]);
 
     return (
-        <div ref={ref}>
-            <div className="embla" style={{ visibility: inView ? 'visible' : 'hidden' }}>
+        <div>
+            <div className="embla">
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container">
                         { props.children }

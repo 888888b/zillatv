@@ -10,7 +10,7 @@ import 'react-lazy-load-image-component/src/effects/opacity.css';
 import WatchTrailer from '@/components/pages/playerPage/header/trailerPlayback';
 
 // Interface de tipos para objetos retornados pela api do TMDB
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 import * as Style from '@/components/pages/playerPage/styles';
 import './index.css';

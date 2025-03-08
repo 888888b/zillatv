@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // Busca filmes com base no genero fornecido
 export const fetchMoviesByGenre = async ( genre: string, page: number = 1 ): Promise<tmdbObjProps[] | undefined> => {

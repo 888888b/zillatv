@@ -4,7 +4,7 @@ import { MutableRefObject, useRef, MouseEvent, Dispatch, SetStateAction } from "
 import { IoPlay } from "react-icons/io5";
 
 // Interface de tipos para objetos retornados pela api do TMDB
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 import * as Style from './styles';
 

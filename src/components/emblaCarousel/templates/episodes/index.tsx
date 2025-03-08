@@ -7,7 +7,7 @@ import 'react-lazy-load-image-component/src/effects/opacity.css';
 import EmblaCarousel from "../../index";
 
 // Interface de tipos para objetos retornados pela api do TMDB
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 import { getRunTime } from "@/components/utils/tmdbApiData/runtime";
 import { getReleaseDate } from "@/components/utils/tmdbApiData/releaseDate";

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 // Interface de tipos para objetos retornados pela api do TMDB
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 import ContentDetails from "./contentDetails/index";
 

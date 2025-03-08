@@ -13,7 +13,7 @@ import 'swiper/css';
 import 'swiper/element/css/navigation';
 
 // Interface de tipos para objetos retornados pela api do TMDB
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 import { ActorsCarouselWrapper } from "../../styles";
 
