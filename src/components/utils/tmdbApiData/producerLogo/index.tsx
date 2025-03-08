@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // Componente para carregamento preguiçoso de imagens
 import { LazyLoadImage } from 'react-lazy-load-image-component';

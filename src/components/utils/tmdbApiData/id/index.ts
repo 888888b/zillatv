@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 /*Seleciona os primeiros 7 ids de filmes/series*/
 export const getContentId = async ( data: tmdbObjProps[] | undefined ) => {

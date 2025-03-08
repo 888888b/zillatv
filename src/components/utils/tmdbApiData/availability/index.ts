@@ -1,4 +1,4 @@
-import { tmdbObjProps } from "@/components/contexts/tmdbContext";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // Filtra e seleciona somente o filme/serie que possuir imagens disponiveis
 export const checkAvailability = async ( data: tmdbObjProps[] | undefined | (tmdbObjProps | undefined)[] ) => {
