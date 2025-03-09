@@ -61,7 +61,7 @@ export default function FavoritesList( props: ComponentProps ) {
     // };
 
     return (
-        <div className="px-4 md:px-8 xl:px-10 mt-44 mb-6 before:absolute before:top-0 before:left-0 before:w-full before:h-[550px] before:bg-gradient-to-b before:from-darkpurple before:via-darkpurple before:to-deepnight before:z-[1] relative bg-transparent before:-translate-y-44">
+        <div className="px-4 md:px-8 xl:px-10 pb-6 pt-32 xl:pt-40 relative min-h-[calc(100vh-112px)] sm:min-h-[calc(100vh-80px)] before:absolute before:top-0 before:left-0 before:w-full before:h-[550px] before:bg-gradient-to-b before:from-darkpurple before:via-darkpurple before:to-deepnight before:z-[1] bg-transparent">
             {/* titulo da seção */}
             <h1 className="font-raleway font-extrabold text-2xl lg:text-4xl text-white text-center relative z-[2]">
                 Minha lista de favoritos

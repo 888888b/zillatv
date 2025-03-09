@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
-        <div className="flex w-full gap-x-10 gap-y-5 flex-wrap-reverse bg-darkpurple justify-between items-center px-4 py-5 sm:flex-nowrap sm:py-6 md:px-6 lg:px-8 ease-linear duration-200 font-raleway">
+        <div className="flex w-full h-28 box-border gap-x-10 gap-y-5 flex-wrap-reverse bg-darkpurple justify-between items-center px-4 py-5 sm:flex-nowrap sm:py-6 sm:h-20 md:px-6 lg:px-8 ease-linear duration-200 font-raleway">
             <p className="text-xl font-medium order-1 whitespace-nowrap">Vitor Hugo</p>
             <div className="flex gap-x-5 items-center *:text-2xl order-2  sm:*:text-xl">
                 {/* Meu linkedin */}

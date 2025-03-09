@@ -29,7 +29,8 @@ export default function FavoritesPage() {
     const {
         isLoggedIn,
         favoriteMovies,
-        favoriteSeries
+        favoriteSeries,
+        uid
     } = useContext( UserDataContext );
 
     // Busca os filmes e series salvos como favoritos pelo usuario
@@ -61,14 +62,21 @@ export default function FavoritesPage() {
             setContentData([]);
         };
 
-    }, [ favoriteMovies, favoriteSeries, isLoggedIn ]);
+    }, [ favoriteMovies, favoriteSeries, isLoggedIn, uid ]);
+
+    // Caso o usuario estaja authenticado, e tenha favoritos
+    if ( contentData.length ) {
+        return (
+            <FavoritesList contentData={contentData}/>
+        );
+    };
 
     // Caso o usuario não estaja authenticado
     if ( !isLoggedIn ) {
         return (
             <UnauthenticatedUserMsg/>
         );
-    };
+    }
 
     // Caso o usuario estaja authenticado, mas não tenha favoritos
     if ( !contentData.length ) {
@@ -76,9 +84,4 @@ export default function FavoritesPage() {
             <NoFavoritesMsg/>
         );
     };
-
-    // Caso o usuario estaja authenticado, e tenha favoritos
-    return (
-        <FavoritesList contentData={contentData}/>
-    );
 };

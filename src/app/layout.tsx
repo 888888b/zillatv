@@ -5,14 +5,14 @@ import "./globals.css";
 import * as fonts from '@/app/fonts/index';
 
 import Header from "@/components/organisms/header";
-import Footer from "@/components/footer";
+import Footer from "@/components/organisms/footer";
 import LoginModal from "@/components/authenticationModals/login";
 import RegisterModal from "@/components/authenticationModals/register";
 import ProfileModal from "@/components/profileModal";
 
-import { TmdbProvider } from "@/components/contexts/tmdbContext";
-import { GlobalEventsProvider } from "@/components/contexts/globalEventsContext";
-import { UserDataProvider } from "@/components/contexts/authenticationContext";
+import { TmdbProvider } from "@/contexts/tmdbContext";
+import { GlobalEventsProvider } from "@/contexts/globalEventsContext";
+import { UserDataProvider } from "@/contexts/authenticationContext";
 
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         ${ fonts.noto_sans.variable }
         ${ fonts.inter.variable }
       `}>
-        <div className="relative overflow-x-hidden max-w-[2200px] mx-auto min-h-screen flex flex-col justify-between">
+        <div className="relative overflow-x-hidden max-w-[2200px] mx-auto">
           <TmdbProvider>
               <UserDataProvider>
                 <GlobalEventsProvider>
