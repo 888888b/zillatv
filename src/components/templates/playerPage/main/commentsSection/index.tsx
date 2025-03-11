@@ -19,7 +19,7 @@ import 'react-lazy-load-image-component/src/effects/opacity.css';
 import { UserDataContext } from "@/contexts/authenticationContext";
 import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
-import { CommentOptions } from '@/components/pages/playerPage/styles'
+import { CommentOptions } from '@/components/templates/playerPage/styles'
 
 export interface CommentsBasicProps {
     userName: string;

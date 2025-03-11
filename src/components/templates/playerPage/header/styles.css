@@ -10,13 +10,12 @@
     bottom: 0;
     left: 0;
     z-index: 15;
-    background-image: linear-gradient( to top, #020515, #020515, rgba(2, 5, 21, 0.3), transparent)
+    background-image: linear-gradient( to top, #020515, #020515, transparent, #020515)
 }
 
 @media screen and ( width >= 768px ) {
     .header-wrapper .overlay {
-        height: 40%;
-        background-image: linear-gradient( to top, #020515, rgba(2, 5, 21, 0.7), rgba(2, 5, 21, 0.3), transparent);
+        background-image: linear-gradient( to top, #020515, transparent, #020515);
     }
 
     .header-wrapper .second-overlay {
