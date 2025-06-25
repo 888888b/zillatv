@@ -1,26 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --background-color: #020515;
-  --color: rgb(255, 255, 255);
+@plugin "daisyui" {
+  themes: "dark-theme" --default;
+};
+
+/* cores necessarias para animações do daisy ui */
+@plugin "daisyui/theme" {
+  name: "dark-theme";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-300: #e5e7eb /**/;
+  --color-base-100: #ffffff /**/;
 }
 
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* cores e fontes utilizadas no projeto */
+@theme {
+  --font-inter: var(--font-inter), "sans-serif";
+  --font-raleway: var(--font-raleway), "sans-serif";
+  --color-primary: #ffff13 /*cor primaria para textos e botoes com destaque*/;
+  --color-secondary: #ffffff /*cor secondaria para textos e botoes com destaque*/;
+  --color-primary-content: #333333 /*contraste com a cor acima, para textos de botoes e outros*/;
+  --color-background: #020515 /*cor de fundo da pagina*/;
+  --color-text: #b3b4b8 /*cor padrão para textos*/;
+  --color-surface: #16142A /*contraste com a cor de fundo da pagina, para cards e seçoes*/;
+  --color-accent: #333333 /*constraste para textos em botoes de destaque*/;
+  --color-success: "" /**/;
+  --color-error: "" /**/;
 }
 
 body {
-  background-color: var(--background-color);
-  color: var(--color);
-  outline: none;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
