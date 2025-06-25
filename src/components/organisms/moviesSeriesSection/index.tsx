@@ -2,7 +2,7 @@
 
 // hooks
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import useFirebase from '@/components/hooks/firebase';
 
 // tipos
@@ -32,6 +32,7 @@ type ComponentProps = {
 
 export default function MoviesSeriesSection( props: ComponentProps ) {
 
+    const [ loadedImages, setLoadedImages ] = useState<string[]>([]);
     const { data, mediaType } = props;
     const router = useRouter();
     const {
@@ -81,6 +82,12 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
         return 'Série'
     };
 
+    // adiciona a imagem carregada a lista de imagens
+    const handleImageLoaded = ( imageId: string ) => {
+        setLoadedImages( prev => ([ ...prev, imageId ]));
+        console.log(loadedImages);
+    };
+
     return data.length ? (
         <>
             <div className='movie-serie-section-container font-inter'>
@@ -88,14 +95,13 @@ export default function MoviesSeriesSection( props: ComponentProps ) {
                     content.media_type !== 'person' ? (
                         <div key={`${content.id}-${index}`}>
                             <div className='card'>
-                                {/* Opção para adicionar o filme/serie aos favoritos */}
+                                {/* botão para adicionar o filme/serie aos favoritos */}
                                 <FavoriteButton
                                     updateFavorites={updateUserFavorites}
                                     buttonId={content.id}
                                     isFavorite={favoriteMovies?.includes(content.id) || favoriteSeries?.includes(content.id) ? true : false}
                                     mediaType={mediaType ?? content.media_type}
                                 />
-
                                 <div 
                                     className='play-icon-box'
                                     onClick={() => {

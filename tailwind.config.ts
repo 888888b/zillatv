@@ -13,6 +13,7 @@ const config: Config = {
       fontFamily: {
         raleway: ['var(--font-raleway)', 'sans-serif'],
         noto_sans: ['var(--font-noto-sans)', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif']
       },
 
       colors: {
@@ -20,7 +21,16 @@ const config: Config = {
         darkslateblue: '#483D8B',
         darkpurple: '#16142B',
         richblack: '#080C1E',
-        deepnight: '#020515'
+        deepnight: '#020515',
+
+        // novas cores
+        primary: "#FFFF13",
+        background: "#0B0019",
+        secondary: "#16142B",
+        "secondary-tx": "#a3a3a3",
+        "accent": "#FFFFFF",
+        "success": "",
+        "error": ""
       },
     },
   },

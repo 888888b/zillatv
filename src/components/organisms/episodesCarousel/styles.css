@@ -1,0 +1,15 @@
+.season-container {
+    width: 100%;
+}
+
+.season-container .embla__container {
+    display: flex;
+    column-gap: 10px;
+}
+
+.season-container .embla__slide{
+    width: 100%;
+    max-width: 384px;
+    overflow: hidden;
+    border-radius: 6px;
+}

@@ -1,24 +1,28 @@
 'use client';
 
-import React, { useState, FormEvent, useContext, useEffect, useRef } from "react";
+// hooks
+import React, { 
+    useState, 
+    FormEvent, 
+    useContext, 
+    useEffect, 
+    useRef 
+} from "react";
 import useFirebase from "@/components/hooks/firebase";
 import { usePathname } from "next/navigation";
 
-// Icones do React-icons
+// icones
 import { FaUserLarge, FaRegComments, FaPencil } from "react-icons/fa6";
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { AiFillDelete } from "react-icons/ai";
 import { GoKebabHorizontal } from "react-icons/go";
 
-// Componente para carregamento preguiçoso de imagens
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import 'react-lazy-load-image-component/src/effects/opacity.css';
-
 // Contextos
 import { UserDataContext } from "@/contexts/authenticationContext";
 import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
+// componentes
 import { CommentOptions } from '@/components/templates/playerPage/styles'
 
 export interface CommentsBasicProps {
@@ -50,7 +54,15 @@ type RepliesListProps = {
 
 export default function UsersComments() {
 
-    const { addUserCommentsToDb, getCommentsOnDb, updateUserReactionOnDb, getUserReactionOnDb, addUserReplyToDb, getRepliesOnDb } = useFirebase();
+    const { 
+        addUserCommentsToDb, 
+        getCommentsOnDb, 
+        updateUserReactionOnDb, 
+        getUserReactionOnDb, 
+        addUserReplyToDb, 
+        getRepliesOnDb 
+    } = useFirebase();
+    
     const userData = useContext( UserDataContext );
     const { dispatch } = useContext( GlobalEventsContext );
     const [ commentsList, setCommentsList ] = useState<CommentProps[]>([]);
@@ -90,11 +102,12 @@ export default function UsersComments() {
                     <div className="flex flex-row items-center justify-start">
                         {/* Foto de usuario */}
                         { comment.userPhoto ? (
-                            <LazyLoadImage
+                            <img
                                 src={comment.userPhoto}
+                                alt={`${comment.userName} profile photo`}
                                 height={44}
                                 width={44}
-                                effect="opacity"
+                                loading='lazy'
                                 className="object-cover h-11 w-11 overflow-hidden rounded-full"
                             />
                         ) : (
@@ -145,7 +158,7 @@ export default function UsersComments() {
                             <p className="text-[17px] text-white font-normal">{ comment.unlikesCount }</p>
                         </div>
                         {/* Responder */}
-                        <button onClick={() => {openReplyForm(comment.id)}} className="text-[17px] font-medium text-orangered border-none outline-none">
+                        <button onClick={() => {openReplyForm(comment.id)}} className="text-[17px] font-medium text-primary border-none outline-none">
                             Responder
                         </button>
                     </CommentOptions>
@@ -157,9 +170,9 @@ export default function UsersComments() {
                     <textarea name="comment" onInput={(e) => {handleTextArea(e)}} rows={1} className="w-full resize-y h-auto border-none outline-none rounded-lg bg-darkpurple text-white placeholder:text-neutral-400 font-normal text-[17px] overflow-y-hidden" required placeholder={`Responder @${comment.userName}`}/>
 
                     <div className="flex flex-row-reverse gap-x-5">
-                        <button type="submit" className="w-36 btn bg-darkslateblue hover:bg-darkslateblue rounded-lg text-white border-none outline-none mt-4 font-medium text-base">Publicar</button>
+                        <button type="submit" className="w-36 btn bg-primary hover:bg-primary rounded-lg text-black border-none outline-none mt-4 font-medium text-base">Publicar</button>
 
-                        <button type='button' onClick={closeReplyForm} className="w-36 btn bg-orangered hover:bg-orangered rounded-lg text-white border-none outline-none mt-4 font-medium text-base inline">Cancelar</button>
+                        <button type='button' onClick={closeReplyForm} className="w-36 btn bg-deepnight hover:bg-deepnight rounded-lg text-white border-none outline-none mt-4 font-medium text-base inline">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -174,11 +187,12 @@ export default function UsersComments() {
                 <div className="flex flex-row items-center justify-start">
                     {/* Foto de usuario */}
                     { reply.userPhoto ? (
-                        <LazyLoadImage
+                        <img
                             src={reply.userPhoto}
+                            alt={`${reply.userName} profile photo`}
                             height={44}
                             width={44}
-                            effect="opacity"
+                            loading='lazy'
                             className="object-cover h-11 w-11 overflow-hidden rounded-full"
                         />
                     ) : (
@@ -196,7 +210,7 @@ export default function UsersComments() {
                 </div>
 
                 <p className="text-[17px] font-normal text-neutral-400">
-                    Em resposta a <span className="text-orangered">@{commentAuthor}</span>
+                    Em resposta a <span className="text-primary">@{commentAuthor}</span>
                 </p>
 
                 {/* Texto do comentario */}
@@ -491,13 +505,13 @@ export default function UsersComments() {
     }, [ userData.isLoggedIn ]);
 
     return (
-        <section className="w-full rounded-md mt-7 mb-3 font-noto_sans relative">
-            <h2 className="text-xl lg:text-2xl font-semibold">Avaliação dos usuários</h2>
+        <section className="w-full rounded-md mt-10 mb-6 relative">
+            <h2 className="text-2xl font-semibold">Avaliação dos usuários</h2>
 
             { !isLoading ? (
                 <>
-                    <p className="text-lg font-normal text-neutral-300">
-                        { commentsList.length } comentário(s)
+                    <p className="text-lg lg:text-xl font-normal text-neutral-300">
+                        comentários: ({ commentsList.length })
                     </p>
 
                     {/* Container de comentarios */}
@@ -533,21 +547,21 @@ export default function UsersComments() {
                         ) : (
                             <div className="bg-darkpurple p-3 rounded-lg">
                                 <FaRegComments className="text-4xl"/>
-                                <p className="text-neutral-400 text-[17px]">Seja o primeiro a comentar</p>
+                                <p className="text-neutral-400 text-[17px] lg:text-lg">Seja o primeiro a comentar</p>
                             </div>
                         )}
                     </div>
 
                     <form onSubmit={addComment} className="mt-7 rounded-lg w-full max-w-[400px] p-3 bg-darkpurple">
-                        <textarea name="comment" onInput={(e) => handleTextArea(e)} rows={1} className="w-full resize-y h-auto border-none outline-none rounded-lg bg-darkpurple text-white placeholder:text-neutral-400 font-normal text-[17px] overflow-y-hidden" required placeholder="Adicione um comentário"/>
+                        <textarea name="comment" onInput={(e) => handleTextArea(e)} rows={1} className="w-full resize-y h-auto border-none outline-none rounded-lg bg-darkpurple text-white placeholder:text-neutral-400 font-normal text-[17px] overflow-y-hidden lg:text-lg" required placeholder="Adicione um comentário"/>
                     
-                        <button type="submit" className="w-full btn bg-darkslateblue hover:bg-darkslateblue rounded-lg text-white border-none outline-none mt-4 font-medium text-base">Publicar</button>
+                        <button type="submit" className="w-full btn bg-primary hover:bg-primary rounded-lg border-none outline-none mt-4 font-medium text-base text-black lg:text-lg">Publicar</button>
                     </form>
                 </>
             ) : (
                 <>
                     <span className="loading loading-bars loading-md mt-5 lg:loading-lg"></span>
-                    <p className="text-neutral-300">Carregando comentários...</p>
+                    <p className="text-neutral-300 lg:text-lg">Carregando comentários...</p>
                 </>
             )}
 

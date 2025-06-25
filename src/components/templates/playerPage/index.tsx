@@ -36,7 +36,7 @@ export default async function PlayerPage( props: PlayerPageProps ) {
     };
 
     return contentData.length ? (
-        <section className='min-h-screen mb-6'>
+        <section className='min-h-screen mb-6 font-inter'>
             <Header playerData={contentData[0]}/>
 
             <Main contentData={contentData[0]} contentType={ props.contentType }/>

@@ -1,8 +1,6 @@
-'use client';
-
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
-import './index.css';
+import './styles.css';
 
 type ComponentProps = {
     contentData: tmdbObjProps;
@@ -11,20 +9,17 @@ type ComponentProps = {
 
 export default function ContentDetails( props: ComponentProps ) {
 
-    // Obtem a nota do publico sobre o conteudo
-    const getImdbReviews = ( vote_average: number, vote_count: number ) => {
-        return (
-            <p className='text-[17px] font-medium font-noto_sans rounded'>
-                <span className="mr-[6px]">Imdb: </span>
+    const contentData = props.contentData;
 
-                <span className=' text-neutral-400 font-normal'>{ vote_average.toFixed(1) } ({ vote_count } Avaliações)</span>
-            </p>
-        );
+    // obtem a nota do publico sobre o conteudo
+    const getImdbReviews = ( vote_average: number, vote_count: number ) => {
+        return `${vote_average.toFixed( 1 )} (${ vote_count } Avaliações)`;
     };
+
+    // --------------------------------------------------------------------
 
     // Obtem o orçamento do filme/serie
     const handleBudgetAndRevenue = ( value: number ) => {
-
         if ( value < 1000000000 ) {
             if ( value < 1000000 ){
                 if ( value < 1000 ) {
@@ -50,113 +45,114 @@ export default function ContentDetails( props: ComponentProps ) {
         return 'Valor não disponivel';
     };
 
+    // --------------------------------------------------------------------
+
     // Obtem o tempo de duração do filme 
     const getRunTime = ( runtime: number | null ) => {
-
         if ( !runtime || runtime === 0 ) {
-            return (
-                <span className="font-noto_sans whitespace-nowrap text-[17px] font-normal text-neutral-400 ">
-                    Duração não disponivel
-                </span>
-            );
+            return 'Duração não disponivel';
         };
 
         if ( runtime < 60 ) {
-            return <span className="font-noto_sans whitespace-nowrap text-[17px] font-normal text-neutral-400 ">{ runtime }m</span>
+            return `${ runtime }m`;
         };
 
         const hours = ( runtime / 60 ).toFixed(0);
         const minites = runtime % 60;
 
-        return  <span className="font-noto_sans whitespace-nowrap text-[17px] font-normal text-neutral-400 ">{ hours }h { minites }m</span>
+        return `${ hours }h ${ minites }m`;
     };
+
+    // --------------------------------------------------------------------
 
     // Obtem o nome dos produtores do filme/serie
     const getContentProducers = ( crew: tmdbObjProps[] ) => {
         const producers = crew.filter( people => people.job === 'Producer');
-        const producersName: string[] = [];
 
-        if ( producers.length > 0 ) {
-            producers.forEach( producer => {
-                producersName.push( producer.name );
-            });
-
-            if ( producersName.length >= 2 ) return producersName.join(', ');
-            return producersName[0];
-        };
-
-        return 'Informação não disponivel';
-    };
-
-    const getContentCreator = ( creators: tmdbObjProps[] ) => {
-        const creatorsName: string[] = []
-
-        if ( !creators || creators.length === 0 ) {
+        if ( !producers.length ) {
             return 'Informação não disponivel';
         };
 
-        creators.forEach( creator => {
-            creatorsName.push( creator.name );
-        });
-
-        if ( creatorsName.length >= 2 ) return creatorsName.join(', ');
-        return creatorsName[0];
+        return producers.map( producer => producer.name).join(', ');
     };
 
+    // --------------------------------------------------------------------
+
+    const getContentCreator = ( creators: tmdbObjProps[] ) => {
+        if ( !creators || !creators.length ) {
+            return 'Informação não disponivel';
+        };
+
+        creators.map( creator => creator.name ).join(', ');
+    };
+
+    // --------------------------------------------------------------------
+
+    const getProductionCountries = ( countriesList: Record<string, (string | number)>[] ) => {
+        if ( !countriesList ) {
+            return 'Informação não disponivel';
+        };
+
+        return countriesList.map( country => (country.name)).join(', ');
+    };
 
     return (
         <div className="details-wrapper">
             {/* Coluna 1 de informações*/}
             <div>
-
                 {/* Nota do publico ao conteudo */}
-                {getImdbReviews( props.contentData.vote_average, props.contentData.vote_count )}
+                <p className='text-[17px] lg:text-lg font-medium rounded'>
+                    <span className="mr-[6px]">Imdb: </span>
+                    <span className='text-neutral-400 font-normal'>
+                        {getImdbReviews( contentData.vote_average, contentData.vote_count )}
+                    </span>
+                </p>
 
                 {/* Generos */}
-                <p className="text-[17px] font-medium rounded">
+                <p className="text-[17px] lg:text-lg font-medium rounded">
                     <span className="mr-[6px]">Gêneros:</span>
 
-                    <span className="text-neutral-400 font-normal ">
-                        { props.contentData.genres.map(( genre: Record<string, (string | number)> ) => genre.name ).join(', ')}
+                    <span className="text-neutral-400 font-normal">
+                        { contentData.genres.map(( genre: Record<string, (string | number)> ) => genre.name ).join(', ')}
                     </span>
                 </p>
 
                 {/* Criador da serie */}
                 { props.contentType === 'serie' ? (
-                    <p className="text-[17px] font-medium rounded">
+                    <p className="text-[17px] lg:text-lg font-medium rounded">
                         <span className="mr-[6px]">Criador:</span>
 
                         <span className="text-neutral-400 font-normal ">
-                            {getContentCreator( props.contentData.created_by )}
+                            {getContentCreator( contentData.created_by )}
                         </span>
                     </p>
                 ) : null }
 
                 {/* Direção */}
-                <p className="text-[17px] font-medium rounded">
+                <p className="text-[17px] lg:text-lg font-medium rounded">
                     <span className="mr-[6px]">Direção:</span>
 
                     <span className="text-neutral-400 font-normal ">
-                        {getContentProducers( props.contentData.credits.crew )}
+                        {getContentProducers( contentData.credits.crew )}
                     </span>
                 </p>
 
                 {/* Lançamento */}
-                <p className="text-[17px] font-medium rounded">
+                <p className="text-[17px] lg:text-lg font-medium rounded">
                     <span className="mr-[6px]">Data de lançamento:</span>
 
                     <span className="text-neutral-400 font-normal ">
-                        { props.contentData.release_date ?? props.contentData.first_air_date }
+                        { contentData.release_date ?? contentData.first_air_date }
                     </span>
                 </p>
 
                 {/* Orçamento */}
                 { props.contentType === 'movie' ? (
-                    <p className="text-[17px] font-medium rounded">
+                    <p className="text-[17px] lg:text-lg font-medium rounded">
                         <span className="mr-[6px]">Orçamento:</span>
 
                         <span className="text-neutral-400 font-normal ">
-                            {handleBudgetAndRevenue( props.contentData.budget )}
+                            {handleBudgetAndRevenue( contentData.budget )}
                         </span>
                     </p>
                 ) : null }
@@ -167,64 +163,63 @@ export default function ContentDetails( props: ComponentProps ) {
 
                 {/* Bilheteria */}
                 { props.contentType === 'movie' ? (
-                    <p className="text-[17px] font-medium rounded">
+                    <p className="text-[17px] lg:text-lg font-medium rounded">
                         <span className="mr-[6px]">Bilheteria:</span>
 
                         <span className="text-neutral-400 font-normal ">
-                            {handleBudgetAndRevenue( props.contentData.revenue )}
+                            {handleBudgetAndRevenue( contentData.revenue )}
                         </span>
                     </p>
                 ) : null }
 
                 {/* Pais de produção */}
-                <p className="text-[17px] font-medium rounded">
+                <p className="text-[17px] lg:text-lg font-medium rounded">
                     <span className="mr-[6px]">Pais de produção:</span>
 
                     <span className="text-neutral-400 font-normal ">
-                        { props.contentData.production_countries.map(( genre: Record<string, (string | number)> ) => genre.name ).join(', ')}
+                        {getProductionCountries(contentData.production_countries)}
                     </span>
                 </p>
 
                 {/* Empresa de produção */}
-                <p className="text-[17px] font-medium rounded">
+                <p className="text-[17px] lg:text-lg font-medium rounded">
                     <span className="mr-[6px]">Produtora(s):</span>
 
                     <span className="text-neutral-400 font-normal ">
-                        { props.contentData.production_companies.map(( company: Record<string, (string | number)> ) => company.name ).join(', ')}
+                        { contentData.production_companies.map(( company: Record<string, (string | number)> ) => company.name ).join(', ')}
                     </span>
                 </p>
 
                 {/* Duração */}
                 { props.contentType === 'movie' ? (
-                    <p className="text-[17px] font-medium rounded">
+                    <p className="text-[17px] lg:text-lg font-medium rounded">
                         <span className="mr-[6px]">Duração:</span>
-
-                        {getRunTime( props.contentData.runtime )}
+                        <span className="whitespace-nowrap text-[17px] lg:text-lg font-normal text-neutral-400">
+                            {getRunTime( contentData.runtime )}
+                        </span>
                     </p>
                 ) : null }
 
                 {/* Temporadas */}
                 { props.contentType === 'serie' ? (
-                    <p className="text-[17px] font-medium rounded">
+                    <p className="text-[17px] lg:text-lg font-medium rounded">
                         <span className="mr-[6px]">Numero de temporadas:</span>
 
                         <span className="text-neutral-400 font-normal ">
-                            { props.contentData.number_of_seasons }
+                            { contentData.number_of_seasons }
                         </span>
                     </p>
                 ) : null }
 
                 {/* Episodios */}
                 { props.contentType === 'serie' ? (
-                    <p className="text-[17px] font-medium rounded">
+                    <p className="text-[17px] lg:text-lg font-medium rounded">
                         <span className="mr-[6px]">Numero de episódios:</span>
-
                         <span className="text-neutral-400 font-normal ">
-                            { props.contentData.number_of_episodes }
+                            { contentData.number_of_episodes }
                         </span>
                     </p>
                 ) : null }
-
             </div>
         </div>
     );

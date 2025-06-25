@@ -30,7 +30,7 @@ export default function WatchTrailer(props: ComponentProps) {
             {/* aciona o player */}
             <button
                 onClick={checkboxToggle}
-                className='outline-none border-none w-full btn rounded-[4px] bg-primary  hover:bg-primary text-black text-base font-bold sm:w-64 sm:rounded-[7px]'>
+                className='outline-none border-none w-full btn rounded-[4px] bg-primary hover:bg-primary text-black text-base font-semibold lg:text-[17px] sm:w-64 sm:rounded-[7px] flex items-center'>
                 <IoPlay className="text-xl" />
                 Assistir ao trailer
             </button>

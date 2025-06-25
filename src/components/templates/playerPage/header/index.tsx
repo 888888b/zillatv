@@ -28,15 +28,15 @@ export default function Header(props: HeaderProps) {
     } = tmdbConfig;
 
     return (
-        <div className='header-wrapper font-inter'>
+        <div className='header-wrapper'>
             <div className='w-full relative'>
                 {/* Imagem do filme/serie */}
                 <div className="w-full aspect-[1/1.55] md:aspect-[1/0.7] lg:aspect-[1/0.5] max-h-[600px] md:max-h-screen">
                     <img
                         src={
                             playerData.backdrop_path ?
-                                `${high_resolution_backdrop}${playerData.backdrop_path}` :
-                                `${high_resolution_poster}${playerData.poster_path}`
+                            high_resolution_backdrop + playerData.backdrop_path :
+                            high_resolution_poster + playerData.poster_path
                         }
                         alt={`${playerData.title ?? playerData.name} movie/serie presentation image`}
                         className='w-full object-cover h-3/4 md:h-full'
@@ -51,16 +51,18 @@ export default function Header(props: HeaderProps) {
                         {playerData.title ?? playerData.name}
                     </h1>
 
-                    <div className='flex gap-x-3 text-white/60 lg:text-white/80 font-semibold items-center flex-wrap justify-start'>
+                    <div className='flex gap-x-3 text-white/60 lg:text-white/80 font-semibold items-center flex-wrap justify-start md:w-1/2 md:max-w-md'>
                         {/* data de lançamento */}
                         <span>
                             {getReleaseDate(playerData.release_date ?? playerData.first_air_date)}
                         </span>
 
                         {/* tempo de duração */}
-                        {playerData.runtime ? <span>
-                            {getRunTime(playerData.runtime)}
-                        </span> : null}
+                        {playerData.runtime && (
+                             <span>
+                                {getRunTime(playerData.runtime)}
+                            </span> 
+                        )}
 
                         {/* avaliação */}
                         <span className='hidden sm:block'>

@@ -1,19 +1,19 @@
 'use client';
 
-import { useEffect, useState, useRef } from "react";
-
-// Interface de tipos para objetos retornados pela api do TMDB
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-
-// Hook personalizado do TMDB com funções de busca de conteudo
+// hooks
+import { useEffect, useState } from "react";
 import useTmdbFetch from "@/components/hooks/tmdb";
 
-// Modal que exibe as opções de temporadas da serie
+// componentes
 import SelectSeason from "./seasonSelector";
+import EpisodesCarousel from "@/components/organisms/episodesCarousel";
+import { CarouselDefaultTitle } from "@/components/atoms/carouselDefaultTitle";
 
+// funções utilitarias
 import { handlePromise } from "@/components/utils/tmdbApiData/promise";
 
-import SeasonsCarousel from "@/components/emblaCarousel/templates/episodes/index";
+// tipos
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 type ComponentProps = {
     seasons: tmdbObjProps[];
@@ -26,33 +26,31 @@ export default function SerieSeansons( props: ComponentProps ) {
     const { fetchSeasons } = useTmdbFetch();
     const [ seasonData, setSeasonData ] = useState<tmdbObjProps>();
     const [ selectedSeasonNumber, setSelectedSeasonNumber ] = useState<string>('1')
-    const [ isLoading, setIsLoading ] = useState( true );
 
     useEffect(() => {
         ( async () => {
             const season = await handlePromise(fetchSeasons( props.serieId, selectedSeasonNumber ));
             setSeasonData( season );
-            setIsLoading( false );
         })();
     }, [ selectedSeasonNumber ]);
 
-    return seasonData?.episodes && !isLoading ? (
-        <div className='px-4 w-full pt-8 pb-6 md:px-6 lg:px-8 font-noto_sans'>
-            
+    return seasonData?.episodes ? (
+        <div className='px-4 w-full pt-8 pb-6 md:px-6 lg:px-8'>   
             {/* Seletor de temporada */}
             <SelectSeason selectedSeason={setSelectedSeasonNumber} seasonsList={props.seasons}/>
 
             {/* Titulo do carousel */}
-            <p className="mb-1 text-[17px] font-medium xl:text-lg whitespace-nowrap max-w-full overflow-hidden text-ellipsis">{props.serieName} - {seasonData?.name}</p>
-            <div className='w-full h-0.5 bg-gradient-to-r mb-3 from-orangered to-transparent'></div>
+            <CarouselDefaultTitle>
+                {props.serieName} - {seasonData?.name}
+            </CarouselDefaultTitle>
 
             {/* carousel aqui  */}
-            <SeasonsCarousel 
+            <EpisodesCarousel
                 episodes={seasonData.episodes} 
                 serieId={props.serieId} 
                 serieName={props.serieName}
                 seasonNumber={selectedSeasonNumber}
             />
         </div>
-    ) : null;
+    ) : null
 };
