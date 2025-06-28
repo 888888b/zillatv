@@ -19,18 +19,18 @@ export default function AuthButtons() {
     }; 
 
     return (
-        <div className="flex items-center gap-x-5">
+        <div className="flex items-center gap-x-5 font-semibold text-base">
             {/* botão de cadastro */}
             <button
                 style={{ animationTimingFunction: 'ease' }}
                 onClick={handleRegisterButton}
-                className="px-4 h-11 lg:h-[46px] rounded-[10px] bg-accent md:hover:scale-105 duration-300 text-black text-sm font-bold outline-none border-none">
+                className="px-5 h-12 rounded-lg bg-secondary text-primary-content font-semibold outline-none border-none active:scale-95 transition-transform duration-200 cursor-pointer">
                 Criar conta
             </button>
 
             {/* botão de login */}
             <button 
-                className="text-white text-sm outline-none border-none"
+                className="text-text sm:text-secondary cursor-pointer *:hover:text-primary transition-colors *:duration-300"
                 onClick={handleLoginButton}>
                 Entrar
             </button>

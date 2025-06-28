@@ -1,59 +1,26 @@
-// hooks
-import { useRouter, usePathname } from "next/navigation";
-import { useRef, useEffect } from "react";
-
+import Link from 'next/link';
 import './styles.css';
 
 export default function NavLinksBar({ isUserLoggedIn }:{ isUserLoggedIn: boolean }) {
 
-    const navLinksRef = useRef<(HTMLLIElement | null)[]>([]);
-    const { push } = useRouter();
-    const pathname = usePathname();
-
-    const updateLinkStyle = () => {
-        navLinksRef.current.forEach( link => {
-            if ( !link ) return
-
-            if ( `/${link.id}` === pathname ) {
-                Object.assign(link.style, { color: '#ffff13' });
-            } else {
-                Object.assign(link.style, { color: 'white' });
-            };
-        });
-    };
-
-    useEffect(() => {
-        updateLinkStyle();
-    }, [ pathname ]);
-
     return (
-        <nav className='hidden lg:block ml-10'>
-            <ul className='text-lg flex gap-x-10 items-center *:cursor-pointer *:duration-300'>
-                <li 
-                    onClick={() => push('/')} 
-                    id=''
-                    ref={(e) => {navLinksRef.current[0] = e}}>
-                    Inicio
+        <nav className='hidden lg:block'>
+            <ul className='text-base font-bold flex gap-x-[25px] items-center *:hover:text-primary *:cursor-pointer transition-colors *:duration-300 text-secondary'>
+                <li>
+                    <Link href={'/'}>Início</Link>
                 </li>
 
-                <li 
-                    onClick={() => push('/movies')} 
-                    id="movies"
-                    ref={(e) => {navLinksRef.current[1] = e}}>
-                    Filmes
+                <li>
+                    <Link href={'/movies'}>Filmes</Link>
                 </li>
-                <li 
-                    onClick={() => push('/series')} 
-                    id="series"
-                    ref={(e) => {navLinksRef.current[2] = e}}>
-                    Series
+
+                <li>
+                    <Link href={'/series'}>Séries</Link>
                 </li>
+
                 { isUserLoggedIn && (
-                    <li 
-                        onClick={() => push('/favorites')} 
-                        id="favorites"
-                        ref={(e) => {navLinksRef.current[3] = e}}>
-                        Favoritos
+                    <li>
+                        <Link href={'/favorites'}>Favoritos</Link>
                     </li>
                 )}
             </ul>

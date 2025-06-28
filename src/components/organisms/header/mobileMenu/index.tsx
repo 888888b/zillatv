@@ -33,7 +33,7 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
             };
 
             if ( link?.id !== pathname && link ) {
-                Object.assign(link.style, { color: 'white' });
+                Object.assign(link.style, { color: '#b3b4b8' });
             };
         });
     };
@@ -51,23 +51,23 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
             </div>
             <div className="drawer-side z-50">
                 <label htmlFor="header-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-                <div className="w-80 min-h-full bg-darkpurple px-4 py-6 flex flex-col">
+                <div className="w-80 min-h-full bg-surface px-5 py-6 md:px-10 flex flex-col">
                     {/* conteudo do menu aqui */}
                     <SearchBar 
                         className='w-full h-12 md:hidden' 
                         callback={closeMenu}
                     />
                     {/* links para navegação */}
-                    <ul className="font-inter font-bold text-white mt-10 flex flex-col gap-y-5 text-base *:cursor-pointer">
+                    <ul className="font-semibold text-text mt-12 flex flex-col gap-y-6 text-base *:cursor-pointer">
                         <li 
                             ref={(e) => {navLinksRef.current[0] = e}} 
                             onClick={() => handleLinkClick('/')}
                             style={{animationTimingFunction: 'ease'}}
                             className="hover:text-primary duration-300"
                             id="/">
-                            Inicio
+                            Início
                         </li>
-                        <li className="w-full h-px bg-white/10 rounded-xl"></li>
+                        <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
                         <li 
                             onClick={() => handleLinkClick('/movies')}
                             ref={(e) => {navLinksRef.current[1] = e}}
@@ -76,16 +76,16 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
                             id="/movies">
                             Filmes
                         </li>
-                        <li className="w-full h-px bg-white/10 rounded-xl"></li>
+                        <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
                         <li 
                             onClick={() => handleLinkClick('/series')}
                             ref={(e) => {navLinksRef.current[2] = e}}
                             style={{animationTimingFunction: 'ease'}}
                             className="hover:text-primary duration-300"
                             id="/series">
-                            Series
+                            Séries
                         </li>
-                        <li className="w-full h-px bg-white/10 rounded-xl"></li>
+                        <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
                         <li 
                             onClick={() => handleLinkClick('/favorites')}
                             ref={(e) => {navLinksRef.current[3] = e}}
