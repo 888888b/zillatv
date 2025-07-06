@@ -3,7 +3,7 @@ import useTmdbFetch from "@/components/hooks/tmdb";
 
 // componentes
 import MoviesSeriesCarousel from "@/components/organisms/moviesSeriesCarousel";
-import { CarouselDefaultTitle } from "@/components/atoms/carouselDefaultTitle";
+import { CarouselTitle } from "@/components/atoms/carouselTitle";
 
 // funções utilitarias
 import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
@@ -29,7 +29,7 @@ export default async function FetchCarouselData( props: carouselProps ) {
 
     return moviesList.length ? (
         <div className="mt-6 px-4 md:px-6 lg:px-8">
-            <CarouselDefaultTitle>Filmes similares</CarouselDefaultTitle>
+            <CarouselTitle>Filmes similares</CarouselTitle>
             <MoviesSeriesCarousel contentData={moviesList} contentType="movie"/>
         </div>
     ) : null;

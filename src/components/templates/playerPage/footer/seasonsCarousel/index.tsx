@@ -7,7 +7,7 @@ import useTmdbFetch from "@/components/hooks/tmdb";
 // componentes
 import SelectSeason from "./seasonSelector";
 import EpisodesCarousel from "@/components/organisms/episodesCarousel";
-import { CarouselDefaultTitle } from "@/components/atoms/carouselDefaultTitle";
+import { CarouselTitle } from "@/components/atoms/carouselTitle";
 
 // funções utilitarias
 import { handlePromise } from "@/components/utils/tmdbApiData/promise";
@@ -40,9 +40,9 @@ export default function SerieSeansons( props: ComponentProps ) {
             <SelectSeason selectedSeason={setSelectedSeasonNumber} seasonsList={props.seasons}/>
 
             {/* Titulo do carousel */}
-            <CarouselDefaultTitle>
+            <CarouselTitle>
                 {props.serieName} - {seasonData?.name}
-            </CarouselDefaultTitle>
+            </CarouselTitle>
 
             {/* carousel aqui  */}
             <EpisodesCarousel
