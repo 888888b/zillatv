@@ -48,17 +48,17 @@ export default function Header() {
 
     return (
         <MobileMenu>
-            <header ref={headerRef} className="fixed top-0 left-0 px-5 py-6 z-40 w-full flex items-center justify-between font-bold md:px-10 lg:py-9 lg:px-[70px] overflow-hidden">
+            <header ref={headerRef} className="fixed top-0 left-0 px-5 py-6 z-40 w-full flex items-center justify-between font-bold sm:px-10 lg:py-9 lg:px-[70px] overflow-hidden">
                 <div className="flex items-center gap-x-10">
                     {/* icone do menu mobile */}
-                    <label htmlFor='header-drawer' className="flex flex-col justify-center items-center gap-y-[7px] *:w-[30px] *:h-[0.1rem] *:bg-secondary *:rounded-xl bg-secondary/10 h-12 w-[70px] rounded-lg cursor-pointer lg:hidden">
+                    <label htmlFor='header-drawer' className="flex flex-col justify-center items-center gap-y-[7px] *:w-[30px] *:h-[0.1rem] *:bg-secondary *:rounded-xl bg-secondary/10 h-11 w-[60px] rounded-[10px] cursor-pointer lg:hidden">
                         <span></span>
                         <span></span>
                         <span></span>
                     </label>
 
                     {/* logo do projeto lado esquerdo */}
-                    <h1 className={`${!isLoggedIn && 'hidden sm:inline'} text-[22px] text-primary font-raleway font-black`}>
+                    <h1 className={`hidden lg:inline text-[22px] text-primary font-raleway font-black`}>
                         Zillu TV
                     </h1>
                     

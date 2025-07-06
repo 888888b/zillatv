@@ -2,9 +2,6 @@
 import { FormEvent, MouseEvent, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-// icones
-import { IoCloseCircle } from "react-icons/io5";
-
 import Image from "next/image";
 
 type SearchBarProps = {
@@ -54,16 +51,16 @@ export default function SearchBar( props: SearchBarProps ) {
     return (
         <div 
             style={{ animationTimingFunction: 'ease' }} 
-            className={`rounded-lg border-[0.1rem] oerflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-12 h-12 ${className}`}
+            className={`rounded-[10px] border-[0.1rem] oerflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-11 h-11 ${className}`}
             {...mouseEvents}>
             {/* icone de lupa */}
-            <div className="w-12 h-12 flex items-center justify-center">
+            <div className="w-11 h-11 flex items-center justify-center">
                 <Image
                     src={'/search_icon.png'}
                     alt={'search icon'}
                     width={24}
                     height={24}
-                    className="-translate-px"
+                    className="-translate-y-px"
                 />
             </div>
 

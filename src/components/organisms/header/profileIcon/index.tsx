@@ -75,13 +75,15 @@ export default function ProfileIcon() {
                     )}
                 </div>
                 {/* nome de usuario */}
-                <p className="hidden sm:flex lg:hidden xl:flex font-normal text-text font-raleway text-xl xl:text-lg items-center gap-x-1">
-                    Olá, 
-                    <span 
-                    className="font-bold text-secondary max-w-32 line-clamp-1 truncate">
-                    Vitor Hugo
-                    </span>
-                </p>
+                { name &&
+                    <p className="hidden sm:flex lg:hidden xl:flex font-normal text-text font-raleway text-xl xl:text-lg items-center gap-x-1">
+                        Olá, 
+                        <span 
+                        className="font-bold text-secondary max-w-32 line-clamp-1 truncate">
+                        {name.split(' ')[0]}
+                        </span>
+                    </p>
+                }
             </div>
         </div>
     );
