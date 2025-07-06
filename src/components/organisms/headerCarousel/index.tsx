@@ -6,54 +6,43 @@ import { useRouter } from 'next/navigation';
 
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
+import FurtherDetailsButton from '@/components/molecules/detailsButton';
+import { Title } from './title';
+import DetailsBar from './details';
+import Image from './image';
+
+import './styles.css';
 
 // tipos
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
-// funções utilitarias
-import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
-import { getRunTime } from '@/components/utils/tmdbApiData/runtime';
-import { getImdbReviews } from '@/components/utils/tmdbApiData/reviews';
-
-import { tmdbConfig } from "@/app/constants";
-
-import './styles.css';
-
 type HeaderCarouselProps = {
     currentPage: string
-    contentType: string
-    contentData: tmdbObjProps[] | undefined
+    slidesType: string
+    slidesData: tmdbObjProps[] | undefined
 };
 
 export default function HeaderCarousel( props: HeaderCarouselProps ) {
 
-    // detalhes do slide atual
-    const [ 
-        currentSlide, 
-        setCurrentSlide 
-    ] = useState<tmdbObjProps | null>( null );
-
-    // urls para imagens
-    const {
-        high_resolution_backdrop,
-        high_resolution_poster
-    } = tmdbConfig;
-
-    const getActiveSlideDetails = useCallback(( index: number ): void => {
-        if ( props.contentData ) {
-            setCurrentSlide({...props.contentData[index]});
-        };
-    }, [ props.contentData ]);
-
     const { push } = useRouter();
+    const [ currentSlide, setCurrentSlide ] = useState<tmdbObjProps | null>( null );
 
-    const navigate = ( contentId: string ) => {
-        push(`/player/${props.contentType}/${contentId}`, {
+    // seleciona o slide atual / ativo
+    const getActiveSlideDetails = useCallback(( index: number ): void => {
+        if ( props.slidesData ) {
+            setCurrentSlide({...props.slidesData[index]});
+        };
+    }, [ props.slidesData ]);
+
+
+    // lida com a nevegaçao entre paginas
+    const navigate = ( slideId: string ) => {
+        push(`/player/${props.slidesType}/${slideId}`, {
             scroll: true
         });
     };
 
-    return props.contentData ? (
+    return props.slidesData ? (
         <section className='header-slides'>
             <EmblaCarousel 
                 navigationType="header" 
@@ -62,66 +51,22 @@ export default function HeaderCarousel( props: HeaderCarouselProps ) {
                 loop={true}
                 activeSlide={getActiveSlideDetails}>
             
-                {/* Gerando slides com base na resposta da api do TMDB */}
-                { props.contentData.map(( content ) => (
-                    // Container do slide
-                    <div key={ `${props.currentPage}-${content.id}` } className='embla__slide relative'>
-                        {/* container da imagem */}
-                        <div className="header-image-container">
-                            <img
-                                src={
-                                content.backdrop_path ? 
-                                `${high_resolution_backdrop}${content.backdrop_path}` :
-                                `${high_resolution_poster}${content.poster_path}`
-                                }
-                                alt={`${content.title ?? content.name} movie/serie presentation image`}
-                                className="w-full aspect-[1/1.2] sm:h-full object-cover"
-                            />
-                        </div>    
-                    </div>
+                {/* Gerando slides apartir da resposta da api do TMDB */}
+                { props.slidesData.map(( slide ) => (
+                    // Container da imagem do slide
+                    <Image key={`${props.currentPage}-${slide.id}`} slideData={slide}/>
                 ))}  
             </EmblaCarousel>
 
             {/* detalhes do filme/serie */}
             { currentSlide ? (
-                <div className="absolute left-0 bottom-14 w-full sm:w-fit px-4 flex flex-col gap-y-5 items-center sm:items-start md:px-8 lg:bottom-1/2 lg:translate-y-1/3 xl:px-10 z-10">
+                <div className="absolute left-0 bottom-12 w-full sm:w-fit px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 sm:bottom-[133px] lg:px-[70px] z-10 pointer-events-none">
                     {/* titulo */}
-                    <h2 className="text-3xl font-extrabold text-white text-center line-clamp-2 font-raleway md:text-4xl lg:text-5xl w-1/2 sm:text-start">
-                        {currentSlide?.title ?? currentSlide?.name}
-                    </h2>
-
-                    <div className='flex gap-x-3 text-white/60 lg:text-white/80 font-semibold items-center flex-wrap justify-center'>
-                        {/* data de lançamento */}
-                        <span>
-                            {getReleaseDate(currentSlide?.release_date ?? currentSlide?.first_air_date)}
-                        </span>
-
-                        <span className='w-1 h-1 rounded-full bg-neutral-400 *:whitespace-nowrap'/>
-
-                        {/* tempo de duração */}
-                        { currentSlide?.runtime ? <span>
-                            {getRunTime(currentSlide?.runtime)}
-                        </span> : null}
-
-                        {/* avaliação */}
-                        <span className='hidden sm:block'>
-                            {getImdbReviews(currentSlide?.vote_average, currentSlide?.vote_count)}
-                        </span>
-
-                        {/* generos */}
-                        <p className='text-center'>
-                            {currentSlide?.genres.map(( genre: any ) => (
-                                genre.name
-                            )).join(', ')}
-                        </p>
-                    </div>
-
+                    <Title title={currentSlide.title ?? currentSlide.name}/>
+                    {/* lista com algumas informaçoes sobre filme/serie */}
+                    <DetailsBar slideData={currentSlide}/>
                     {/* Ir para pagina de detalhes */}
-                    <button 
-                        className="outline-none border-none w-full btn rounded-[4px] bg-primary  hover:bg-primary text-black text-base font-bold sm:w-48 sm:rounded-[10px] lg:w-52"
-                        onClick={() => navigate(currentSlide.id)}>
-                        Ver detalhes
-                    </button>
+                    <FurtherDetailsButton onClick={() => navigate(currentSlide.id)} className='mt-2'/>
                 </div>  
             ) : null }            
         </section>

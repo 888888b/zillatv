@@ -1,49 +1,84 @@
-import { UseDotButtonType } from "@/components/hooks/embla/useDotButton";
+// components
 import { DotButton } from "@/components/atoms/dotButton";
+import NextSlide from '@/components/molecules/nextSlideButton';
+import PrevSlide from '@/components/molecules/prevSlideButton';
 
-import { memo } from "react";
+// hooks
+import { memo, useRef, useEffect } from "react";
+import './styles.css';
+
+// tipos
+import { UseDotButtonType } from "@/components/hooks/embla/useDotButton";
 
 type PrevNextButtonsType = {
-    onPrevButtonClick: () => void
-    onNextButtonClick: () => void
+    onPrevButtonClick: () => void;
+    onNextButtonClick: () => void;
+    onReset: () => void;
+    isAutoplayActive: boolean;
 };
 
-type HeaderNavigationProps = UseDotButtonType & PrevNextButtonsType;
+type HeaderNavigationProps = 
+UseDotButtonType & 
+PrevNextButtonsType & 
+{
+    isAutoplayActive: boolean;
+    timeUntilNextSlide: number | null;
+}
 
 const HeaderNavigation = memo(( props: HeaderNavigationProps ) => {
-    
-    return (
-        <div className="absolute bottom-1 md:bottom-3 left-1/2 -translate-x-1/2 box-border flex items-center justify-center mb-2 z-30 lg:bottom-40">
-            {/* Botão para o slide anterior */}
-            <button 
-                onClick={props.onPrevButtonClick}
-                className='absolute w-6 h-6 bg-white rounded-full z-30 -translate-x-24 translate-y-[1px] cursor-pointer items-center justify-center hidden md:flex outline-none border-none'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-5 text-black">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                </svg>
-            </button>
 
-            {/* bullets here  */}
-            <div className="flex gap-x-2">
-                {props.scrollSnaps.map((_, index) => (
+    const bulletsBarRef = useRef<HTMLDivElement>(null);
+    const {
+        onPrevButtonClick,
+        onNextButtonClick,
+        scrollSnaps,
+        selectedIndex,
+        onDotButtonClick,
+        isAutoplayActive,
+        timeUntilNextSlide,
+        onReset
+    } = props;
+
+    useEffect(() => {
+        const bulletsBar = bulletsBarRef.current;
+        if (!bulletsBar) return;
+
+        const width = bulletsBar.clientWidth / 2;
+        Object.assign(bulletsBar.style, {transform: `translateX(${width}px)`});
+    }, [scrollSnaps]);
+
+    // ir ao slide anterior
+    const navigateToPrevSlide = () => {
+        onPrevButtonClick();
+        onReset();
+    };
+
+    // navegar ao proximo slide
+    const navigateToNextSlide = () => {
+        onNextButtonClick();
+        onReset();
+    };
+
+    return (
+        <>
+            {/* Botão para o slide anterior */}
+            
+            <PrevSlide onClick={navigateToPrevSlide} className="absolute top-1/2 -translate-y-[calc(50%+30px)] left-[8px] lg:left-[22px] bg-primary/70 hover:bg-primary"/>
+
+            {/* barra de bullets de navegaçao */}
+            <div ref={bulletsBarRef} className="bullets-bar">
+                {scrollSnaps.map((_, index) => (
                     <DotButton
                         key={index}
-                        onClick={() => props.onDotButtonClick(index)}
-                        className="w-2 h-2 rounded-full border-none outline-none"
-                        style={{ backgroundColor: index === props.selectedIndex ? 'white' : 'rgba(255, 255, 255, 0.2)' }}
+                        onClick={() => onDotButtonClick(index)}
+                        className={`bullet ${selectedIndex === index && (isAutoplayActive ? 'active-animated-bullet' : 'active-bullet')}`}
                     />
                 ))}
             </div>
 
             {/* Botão para o proximo slide */}
-            <button 
-                onClick={props.onNextButtonClick}
-                className='absolute w-6 h-6 bg-white rounded-full z-30 translate-x-24 cursor-pointer items-center justify-center translate-y-[1px] hidden md:flex outline-none border-none'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="size-5  text-black">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-            </button>
-        </div>
+            <NextSlide onClick={navigateToNextSlide} className="absolute top-1/2 -translate-y-[calc(50%+30px)] right-[8px] lg:right-[22px] bg-primary/70 hover:bg-primary"/>
+        </>
     )
 });
 

@@ -1,0 +1,88 @@
+@keyframes autoplay-progress {
+  from {
+    width: var(--bullet-width);
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+:root {
+  --bullet-width: 10px;
+  --bullet-height: 10px
+}
+
+.bullets-bar {
+  position: absolute;
+  bottom: 0;
+  right: 50vw;
+  display: flex;
+  column-gap: 12px;
+  z-index: 30;
+}
+
+.bullets-bar .bullet {
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: var(--bullet-width);
+  height: var(--bullet-height);
+  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.bullets-bar .active-bullet {
+  background-color: var(--color-primary);
+}
+
+.bullets-bar .active-animated-bullet {
+  background-color: rgb(255, 255, 19, 0.2);
+  width: 30px;
+  border-radius: 15px;
+  transition: width 0.3s linear;
+  position: relative;
+}
+
+.bullets-bar .active-animated-bullet::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: var(--bullet-height);
+  border-radius: 15px;
+  animation: autoplay-progress 7s linear forwards;
+  background-color: var(--color-primary);
+}
+
+.bullets-bar .active-animated-bullet .bullet {
+  transition: all 0s linear;
+}
+
+@media screen and (width >=640px) {
+  .bullets-bar {
+    bottom: 96px;
+  }
+}
+
+@media screen and (width >=768px) {
+  :root {
+    --bullet-width: 12px;
+    --bullet-height: 12px;
+  }
+
+
+  .bullets-bar .bullet {
+    width: var(--bullet-width);
+    height: var(--bullet-height);
+  }
+
+  .bullets-bar .active-animated-bullet {
+    width: 36px;
+  }
+
+  .bullets-bar .active-animated-bullet::before {
+    height: var(--bullet-height);
+  }
+}
