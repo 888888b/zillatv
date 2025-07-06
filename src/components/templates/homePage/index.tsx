@@ -3,11 +3,8 @@ import useTmdbFetch from "@/components/hooks/tmdb";
 
 // componentes
 import HeaderCarousel from "@/components/organisms/headerCarousel";
-import TrendingCarousel from "@/components/organisms/trendingCarousel";
-import PopularSeriesCarousel from "@/components/organisms/popularCarousel";
 import MovieSerieCarousel from "@/components/organisms/moviesSeriesCarousel";
-import { CarouselDefaultTitle } from "@/components/atoms/carouselDefaultTitle";
-import { CarouselFeatureTitle } from "@/components/atoms/carouselFeatureTitle";
+import { CarouselTitle } from "@/components/atoms/carouselTitle";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
@@ -50,62 +47,48 @@ export default async function HomePage() {
     };
 
     return (
-        <section className="min-h-screen font-inter">
+        <section className="min-h-screen">
             <HeaderCarousel 
-                contentType="movie" 
-                contentData={contentData.headerSlidesData}
+                slidesType="movie" 
+                slidesData={contentData.headerSlidesData}
                 currentPage="home"
             />
 
-            <div className="mt-6 flex flex-col gap-y-11 pb-6 lg:pb-0 px-4 md:px-8 xl:px-10 md:gap-y-14 lg:-translate-y-40 z-10 relative">
+            <div className="w-[calc(100%-40px)] mx-auto h-px bg-secondary/10 sm:hidden my-10"></div>
+
+            <div className="flex flex-col gap-y-10 pb-6 lg:pb-0 px-5 sm:px-10 lg:px-[70px] sm:-translate-y-[71px] z-10 relative">
                 {/* Carousel com filmes de ficção */}
-                <div className="flex flex-col gap-y-1">
+                <div className="flex flex-col gap-y-5">
                     {/* Titulo */}
-                    <CarouselDefaultTitle>{tmdbGenres.fiction.title}</CarouselDefaultTitle>
+                    <CarouselTitle>{tmdbGenres.fiction.title}</CarouselTitle>
                     {/* Carousel */}
                     <MovieSerieCarousel contentData={contentData.fictionMovies} contentType='movie'/>
                 </div>
 
-                <div className="w-full h-px bg-white/20"></div>
-
-                {/* Carousel com filmes/series em alta no momento */}
-                <div>
-                    {/* Titulo */}
-                    <CarouselFeatureTitle>Em alta</CarouselFeatureTitle>
-                    <p className="font-normal text-[17px] text-neutral-400 mb-5 md:text-lg">
-                        Top 20 filmes e séries mais assistidos hoje!
-                    </p>
-                    {/* Carousel */}
-                    <TrendingCarousel contentData={contentData.allTrending}/>
-                </div>
-
-                <div className="w-full h-px bg-white/20"></div>
+                <div className="w-full h-px bg-secondary/10"></div>
 
                  {/* Carousel com desenhos/animes */}
-                 <div className="flex flex-col gap-y-1">
+                 <div className="flex flex-col gap-y-5">
                     {/* Titulo */}
-                    <CarouselDefaultTitle>{tmdbGenres.cartoon.title}</CarouselDefaultTitle>
+                    <CarouselTitle>{tmdbGenres.cartoon.title}</CarouselTitle>
                     {/* Carousel */}
                     <MovieSerieCarousel contentData={contentData.cartoonShows} contentType='movie'/>
                 </div>
 
-                <div className="w-full h-px bg-white/20"></div>
+                <div className="w-full h-px bg-secondary/10"></div>
 
                 {/* Carousel com series populares */}
-                <div>     
-                    <CarouselFeatureTitle>Popular</CarouselFeatureTitle>
-                    <p className="font-normal text-[17px] text-neutral-400 mb-5 md:text-lg">
-                        Confira as séries mais avaliadas.
-                    </p>  
-                    <PopularSeriesCarousel contentData={contentData.popularSeries}/>
+                <div className="flex flex-col gap-y-5">    
+                    <CarouselTitle>Series populares</CarouselTitle>
+                    <MovieSerieCarousel contentData={contentData.popularSeries} contentType='serie'/>
                 </div>
 
-                <div className="w-full h-px bg-white/20"></div>
+                <div className="w-full h-px bg-secondary/10"></div>
 
                 {/* Carousel com filmes de terror */}
-                <div className="flex flex-col gap-y-1">
+                <div className="flex flex-col gap-y-5">
                     {/* Titulo */}
-                    <CarouselDefaultTitle>{tmdbGenres.horror.title}</CarouselDefaultTitle>
+                    <CarouselTitle>{tmdbGenres.horror.title}</CarouselTitle>
                     {/* Carousel */}
                     <MovieSerieCarousel contentData={contentData.horrorMovies} contentType='movie'/>
                 </div>

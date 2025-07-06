@@ -1,8 +1,10 @@
 // hooks
-import { ReactNode, useCallback, useEffect, memo } from "react";
+import { ReactNode, useCallback, useEffect, memo, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useDotButton } from "@/components/hooks/embla/useDotButton";
 import { usePrevNextButtons } from "@/components/hooks/embla/usePrevNextButtons";
+import { useAutoplayProgress } from "@/components/hooks/embla/useAutoplayProgress";
+
 
 // componentes
 import DefaultNavigation from "@/components/molecules/emblaDefaultNavigation";
@@ -13,6 +15,7 @@ import autoplay from 'embla-carousel-autoplay';
 
 import './styles.css';
 
+// tipos
 type EmblaCarouselProps = {
     children: ReactNode[] | ReactNode;
     loop?: boolean;
@@ -33,28 +36,40 @@ export type EmblaStateProps = {
 
 const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
 
+    // configuraçoes do carousel
     const emblaConfig = { 
         loop: props.loop, 
         slidesToScroll: props.slidesPerView, 
-        duration: 0,
-        dragFree: props.dragFree
+        duration: 20,
+        dragFree: props.dragFree,
+        breakpoints: {'(min-width: 768px)': { duration: 30 }}
     };
 
+    // plugins
     const emblaPlugins = props.autoplay ? [
-        autoplay({delay: 7000, stopOnInteraction: false})
+        autoplay({
+            delay: 7000, 
+            stopOnInteraction: false 
+        })
     ] : [];
 
+    // ref e api do embla
     const [
         emblaRef, 
         emblaApi
     ] = useEmblaCarousel( emblaConfig, emblaPlugins );
 
+    // iniciar barra de progresso do autoplay
+    const { isAutoplayActive, timeUntilNextSlide } = useAutoplayProgress(emblaApi);
+
+    // iniciar bullets de navegaçao
     const { 
         selectedIndex, 
         scrollSnaps, 
         onDotButtonClick 
     } = useDotButton(emblaApi);
 
+    // iniciar botoes de navegaçao
     const {
         prevBtnDisabled,
         nextBtnDisabled,
@@ -62,12 +77,14 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
         onNextButtonClick
     } = usePrevNextButtons(emblaApi);
 
+    // disponibilizar o slide ativo para camadas superiores
     useEffect(() => {
         if ( props.activeSlide ) {
             props.activeSlide(selectedIndex);
         };
     }, [ selectedIndex ]);
 
+    // reiniciar o carousel assim houver mudança nos slides
     useEffect(() => {
         if ( emblaApi ) {
             emblaApi.on('slidesChanged', () => scrollToIndex( 0 ));
@@ -79,13 +96,19 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
                 emblaApi.destroy();
             };
         };
-    }, [ emblaApi ]);
+    }, [ emblaApi ]);   
 
     const scrollToIndex = useCallback(( index: number ) => {
-        if ( emblaApi ) {
-            emblaApi.scrollTo( index )
+        if (emblaApi) {
+            emblaApi.scrollTo( index );
         };
     }, [ emblaApi ]);
+
+    const resetAutoplayTimer = useCallback(() => {
+        if (emblaApi) {
+            emblaApi.plugins().autoplay.reset();  
+        };
+    }, [emblaApi]);
 
     return (
         <div>
@@ -110,6 +133,9 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
                     onDotButtonClick={onDotButtonClick}  
                     onNextButtonClick={onNextButtonClick}
                     onPrevButtonClick={onPrevButtonClick}
+                    isAutoplayActive={isAutoplayActive}
+                    timeUntilNextSlide={timeUntilNextSlide}
+                    onReset={resetAutoplayTimer}
                     />
                 )}
 

@@ -20,13 +20,9 @@
     background-color: #020515;
 }
 
-/* .embla .embla__container .is-in-view {
-} */
-
 .embla .embla-navigation {
-    display: none;
-    justify-content: center;
-    align-items: center;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .embla .base-slides, .embla .trending-slides {
@@ -35,7 +31,12 @@
 }
 
 @media screen and ( width >= 768px ) {
+    .embla .embla-navigation {
+        transition: opacity 0.3s ease-in-out;
+    }
+
     .embla:hover .embla-navigation {
-        display: flex;
+        pointer-events: all;
+        opacity: 100%;
     }
 }

@@ -3,13 +3,13 @@
 }
 
 .movie-serie-carousel .scale-animation {
-    width: 150px;
+    width: 140px;
     aspect-ratio: 1 / 1.5;
     position: relative;
     cursor: pointer;
     overflow: hidden;
     background-color: rgb(22, 20, 43);
-    border-radius: 4px;
+    border-radius: 10px;
 }
 
 .movie-serie-carousel .scale-animation::before {
@@ -49,15 +49,16 @@
     } 
 
     .movie-serie-carousel .image {
-        transition: opacity 0.3s ease;
+        transition: all 0.3s ease-in-out;
     }
 
     .slide-image-container:hover .scale-animation .image {
         opacity: 40%;
+        transform: scale(110%);
     }
 
     .slide-image-container .favorite-button {
-        transition: opacity 0.3s ease;
+        transition: opacity 0.3s ease-in-out;
         opacity: 0;
     }
 
@@ -67,8 +68,8 @@
    
     .movie-serie-carousel .play-icon-box {
         opacity: 0;
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -79,7 +80,7 @@
         transform: translate(-50%, -50%);
         z-index: 11;
         cursor: pointer;
-        background-color: #ffff13;
+        background-color: var(--color-primary);
         border-radius: 50%;
     }
 

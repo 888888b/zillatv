@@ -10,14 +10,13 @@ import EmblaCarousel from '@/components/organisms/emblaSlides';
 import FavoriteButton from '@/components/molecules/favoriteButton';
 
 // icones
-import { FaPlay, FaStar } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 
 // contextos
 import { UserDataContext } from '@/contexts/authenticationContext';
 import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 // funções utilitarias
-import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 import { tmdbConfig } from '@/app/constants';
@@ -86,11 +85,11 @@ export default function MoviesSeriesCarousel( props: ComponentProps ) {
                                         isFavorite={favoriteMovies?.includes(content.id) || favoriteSeries?.includes(content.id) ? true : false}
                                     />
                                     
-                                    <div className='play-icon-box'>
-                                        <FaPlay 
-                                            className="text-richblack text-lg translate-x-px" 
-                                            onClick={() => router.push(`/player/${contentType}/${content.id}`, {scroll: true})} 
-                                        />
+                                    {/* botao de play */}
+                                    <div 
+                                        className='play-icon-box' 
+                                        onClick={() => router.push(`/player/${contentType}/${content.id}`, {scroll: true})} >
+                                        <FaPlay className="text-primary-content text-lg translate-x-px" />
                                     </div>
 
                                     {/* Imagem do conteudo a ser exibido */}
@@ -98,32 +97,38 @@ export default function MoviesSeriesCarousel( props: ComponentProps ) {
                                         className="scale-animation" 
                                         onClick={() => router.push(`/player/${contentType}/${content.id}`, {scroll: true})}>
                                         <img
-                                            src={content.poster_path ? `${low_resolution_poster}${content.poster_path}` : `${low_resolution_backdrop}${content.backdrop_path}`}
-                                            alt={`${content.title ?? content.name} ${contentType} presentation image`}
-                                            className="image"
+                                            src={
+                                                content.poster_path ? 
+                                                `${low_resolution_poster}${content.poster_path}` : 
+                                                `${low_resolution_backdrop}${content.backdrop_path}`
+                                            }
+                                            alt={`
+                                                ${content.title ?? content.name} ${contentType} presentation image`
+                                            }
+                                            className="image min-w-full min-h-full object-cover"
                                         />
                                     </div>
                                 </div>
         
                                 {/* Container de informações sobre o conteudo */}
-                                <div className="mt-2 relative pr-2 max-w-[150px] md:max-w-[200px] xl:max-w-56">      
+                                <div className="mt-[10px] relative pr-2 max-w-[140px] md:max-w-[200px] xl:max-w-56 lg:hidden">      
                                     {/* Titulo */}
                                     <h3 
-                                        className="font-bold text-base text-white line-clamp-1 md:text-[17px]">
+                                        className="font-medium text-base text-secondary line-clamp-1">
                                         {content.title ?? content.name}
                                     </h3>
 
-                                    <div 
+                                    {/* <div 
                                         className="flex items-center gap-x-3 font-normal text-neutral-400 text-[15px] md:text-base">
-                                        {/* Data de lançamento */}
+                                        Data de lançamento
                                         <p>
                                             {getReleaseDate(content.release_date ?? content.first_air_date)}
                                         </p>
-                                        {/* Nota do publico ao conteudo */}
+                                        Nota do publico ao conteudo
                                         <p className="flex items-center gap-x-1 text-primary">
                                             {(content.vote_average).toFixed(0)}/10
                                         </p>
-                                    </div> 
+                                    </div>  */}
                                 </div>
                             </>
                         </div>

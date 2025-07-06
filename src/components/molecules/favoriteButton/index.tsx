@@ -1,20 +1,16 @@
-import { HTMLAttributes, useState, useEffect } from 'react';
+import { ComponentPropsWithRef, useState, useEffect } from 'react';
+import { BookmarkIcon } from '@/components/atoms/bookmarkIcon';
 
-import { FaRegHeart, FaHeart } from "react-icons/fa";
-
-import './styles.css';
-
-type ComponentProps = {
-    isFavorite: boolean
-    buttonId: string
-    mediaType?: string 
+type ComponentProps = ComponentPropsWithRef<'button'> & {
+    isFavorite: boolean;
+    buttonId: string;
+    mediaType?: string;
     updateFavorites: ( itemId: string, mediaType: string ) => void
-} & HTMLAttributes<HTMLButtonElement>
+}
 
 export default function FavoriteButton( props: ComponentProps ) {
-
     const [ isLoading, setIsLoading ] = useState( false );
-    const { 
+    const {
         updateFavorites,
         buttonId,
         mediaType,
@@ -24,31 +20,24 @@ export default function FavoriteButton( props: ComponentProps ) {
     } = props;
 
     useEffect(() => {
-        setIsLoading( false );
-    }, [ props.isFavorite ]);
+        setIsLoading(false);
+    }, [props.isFavorite]);
 
     const handleFavoriteButton = () => {
-        updateFavorites( buttonId, mediaType ?? 'movie' );
-        setIsLoading( true );
+        updateFavorites(buttonId, mediaType ?? 'movie');
+        setIsLoading(true);
     };
 
     return (
-        <button 
-            { ...rest } 
-            className={`favorite-button ${className}`}
+        <button
+            {...rest}
+            className={`favorite-button z-30 absolute top-3 right-3 w-fit h-fit cursor-pointer text-text hover:text-secondary ${className}`}
             onClick={handleFavoriteButton}
-            >
-            { isLoading ? (
-                <span className='loading loading-bars loading-md absolute top-[10px] right-3'></span>
+        >
+            {isLoading ? (
+                <span className='loading loading-bars loading-lg'></span>
             ) : (
-                <>
-                    <FaRegHeart 
-                        className={`${isFavorite ? "hidden" : "inline"} text-white absolute top-3 right-3 text-[22px]`}
-                    />
-                    <FaHeart 
-                        className={`${isFavorite ? "inline" : "hidden"} text-orangered absolute top-3 right-3 text-[22px]`}
-                    />
-                </>
+                <BookmarkIcon/>
             )}
         </button>
     );
