@@ -29,8 +29,8 @@ export default async function MoviesPage() {
     return contentData.length ? (
        <div className='w-full min-h-screen font-inter'>
             <HeaderCarousel 
-                contentType='serie' 
-                contentData={contentData}
+                slidesType='serie' 
+                slidesData={contentData}
                 currentPage='series'
             />
 
