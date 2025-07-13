@@ -85,7 +85,7 @@
 }
 
 .header-slides h2, .header-slides ul {
-  animation-duration: 200ms;
+  animation-duration: 150ms;
   will-change: transform;
 }
 
@@ -107,7 +107,13 @@
   }
 
   .header-slides h2, .header-slides ul {
-    animation-duration: 300ms;
+    animation-duration: 200ms;
+  }
+}
+
+@media screen and ( width >= 1024px ) {
+  .header-slides h2, .header-slides ul {
+    animation-duration: 230ms;
   }
 }
 
