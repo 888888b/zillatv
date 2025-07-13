@@ -1,6 +1,6 @@
 // hooks
 import { useRouter, usePathname } from "next/navigation";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 // tipos
 import { ReactNode } from "react";
@@ -16,15 +16,15 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
     const pathname = usePathname();
 
     // lida com a navegação e fechamento do menu
-    const handleLinkClick = ( path: string ) => {
+    const handleLinkClick = useCallback(( path: string ) => {
         push(path);
         drawerInputRef.current?.click();
-    };
+    }, [ drawerInputRef, push ]);
 
     // fechamento direto do menu
-    const closeMenu = () => {
+    const closeMenu = useCallback(() => {
         drawerInputRef.current?.click();
-    };
+    }, [ drawerInputRef ]);
 
     const updateLinkStyle = () => {
         navLinksRef.current.forEach( link => {

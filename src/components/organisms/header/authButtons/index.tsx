@@ -1,5 +1,5 @@
 // hooks
-import { useContext } from "react";
+import { useContext, useCallback } from "react";
 
 // contextos
 import { GlobalEventsContext } from "@/contexts/globalEventsContext";
@@ -10,13 +10,13 @@ export default function AuthButtons() {
         dispatch
     } = useContext( GlobalEventsContext );
 
-    const handleLoginButton = () => {
+    const handleLoginButton = useCallback(() => {
         dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: true});
-    };
+    }, [ dispatch ]);
 
-    const handleRegisterButton = () => {
+    const handleRegisterButton = useCallback(() => {
         dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: true});
-    }; 
+    }, [ dispatch ]); 
 
     return (
         <div className="flex items-center gap-x-5 font-bold text-sm *:uppercase">
@@ -30,7 +30,7 @@ export default function AuthButtons() {
 
             {/* botão de login */}
             <button 
-                className="text-text lg:text-secondary cursor-pointer *:hover:text-primary transition-colors *:duration-300"
+                className="text-text lg:text-secondary/90 cursor-pointer hover:text-primary transition-colors duration-300"
                 onClick={handleLoginButton}>
                 Entrar
             </button>

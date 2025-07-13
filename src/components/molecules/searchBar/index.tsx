@@ -1,5 +1,5 @@
 // hooks
-import { FormEvent, MouseEvent, useState, useEffect } from "react";
+import { FormEvent, MouseEvent, useState, useEffect, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 import Image from "next/image";
@@ -17,12 +17,12 @@ export default function SearchBar( props: SearchBarProps ) {
     const pathname = usePathname();
     const { className, callback, animation } = props;
 
-    const handleFormSubmit = ( e:FormEvent ) => {
+    const handleFormSubmit = useCallback(( e:FormEvent ) => {
         e.preventDefault();
         push(`/search?keyword=${searchInputValue}`, {scroll: true});
         pathname === '/search' && refresh();
         callback && callback();
-    };
+    }, [ pathname, push, refresh, callback, searchInputValue ]);
 
     useEffect(() => {
         if ( pathname !== '/search' ) {
@@ -31,16 +31,16 @@ export default function SearchBar( props: SearchBarProps ) {
     }, [ pathname ]);
 
     // ativada sempre que o mouse entra da area da barra de pesquisa 
-    const onMouseOverSearchBar = (e: MouseEvent<HTMLDivElement>): void => {
+    const onMouseOverSearchBar = useCallback((e: MouseEvent<HTMLDivElement>): void => {
         if ( searchInputValue.length ) return;
         e.currentTarget.style.width = '28vw';
-    };
+    }, [ searchInputValue ]);
 
     // ativada sempre que o mouse sai da area da barra de pesquisa 
-    const onMouseOutSearchBar = (e: MouseEvent<HTMLDivElement>): void => {
+    const onMouseOutSearchBar = useCallback((e: MouseEvent<HTMLDivElement>): void => {
         if ( searchInputValue.length ) return;
         e.currentTarget.style.width = '48px';
-    };
+    }, [ searchInputValue ]);
 
     // adiciona os eventos de mouse para que a animaçao funcione
     const mouseEvents = animation ? {
@@ -51,7 +51,7 @@ export default function SearchBar( props: SearchBarProps ) {
     return (
         <div 
             style={{ animationTimingFunction: 'ease' }} 
-            className={`rounded-[10px] border-[0.1rem] oerflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-11 h-11 ${className}`}
+            className={`rounded-[10px] border-[0.1rem] oerflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-12 h-11 ${className}`}
             {...mouseEvents}>
             {/* icone de lupa */}
             <div className="w-11 h-11 flex items-center justify-center">
