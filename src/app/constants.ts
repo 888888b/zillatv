@@ -1,7 +1,9 @@
 export const tmdbConfig = {
     high_resolution_poster: 'https://image.tmdb.org/t/p/original',
     high_resolution_backdrop: 'https://image.tmdb.org/t/p/original',
-    low_resolution_poster: 'https://image.tmdb.org/t/p/w500',
+    medium_resolution_poster: 'https://image.tmdb.org/t/p/w780',
+    medium_resolution_backdrop: 'https://image.tmdb.org/t/p/w1280',
+    low_resolution_poster: 'https://image.tmdb.org/t/p/w342',
     low_resolution_backdrop: 'https://image.tmdb.org/t/p/w780',
     profile_photo_base_url: 'https://image.tmdb.org/t/p/w185',
     still_image_base_url: 'https://image.tmdb.org/t/p/original',
