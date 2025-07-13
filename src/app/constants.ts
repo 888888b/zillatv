@@ -10,16 +10,18 @@ export const tmdbConfig = {
 };
 
 export const tmdbGenres = {
-    release: { genre: 'release', title: 'Em Destaque: Os Filmes Mais Recentes' },
-    horror: { genre: '27', title: 'Horror em exibição' },
-    action: { genre: '28', title: 'Adrenalina em cartaz' },
-    comedy: { genre: '35', title: 'Comédia: Diversão com a família' },
-    cartoon: { genre: '16', title: 'Diversão para Crianças' },
-    romance: { genre: '10749', title: 'Histórias de Amor à Moda Antiga' },
-    documentary: { genre: '99', title: 'Documentando o mundo' },
-    war: { genre: '10752', title: 'Guerra: Uma Batalha pela Sobrevivência' },
-    fiction: { genre: '878', title: 'Universos paralelos: Ficção' },
-    adventure: { genre: '12', title: 'Desbravando o desconhecido: Aventuras' }
+  release: { genre: 'release', title: 'Em destaque: os filmes mais recentes' },
+  horror: { genre: '27', title: 'Terror' },
+  action: { genre: '28', title: 'Ação' },
+  comedy: { genre: '35', title: 'Comédia' },
+  cartoon: { genre: '16', title: 'Desenho' },
+  romance: { genre: '10749', title: 'Histórias de amor à moda antiga' },
+  documentary: { genre: '99', title: 'Documentario' },
+  war: { genre: '10752', title: 'Guerra: uma batalha pela sobrevivência' },
+  fiction: { genre: '878', title: 'Ficção' },
+  adventure: { genre: '12', title: 'Desbravando o desconhecido: aventuras' },
+  trending: { title: 'Em alta' },
+  popular: { title: 'Séries populares' }
 };
 
 
