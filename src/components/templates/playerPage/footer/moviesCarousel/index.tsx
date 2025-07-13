@@ -30,7 +30,7 @@ export default async function FetchCarouselData( props: carouselProps ) {
     return moviesList.length ? (
         <div className="mt-6 px-4 md:px-6 lg:px-8">
             <CarouselTitle>Filmes similares</CarouselTitle>
-            <MoviesSeriesCarousel contentData={moviesList} contentType="movie"/>
+            <MoviesSeriesCarousel slidesData={moviesList} slidesType="movie"/>
         </div>
     ) : null;
 };
