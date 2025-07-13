@@ -145,4 +145,5 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     );
 });
 
+EmblaCarousel.displayName = 'EmblaCarousel';
 export default EmblaCarousel;

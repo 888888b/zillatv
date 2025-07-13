@@ -81,4 +81,5 @@ const HeaderNavigation = memo(( props: HeaderNavigationProps ) => {
     )
 });
 
+HeaderNavigation.displayName = 'HeaderNavigation';
 export default HeaderNavigation;

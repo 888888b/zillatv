@@ -42,4 +42,5 @@ const Title = memo(({ title }: { title: string }) => {
     );
 });
 
+Title.displayName = 'HeaderSlideTitle';
 export default Title;

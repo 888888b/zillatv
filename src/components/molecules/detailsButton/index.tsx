@@ -14,4 +14,5 @@ const FurtherDetailsButton = memo(( props: ComponentPropsWithRef<'button'> ) => 
     );
 });
 
+FurtherDetailsButton.displayName = 'FurtherDetailsButton';
 export default FurtherDetailsButton;

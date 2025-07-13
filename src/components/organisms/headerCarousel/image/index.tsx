@@ -10,8 +10,8 @@ const Image = memo(( props: ComponentProps ) => {
     const { slideData, className, ...rest } = props;
     // urls para imagens
     const {
-        high_resolution_backdrop,
-        high_resolution_poster
+        medium_resolution_backdrop,
+        medium_resolution_poster
     } = tmdbConfig;
 
     return (
@@ -20,8 +20,8 @@ const Image = memo(( props: ComponentProps ) => {
             <img
                 src={
                 slideData.backdrop_path ?
-                `${high_resolution_backdrop}${slideData.backdrop_path}` :
-                `${high_resolution_poster}${slideData.poster_path}`
+                `${medium_resolution_backdrop}${slideData.backdrop_path}` :
+                `${medium_resolution_poster}${slideData.poster_path}`
                 }
                 loading='lazy'
                 alt={`${slideData.title ?? slideData.name} movie/serie presentation image`}
@@ -31,4 +31,5 @@ const Image = memo(( props: ComponentProps ) => {
     );
 });
 
+Image.displayName = 'HeaderCarouselImage';
 export default Image;

@@ -87,4 +87,5 @@ const DetailsBar = memo(({slideData} : {slideData: tmdbObjProps}) => {
     );
 });
 
+DetailsBar.displayName = 'DetailsBar';
 export default DetailsBar;
