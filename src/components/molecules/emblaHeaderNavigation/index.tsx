@@ -4,7 +4,7 @@ import NextSlide from '@/components/molecules/nextSlideButton';
 import PrevSlide from '@/components/molecules/prevSlideButton';
 
 // hooks
-import { memo, useRef, useEffect } from "react";
+import { memo, useRef, useEffect, useCallback } from "react";
 import './styles.css';
 
 // tipos
@@ -35,7 +35,6 @@ const HeaderNavigation = memo(( props: HeaderNavigationProps ) => {
         selectedIndex,
         onDotButtonClick,
         isAutoplayActive,
-        timeUntilNextSlide,
         onReset
     } = props;
 
@@ -48,16 +47,16 @@ const HeaderNavigation = memo(( props: HeaderNavigationProps ) => {
     }, [scrollSnaps]);
 
     // ir ao slide anterior
-    const navigateToPrevSlide = () => {
+    const navigateToPrevSlide = useCallback(() => {
         onPrevButtonClick();
         onReset();
-    };
+    }, [ onReset, onPrevButtonClick ]);
 
     // navegar ao proximo slide
-    const navigateToNextSlide = () => {
+    const navigateToNextSlide = useCallback(() => {
         onNextButtonClick();
         onReset();
-    };
+    }, [ onReset, onNextButtonClick ]);
 
     return (
         <>
@@ -82,5 +81,4 @@ const HeaderNavigation = memo(( props: HeaderNavigationProps ) => {
     )
 });
 
-HeaderNavigation.displayName = 'HeaderNavigation';
 export default HeaderNavigation;

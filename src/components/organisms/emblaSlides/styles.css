@@ -1,3 +1,4 @@
+
 .embla {
     position: relative;
     box-sizing: border-box;
@@ -25,12 +26,23 @@
     pointer-events: none;
 }
 
-.embla .base-slides, .embla .trending-slides {
+.embla .base-slides,
+.embla .trending-slides {
     position: relative;
     overflow: hidden;
 }
 
-@media screen and ( width >= 768px ) {
+.embla .disable-slide {
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.embla .active-slide {
+    pointer-events: auto;
+    visibility: visible;
+}
+
+@media screen and (width >=768px) {
     .embla .embla-navigation {
         transition: opacity 0.3s ease-in-out;
     }

@@ -1,7 +1,7 @@
-import { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef, memo } from "react";
 import { EyeIcon } from "@/components/atoms/eyeIcon";
 
-export default function FurtherDetailsButton( props: ComponentPropsWithRef<'button'> ) {
+const FurtherDetailsButton = memo(( props: ComponentPropsWithRef<'button'> ) => {
     const { className, ...rest } = props;
 
     return (
@@ -12,4 +12,6 @@ export default function FurtherDetailsButton( props: ComponentPropsWithRef<'butt
             Ver detalhes
         </button>
     );
-};
+});
+
+export default FurtherDetailsButton;

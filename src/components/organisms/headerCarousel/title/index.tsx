@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import '../styles.css';
 
-export const Title = ({ title }: { title: string }) => {
+const Title = memo(({ title }: { title: string }) => {
     const ref = useRef<HTMLHeadingElement>(null);
     
     const animation = () => {
@@ -40,4 +40,6 @@ export const Title = ({ title }: { title: string }) => {
     return (
         <h2 ref={ref} className="text-3xl md:duration-300 sm:text-4xl sm:text-start font-black text-secondary text-center line-clamp-1 font-raleway md:text-5xl truncate max-w-8/12 md:leading-14 sm:max-w-2xl"/>  
     );
-};
+});
+
+export default Title;

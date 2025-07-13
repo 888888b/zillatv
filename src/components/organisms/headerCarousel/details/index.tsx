@@ -1,5 +1,5 @@
 // hooks
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, memo } from 'react';
 
 // funções utilitarias
 import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
@@ -7,7 +7,7 @@ import { getRunTime } from '@/components/utils/tmdbApiData/runtime';
 import { getImdbReviews } from '@/components/utils/tmdbApiData/reviews';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
-export default function DetailsBar({slideData} : {slideData: tmdbObjProps}) {
+const DetailsBar = memo(({slideData} : {slideData: tmdbObjProps}) => {
     const ref = useRef<HTMLUListElement>(null);
     const [ slide, setSlide ] = useState<tmdbObjProps | null>(null);
     
@@ -85,4 +85,6 @@ export default function DetailsBar({slideData} : {slideData: tmdbObjProps}) {
                 }
         </ul>
     );
-};
+});
+
+export default DetailsBar;

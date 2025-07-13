@@ -57,6 +57,7 @@
 
 .header-slides .embla__slide {
   width: 100%;
+  position: relative;
 }
 
 .header-image-container {
@@ -85,6 +86,7 @@
 
 .header-slides h2, .header-slides ul {
   animation-duration: 200ms;
+  will-change: transform;
 }
 
 @media screen and ( width >= 768px ) {

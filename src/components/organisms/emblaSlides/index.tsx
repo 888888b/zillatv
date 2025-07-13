@@ -1,5 +1,5 @@
 // hooks
-import { ReactNode, useCallback, useEffect, memo, useRef } from "react";
+import { ReactNode, useCallback, useEffect, memo } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useDotButton } from "@/components/hooks/embla/useDotButton";
 import { usePrevNextButtons } from "@/components/hooks/embla/usePrevNextButtons";
@@ -23,8 +23,9 @@ type EmblaCarouselProps = {
     duration?: number;
     autoplay?: boolean;
     navigationType: 'default' | 'header';
-    dragFree?: boolean
-    activeSlide?: ( index: number ) => void
+    dragFree?: boolean;
+    activeSlide?: ( index: number ) => void;
+    scrollSnaps?: ( list: number[] ) => void;
 };
 
 export type EmblaStateProps = {
@@ -42,7 +43,7 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
         slidesToScroll: props.slidesPerView, 
         duration: 20,
         dragFree: props.dragFree,
-        breakpoints: {'(min-width: 768px)': { duration: 30 }}
+        breakpoints: {'(min-width: 768px)': { duration: 25 }}
     };
 
     // plugins
@@ -79,10 +80,10 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
 
     // disponibilizar o slide ativo para camadas superiores
     useEffect(() => {
-        if ( props.activeSlide ) {
-            props.activeSlide(selectedIndex);
-        };
-    }, [ selectedIndex ]);
+        if (!props.activeSlide || !props.scrollSnaps) return;
+        props.activeSlide(selectedIndex);
+        props.scrollSnaps(scrollSnaps);
+    }, [ selectedIndex, scrollSnaps ]);
 
     // reiniciar o carousel assim houver mudança nos slides
     useEffect(() => {
@@ -144,5 +145,4 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     );
 });
 
-EmblaCarousel.displayName = 'EmblaCarousel';
 export default EmblaCarousel;
