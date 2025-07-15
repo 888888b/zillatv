@@ -24,9 +24,8 @@ type EmblaCarouselProps = {
     autoplay?: boolean;
     navigationType: 'default' | 'header';
     dragFree?: boolean;
-    activeSlide?: ( index: number ) => void;
     activeSlides?: ( indexList: number[], numberOfSlides: number ) => void;
-    scrollSnaps?: ( list: number[] ) => void;
+    activeIndex?: ( index: number, numberOfSlides: number ) => void;
 };
 
 export type EmblaStateProps = {
@@ -94,21 +93,20 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     useEffect(() => {
         if ( !props.activeSlides || !emblaApi ) return;
         emblaApi.on('slidesInView', setSlidesInView);
+        emblaApi.on('slidesChanged', returnToBeggining);
         setSlidesInView();
         return () => {
             emblaApi.off('slidesInView', setSlidesInView);
+            emblaApi.off('slidesChanged', returnToBeggining);
         };
     }, [ emblaApi ]);
 
     // reiniciar o carousel assim houver mudança nos slides
     useEffect(() => {
-        if ( !emblaApi ) return;
-        emblaApi.on('slidesChanged', returnToBeggining);
-        return () => {
-            if ( !emblaApi ) return;
-            emblaApi.off('slidesChanged', returnToBeggining);
-        };
-    }, [ emblaApi ]);   
+        if ( !props.activeIndex || !emblaApi ) return;
+        const numberOfSlides = emblaApi.slideNodes().length;
+        props.activeIndex(selectedIndex, numberOfSlides);
+    }, [ emblaApi, selectedIndex ]);   
 
     const scrollToIndex = useCallback(( index: number ) => {
         if (emblaApi) {

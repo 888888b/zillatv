@@ -28,7 +28,6 @@ export default function HeaderCarousel( props: HeaderCarouselProps ) {
     const { slidesData, slidesType, currentPage } = props;
     const [ currentSlide, setCurrentSlide ] = useState<tmdbObjProps | null>(null);
     const [ activeSlides, setActiveSlides ] = useState<number[]>([]);
-    const [ scrollSnaps, setScrollSnaps ] = useState<number[]>([]);
 
     // lida com a nevegaçao entre paginas
     const navigate = useCallback(( slideId: string ) => {
@@ -37,21 +36,14 @@ export default function HeaderCarousel( props: HeaderCarouselProps ) {
         });
     }, [slidesType, push]);
 
-    // recebe uma lista com o index de cada slide do carousel
-    const getScrollSnaps = useCallback(( list: number[] ) => {
-        setScrollSnaps(list);
-    }, []);
-
     // recebe o index do slide e atualiza a lista de slides ativos
-    const getActiveSlide = useCallback(( index: number ) => {
-        if (!slidesData || !scrollSnaps ) return;
-        const snaps = scrollSnaps.length - 1;
-        const prev = index === 0 ? snaps : index - 1;
-        const next = index === snaps ? 0 : index + 1;
-        setCurrentSlide({...slidesData[index]});
-        setActiveSlides([prev, index, next]);
-        console.log(prev, index, next);
-    }, [ slidesData, scrollSnaps ]);
+    const getActiveSlide = useCallback(( slideInView: number, numberOfSlides: number ): void => {
+        if (!slidesData) return;
+        const prev = slideInView === 0 ? numberOfSlides - 1 : slideInView - 1;
+        const next = slideInView === numberOfSlides - 1 ? 0 : slideInView + 1;
+        setCurrentSlide({...slidesData[slideInView]});
+        setActiveSlides([prev, slideInView, next]);
+    }, [ slidesData ]);
 
     return slidesData ? (
         <section className='header-slides'>
@@ -60,8 +52,7 @@ export default function HeaderCarousel( props: HeaderCarouselProps ) {
                 slidesPerView={1} 
                 autoplay={true}
                 loop={true}
-                activeSlide={getActiveSlide}
-                scrollSnaps={getScrollSnaps}>
+                activeIndex={getActiveSlide}>
             
                 {/* Gerando slides apartir da resposta da api do TMDB */}
                 { slidesData.map(( slide, index ) => (
