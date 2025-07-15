@@ -25,6 +25,7 @@ type EmblaCarouselProps = {
     navigationType: 'default' | 'header';
     dragFree?: boolean;
     activeSlide?: ( index: number ) => void;
+    activeSlides?: ( indexList: number[], numberOfSlides: number ) => void;
     scrollSnaps?: ( list: number[] ) => void;
 };
 
@@ -78,24 +79,34 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
         onNextButtonClick
     } = usePrevNextButtons(emblaApi);
 
+    const setSlidesInView = useCallback(() => {
+        if (!props.activeSlides || !emblaApi) return;
+        const inView = emblaApi.slidesInView();
+        const numberOfSlides = emblaApi.slideNodes().length;
+        props.activeSlides(inView, numberOfSlides);
+    }, [ emblaApi ]);
+
+    const returnToBeggining = useCallback(() => {
+        scrollToIndex(0);
+    }, []);
+  
     // disponibilizar o slide ativo para camadas superiores
     useEffect(() => {
-        if (!props.activeSlide || !props.scrollSnaps) return;
-        props.activeSlide(selectedIndex);
-        props.scrollSnaps(scrollSnaps);
-    }, [ selectedIndex, scrollSnaps ]);
+        if ( !props.activeSlides || !emblaApi ) return;
+        emblaApi.on('slidesInView', setSlidesInView);
+        setSlidesInView();
+        return () => {
+            emblaApi.off('slidesInView', setSlidesInView);
+        };
+    }, [ emblaApi ]);
 
     // reiniciar o carousel assim houver mudança nos slides
     useEffect(() => {
-        if ( emblaApi ) {
-            emblaApi.on('slidesChanged', () => scrollToIndex( 0 ));
-        };
-        
+        if ( !emblaApi ) return;
+        emblaApi.on('slidesChanged', returnToBeggining);
         return () => {
-            if ( emblaApi ) {
-                emblaApi.off('slidesChanged', () => scrollToIndex(0));
-                emblaApi.destroy();
-            };
+            if ( !emblaApi ) return;
+            emblaApi.off('slidesChanged', returnToBeggining);
         };
     }, [ emblaApi ]);   
 
