@@ -26,7 +26,7 @@
   --color-surface: #16142A /*contraste com a cor de fundo da pagina, para cards e seçoes*/;
   --color-accent: #333333 /*constraste para textos em botoes de destaque*/;
   --color-success: "" /**/;
-  --color-error: "" /**/;
+  --color-error: red /**/;
 }
 
 :root {
