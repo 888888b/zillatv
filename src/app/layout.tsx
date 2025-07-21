@@ -6,8 +6,8 @@ import * as fonts from '@/app/fonts/index';
 
 import Header from "@/components/organisms/header";
 import Footer from "@/components/organisms/footer";
-import LoginModal from "@/components/authenticationModals/login";
-import RegisterModal from "@/components/authenticationModals/register";
+import LoginModal from "@/components/organisms/loginModal";
+import RegisterModal from "@/components/organisms/registerModal";
 import ProfileModal from "@/components/profileModal";
 
 import { TmdbProvider } from "@/contexts/tmdbContext";
