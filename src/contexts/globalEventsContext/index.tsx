@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useReducer } from "react";
 
-type ErrorMessages = {
+export type ErrorMessages = {
     login: string;
     register: string;
     formInstructions: string;
