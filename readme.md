@@ -5,7 +5,6 @@
 <img src="public/project_home.png" alt="Captura de Tela da tela de inicio do ZiluTV - filmes e series">
 
 <br/>
-<br/>
 
 
 
