@@ -17,7 +17,7 @@ type SearchPageProps = {
     keyword: string | undefined
 };
 
-export default async function SearchPage( props: SearchPageProps ) {
+export default async function SearchPage(props: SearchPageProps) {
     const contentData: tmdbObjProps[] = [];
     let contentType: string | undefined;
 
@@ -25,25 +25,27 @@ export default async function SearchPage( props: SearchPageProps ) {
         fetchMoviesByGenre,
         fetchMultiTypes
     } = useTmdbFetch();
-    const { keyword } = props; 
+    const { keyword } = props;
 
-    if ( keyword ) {
-        const content = await fetchMultiTypes( keyword );
-        const filtered = await checkAvailability( content ); 
-        contentData.push( ...filtered );
+    if (keyword) {
+        const content = await fetchMultiTypes(keyword);
+        const filtered = await checkAvailability(content);
+        contentData.push(...filtered);
         contentType = undefined;
     } else {
-        const movies = await fetchMoviesByGenre('878');    
-        const filtered = await checkAvailability( movies );    
-        contentData.push( ...filtered );
+        const movies = await fetchMoviesByGenre('878');
+        const filtered = await checkAvailability(movies);
+        contentData.push(...filtered);
         contentType = 'movie';
     };
 
-    return contentData.length ? (
-        <section className='search-page-container'>
-            <div className='my-36 z-[3]'>
-                <ResultsSectionTitle contentType={'movie'} searchTerm={keyword}/>
-                <SearchResults data={contentData} mediaType={contentType}/>
+    return contentData ? (
+        <section className='search-page-container px-5 sm:px-10 lg:px-[70px]'>
+            <div className='overlay'/>
+            <div className='z-[2] mt-44'>
+                <ResultsSectionTitle mediaType={'movie'}>{keyword}</ResultsSectionTitle>
+                <div className='w-full h-px bg-secondary/10 rounded-3xl my-10' ></div >
+                <SearchResults data={contentData} mediaType={contentType} />
             </div>
         </section>
     ) : null;

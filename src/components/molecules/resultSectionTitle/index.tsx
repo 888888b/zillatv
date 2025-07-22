@@ -1,35 +1,35 @@
 type ComponentProps = {
-    searchTerm: string | undefined
-    contentType: string
+    children?: string
+    mediaType: string
 };
 
-export default function SectionTitle( props: ComponentProps ) {
-    const { contentType, searchTerm } = props;
+export default function children( props: ComponentProps ) {
+    const { mediaType, children } = props;
 
     return (
         <>
             {
-                 searchTerm ? (
+                 children ? (
                     <>
-                        <p className='text-white/70 font-raleway font-semibold text-base md:text-lg'>
+                        <p className='text-text font-raleway font-semibold text-base md:text-lg'>
                             Todos os resultados para
                         </p>
-                        <h2 className="text-2xl font-raleway font-bold md:text-4xl xl:text-5xl">
-                            {searchTerm}
+
+                        <h2 className="text-3xl text-secondary font-raleway font-extrabold md:text-4xl xl:text-5xl line-clamp-2 truncate leading-[1.25] max-w-[550px]">
+                            {children}
                         </h2>
                     </>
                 ) : (
                     <>
-                        <p className='text-white/70 font-raleway font-semibold text-base md:text-lg'>
+                        <p className='text-text font-raleway font-semibold text-base md:text-lg'>
                                 Exibindo
                             </p>
                         <h2 className="text-2xl font-raleway md:text-4xl font-bold xl:text-5xl">
-                            Top {contentType === 'movie' ? 'filmes' : 'series'}
+                            Top {mediaType === 'movie' ? 'filmes' : 'series'}
                         </h2>
                     </>
                 )
             }
-            < div className = 'w-full h-px bg-white/20 rounded-3xl mb-7 mt-7' ></div >
         </>
     );
 };

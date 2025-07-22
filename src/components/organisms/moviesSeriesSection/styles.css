@@ -4,32 +4,22 @@
     grid-template-columns: repeat( auto-fill, minmax(150px, 1fr) );
     column-gap: 10px;
     row-gap: 40px;
-    margin-top: 12px;
 }
 
-.movie-serie-section-container .card {
+.movie-serie-section-container .card-image {
     position: relative;
     width: 100%;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: 10px;
     aspect-ratio: 1 / 1.5;
+    cursor: pointer
 };
 
-.movie-serie-section-container .image-box {
-    width: 100%;
+.movie-serie-section-container .scale-animation {
     position: relative;
-    cursor: pointer;
-    height: 100%;
 }
 
-.movie-serie-section-container .image {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(22, 20, 43);
-    object-fit: cover;
-}
-
-.movie-serie-section-container .image-box::before {
+.movie-serie-section-container .scale-animation::before {
     content: '';
     position: absolute;
     width: 400px;
@@ -38,7 +28,12 @@
     top: 0;
     right: 0;
     transform: translate(50%, -50%);
-    background-image: radial-gradient( ellipse, rgb(2, 5, 21), transparent, transparent );
+    background-image: radial-gradient( 
+        ellipse, 
+        var(--color-background), 
+        transparent, 
+        transparent 
+    );
     z-index: 10;
 }
 
@@ -48,20 +43,20 @@
 
 @media screen and ( width >= 768px ) {
     .movie-serie-section-container {
-        grid-template-columns: repeat( auto-fill, minmax(190px, 1fr) );
+        grid-template-columns: repeat( auto-fill, minmax(200px, 1fr) );
     }
 
-    .movie-serie-section-container .image-box::before {
+    .movie-serie-section-container .scale-animation::before {
         display: none;
     }
 
     .movie-serie-section-container .image {
-        transition: opacity 0.3s ease;
-        will-change: opacity;
+        transition: all 0.3s ease-in-out;
     }
 
-    .movie-serie-section-container .card:hover .image {
+    .movie-serie-section-container .card-image:hover .image {
         opacity: 40%;
+        transform: scale(110%);
     } 
 
     .movie-serie-section-container .play-icon-box {
@@ -78,20 +73,26 @@
         transform: translate(-50%, -50%);
         z-index: 11;
         cursor: pointer;
-        background-color: #ffff13;
+        background-color: var(--color-primary);
         border-radius: 50%;
     }
 
-    .movie-serie-section-container .card:hover .play-icon-box {
+    .movie-serie-section-container .card-image:hover .play-icon-box {
         opacity: 100%;
     }
 
-    .movie-serie-section-container .card button {
+    .movie-serie-section-container .card-image button {
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.3s ease-in-out;
     }
 
-    .movie-serie-section-container .card:hover button {
+    .movie-serie-section-container .card-image:hover button {
         opacity: 100%;
+    }
+}
+
+@media screen and ( width >= 1024px ) {
+    .movie-serie-section-container {
+        row-gap: 0px;
     }
 }
