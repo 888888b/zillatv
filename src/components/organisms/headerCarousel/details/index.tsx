@@ -8,7 +8,7 @@ import { getImdbReviews } from '@/components/utils/tmdbApiData/reviews';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 const DetailsBar = memo(({slideData} : {slideData: tmdbObjProps}) => {
-    const ref = useRef<HTMLUListElement>(null);
+    const ref = useRef<HTMLParagraphElement>(null);
     const [ slide, setSlide ] = useState<tmdbObjProps | null>(null);
     
     const animation = () => {
@@ -47,43 +47,34 @@ const DetailsBar = memo(({slideData} : {slideData: tmdbObjProps}) => {
     }, [slideData]);
 
     return (
-        <ul ref={ref} className='flex gap-x-3 text-text font-medium items-center flex-wrap justify-center sm:justify-start text-base sm:max-w-2xl'>
+        <p ref={ref} className='flex gap-x-3 text-text font-medium items-center flex-nowrap justify-start sm:justify-start text-base max-w-full sm:max-w-2xl truncate line-clamp-1'>
                 { slide &&
                     <>
                         {/* data de lançamento */}
-                        <li>
-                            {getReleaseDate(slide.release_date ?? slide.first_air_date)}
-                        </li>
+                        {getReleaseDate(slide.release_date ?? slide.first_air_date)}
 
                         {/* separador */}
                         {slide.runtime &&
-                            <li className='w-1 h-1 rounded-full bg-text *:whitespace-nowrap' />
+                            <span className='w-1 h-1 rounded-full bg-text ' />
                         }
 
                         {/* tempo de duração */}
                         {slide.runtime ?
-                            <li>
-                                {getRunTime(slide.runtime)}
-                            </li>
+                            getRunTime(slide.runtime)
                         : null}
 
                         {/* separador */}
-                        <li className='w-1 h-1 rounded-full bg-text *:whitespace-nowrap' />
-
-                        {/* avaliação */}
-                        <li className='hidden sm:block'>
-                            {getImdbReviews(slide.vote_average, slide.vote_count)}
-                        </li>
+                        <span className='w-1 h-1 rounded-full bg-text' />
 
                         {/* generos */}
-                        <li className='text-center'>
+                        <span className='text-center truncate'>
                             {slide.genres.map((genre: any) => (
                                 genre.name
                             )).join(', ')}
-                        </li> 
+                        </span> 
                     </>
                 }
-        </ul>
+        </p>
     );
 });
 

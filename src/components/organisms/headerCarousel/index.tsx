@@ -67,7 +67,7 @@ export default function HeaderCarousel( props: HeaderCarouselProps ) {
 
             {/* detalhes do filme/serie */}
             { currentSlide ? (
-                <div className="absolute left-0 bottom-12 w-full sm:w-fit px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 sm:bottom-[133px] lg:px-[70px] z-10 pointer-events-none">
+                <div className="absolute left-0 bottom-12 w-full sm:w-fit px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 sm:bottom-[133px] lg:px-[70px] z-10 pointer-events-none overflow-hidden">
                     {/* titulo */}
                     <Title title={currentSlide.title ?? currentSlide.name}/>
                     {/* lista com algumas informaçoes sobre filme/serie */}
