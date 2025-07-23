@@ -17,13 +17,14 @@ import FavoritesList from "./favoritesList";
 
 // funções utilitarias
 import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
+import { ScrollToTop } from "@/components/utils/globalActions/scrollToTop";
 
 export default function FavoritesPage() {
 
-    const [ contentData, setContentData ] = useState<tmdbObjProps[]>([]);
-    const { 
-        fetchMoviesByIdList, 
-        fetchSeriesByIdList 
+    const [contentData, setContentData] = useState<tmdbObjProps[]>([]);
+    const {
+        fetchMoviesByIdList,
+        fetchSeriesByIdList
     } = useTmdbFetch();
 
     const {
@@ -31,57 +32,68 @@ export default function FavoritesPage() {
         favoriteMovies,
         favoriteSeries,
         uid
-    } = useContext( UserDataContext );
+    } = useContext(UserDataContext);
 
     // Busca os filmes e series salvos como favoritos pelo usuario
     const fetchUserFavorites = async () => {
         const movies = [];
         const series = [];
 
-        if ( favoriteMovies ) {
-            const response = await fetchMoviesByIdList( favoriteMovies );
-            movies.push( ...response );
+        if (favoriteMovies) {
+            const response = await fetchMoviesByIdList(favoriteMovies);
+            movies.push(...response);
         };
 
-        if ( favoriteSeries ) {
-            const response = await fetchSeriesByIdList( favoriteSeries );
-            series.push( ...response );
+        if (favoriteSeries) {
+            const response = await fetchSeriesByIdList(favoriteSeries);
+            series.push(...response);
         };
 
-        const filtered = await checkAvailability([ ...movies, ...series ]);
-        setContentData( filtered );
+        const filtered = await checkAvailability([...movies, ...series]);
+        setContentData(filtered);
     };
 
     useEffect(() => {
-        if ( isLoggedIn ) {
-            if ( favoriteMovies || favoriteSeries ) {
+        if (isLoggedIn) {
+            if (favoriteMovies || favoriteSeries) {
                 fetchUserFavorites();
                 return;
             };
-            
+
             setContentData([]);
         };
 
-    }, [ favoriteMovies, favoriteSeries, isLoggedIn, uid ]);
+    }, [favoriteMovies, favoriteSeries, isLoggedIn, uid]);
+
+    ScrollToTop();
 
     // Caso o usuario estaja authenticado, e tenha favoritos
-    if ( contentData.length ) {
+    if (contentData) {
         return (
-            <FavoritesList contentData={contentData}/>
+            <>
+                <FavoritesList contentData={contentData} />
+                <ScrollToTop/>
+            </>
         );
     };
 
     // Caso o usuario não estaja authenticado
-    if ( !isLoggedIn ) {
+    if (!isLoggedIn) {
         return (
-            <UnauthenticatedUserMsg/>
+            <>
+                <UnauthenticatedUserMsg />
+                <ScrollToTop/>
+            </>
         );
     }
 
     // Caso o usuario estaja authenticado, mas não tenha favoritos
-    if ( !contentData.length ) {
+    if (!contentData) {
         return (
-            <NoFavoritesMsg/>
+            <>
+                <NoFavoritesMsg />
+                <ScrollToTop/>
+            </>
         );
     };
 };

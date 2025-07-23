@@ -12,6 +12,7 @@ import { tmdbObjProps } from "@/contexts/tmdbContext";
 // funções utilitarias
 import { getContentId } from "@/components/utils/tmdbApiData/id";
 import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
+import { ScrollToTop } from "@/components/utils/globalActions/scrollToTop";
 
 import { tmdbGenres } from "@/app/constants";
 
@@ -123,6 +124,8 @@ export default async function HomePage() {
                     </>
                 )}
             </div>
+
+            <ScrollToTop/>
         </section>
     );
 };

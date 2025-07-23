@@ -11,6 +11,7 @@ import { tmdbObjProps } from '@/contexts/tmdbContext';
 // funções utilitarias
 import { checkAvailability } from '@/components/utils/tmdbApiData/availability';
 import { getContentId } from '@/components/utils/tmdbApiData/id';
+import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
 
 export default async function MoviesPage() {
 
@@ -26,15 +27,18 @@ export default async function MoviesPage() {
     const filtered = await checkAvailability( series );
     contentData.push( ...filtered );
 
-    return contentData.length ? (
-       <div className='w-full min-h-screen font-inter'>
-            <HeaderCarousel 
-                slidesType='serie' 
-                slidesData={contentData}
-                currentPage='series'
-            />
+    return contentData ? (
+       <>
+           <div className='w-full min-h-screen font-inter'>
+                <HeaderCarousel
+                    slidesType='serie'
+                    slidesData={contentData}
+                    currentPage='series'
+                />
+                <SeriesSection/>
+            </div>
 
-            <SeriesSection/>
-        </div>
+            <ScrollToTop/>
+       </>
     ) : null;
 };

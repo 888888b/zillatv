@@ -7,6 +7,8 @@ import useTmdbFetch from '@/components/hooks/tmdb';
 import { tmdbObjProps } from '../../../contexts/tmdbContext';
 import dynamic from 'next/dynamic';
 
+import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
+
 type PlayerPageProps = {
     contentId: string;
     contentType: string;
@@ -16,35 +18,37 @@ import Header from './header/index';
 import SeasonsCarousel from './footer/seasonsCarousel';
 import Main from './main/index'
 
-export default async function PlayerPage( props: PlayerPageProps ) {
+export default async function PlayerPage(props: PlayerPageProps) {
 
     const { fetchSeriebyId, fetchMovieById } = useTmdbFetch();
     const contentData: tmdbObjProps[] = [];
 
-    if ( props.contentType === 'movie' ) {
+    if (props.contentType === 'movie') {
         const movie: tmdbObjProps | undefined = await fetchMovieById(props.contentId);
-        if ( movie ) {
-            contentData.push( movie );
+        if (movie) {
+            contentData.push(movie);
         };
     };
 
-    if ( props.contentType === 'serie' || props.contentType === 'tv' ) {
+    if (props.contentType === 'serie' || props.contentType === 'tv') {
         const serie: tmdbObjProps | undefined = await fetchSeriebyId(props.contentId);
-        if ( serie ) {
-            contentData.push( serie );
+        if (serie) {
+            contentData.push(serie);
         };
     };
 
-    return contentData.length ? (
-        <section className='min-h-screen mb-6 font-inter'>
-            <Header playerData={contentData[0]}/>
+    return contentData ? (
+        <>
+            <section className='min-h-screen mb-6 font-inter'>
+                <Header playerData={contentData[0]} />
+                <Main contentData={contentData[0]} contentType={props.contentType} />
+                {props.contentType === 'movie' ?
+                    <SimilarMovies movieId={props.contentId} /> :
+                    <SeasonsCarousel serieName={contentData[0].name} serieId={props.contentId} seasons={contentData[0].seasons} />
+                }
+            </section>
 
-            <Main contentData={contentData[0]} contentType={ props.contentType }/>
-            
-            { props.contentType === 'movie' ? 
-                <SimilarMovies movieId={props.contentId}/> :
-                <SeasonsCarousel serieName={contentData[0].name} serieId={props.contentId} seasons={contentData[0].seasons}/>    
-            }
-        </section>
+            <ScrollToTop/>
+        </>
     ) : null;
 };

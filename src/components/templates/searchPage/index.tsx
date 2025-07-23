@@ -10,6 +10,7 @@ import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
 import { checkAvailability } from '@/components/utils/tmdbApiData/availability';
+import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
 
 import './styles.css';
 
@@ -40,13 +41,17 @@ export default async function SearchPage(props: SearchPageProps) {
     };
 
     return contentData ? (
-        <section className='search-page-container px-5 sm:px-10 lg:px-[70px]'>
-            <div className='overlay'/>
-            <div className='z-[2] mt-44'>
-                <ResultsSectionTitle mediaType={'movie'}>{keyword}</ResultsSectionTitle>
-                <div className='w-full h-px bg-secondary/10 rounded-3xl my-10' ></div >
-                <SearchResults data={contentData} mediaType={contentType} />
-            </div>
-        </section>
+        <>
+            <section className='search-page-container px-5 sm:px-10 lg:px-[70px]'>
+                <div className='overlay' />
+                <div className='z-[2] mt-44'>
+                    <ResultsSectionTitle mediaType={'movie'}>{keyword}</ResultsSectionTitle>
+                    <div className='w-full h-px bg-secondary/10 rounded-3xl my-10' ></div >
+                    <SearchResults data={contentData} mediaType={contentType} />
+                </div>
+            </section>
+
+            <ScrollToTop/>
+        </>
     ) : null;
 };
