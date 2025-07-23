@@ -24,7 +24,7 @@ export default function children( props: ComponentProps ) {
                         <p className='text-text font-raleway font-semibold text-base md:text-lg'>
                                 Exibindo
                             </p>
-                        <h2 className="text-2xl font-raleway md:text-4xl font-bold xl:text-5xl">
+                        <h2 className="text-2xl font-raleway md:text-4xl font-bold xl:text-5xl text-secondary">
                             Top {mediaType === 'movie' ? 'filmes' : 'series'}
                         </h2>
                     </>
