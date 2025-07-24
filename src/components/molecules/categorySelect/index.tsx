@@ -71,9 +71,9 @@ const GenreSelect = memo((props: ComponentProps) => {
                         backgroundColor: state.isSelected ? 'color-mix(in oklab, var(--color-primary) 100%, transparent)' : 'transparent',
                         color: state.isSelected ? 'var(--color-accent)' : 'var(--color-text)',
                         ":hover": {
-                            backgroundColor: 'var(--color-primary)',
-                            color: 'var(--color-accent)',
-                            fontWeight: '600'
+                            // backgroundColor: 'var(--color-primary)',
+                            // color: 'var(--color-accent)',
+                            textDecoration: 'underline'
                         },
                     }),
                     menu: (styles) => ({
@@ -88,7 +88,7 @@ const GenreSelect = memo((props: ComponentProps) => {
                         marginTop: '10px',
                         padding: 'none',
                         backgroundColor: 'var(--color-surface)',
-                        border: '1px solid var(--color-secondary)',
+                        border: '1px solid color-mix(in oklab, var(--color-secondary) 10%, transparent)',
                         '@media screen and (width >= 640px)': {
                            left: '0',
                            transform: 'none'
