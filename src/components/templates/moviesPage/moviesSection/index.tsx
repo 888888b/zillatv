@@ -1,35 +1,34 @@
 'use client';
 
 // hooks
-import { 
-    useContext, 
-    useCallback, 
-    useState, 
-    useEffect 
+import {
+    useCallback,
+    useState,
+    useEffect
 } from "react";
 import useTmdbFetch from "@/components/hooks/tmdb";
 
 // componentes
-import CategoryBar from "@/components/molecules/categoryBar";
+import CategorySelect from "@/components/molecules/categorySelect";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
-
-// contextos
-import { TmdbContext, tmdbObjProps } from "@/contexts/tmdbContext";
 
 // funções utilitarias
 import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
+
+import { tmdbGenres } from "@/app/constants";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 type ComponentProps = {
     className?: string
 };
 
-export default function MoviesSection( props: ComponentProps ) {
+export default function MoviesSection(props: ComponentProps) {
 
-    const [ selectedGenre, setSelectedGenre ] = useState('16');
-    const [ 
-        contentData, 
-        setContentData 
-    ] = useState<tmdbObjProps[] | null>( null );
+    const [selectedGenre, setSelectedGenre] = useState('16');
+    const [
+        contentData,
+        setContentData
+    ] = useState<tmdbObjProps[] | null>(null);
 
     // funções para buscar filmes
     const {
@@ -37,43 +36,37 @@ export default function MoviesSection( props: ComponentProps ) {
         fetchReleasedMovies
     } = useTmdbFetch();
 
-    const { movieGenres } = useContext( TmdbContext );
-
-    const updateSelectedGenre = useCallback(( newGenre: string ) => {
-        setSelectedGenre( newGenre );
-    }, []);
+    const getSelectedGenre = useCallback((newGenre: string) => {
+        setSelectedGenre(newGenre);
+    }, [ setSelectedGenre ]);
 
     // buscar filmes por genero
     const fetchMovies = async () => {
-        const movies = await fetchMoviesByGenre( selectedGenre );
-        const filtered = await checkAvailability( movies );
-        setContentData([ ...filtered ]);
+        const movies = await fetchMoviesByGenre(selectedGenre);
+        const filtered = await checkAvailability(movies);
+        setContentData([...filtered]);
     };
 
-     // buscar os filmes mais recentes
-     const fetchLatestMovies = async () => {
+    // buscar os filmes mais recentes
+    const fetchLatestMovies = async () => {
         const movies = await fetchReleasedMovies();
-        const filtered = await checkAvailability( movies );
-        setContentData([ ...filtered ]);
+        const filtered = await checkAvailability(movies);
+        setContentData([...filtered]);
     };
 
     useEffect(() => {
-        if ( selectedGenre === 'release' ) {
-            fetchLatestMovies();
-        } else {
-            fetchMovies();
-        };       
-    }, [ selectedGenre ]);
+        selectedGenre === 'release' ? fetchLatestMovies() : fetchMovies();
+    }, [selectedGenre]);
 
     return (
-        <div className={`flex flex-col gap-y-10 px-4 md:px-8 xl:px-10 my-6 lg:my-0 lg:-translate-y-24 relative z-10 ${props.className}`}>
-            <CategoryBar
-                onSelectGenre={updateSelectedGenre}
-                genresList={movieGenres}
+        <div 
+            className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-20 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
+            <CategorySelect
+            onSelectGenre={getSelectedGenre}
+            genresList={tmdbGenres}
             />
-            { contentData ?
-                <MoviesSeriesSection data={contentData} mediaType="movie"/>
-            : null }
+            <div className="w-full h-px rounded-3xl bg-secondary/10"/>
+            {contentData && <MoviesSeriesSection data={contentData} mediaType="movie" />}
         </div>
     );
 };
