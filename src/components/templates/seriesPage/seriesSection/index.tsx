@@ -2,7 +2,6 @@
 
 // hooks
 import { 
-    useContext, 
     useCallback, 
     useState, 
     useEffect 
@@ -10,14 +9,14 @@ import {
 import useTmdbFetch from "@/components/hooks/tmdb";
 
 // componentes
-import CategoryBar from "@/components/molecules/categoryBar";
-import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
-
-// contextos
-import { TmdbContext, tmdbObjProps } from "@/contexts/tmdbContext";
+import GenreSelect from "@/components/molecules/categorySelect";
+import Series from "@/components/organisms/moviesSeriesSection";
 
 // funções utilitarias
 import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
+
+import { tmdbSerieGenres } from "@/app/constants";
+import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 type ComponentProps = {
     className?: string
@@ -25,7 +24,7 @@ type ComponentProps = {
 
 export default function SeriesSection( props: ComponentProps ) {
 
-    const [ selectedGenre, setSelectedGenre ] = useState('16');
+    const [ selectedGenre, setSelectedGenre ] = useState('release');
     const [ 
         contentData, 
         setContentData 
@@ -36,8 +35,6 @@ export default function SeriesSection( props: ComponentProps ) {
         fetchSeriesByGenre,
         fetchReleasedSeries
     } = useTmdbFetch();
-
-    const { serieGenres } = useContext( TmdbContext );
 
     const updateSelectedGenre = useCallback(( newGenre: string ) => {
         setSelectedGenre( newGenre );
@@ -66,13 +63,13 @@ export default function SeriesSection( props: ComponentProps ) {
     }, [ selectedGenre ]);
 
     return (
-        <div className={`flex flex-col gap-y-10 px-4 md:px-8 xl:px-10 my-6 lg:my-0 lg:-translate-y-24 relative z-10 ${props.className}`}>
-            <CategoryBar
+        <div className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-20 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
+            <GenreSelect
                 onSelectGenre={updateSelectedGenre}
-                genresList={serieGenres}
+                genresList={tmdbSerieGenres}
             />
             { contentData ?
-                <MoviesSeriesSection data={contentData} mediaType="serie"/>
+                <Series data={contentData} mediaType="serie"/>
             : null }
         </div>
     );

@@ -15,30 +15,30 @@ import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
 
 export default async function MoviesPage() {
 
-    const contentData: tmdbObjProps[]  = [];
-    const { 
+    const contentData: tmdbObjProps[] = [];
+    const {
         fetchPopularSeries,
         fetchSeriesByIdList
     } = useTmdbFetch();
 
     const popularSeries = await fetchPopularSeries();
-    const seriesIdList = await getContentId( popularSeries );
-    const series = await fetchSeriesByIdList( seriesIdList );
-    const filtered = await checkAvailability( series );
-    contentData.push( ...filtered );
+    const seriesIdList = await getContentId(popularSeries);
+    const series = await fetchSeriesByIdList(seriesIdList);
+    const filtered = await checkAvailability(series);
+    contentData.push(...filtered);
 
     return contentData ? (
-       <>
-           <div className='w-full min-h-screen font-inter'>
+        <>
+            <div className='w-full min-h-screen'>
                 <HeaderCarousel
                     slidesType='serie'
                     slidesData={contentData}
                     currentPage='series'
                 />
-                <SeriesSection/>
+                <SeriesSection />
             </div>
 
-            <ScrollToTop/>
-       </>
+            <ScrollToTop />
+        </>
     ) : null;
 };
