@@ -96,7 +96,7 @@
   );
 }
 
-.header-slides h2, .header-slides p {
+.header-slides .title-animation-box, .header-slides p {
   animation-duration: 150ms;
   will-change: transform;
 }
@@ -118,13 +118,13 @@
     );
   }
 
-  .header-slides h2, .header-slides p {
+  .header-slides .title-animation-box, .header-slides p {
     animation-duration: 200ms;
   }
 }
 
 @media screen and ( width >= 1024px ) {
-  .header-slides h2, .header-slides p {
+  .header-slides .title-animation-box, .header-slides p {
     animation-duration: 230ms;
   }
 }
