@@ -15,9 +15,6 @@ import { FaPlay, FaStar } from "react-icons/fa";
 import { UserDataContext } from '@/contexts/authenticationContext';
 import { GlobalEventsContext } from '@/contexts/globalEventsContext';
 
-// funções utilitarias
-import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
-
 // componentes
 import FavoriteButton from '@/components/molecules/favoriteButton';
 
@@ -79,10 +76,6 @@ export default function MoviesSeriesSection(props: ComponentProps) {
         dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: true });
     }, [isLoggedIn, favoriteMovies, favoriteSeries, dispatch]);
 
-    const getSlideType = (mediaType: string) => {
-        return mediaType === 'movie' ? "Filme" : "Série"
-    };
-
     // verifica se o conteudo esta nos favorites e retorna true ou false
     const findFavoriteOnList = useCallback((id: string): boolean => {
         const isFavorite =
@@ -110,14 +103,14 @@ export default function MoviesSeriesSection(props: ComponentProps) {
                                 {/* botao de play */}
                                 <div
                                     className='play-icon-box'
-                                    onClick={() => navigate(card.id, card.media_type)} >
+                                    onClick={() => navigate(mediaType ?? card.media_type, card.id)} >
                                     <FaPlay className="text-primary-content text-lg translate-x-px" />
                                 </div>
 
                                 {/* Imagem do conteudo a ser exibido */}
                                 <div
                                     className="scale-animation w-full h-full"
-                                    onClick={() => navigate(card.id, card.media_type)}>
+                                    onClick={() => navigate(mediaType ?? card.media_type, card.id)}>
                                     <img
                                         src={
                                             card.poster_path ?
