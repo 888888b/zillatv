@@ -5,7 +5,7 @@ export const fetchMovieById = async ( movieId: string ): Promise<tmdbObjProps | 
   const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
   try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${token}&language=pt-BR&page=1&include_image_language=pt&append_to_response=videos,credits`);
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${token}&language=pt-BR&page=1&include_image_language=pt,en&append_to_response=videos,credits,images`);
       if ( response.ok ){
         const data = await response.json();
         return data;
