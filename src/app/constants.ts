@@ -8,22 +8,23 @@ export const tmdbConfig = {
   low_resolution_backdrop: 'https://image.tmdb.org/t/p/w780',
   profile_photo_base_url: 'https://image.tmdb.org/t/p/w185',
   still_image_base_url: 'https://image.tmdb.org/t/p/original',
+  ImageBasePath: 'https://image.tmdb.org/t/p'
 };
 
 // generos e respectivos titulos para filmes
 export const tmdbGenres = {
-  // trending: { genre:'trending', title: 'Em alta' },
+  cartoon: { genre: '16', title: 'Desenho' },
   release: { genre: 'release', title: 'Lançamentos' },
   horror: { genre: '27', title: 'Terror' },
   action: { genre: '28', title: 'Ação' },
   comedy: { genre: '35', title: 'Comédia' },
-  cartoon: { genre: '16', title: 'Desenho' },
   romance: { genre: '10749', title: 'Romance' },
-  documentary: { genre: '99', title: 'Documentario' },
+  documentary: { genre: '99', title: 'Documentario' }, 
   war: { genre: '10752', title: 'Guerra' },
   fiction: { genre: '878', title: 'Ficção' },
   adventure: { genre: '12', title: 'Aventura' },
-  // popular: { genre:'popular', title: 'Populares' }
+  trending: { genre:'trending', title: 'Em alta' },
+  popular: { genre:'popular', title: 'Populares' }
 };
 
 // generos e respectivos titulos para series
