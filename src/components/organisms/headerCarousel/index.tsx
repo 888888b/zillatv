@@ -10,7 +10,7 @@ import FurtherDetailsButton from '@/components/molecules/detailsButton';
 import Title from './title';
 import DetailsBar from './details';
 import dynamic from 'next/dynamic';
-const SlideImage = dynamic(() => import('./image/index'), { ssr: true });
+const SlideImage = dynamic(() => import('../../atoms/heroImage/index'), { ssr: true });
 
 import './styles.css';
 
@@ -114,7 +114,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
                     // Container da imagem do slide
                     <SlideImage
                         key={`${currentPage}-${slide.id}`}
-                        className={`embla__slide ${activeSlides.includes(index) ? 'active-slide' : 'disable-slide'}`}
+                        className={`embla__slide header-image-container ${activeSlides.includes(index) ? 'active-slide' : 'disable-slide'}`}
                         slideData={slide}
                     />
                 ))}

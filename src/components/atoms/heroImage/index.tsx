@@ -16,7 +16,7 @@ const Image = memo(( props: ComponentProps ) => {
 
     return (
         /* container da imagem */
-        <div {...rest} className={`header-image-container aspect-square lg:aspect-video min-h-[500px] max-h-[100vh] ${className}`}>
+        <div {...rest} className={`aspect-square lg:aspect-video min-h-[500px] max-h-[100vh] ${className}`}>
             <img
                 src={
                 slideData.backdrop_path ?
