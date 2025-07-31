@@ -12,6 +12,9 @@ import DetailsBar from './details';
 import dynamic from 'next/dynamic';
 const SlideImage = dynamic(() => import('../../atoms/heroImage/index'), { ssr: true });
 
+// icons
+import { EyeIcon } from "@/components/atoms/eyeIcon";
+
 import './styles.css';
 
 // tipos
@@ -71,7 +74,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
         setActiveSlides([prev, slideInView, next]);
     }, [slidesData]);
 
-    const loadAllLogoImages = useCallback( async () => {
+    const loadAllLogoImages = useCallback(async () => {
         if (!slidesData) return;
 
         const logos = slidesData.map((slide, index) => (getLogoPath(slide.images.logos, index))).filter(logo => logo !== undefined);
@@ -82,7 +85,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
                 Object.assign(image, {
                     src: `${ImageBasePath}/w500${logo.path}`,
                     loading: 'eager',
-                    onload: () => resolve({path: image.src, slide: mediaId}),
+                    onload: () => resolve({ path: image.src, slide: mediaId }),
                     onerror: () => reject(`Error ao carregar imagem: ${logo.path}`)
                 });
             });
@@ -131,7 +134,10 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
                     {/* lista com algumas informaçoes sobre filme/serie */}
                     <DetailsBar slideData={currentSlide} />
                     {/* Ir para pagina de detalhes */}
-                    <HeroButton onClick={navigate} className='mt-2' />
+                    <HeroButton onClick={navigate} className='mt-2'>
+                        <EyeIcon className="w-[23px] h-[23px] lg:w-[24px] lg:h-[24px] stroke-2 lg:stroke-[2.2]" />
+                        Ver detalhes
+                    </HeroButton>
                 </div>
             ) : null}
         </section>
