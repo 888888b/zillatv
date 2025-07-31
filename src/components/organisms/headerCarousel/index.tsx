@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
-import FurtherDetailsButton from '@/components/molecules/detailsButton';
+import HeroButton from '@/components/molecules/heroButton';
 import Title from './title';
 import DetailsBar from './details';
 import dynamic from 'next/dynamic';
@@ -18,7 +18,6 @@ import './styles.css';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 import { tmdbConfig } from '@/app/constants';
-import { boolean } from 'zod';
 
 type HeaderCarouselProps = {
     currentPage: string
@@ -41,11 +40,12 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
     const [logos, setLogos] = useState<path[] | null>(null);
 
     // lida com a nevegaçao entre paginas
-    const navigate = useCallback((slideId: string) => {
-        push(`/player/${slidesType}/${slideId}`, {
+    const navigate = useCallback(() => {
+        if (!currentSlide || !currentSlide.id) return;
+        push(`/player/${slidesType}/${currentSlide.id}`, {
             scroll: true
         });
-    }, [slidesType, push]);
+    }, [slidesType, push, currentSlide]);
 
     // filtra a lista de imagens de logo buscando por uma imagem em portugues (caso houver logos disponiveis)
     const getLogoPath = useCallback((logos: tmdbObjProps[], slideIndex: number) => {
@@ -131,7 +131,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
                     {/* lista com algumas informaçoes sobre filme/serie */}
                     <DetailsBar slideData={currentSlide} />
                     {/* Ir para pagina de detalhes */}
-                    <FurtherDetailsButton onClick={() => navigate(currentSlide.id)} className='mt-2' />
+                    <HeroButton onClick={navigate} className='mt-2' />
                 </div>
             ) : null}
         </section>
