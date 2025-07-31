@@ -15,6 +15,9 @@ const SlideImage = dynamic(() => import('../../atoms/heroImage/index'), { ssr: t
 // icons
 import { EyeIcon } from "@/components/atoms/eyeIcon";
 
+// funçoes utilitarias 
+import { getLogoPath } from '@/components/utils/tmdbApiData/getLogoPath';
+
 import './styles.css';
 
 // tipos
@@ -28,7 +31,7 @@ type HeaderCarouselProps = {
     slidesData: tmdbObjProps[] | undefined
 };
 
-type path = {
+export type Path = {
     path: string;
     slide: string;
 };
@@ -40,7 +43,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
     const { slidesData, slidesType, currentPage } = props;
     const [currentSlide, setCurrentSlide] = useState<tmdbObjProps | null>(null);
     const [activeSlides, setActiveSlides] = useState<number[]>([]);
-    const [logos, setLogos] = useState<path[] | null>(null);
+    const [logos, setLogos] = useState<Path[] | null>(null);
 
     // lida com a nevegaçao entre paginas
     const navigate = useCallback(() => {
@@ -49,21 +52,6 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
             scroll: true
         });
     }, [slidesType, push, currentSlide]);
-
-    // filtra a lista de imagens de logo buscando por uma imagem em portugues (caso houver logos disponiveis)
-    const getLogoPath = useCallback((logos: tmdbObjProps[], slideIndex: number) => {
-        if (!slidesData) return;
-
-        if (!logos) {
-            return;
-        };
-
-        const preferredOrder = ['pt', 'pt-BR', 'en'];
-        const logo = preferredOrder.map(lang => logos.find(logo => logo.iso_639_1 === lang)).find(Boolean);
-        const filePath: string | undefined = logo?.file_path;
-        if (!filePath) return;
-        return { path: filePath, slide: slideIndex };
-    }, []);
 
     // recebe o index do slide e atualiza a lista de slides ativos
     const getActiveSlide = useCallback((slideInView: number, numberOfSlides: number): void => {
@@ -74,22 +62,22 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
         setActiveSlides([prev, slideInView, next]);
     }, [slidesData]);
 
+    // pre-carrega as imagens de logo de filmes ou series
     const loadAllLogoImages = useCallback(async () => {
         if (!slidesData) return;
 
-        const logos = slidesData.map((slide, index) => (getLogoPath(slide.images.logos, index))).filter(logo => logo !== undefined);
+        const logos = slidesData.map(slide => (getLogoPath(slide.images.logos, slide.id))).filter(logo => logo !== undefined);
         const resolvedPaths = await Promise.all(logos.map(logo => {
             return new Promise((resolve, reject) => {
                 const image = new Image();
-                const mediaId: string = slidesData[logo.slide].id;
                 Object.assign(image, {
                     src: `${ImageBasePath}/w500${logo.path}`,
                     loading: 'eager',
-                    onload: () => resolve({ path: image.src, slide: mediaId }),
+                    onload: () => resolve({ path: image.src, slide: logo.slide }),
                     onerror: () => reject(`Error ao carregar imagem: ${logo.path}`)
                 });
             });
-        })) as path[];
+        })) as Path[];
         setLogos([...resolvedPaths]);
     }, [slidesData, ImageBasePath]);
 
@@ -97,6 +85,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
         loadAllLogoImages();
     }, [slidesData]);
 
+    // seleciona dentro da lista de logos precarregadas a url de logo do slide atual
     const getSlideLogoPath = useCallback((slideId: string) => {
         const logo = logos?.find(logo => logo.slide === slideId);
         if (!logo?.path) return null;
