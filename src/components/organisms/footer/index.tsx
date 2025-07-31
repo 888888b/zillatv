@@ -2,7 +2,7 @@ import './styles.css';
 
 export default function Footer() {
     return (
-        <div className="px-4 sm:px-10 lg:px-[70px] mt-10 py-14 bg-surface">
+        <footer className="px-4 sm:px-10 lg:px-[70px] mt-10 py-14 bg-surface">
             <h2 className="text-primary font-black text-[22px] font-raleway">ZilluTV</h2>
             <div className="bg-secondary/5 h-px w-full max-w-48 mt-[15px]" />
 
@@ -97,6 +97,6 @@ export default function Footer() {
 
                 <p className="text-base font-semibold">© 2025 ZilluTV - Todos os direitos reservados</p>
             </div>
-        </div>
+        </footer>
     );
 };
