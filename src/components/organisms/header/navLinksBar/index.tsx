@@ -5,7 +5,7 @@ export default function NavLinksBar({ isUserLoggedIn }:{ isUserLoggedIn: boolean
 
     return (
         <nav className='hidden lg:block'>
-            <ul className='text-base font-bold flex gap-x-[25px] items-center *:hover:text-primary *:cursor-pointer *:transition-colors *:duration-300 text-secondary/90'>
+            <ul className='flex gap-x-[25px] items-center'>
                 <li>
                     <Link href={'/'}>Início</Link>
                 </li>

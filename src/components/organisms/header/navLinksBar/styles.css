@@ -1,3 +1,28 @@
 nav ul li {
     animation-timing-function: ease;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 700;
+    font-size: 16px;
+    color: color-mix(in oklab, var(--color-secondary) 90%, transparent);
+}
+nav ul li::before {
+    content: '';
+    width: 0;
+    height: 2pt;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: var(--color-primary);
+    bottom: -5px;
+    left: 0px;
+    position: absolute;
+}
+
+nav ul li:hover {
+    color: var(--color-primary);
+}
+
+nav ul li:hover::before {
+    width: 100%;
 }
