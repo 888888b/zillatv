@@ -5,7 +5,6 @@ import useTmdbFetch from '@/components/hooks/tmdb';
 
 // Interface de tipos para objetos retornados pela api do TMDB
 import { tmdbObjProps } from '../../../contexts/tmdbContext';
-import dynamic from 'next/dynamic';
 
 import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
 
@@ -17,6 +16,8 @@ type PlayerPageProps = {
 import Header from './header/index';
 import SeasonsCarousel from './footer/seasonsCarousel';
 import Main from './main/index'
+
+import './styles.css';
 
 export default async function PlayerPage(props: PlayerPageProps) {
 

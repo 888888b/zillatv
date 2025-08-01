@@ -1,0 +1,31 @@
+.header-wrapper {
+    width: 100%;
+}
+
+.header-wrapper .img-box::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to top,
+        var(--color-gradient-base),
+        var(--color-gradient-base),
+        var(--color-gradient-80),
+        var(--color-gradient-0),
+        var(--color-gradient-base)
+    );
+}
+
+@media screen and (width >=768px) {
+    .header-wrapper .img-box::before {
+        background-image: linear-gradient(to top,
+            var(--color-gradient-base),
+            var(--color-gradient-80),
+            var(--color-gradient-60),
+            var(--color-gradient-0),
+            var(--color-gradient-90)
+        );
+    }
+}

@@ -1,92 +1,95 @@
 'use client';
 
+// hooks
+import { useEffect, useState, useCallback } from 'react';
+
 // componentes
-import WatchTrailer from '@/components/templates/playerPage/header/trailerPlayback';
+import PlayerModal from '@/components/templates/playerPage/trailerPlayback';
+import Image from '@/components/atoms/heroImage';
+import HeroButton from '@/components/molecules/heroButton';
+import { PlayIcon } from '@/components/atoms/playIcon';
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
-// funções utilitarias
-import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
-import { getRunTime } from '@/components/utils/tmdbApiData/runtime';
-import { getImdbReviews } from '@/components/utils/tmdbApiData/reviews';
-
+// utilitarios
+import { getLogoPath } from '@/components/utils/tmdbApiData/getLogoPath';
 import { tmdbConfig } from '@/app/constants';
-
-import './styles.css';
 
 type HeaderProps = {
     playerData: tmdbObjProps;
 };
 
 export default function Header(props: HeaderProps) {
-
     const playerData = props.playerData;
-    const {
-        high_resolution_backdrop,
-        high_resolution_poster
-    } = tmdbConfig;
+    const { ImageBasePath } = tmdbConfig;
+    const [logo, setLogo] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [isPlayerActive, setIsPlayerActive] = useState(false);
+
+    useEffect(() => {
+        if (playerData.images) {
+            const img = getLogoPath(playerData.images.logos, playerData.id);
+            if (img) {
+                setLogo(ImageBasePath + '/w500' + img.path);
+                setLoading(false);
+            } else {
+                setLoading(false);
+            };
+            return;
+        };
+
+        setLoading(false);
+    }, [playerData]);
+
+    const openPlayer = useCallback((): void => {
+        setIsPlayerActive(true);
+    }, []);
+
+    const closePlayer = useCallback((): void => {
+        setIsPlayerActive(false);
+    },[]);
+
+    const getTrailerKey = useCallback((): string | undefined => {
+        if (!playerData) return;
+        const keywords = ['dublado', 'Dublado', 'pt', 'BR', 'en', 'legendado', 'Legendado']
+        const videos: tmdbObjProps[] = playerData.videos.results;
+        const video = keywords.map(key => (videos.find(video => JSON.stringify(video).includes(key)))).find(video => video !== undefined);
+        return video ? video.key : undefined;
+    }, [playerData]);
 
     return (
         <div className='header-wrapper'>
             <div className='w-full relative'>
                 {/* Imagem do filme/serie */}
-                <div className="w-full aspect-[1/1.55] md:aspect-[1/0.7] lg:aspect-[1/0.5] max-h-[600px] md:max-h-screen">
-                    <img
-                        src={
-                            playerData.backdrop_path ?
-                            high_resolution_backdrop + playerData.backdrop_path :
-                            high_resolution_poster + playerData.poster_path
-                        }
-                        alt={`${playerData.title ?? playerData.name} movie/serie presentation image`}
-                        className='w-full object-cover h-3/4 md:h-full'
-                    />
+                <div className="w-full relative aspect-square lg:aspect-video min-h-[500px] max-h-[95vh] overflow-hidden img-box">
+                    <Image slideData={playerData} className='w-full' />
                 </div>
 
                 {/* Informações do filme/serie */}
-                <div className='w-full z-20 absolute bottom-10 md:bottom-14 px-4 flex flex-col gap-y-4 items-start md:pl-6 lg:pl-8'>
-
-                    {/* Titulo */}
-                    <h1 className='text-3xl font-extrabold text-white line-clamp-3 font-raleway sm:text-5xl sm:w-1/2 xl:w-2/5 text-start 2xl:text-6xl'>
-                        {playerData.title ?? playerData.name}
-                    </h1>
-
-                    <div className='flex gap-x-3 text-white/60 lg:text-white/80 font-semibold items-center flex-wrap justify-start md:w-1/2 md:max-w-md'>
-                        {/* data de lançamento */}
-                        <span>
-                            {getReleaseDate(playerData.release_date ?? playerData.first_air_date)}
-                        </span>
-
-                        {/* tempo de duração */}
-                        {playerData.runtime && (
-                             <span>
-                                {getRunTime(playerData.runtime)}
-                            </span> 
-                        )}
-
-                        {/* avaliação */}
-                        <span className='hidden sm:block'>
-                            {getImdbReviews(playerData.vote_average, playerData.vote_count)}
-                        </span>
-
-                        {/* generos */}
-                        <p>
-                            {playerData.genres.map((genre: any) => (
-                                genre.name
-                            )).join(', ')}
-                        </p>
-                    </div>
+                <div className='absolute left-0 bottom-12 w-full sm:w-fit px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 sm:bottom-[80px] lg:px-[70px] z-10 pointer-events-none overflow-hidden'>
+                    { !loading && (
+                        logo ?
+                            <img src={logo} alt={`Imagem poster de ${playerData.name ?? playerData.title}`} className='max-h-[12vh] max-w-[75vw] h-full sm:max-h-[20vh] sm:max-w-[50vw] md:max-w-[40vw] md:max-h-[25vh] lg:max-h-[30vh] xl:max-w-[35vw] 2xl:max-h-[40vh] 2xl:max-w-[40vw] w-fit' loading='eager' style={{ filter: 'brightness(170%)' }}/>
+                            :
+                            <h1 className='text-3xl sm:text-4xl sm:text-start font-black text-secondary text-center line-clamp-1 font-raleway md:text-5xl truncate max-w-8/12 md:leading-14 md:pointer-events-auto sm:max-w-[530px] md:hover:max-w-none md:hover:line-clamp-2 md:hover:whitespace-normal lg:text-6xl lg:leading-20 xl:text-7xl xl:leading-24'>
+                                {playerData.title ?? playerData.name}
+                            </h1>
+                    )}
 
                     {/* botao que aciona o player */}
-                    <WatchTrailer
-                        contentName={playerData.name ?? playerData.title}
-                        contentId={playerData.videos.results[0]?.key ?? ''}
-                    />
+                    <HeroButton onClick={openPlayer}>
+                        <PlayIcon size={24}/>
+                        Assistir trailler
+                    </HeroButton>
                 </div>
-
-                <div className="overlay"></div>
-                <div className='second-overlay'></div>
             </div>
+            <PlayerModal 
+                title={playerData.name ?? playerData.title} 
+                mediaId={getTrailerKey()}
+                isPlayerActive={isPlayerActive}
+                closePlayer={closePlayer}
+            />
         </div>
     );
 };
