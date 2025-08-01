@@ -17,7 +17,7 @@ import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 import { UserDataContext } from "@/contexts/authenticationContext";
 
 import { toast } from "react-toastify";
-import { CommentProps, ReplyProps } from "@/components/templates/playerPage/main/commentsSection";
+import { CommentProps, ReplyProps } from "@/components/templates/playerPage/commentsSection";
 
 interface UserDataOnDb {
     name: string | null,

@@ -40,9 +40,9 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
     return contentData ? (
         <>
-            <section className='min-h-screen mb-6 font-inter'>
+            <section className='mb-10'>
                 <Header playerData={contentData[0]} />
-                <Main contentData={contentData[0]} contentType={props.contentType} />
+                <Main mediaData={contentData[0]} mediaType={props.contentType} />
                 {props.contentType === 'movie' ?
                     <SimilarMovies movieId={props.contentId} /> :
                     <SeasonsCarousel serieName={contentData[0].name} serieId={props.contentId} seasons={contentData[0].seasons} />

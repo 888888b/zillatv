@@ -565,7 +565,7 @@ export default function UsersComments() {
                 </>
             )}
 
-            <div ref={overlayRef} className="w-full h-lvh fixed top-0 left-0 bg-black/80 -z-50"></div>
+            <div ref={overlayRef} className="w-full h-lvh hidden fixed top-0 left-0 bg-black/80 -z-50"></div>
         </section>
     );
 };

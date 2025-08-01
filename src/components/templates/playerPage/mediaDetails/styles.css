@@ -1,0 +1,69 @@
+.details-wrapper {
+    width: calc(66% - 30px);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    column-gap: 80px;
+    gap: 30px;
+}
+
+.details-wrapper .list-item {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    column-gap: 10px;
+    position: relative;
+}
+
+.details-wrapper .list-item::before {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: color-mix(in oklab, var(--color-secondary) 10%, transparent);
+    position: absolute;
+    bottom: -15px;
+    left: 0
+}
+
+.details-wrapper dl {
+    display: flex;
+    flex-direction: column;
+    gap: 30px
+}
+
+.details-wrapper dt, .details-wrapper dd {
+    font-size: 16px
+}
+
+.details-wrapper dt {
+    font-weight: 600;
+}
+
+.details-wrapper dd {
+    color: var(--color-secondary);
+}
+
+.details-wrapper dl:last-of-type .list-item:last-of-type::before {
+    display: none;
+}
+
+@media screen and ( width >= 768px ) {
+    .details-wrapper {
+        flex-direction: row;
+        width: calc(75% - 30px);
+    }
+
+    .details-wrapper dl .list-item:last-of-type::before {
+        display: none;
+    }
+}
+
+@media screen and ( width >= 1024px ) {
+    .details-wrapper dt, .details-wrapper dd {
+        font-size: 18px
+    }
+}
+

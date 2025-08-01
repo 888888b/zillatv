@@ -1,70 +1,115 @@
+'use client';
+
+// hooks
+import { useState, useRef, useEffect, useCallback } from 'react';
+
 // componentes
-import ContentDetails from "./contentDetails/index";
-import ActorsCarousel from "./actorsCarousel/index";
-import UsersComments from "./commentsSection/index";
+import ContentDetails from "../mediaDetails/index";
+import ActorsCarousel from "../actorsCarousel/index";
+import UsersComments from "../commentsSection/index";
+import { SectionTitle } from '../sectionTitle';
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
-import { tmdbConfig } from "@/app/constants";
-
 type ComponentProps = {
-    contentData: tmdbObjProps;   
-    contentType: string;
+    mediaData: tmdbObjProps;
+    mediaType: string;
 };
 
-export default function Main( props: ComponentProps ) {
+import { tmdbConfig } from "@/app/constants";
 
-    const contentData = props.contentData;
+export default function Main(props: ComponentProps) {
+
+    const { mediaData, mediaType } = props
+    const descriptionRef = useRef<HTMLParagraphElement | null>(null);
+    const textChangeButton = useRef<HTMLButtonElement | null>(null);
     const {
-        low_resolution_backdrop,
-        low_resolution_poster
+        high_resolution_backdrop,
+        high_resolution_poster
     } = tmdbConfig;
+    const [isTextCut, setIsTextCut] = useState<boolean>(false);
+
+    // define se o texto precisa ou nao de um botao VER MAIS / VER MENOS
+    useEffect(() => {
+        const text = descriptionRef.current;
+        if (!text) return;
+        const textLineHeight = parseFloat(getComputedStyle(text).lineHeight);
+        const lines = text.scrollHeight / textLineHeight;
+        setIsTextCut(lines > 6);
+    }, [descriptionRef, textChangeButton]);
+
+    // controla a apariçao completa ou parcial do texto a depender do tamanho
+    const showEntireText = useCallback(() => {
+        const text = descriptionRef.current;
+        const button = textChangeButton.current;
+        if (!text || !button) return;
+        if (text.classList.contains('line-clamp-6')) {
+            text.classList.remove('line-clamp-6');
+            button.innerHTML = 'Ver menos';
+        } else {
+            text.classList.add('line-clamp-6');
+            button.innerHTML = 'Ver mais';
+        };
+    }, [descriptionRef, textChangeButton]);
 
     return (
-        <div className="flex flex-col px-4 md:px-6 lg:px-8">
-            { contentData.overview && (
+        <main className="flex flex-col relative px-5 mt-0.5 sm:-translate-y-10 sm:px-10 lg:px-[70px]">
+            {mediaData.overview && (
                 /* Descrição do filme/serie */
-                <p className='text-justify w-full text-[17px] lg:text-lg md:text-left leading-loose text-neutral-300 max-w-4xl'>
-                    { contentData.overview }
-                </p>
+                <>
+                    <div className="flex flex-col w-full md:max-w-3xl gap-y-[10px]">
+                        <p ref={descriptionRef} className='w-full text-[17px] line-clamp-6 lg:text-lg lg:leading-[30px] leading-7 text-text relative'>
+                            {mediaData.overview}
+                        </p>
+                        {isTextCut &&
+                            <button
+                                className="border-2 border-secondary/10 outline-none text-secondary text-sm font-semibold uppercase h-10 flex items-center justify-center rounded-xs cursor-pointer"
+                                onClick={showEntireText}
+                                ref={textChangeButton}>
+                                ver mais
+                            </button>
+                        }
+                    </div>
+                </>
             )}
 
             {/* seção com mais detalhes */}
-            <div className="bg-darkpurple w-full mt-10 p-3 lg:p-4 rounded-md">
+            <div className="mt-[60px] w-full flex flex-col gap-y-[30px]">
                 <div>
                     {/* Titulo da seção */}
-                    <h2 className="text-2xl font-semibold">
-                        Todos os detalhes
-                    </h2>
- 
+                    <SectionTitle>Todos os detalhes</SectionTitle>
+
                     {/* Container com os detalhes */}
-                    <div className="mt-5 relative flex flex-col gap-y-7 items-start">
+                    <div className="my-[30px] relative flex justify-end w-full max-w-[1024px] lg:gap-[30px]">
                         {/* Imagem do filme/serie */}
-                        <div className="sm:absolute sm:left-0 h-full">
-                            <img
-                                src={
-                                    contentData.poster_path ? 
-                                    low_resolution_poster + contentData.poster_path :
-                                    low_resolution_backdrop + contentData.backdrop_path
-                                }
-                                alt={`${contentData.title ?? contentData.name} movie/serie presentation image`}
-                                width={'100%'}
-                                height={'100%'}
-                                loading='lazy'
-                                className='w-40 sm:w-60 h-full object-cover bg-darkpurple image rounded-md'
-                            />
-                        </div>
+                        <img
+                            src={
+                                mediaData.poster_path ?
+                                    high_resolution_poster + mediaData.poster_path :
+                                    high_resolution_backdrop + mediaData.backdrop_path
+                            }
+                            alt={`Imagen poster de ${mediaData.title ?? mediaData.name}`}
+                            loading='lazy'
+                            className='w-1/3 md:w-1/4 lg:object-bottom rounded-lg object-cover absolute top-0 left-0 h-full'
+                        />
                         {/* todos os detalhes do filme/serie */}
-                        <ContentDetails contentType={props.contentType} contentData={props.contentData}/>
+                        <ContentDetails mediaType={mediaType} mediaData={mediaData} />
                     </div>
                 </div>
-                {/* carousel com o elenco do filme/serie */}
-                <ActorsCarousel actorsData={contentData.credits.cast ?? []}/>
+
+                { mediaData.credits.cast.some((actor: undefined | tmdbObjProps) => 
+                    actor && actor.profile_path) &&
+                    <div className='flex flex-col gap-y-[30px]'>
+                       <SectionTitle>Elenco</SectionTitle>
+                        {/* carousel com o elenco do filme/serie */}
+                        <ActorsCarousel actorsData={mediaData.credits.cast} />
+                    </div>
+                }
             </div>
 
             {/* seção de comentarios */}
-            <UsersComments/>
-        </div>
+            <UsersComments />
+        </main>
     );
 };

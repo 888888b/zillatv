@@ -18,6 +18,14 @@
     );
 }
 
+.actors-carousel .embla__container {
+    column-gap: 20px;
+}
+
+.actors-carousel .embla__slide {
+    background-color: transparent !important;
+}
+
 @media screen and (width >=768px) {
     .header-wrapper .img-box::before {
         background-image: linear-gradient(to top,
