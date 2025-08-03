@@ -28,13 +28,14 @@ export default function MainActors(props: ComponentProps) {
                         // slide
                         <div className="embla__slide flex flex-col gap-y-5 items-center" key={actor.id}>
                             {/* imagem do ator/atora */}
-                            {/* image */}
                             <ActorImage path={actor.profile_path} actor={actor.name}/>
 
                             {/* detalhes sobre */}
-                            <p className="text-center lg:text-lg text-base font-normal text-text flex flex-col gap-1 max-w-20">
+                            <p className="text-center lg:text-lg text-base font-normal text-text max-w-20 line-clamp-5 overflow-ellipsis">
                                 {actor.name ?? ''}
-                                <span className="text-primary">{actor.character ?? ''}</span>
+                                <span className="text-primary mt-1 block overflow-ellipsis">
+                                    {actor.character ?? ''}
+                                </span>
                             </p>
                         </div>
                     ) : null

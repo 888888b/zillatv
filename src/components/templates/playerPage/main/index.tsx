@@ -78,7 +78,7 @@ export default function Main(props: ComponentProps) {
             <div className="mt-[60px] w-full flex flex-col gap-y-[30px]">
                 <div>
                     {/* Titulo da seção */}
-                    <SectionTitle>Todos os detalhes</SectionTitle>
+                    <SectionTitle className='text-center sm:text-left'>Todos os detalhes</SectionTitle>
 
                     {/* Container com os detalhes */}
                     <div className="my-[30px] relative flex justify-end w-full max-w-[1024px] lg:gap-[30px]">
@@ -101,7 +101,7 @@ export default function Main(props: ComponentProps) {
                 { mediaData.credits.cast.some((actor: undefined | tmdbObjProps) => 
                     actor && actor.profile_path) &&
                     <div className='flex flex-col gap-y-[30px]'>
-                       <SectionTitle>Elenco</SectionTitle>
+                       <SectionTitle className='text-center sm:text-left'>Elenco</SectionTitle>
                         {/* carousel com o elenco do filme/serie */}
                         <ActorsCarousel actorsData={mediaData.credits.cast} />
                     </div>
@@ -109,7 +109,7 @@ export default function Main(props: ComponentProps) {
             </div>
 
             {/* seção de comentarios */}
-            <UsersComments />
+            {/* <UsersComments /> */}
         </main>
     );
 };
