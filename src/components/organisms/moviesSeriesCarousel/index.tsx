@@ -3,7 +3,7 @@
 // hooks
 import { useContext, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useFirebase from "@/components/hooks/firebase";
+import useFirebase from "@/hooks/firebase";
 
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';

@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 import EmblaCarousel from "@/components/organisms/emblaSlides";
 
 // funções utilitarias
-import { getRunTime } from "@/components/utils/tmdbApiData/runtime";
-import { getReleaseDate } from "@/components/utils/tmdbApiData/releaseDate";
+import { getRunTime } from "@/utils/tmdbApiData/runtime";
+import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";

@@ -1,9 +1,9 @@
 // hooks
 import { ReactNode, useCallback, useEffect, memo } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { useDotButton } from "@/components/hooks/embla/useDotButton";
-import { usePrevNextButtons } from "@/components/hooks/embla/usePrevNextButtons";
-import { useAutoplayProgress } from "@/components/hooks/embla/useAutoplayProgress";
+import { useDotButton } from "@/hooks/embla/useDotButton";
+import { usePrevNextButtons } from "@/hooks/embla/usePrevNextButtons";
+import { useAutoplayProgress } from "@/hooks/embla/useAutoplayProgress";
 
 
 // componentes

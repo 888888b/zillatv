@@ -3,7 +3,7 @@
 // hooks
 import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import useFirebase from "@/components/hooks/firebase";
+import useFirebase from "@/hooks/firebase";
 
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
@@ -20,7 +20,7 @@ import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
-import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
+import { getReleaseDate } from '@/utils/tmdbApiData/releaseDate';
 
 import { tmdbConfig } from '@/app/constants';
 

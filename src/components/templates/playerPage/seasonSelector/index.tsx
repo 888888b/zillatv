@@ -8,7 +8,7 @@ import { SectionTitle } from "../sectionTitle";
 import { IoPlay } from "react-icons/io5";
 
 // utilitarios
-import { getReleaseDate } from "@/components/utils/tmdbApiData/releaseDate";
+import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";

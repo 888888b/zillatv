@@ -1,5 +1,5 @@
 // hooks
-import useTmdbFetch from '@/components/hooks/tmdb';
+import useTmdbFetch from '@/hooks/tmdb';
 
 // componentes
 import HeaderCarousel from '@/components/organisms/headerCarousel';
@@ -9,9 +9,9 @@ import MoviesSection from './moviesSection';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
-import { checkAvailability } from '@/components/utils/tmdbApiData/availability';
-import { getContentId } from '@/components/utils/tmdbApiData/id';
-import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
+import { checkAvailability } from '@/utils/tmdbApiData/availability';
+import { getContentId } from '@/utils/tmdbApiData/id';
+import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 
 export default async function MoviesPage() {
 

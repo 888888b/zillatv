@@ -6,14 +6,14 @@ import {
     useState, 
     useEffect 
 } from "react";
-import useTmdbFetch from "@/components/hooks/tmdb";
+import useTmdbFetch from "@/hooks/tmdb";
 
 // componentes
 import GenreSelect from "@/components/molecules/categorySelect";
 import Series from "@/components/organisms/moviesSeriesSection";
 
 // funções utilitarias
-import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
+import { checkAvailability } from "@/utils/tmdbApiData/availability";
 
 import { tmdbSerieGenres } from "@/app/constants";
 import { tmdbObjProps } from "@/contexts/tmdbContext";

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import useTmdbFetch from "@/components/hooks/tmdb";
+import useTmdbFetch from "@/hooks/tmdb";
 
-import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
+import { checkAvailability } from "@/utils/tmdbApiData/availability";
 
 type ParamProps = {
     genre: string;

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useFirebase from "@/components/hooks/firebase";
+import useFirebase from "@/hooks/firebase";
 
 import { UserDataContext } from "@/contexts/authenticationContext";
 import { GlobalEventsContext } from "@/contexts/globalEventsContext";

@@ -1,12 +1,12 @@
 // hooks
-import useTmdbFetch from "@/components/hooks/tmdb";
+import useTmdbFetch from "@/hooks/tmdb";
 
 // componentes
 import MoviesSeriesCarousel from "@/components/organisms/moviesSeriesCarousel";
 import { CarouselTitle } from "@/components/atoms/carouselTitle";
 
 // funções utilitarias
-import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
+import { checkAvailability } from "@/utils/tmdbApiData/availability";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";

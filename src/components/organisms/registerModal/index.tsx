@@ -7,7 +7,7 @@ import {
     useContext,
     useCallback
 } from "react";
-import useFirebase from "@/components/hooks/firebase";
+import useFirebase from "@/hooks/firebase";
 
 // contextos
 import { GlobalEventsContext } from "@/contexts/globalEventsContext";

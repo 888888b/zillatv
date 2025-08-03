@@ -2,7 +2,7 @@
 
 // hooks
 import { useState, useEffect, useContext } from "react";
-import useTmdbFetch from "@/components/hooks/tmdb";
+import useTmdbFetch from "@/hooks/tmdb";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
@@ -16,8 +16,8 @@ import NoFavoritesMsg from "./emptyFavoritesList";
 import FavoritesList from "./favoritesList";
 
 // funções utilitarias
-import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
-import { ScrollToTop } from "@/components/utils/globalActions/scrollToTop";
+import { checkAvailability } from "@/utils/tmdbApiData/availability";
+import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 
 export default function FavoritesPage() {
 

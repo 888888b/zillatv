@@ -2,9 +2,9 @@
 import { useEffect, useRef, useState, memo } from 'react';
 
 // funções utilitarias
-import { getReleaseDate } from '@/components/utils/tmdbApiData/releaseDate';
-import { getRunTime } from '@/components/utils/tmdbApiData/runtime';
-import { getImdbReviews } from '@/components/utils/tmdbApiData/reviews';
+import { getReleaseDate } from '@/utils/tmdbApiData/releaseDate';
+import { getRunTime } from '@/utils/tmdbApiData/runtime';
+import { getImdbReviews } from '@/utils/tmdbApiData/reviews';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 const DetailsBar = memo(({slideData} : {slideData: tmdbObjProps}) => {

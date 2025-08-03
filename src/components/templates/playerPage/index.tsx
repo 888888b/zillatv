@@ -1,11 +1,11 @@
 // hooks
-import useTmdbFetch from '@/components/hooks/tmdb';
+import useTmdbFetch from '@/hooks/tmdb';
 
 // componentes
 import Header from './header/index';
 import SeasonsCarousel from './seasonsCarousel';
 import Main from './main/index'
-import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
+import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import SimilarMovies from './moviesCarousel';
 
 // tipos

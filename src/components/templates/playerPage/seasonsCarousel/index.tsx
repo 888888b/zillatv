@@ -2,7 +2,7 @@
 
 // hooks
 import { useEffect, useState, useCallback } from "react";
-import useTmdbFetch from "@/components/hooks/tmdb";
+import useTmdbFetch from "@/hooks/tmdb";
 
 // componentes
 import SeasonSelector from "../seasonSelector";
@@ -10,7 +10,7 @@ import Carousel from "@/components/templates/playerPage/episodesCarousel";
 import { SectionTitle } from "../sectionTitle";
 
 // funções utilitarias
-import { handlePromise } from "@/components/utils/tmdbApiData/promise";
+import { handlePromise } from "@/utils/tmdbApiData/promise";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";

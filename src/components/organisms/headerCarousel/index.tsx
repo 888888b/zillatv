@@ -16,7 +16,7 @@ const SlideImage = dynamic(() => import('../../atoms/heroImage/index'), { ssr: t
 import { EyeIcon } from "@/components/atoms/eyeIcon";
 
 // funçoes utilitarias 
-import { getLogoPath } from '@/components/utils/tmdbApiData/getLogoPath';
+import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
 
 import './styles.css';
 

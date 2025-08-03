@@ -3,7 +3,7 @@ import { memo } from "react";
 import NextSlide from '@/components/molecules/nextSlideButton';
 import PrevSlide from '@/components/molecules/prevSlideButton';
 
-import { UsePrevNextButtonsType } from "@/components/hooks/embla/usePrevNextButtons";
+import { UsePrevNextButtonsType } from "@/hooks/embla/usePrevNextButtons";
 
 import '@/components/organisms/emblaSlides/styles.css';
 

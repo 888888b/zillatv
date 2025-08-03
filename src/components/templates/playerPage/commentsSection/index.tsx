@@ -8,7 +8,7 @@ import React, {
     useEffect, 
     useRef 
 } from "react";
-import useFirebase from "@/components/hooks/firebase";
+import useFirebase from "@/hooks/firebase";
 import { usePathname } from "next/navigation";
 
 // icones

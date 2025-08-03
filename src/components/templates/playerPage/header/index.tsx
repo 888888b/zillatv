@@ -13,7 +13,7 @@ import { PlayIcon } from '@/components/atoms/playIcon';
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // utilitarios
-import { getLogoPath } from '@/components/utils/tmdbApiData/getLogoPath';
+import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
 import { tmdbConfig } from '@/app/constants';
 
 type HeaderProps = {

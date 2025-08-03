@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, MutableRefObject, useState, ChangeEvent, Dispatch } from "react";
-import useFirebase from '@/components/hooks/firebase';
+import useFirebase from '@/hooks/firebase';
 
 // Icones com React-icons
 import { FaUserLarge, FaPencil } from "react-icons/fa6";

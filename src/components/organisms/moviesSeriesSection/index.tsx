@@ -3,7 +3,7 @@
 // hooks
 import { useRouter } from 'next/navigation';
 import { useContext, useState, useCallback } from 'react';
-import useFirebase from '@/components/hooks/firebase';
+import useFirebase from '@/hooks/firebase';
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";

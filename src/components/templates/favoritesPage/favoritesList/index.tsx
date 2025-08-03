@@ -1,15 +1,15 @@
 // hooks
 import { useRouter } from "next/navigation";
-import useFirebase from "@/components/hooks/firebase";
+import useFirebase from "@/hooks/firebase";
 
 // icones
 import { FaPlay } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 
 // funções utilitarias
-import { getReleaseDate } from "@/components/utils/tmdbApiData/releaseDate";
-import { getRunTime } from "@/components/utils/tmdbApiData/runtime";
-import { getImdbReviews } from "@/components/utils/tmdbApiData/reviews";
+import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
+import { getRunTime } from "@/utils/tmdbApiData/runtime";
+import { getImdbReviews } from "@/utils/tmdbApiData/reviews";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";

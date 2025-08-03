@@ -1,5 +1,5 @@
 // hooks
-import useTmdbFetch from '@/components/hooks/tmdb';
+import useTmdbFetch from '@/hooks/tmdb';
 
 // componentes
 import SearchResults from '@/components/organisms/moviesSeriesSection';
@@ -9,8 +9,8 @@ import ResultsSectionTitle from '@/components/molecules/resultSectionTitle';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
-import { checkAvailability } from '@/components/utils/tmdbApiData/availability';
-import { ScrollToTop } from '@/components/utils/globalActions/scrollToTop';
+import { checkAvailability } from '@/utils/tmdbApiData/availability';
+import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 
 import './styles.css';
 

@@ -1,5 +1,5 @@
 // hooks
-import useTmdbFetch from "@/components/hooks/tmdb";
+import useTmdbFetch from "@/hooks/tmdb";
 
 // componentes
 import HeaderCarousel from "@/components/organisms/headerCarousel";
@@ -10,9 +10,9 @@ import { CarouselTitle } from "@/components/atoms/carouselTitle";
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // funções utilitarias
-import { getContentId } from "@/components/utils/tmdbApiData/id";
-import { checkAvailability } from "@/components/utils/tmdbApiData/availability";
-import { ScrollToTop } from "@/components/utils/globalActions/scrollToTop";
+import { getContentId } from "@/utils/tmdbApiData/id";
+import { checkAvailability } from "@/utils/tmdbApiData/availability";
+import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 
 import { tmdbGenres } from "@/app/constants";
 

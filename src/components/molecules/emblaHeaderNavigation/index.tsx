@@ -8,7 +8,7 @@ import { memo, useRef, useEffect, useCallback } from "react";
 import './styles.css';
 
 // tipos
-import { UseDotButtonType } from "@/components/hooks/embla/useDotButton";
+import { UseDotButtonType } from "@/hooks/embla/useDotButton";
 
 type PrevNextButtonsType = {
     onPrevButtonClick: () => void;
