@@ -10,12 +10,11 @@
     top: 0;
     left: 0;
     background-image: linear-gradient(to top,
-        var(--color-gradient-base),
-        var(--color-gradient-base),
-        var(--color-gradient-80),
-        var(--color-gradient-0),
-        var(--color-gradient-base)
-    );
+            var(--color-gradient-base),
+            var(--color-gradient-base),
+            var(--color-gradient-80),
+            var(--color-gradient-0),
+            var(--color-gradient-base));
 }
 
 .actors-carousel .embla__container {
@@ -26,14 +25,33 @@
     background-color: transparent !important;
 }
 
+.seasons-wrapper {
+    width: auto;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: auto;
+    justify-content: center;
+}   
+
+@media screen and (width >=640px) {
+    .seasons-wrapper {
+        grid-template-columns: auto auto;
+    }
+}
+
 @media screen and (width >=768px) {
     .header-wrapper .img-box::before {
         background-image: linear-gradient(to top,
-            var(--color-gradient-base),
-            var(--color-gradient-80),
-            var(--color-gradient-60),
-            var(--color-gradient-0),
-            var(--color-gradient-90)
-        );
+                var(--color-gradient-base),
+                var(--color-gradient-80),
+                var(--color-gradient-60),
+                var(--color-gradient-0),
+                var(--color-gradient-90));
+    }
+}
+
+@media screen and (width >=1280px) {
+    .seasons-wrapper {
+        grid-template-columns: auto auto auto;
     }
 }

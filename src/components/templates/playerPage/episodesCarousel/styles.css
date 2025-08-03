@@ -1,0 +1,34 @@
+@keyframes fade-out {
+    from {opacity: 1}
+    to {opacity: 0}
+}
+
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1}
+}
+
+.season-container {
+    width: 100%;
+}
+
+.season-container .embla__container {
+    display: flex;
+    column-gap: 10px;
+}
+
+.season-container .embla__slide{
+    width: 100%;
+    max-width: 384px;
+    overflow: hidden;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+@media screen and ( width >= 640px) {
+    .season-container .embla__container {
+        column-gap: 20px;
+    }
+}
