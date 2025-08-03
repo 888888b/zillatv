@@ -70,7 +70,7 @@ export default function Header(props: HeaderProps) {
                 <div className='absolute left-0 bottom-12 w-full sm:w-fit px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 sm:bottom-[80px] lg:px-[70px] z-10 pointer-events-none overflow-hidden'>
                     { !loading && (
                         logo ?
-                            <img src={logo} alt={`Imagem poster de ${playerData.name ?? playerData.title}`} className='max-h-[12vh] max-w-[75vw] h-full sm:max-h-[20vh] sm:max-w-[50vw] md:max-w-[40vw] md:max-h-[25vh] lg:max-h-[30vh] xl:max-w-[35vw] 2xl:max-h-[40vh] 2xl:max-w-[40vw] w-fit' loading='eager' style={{ filter: 'brightness(170%)' }}/>
+                            <img src={logo} alt={`Imagem poster de ${playerData.name ?? playerData.title}`} className='max-h-[12vh] max-w-[75vw] h-full sm:max-h-[20vh] sm:max-w-[50vw] md:max-w-[40vw] md:max-h-[25vh] lg:max-h-[30vh] xl:max-w-[35vw] 2xl:max-h-[40vh] 2xl:max-w-[40vw] w-fit' loading='eager' style={{ filter: 'brightness(120%)' }}/>
                             :
                             <h1 className='text-3xl sm:text-4xl sm:text-start font-black text-secondary text-center line-clamp-1 font-raleway md:text-5xl truncate max-w-8/12 md:leading-14 md:pointer-events-auto sm:max-w-[530px] md:hover:max-w-none md:hover:line-clamp-2 md:hover:whitespace-normal lg:text-6xl lg:leading-20 xl:text-7xl xl:leading-24'>
                                 {playerData.title ?? playerData.name}
