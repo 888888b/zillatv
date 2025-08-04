@@ -35,10 +35,17 @@ export const useAutoplayProgress = (
     useEffect(() => {
         const embla = emblaApi;
         if (!embla) return;
-
+        const startAutoplay = () => setAutoplayState({isActive: true});
+        const stopAutoplay = () => setAutoplayState({isActive: false});
+        setAutoplayState({isActive:true});
         emblaApi
-            .on('autoplay:timerset', () => setAutoplayState({isActive: true}))
-            .on('autoplay:timerstopped', () => setAutoplayState({isActive: false}));
+            .on('autoplay:timerset', startAutoplay)
+            .on('autoplay:timerstopped', stopAutoplay);
+        return () => {
+            emblaApi
+            .off('autoplay:timerset', startAutoplay)
+            .off('autoplay:timerstopped', stopAutoplay);
+        };
     }, [emblaApi]);
 
     return {
