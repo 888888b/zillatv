@@ -44,6 +44,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
     const [currentSlide, setCurrentSlide] = useState<tmdbObjProps | null>(null);
     const [activeSlides, setActiveSlides] = useState<number[]>([]);
     const [logos, setLogos] = useState<Path[] | null>(null);
+    const [isLogosLoading, setIsLogosLoading] = useState<boolean>(true);
 
     // lida com a nevegaçao entre paginas
     const navigate = useCallback(() => {
@@ -79,6 +80,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
             });
         })) as Path[];
         setLogos([...resolvedPaths]);
+        setIsLogosLoading(false);
     }, [slidesData, ImageBasePath]);
 
     useEffect(() => {
@@ -116,10 +118,13 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
             {currentSlide ? (
                 <div className="absolute left-0 bottom-12 w-full sm:w-fit px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 sm:bottom-[133px] lg:px-[70px] z-10 pointer-events-none overflow-hidden">
                     {/* titulo */}
-                    <Title
-                        slideLogo={getSlideLogoPath(currentSlide.id)}
-                        slideTitle={currentSlide.title ?? currentSlide.name}
-                    />
+                    { logos &&
+                        <Title
+                            slideLogo={getSlideLogoPath(currentSlide.id)}
+                            slideTitle={currentSlide.title ?? currentSlide.name}
+                            isLogoLoading={isLogosLoading}
+                        />
+                    }
                     {/* lista com algumas informaçoes sobre filme/serie */}
                     <DetailsBar slideData={currentSlide} />
                     {/* Ir para pagina de detalhes */}

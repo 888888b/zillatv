@@ -24,7 +24,7 @@ const DetailsBar = memo(({slideData} : {slideData: tmdbObjProps}) => {
             });
 
             setTimeout(() => {
-                setSlide(slideData);
+                setSlide({...slideData});
                 Object.assign(el, {
                     animation: 'none',
                     opacity: 0
@@ -43,7 +43,11 @@ const DetailsBar = memo(({slideData} : {slideData: tmdbObjProps}) => {
     };
 
     useEffect(() => {
-        animation();
+        if (slide) {
+            animation();
+        } else {
+            setSlide({...slideData});
+        }
     }, [slideData]);
 
     return (
