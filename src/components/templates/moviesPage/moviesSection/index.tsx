@@ -33,7 +33,9 @@ export default function MoviesSection(props: ComponentProps) {
     // funções para buscar filmes
     const {
         fetchMoviesByGenre,
-        fetchReleasedMovies
+        fetchReleasedMovies,
+        fetchPopularMovies,
+        fetchTrendingMovies
     } = useTmdbFetch();
 
     const getSelectedGenre = useCallback((newGenre: string) => {
@@ -54,8 +56,25 @@ export default function MoviesSection(props: ComponentProps) {
         setContentData([...filtered]);
     };
 
+    // buscar os filmes populares
+    const fetchPopular = async () => {
+        const movies = await fetchPopularMovies();
+        const filtered = await checkAvailability(movies);
+        setContentData([...filtered]);
+    };
+
+    // buscar os filmes em alta
+    const fetchTrending = async () => {
+        const movies = await fetchTrendingMovies();
+        const filtered = await checkAvailability(movies);
+        setContentData([...filtered]);
+    };
+
     useEffect(() => {
-        selectedGenre === 'release' ? fetchLatestMovies() : fetchMovies();
+        if (selectedGenre === 'release') {fetchLatestMovies(); return};
+        if (selectedGenre === 'popular') {fetchPopular(); return};
+        if (selectedGenre === 'trending') {fetchTrending(); return};
+        fetchMovies();
     }, [selectedGenre]);
 
     return (

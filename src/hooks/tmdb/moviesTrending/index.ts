@@ -1,0 +1,18 @@
+import { tmdbObjProps } from "@/contexts/tmdbContext";
+
+export const fetchTrendingMovies = async (): Promise<tmdbObjProps[] | undefined> => {
+    const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+
+    try {
+        const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${token}&language=pt-BR`, {
+            cache: 'force-cache',
+            next: { revalidate: 43200 }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data.results;
+        };
+    } catch (error) {
+        console.error('Erro ao buscar filmes em alta' + error);
+    };
+};
