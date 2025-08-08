@@ -18,10 +18,11 @@ export default async function MoviesPage() {
     const contentData: tmdbObjProps[] = [];
     const {
         fetchPopularSeries,
-        fetchSeriesByIdList
+        fetchSeriesByIdList,
+        fetchAllTrending
     } = useTmdbFetch();
 
-    const popularSeries = await fetchPopularSeries();
+    const popularSeries = await fetchAllTrending('tv');
     const seriesIdList = await getContentId(popularSeries);
     const series = await fetchSeriesByIdList(seriesIdList);
     const filtered = await checkAvailability(series);
