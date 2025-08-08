@@ -15,6 +15,7 @@ export const tmdbConfig = {
 export const tmdbGenres = {
   cartoon: { genre: '16', title: 'Desenho' },
   release: { genre: 'release', title: 'Lançamentos' },
+  trending: { genre:'trending', title: 'Em alta' },
   horror: { genre: '27', title: 'Terror' },
   action: { genre: '28', title: 'Ação' },
   comedy: { genre: '35', title: 'Comédia' },
@@ -23,7 +24,6 @@ export const tmdbGenres = {
   war: { genre: '10752', title: 'Guerra' },
   fiction: { genre: '878', title: 'Ficção' },
   adventure: { genre: '12', title: 'Aventura' },
-  trending: { genre:'trending', title: 'Em alta' },
   popular: { genre:'popular', title: 'Populares' }
 };
 
@@ -31,11 +31,13 @@ export const tmdbGenres = {
 export const tmdbSerieGenres = {
   release: { genre: 'release', title: 'Lançamentos', },
   suspense: { genre: '9648', title: 'Suspense', },
+  trending: { genre:'trending', title: 'Em alta' },
   action: { genre: '10759', title: 'Ação', },
   comedy: { genre: '35', title: 'Comedia', },
   war: { genre: '10768', title: 'Guerra', },
   cartoon: { genre: '16', title: 'Desenho', },
   documentary: { genre: '99', title: 'Documentario', },
+  popular: { genre:'popular', title: 'Populares' }
 };
 
 
