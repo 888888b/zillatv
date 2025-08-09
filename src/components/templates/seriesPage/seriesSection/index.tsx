@@ -9,22 +9,29 @@ import {
 import useTmdbFetch from "@/hooks/tmdb";
 
 // componentes
-import GenreSelect from "@/components/molecules/categorySelect";
+import GenreSelect from "@/components/molecules/genreSelect";
 import Series from "@/components/organisms/moviesSeriesSection";
 
 // funções utilitarias
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 
-import { tmdbSerieGenres } from "@/app/constants";
+// tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 type ComponentProps = {
     className?: string
 };
 
+import { tmdbSerieGenres } from "@/app/constants";
+
+type GenreType = {
+    genre: string;
+    title: string;
+};
+
 export default function SeriesSection(props: ComponentProps) {
 
-    const [selectedGenre, setSelectedGenre] = useState('release');
+    const [selectedGenre, setSelectedGenre] = useState<GenreType>(tmdbSerieGenres.trending);
     const [
         contentData,
         setContentData
@@ -38,13 +45,13 @@ export default function SeriesSection(props: ComponentProps) {
         fetchPopularSeries
     } = useTmdbFetch();
 
-    const updateSelectedGenre = useCallback((newGenre: string) => {
-        setSelectedGenre(newGenre);
-    }, []);
+    const updateSelectedGenre = useCallback((genre: GenreType) => {
+        setSelectedGenre(genre);
+    }, [setSelectedGenre]);
 
     // buscar series por genero
     const fetchSeries = async () => {
-        const series = await fetchSeriesByGenre(selectedGenre);
+        const series = await fetchSeriesByGenre(selectedGenre.genre);
         const filtered = await checkAvailability(series);
         setContentData([...filtered]);
     };
@@ -71,21 +78,20 @@ export default function SeriesSection(props: ComponentProps) {
     };
 
     useEffect(() => {
-        if (selectedGenre === 'release') {fetchLatestSeries(); return};
-        if (selectedGenre === 'popular') {fetchPopular(); return};
-        if (selectedGenre === 'trending') {fetchTrending(); return};
+        if (selectedGenre.genre === 'release') {fetchLatestSeries(); return};
+        if (selectedGenre.genre === 'popular') {fetchPopular(); return};
+        if (selectedGenre.genre === 'trending') {fetchTrending(); return};
         fetchSeries();
     }, [selectedGenre]);
 
     return (
-        <div className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-20 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
-            <GenreSelect
-                onSelectGenre={updateSelectedGenre}
-                genresList={tmdbSerieGenres}
+        <div className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-10 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
+            <GenreSelect 
+                onSelectGenre={updateSelectedGenre} 
+                selectedGenre={selectedGenre}
+                genres={tmdbSerieGenres}
             />
-            {contentData ?
-                <Series data={contentData} mediaType="serie" />
-                : null}
+            {contentData ? <Series data={contentData} mediaType="serie" /> : null}
         </div>
     );
 };

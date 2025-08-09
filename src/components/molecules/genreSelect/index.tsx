@@ -1,18 +1,19 @@
 // hooks
 import { memo, useCallback, useState, useRef } from 'react';
 // tipos
-import { tmdbGenres } from '@/app/constants';
 import { GenreType } from '@/components/templates/moviesPage/moviesSection';
 // componentes
 import { ArrowRight } from '@/components/atoms/arrowRightIcon';
+import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 type ComponentProps = {
     onSelectGenre: (genre: GenreType) => void;
     selectedGenre: GenreType;
+    genres: tmdbObjProps;
 };
 
 const GenreSelect = memo((props: ComponentProps) => {
-    const { onSelectGenre, selectedGenre } = props;
+    const { genres, onSelectGenre, selectedGenre } = props;
     const ref = useRef<HTMLButtonElement | null>(null);
     const [isGenreSelectorActive, setIsGenreSelectorActive] = useState<boolean>(false);
 
@@ -40,7 +41,7 @@ const GenreSelect = memo((props: ComponentProps) => {
             {/*wrapper do botao de seletor */}
             <div id='genre-selector' className={`border border-secondary/20 rounded-[10px] w-fit flex items-center justify-start gap-8 flex-nowrap cursor-pointer md:hover:border-secondary transition-colors duration-300 text-secondary font-medium text-lg overflow-hidden mx-auto sm:mx-0 ${isGenreSelectorActive ? 'z-999 relative' : 'z-0 static'}`}  onClick={selectorToggle}>
                 {/* botao do seletor */}
-                <button ref={ref} id={tmdbGenres.cartoon.genre} className='h-12 pl-6 min-w-[150px] text-left border-none outline-none pointer-events-none'>
+                <button ref={ref} id={genres.cartoon.genre} className='h-12 pl-6 min-w-[150px] text-left border-none outline-none pointer-events-none'>
                 {selectedGenre.title}
                 </button>
                 {/* icone de seta */}
@@ -52,7 +53,7 @@ const GenreSelect = memo((props: ComponentProps) => {
             {/* container com generos para selecionar */}
             <div className={`w-full sm:w-fit max-w-[768px] md:max-w-[80vw] lg:max-w-[60vw] absolute top-[86px] left-0 z-40 px-6 py-5 bg-surface rounded-[10px] ${isGenreSelectorActive ? 'visible' : 'invisible'} border-2 border-secondary/5`}>
                 <ul className='grid grid-cols-[auto] justify-items-center sm:grid-cols-[auto_auto_auto] md:grid-cols-[auto_auto_auto_auto] sm:justify-items-start sm:overflow-hidden gap-8 sm:gap-y-5 sm:gap-x-10 text-[17px] max-h-[50vh] overflow-scroll *:cursor-pointer *:hover:underline *:whitespace-nowrap'>
-                    {Object.values(tmdbGenres).map((genre) => (
+                    {Object.values(genres).map((genre) => (
                         <li  
                             onClick={() => selectGenre(genre)}                            
                             key={`${genre.genre}-movie-genre`}

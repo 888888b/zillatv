@@ -9,7 +9,7 @@ import {
 import useTmdbFetch from "@/hooks/tmdb";
 
 // componentes
-import CategorySelect from "@/components/molecules/categorySelect";
+import GenreSelect from "@/components/molecules/genreSelect";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
 
 // funções utilitarias
@@ -22,9 +22,14 @@ type ComponentProps = {
     className?: string
 };
 
+export type GenreType = {
+    genre: string;
+    title: string;
+};
+
 export default function MoviesSection(props: ComponentProps) {
 
-    const [selectedGenre, setSelectedGenre] = useState('16');
+    const [selectedGenre, setSelectedGenre] = useState<GenreType>(tmdbGenres.trending);
     const [
         contentData,
         setContentData
@@ -38,13 +43,13 @@ export default function MoviesSection(props: ComponentProps) {
         fetchTrendingMovies
     } = useTmdbFetch();
 
-    const getSelectedGenre = useCallback((newGenre: string) => {
-        setSelectedGenre(newGenre);
-    }, [ setSelectedGenre ]);
+    const getSelectedGenre = useCallback((genre: GenreType) => {
+        setSelectedGenre(genre);
+    }, [setSelectedGenre]);
 
     // buscar filmes por genero
     const fetchMovies = async () => {
-        const movies = await fetchMoviesByGenre(selectedGenre);
+        const movies = await fetchMoviesByGenre(selectedGenre.genre);
         const filtered = await checkAvailability(movies);
         setContentData([...filtered]);
     };
@@ -71,20 +76,23 @@ export default function MoviesSection(props: ComponentProps) {
     };
 
     useEffect(() => {
-        if (selectedGenre === 'release') {fetchLatestMovies(); return};
-        if (selectedGenre === 'popular') {fetchPopular(); return};
-        if (selectedGenre === 'trending') {fetchTrending(); return};
+        if (selectedGenre.genre === 'release') { fetchLatestMovies(); return };
+        if (selectedGenre.genre === 'popular') { fetchPopular(); return };
+        if (selectedGenre.genre === 'trending') { fetchTrending(); return };
         fetchMovies();
     }, [selectedGenre]);
 
     return (
-        <div 
-            className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-20 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
-            <CategorySelect
-            onSelectGenre={getSelectedGenre}
-            genresList={tmdbGenres}
-            />
-            <div className="w-full h-px rounded-3xl bg-secondary/10"/>
+        <div
+            className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-10 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
+            {tmdbGenres &&
+                <GenreSelect
+                    onSelectGenre={getSelectedGenre}
+                    selectedGenre={selectedGenre}
+                    genres={tmdbGenres}
+                />
+            }
+            <div className="w-full h-px rounded-3xl bg-secondary/10" />
             {contentData && <MoviesSeriesSection data={contentData} mediaType="movie" />}
         </div>
     );
