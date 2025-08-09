@@ -3,6 +3,7 @@ type ComponentProps = {
     stroke?: string;
     width?: number;
     height?: number;
+    className?: string;
 }
 
 export const ArrowRight = ( props: ComponentProps ) => {
@@ -10,13 +11,12 @@ export const ArrowRight = ( props: ComponentProps ) => {
         color,
         stroke,
         width,
-        height
+        height,
+        className
     } = props;
 
-    const fill = !color ? 'currentColor' : 'none';
-
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill='none' stroke={color ?? 'currentColor'} strokeLinecap="round" strokeLinejoin="round" id="Chevron-Right--Streamline-Lucide" height={height} width={width}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill='none' stroke={color ?? 'currentColor'} strokeLinecap="round" className={className} strokeLinejoin="round" id="Chevron-Right--Streamline-Lucide" height={height} width={width}>
             <desc>
                 Chevron Right Streamline Icon: https://streamlinehq.com
             </desc>
