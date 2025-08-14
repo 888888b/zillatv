@@ -4,13 +4,14 @@ import useTmdbFetch from '@/hooks/tmdb';
 // componentes
 import SearchResults from '@/components/organisms/moviesSeriesSection';
 import ResultsSectionTitle from '@/components/molecules/resultSectionTitle';
+import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
+import { StopLoading } from '@/components/atoms/stopLoading';
 
 // tipos
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 // funções utilitarias
 import { checkAvailability } from '@/utils/tmdbApiData/availability';
-import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 
 import './styles.css';
 
@@ -52,6 +53,7 @@ export default async function SearchPage(props: SearchPageProps) {
             </section>
 
             <ScrollToTop/>
+            <StopLoading/>
         </>
     ) : null;
 };

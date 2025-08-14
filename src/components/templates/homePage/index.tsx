@@ -5,6 +5,7 @@ import useTmdbFetch from "@/hooks/tmdb";
 import HeaderCarousel from "@/components/organisms/headerCarousel";
 import MovieSerieCarousel from "@/components/organisms/moviesSeriesCarousel";
 import { CarouselTitle } from "@/components/atoms/carouselTitle";
+import { StopLoading } from "@/components/atoms/stopLoading";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
@@ -19,16 +20,15 @@ import { tmdbGenres } from "@/app/constants";
 export default async function HomePage() {
 
     const slidesData: Record<string, tmdbObjProps[] | undefined> = {};
+    let isDataLoaded = false; 
     const {
         fetchMoviesByGenre,
-        fetchReleasedMovies,
         fetchAllTrending,
         fetchPopularSeries,
         fetchSeriesByIdList,
         fetchMoviesByIdList,
         fetchPopularMovies
     } = useTmdbFetch();
-
 
     try {
         const popularMovies = await fetchPopularMovies();
@@ -43,6 +43,7 @@ export default async function HomePage() {
         const idList = await getContentId(popularSeries);
         const series = await fetchSeriesByIdList(idList);
         slidesData.popularSeries = await checkAvailability(series);
+        isDataLoaded = true;
     } catch (error) {
         console.error(error);
     };
@@ -126,6 +127,7 @@ export default async function HomePage() {
             </div>
 
             <ScrollToTop/>
+            {isDataLoaded && <StopLoading/>}
         </section>
     );
 };

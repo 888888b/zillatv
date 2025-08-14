@@ -4,6 +4,8 @@ import useTmdbFetch from '@/hooks/tmdb';
 // componentes
 import HeaderCarousel from '@/components/organisms/headerCarousel';
 import SeriesSection from './seriesSection';
+import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
+import { StopLoading } from '@/components/atoms/stopLoading';
 
 // tipos
 import { tmdbObjProps } from '@/contexts/tmdbContext';
@@ -11,7 +13,6 @@ import { tmdbObjProps } from '@/contexts/tmdbContext';
 // funções utilitarias
 import { checkAvailability } from '@/utils/tmdbApiData/availability';
 import { getContentId } from '@/utils/tmdbApiData/id';
-import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 
 export default async function MoviesPage() {
 
@@ -40,6 +41,7 @@ export default async function MoviesPage() {
             </div>
 
             <ScrollToTop />
+            <StopLoading/>
         </>
     ) : null;
 };

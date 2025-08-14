@@ -13,13 +13,14 @@ export type ErrorMessages = {
 
 export interface ModalsControllerProps {
     isRegisterModalActive: boolean;
-    isLoginModalActive: boolean; 
+    isLoginModalActive: boolean;
     isProfileModalActive: boolean;
     errors: ErrorMessages;
     isProfilePhotoUpdating: boolean;
     isUserCreatingAnAccount: boolean;
     isUserLoggingIntoAccount: boolean;
     clicksCount: number;
+    isLoadingActive: boolean;
 };
 
 // Ação para alterar o estado dos modais
@@ -33,6 +34,7 @@ const initialState = {
     isUserCreatingAnAccount: false,
     isUserLoggingIntoAccount: false,
     clicksCount: 0,
+    isLoadingActive: true,
     errors: {
         login: '',
         register: '',
@@ -64,13 +66,16 @@ const reducer = (state: ModalsControllerProps, action: Action): ModalsController
             return { ...state, isUserLoggingIntoAccount: action.payload };
 
         case 'SET_ERROR':
-            return { 
-                ...state, 
-                errors: { ...state.errors, [action.payload.type]: action.payload.message } 
+            return {
+                ...state,
+                errors: { ...state.errors, [action.payload.type]: action.payload.message }
             };
 
         case 'INCREMENT_CLICKS':
             return { ...state, clicksCount: state.clicksCount + 1 };
+
+        case 'IS_LOADING_ACTIVE':
+            return { ...state, isLoadingActive: action.payload }
 
         default:
             return state;
@@ -85,11 +90,11 @@ export const GlobalEventsContext = createContext<GlobalEventsContextType>(initia
 
 export const GlobalEventsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
-    const [ state, dispatch ] = useReducer(reducer, initialState);
-    
+    const [state, dispatch] = useReducer(reducer, initialState);
+
     return (
         <GlobalEventsContext.Provider value={{ ...state, dispatch }}>
-            { children }
+            {children}
         </GlobalEventsContext.Provider>
     )
 };

@@ -1,7 +1,7 @@
 'use client';
 
 // hooks
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 
 // componentes
@@ -24,6 +24,7 @@ import './styles.css';
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
 import { tmdbConfig } from '@/app/constants';
+import { GlobalEventsContext } from '@/contexts/globalEventsContext';
 
 type HeaderCarouselProps = {
     currentPage: string
@@ -45,13 +46,13 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
     const [activeSlides, setActiveSlides] = useState<number[]>([]);
     const [logos, setLogos] = useState<Path[] | null>(null);
     const [isLogosLoading, setIsLogosLoading] = useState<boolean>(true);
+    const {dispatch} = useContext(GlobalEventsContext);
 
     // lida com a nevegaçao entre paginas
     const navigate = useCallback(() => {
         if (!currentSlide || !currentSlide.id) return;
-        push(`/player/${slidesType}/${currentSlide.id}`, {
-            scroll: true
-        });
+        dispatch({type: 'IS_LOADING_ACTIVE', payload: true});
+        push(`/player/${slidesType}/${currentSlide.id}`);
     }, [slidesType, push, currentSlide]);
 
     // recebe o index do slide e atualiza a lista de slides ativos

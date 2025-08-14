@@ -87,12 +87,12 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
 
     // lida com a navegaçao
     const navigate = useCallback(( slideId: string, slideType: string | undefined ): void => {
+        dispatch({type: 'IS_LOADING_ACTIVE', payload: true});
         if ( slidesType === 'mixed' && slideType ) {
-            push(`/player/${slideType}/${slideId}`, { scroll: true })
+            push(`/player/${slideType}/${slideId}`);
             return;
         }; 
-
-        push(`/player/${slidesType}/${slideId}`, { scroll: true })
+        push(`/player/${slidesType}/${slideId}`, { scroll: true });
     }, [ slidesType ]);
 
     // obtem os slides ativos na viewport | lista com total de slides

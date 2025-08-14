@@ -1,24 +1,28 @@
 import type { Metadata, Viewport } from "next";
 
-import "./globals.css";
-
+// fontes
 import * as fonts from '@/app/fonts/index';
 
+// componentes
 import Header from "@/components/organisms/header";
 import Footer from "@/components/organisms/footer";
 import LoginModal from "@/components/organisms/loginModal";
 import RegisterModal from "@/components/organisms/registerModal";
 import ProfileModal from "@/components/profileModal";
+import { ToastContainer } from "react-toastify";
+import Loading from '@/components/molecules/pageLoading';
 
+// contextos
 import { TmdbProvider } from "@/contexts/tmdbContext";
 import { GlobalEventsProvider } from "@/contexts/globalEventsContext";
 import { UserDataProvider } from "@/contexts/authenticationContext";
 
-import { ToastContainer } from "react-toastify";
+// estilos
+import "./globals.css";
 import 'react-toastify/ReactToastify.css';
 
 export const metadata: Metadata = {
-  title: "ZiloCine Filmes e Series",
+  title: "ZilluTV - Descubra filmes, séries e muito mais!",
 };
 
 export const viewport: Viewport = {
@@ -38,6 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <TmdbProvider>
               <UserDataProvider>
                 <GlobalEventsProvider>
+                  <Loading/>
                   <Header/>
                   <LoginModal/>
                   <RegisterModal/>

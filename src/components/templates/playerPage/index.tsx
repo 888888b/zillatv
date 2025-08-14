@@ -7,6 +7,7 @@ import SeasonsCarousel from './seasonsCarousel';
 import Main from './main/index'
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import SimilarMovies from './moviesCarousel';
+import { StopLoading } from '@/components/atoms/stopLoading';
 
 // tipos
 import { tmdbObjProps } from '@/contexts/tmdbContext';
@@ -54,6 +55,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
             </section>
 
             <ScrollToTop/>
+            <StopLoading/>
         </>
     ) : null;
 };

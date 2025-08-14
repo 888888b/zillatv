@@ -47,9 +47,8 @@ export default function MoviesSeriesSection(props: ComponentProps) {
     const { dispatch } = useContext(GlobalEventsContext);
 
     const navigate = useCallback((mediaType: string, id: string) => {
-        push(`player/${mediaType}/${id}`, {
-            scroll: true
-        });
+        dispatch({type: 'IS_LOADING_ACTIVE', payload: true});
+        push(`player/${mediaType}/${id}`);
     }, [push]);
 
     // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
