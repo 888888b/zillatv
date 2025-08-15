@@ -58,67 +58,77 @@ export default async function HomePage() {
 
             <div className="w-[calc(100%-40px)] mx-auto h-px bg-secondary/5 sm:hidden my-10" />
 
-            <div className="flex flex-col pb-6 lg:pb-0 px-5 sm:px-10 lg:px-[70px] sm:-translate-y-[71px] z-10 relative">
+            <div className="flex flex-col mb-14 sm:mb-0  sm:-translate-y-[71px] z-10 relative">
                 {slidesData.allTrending && (
                     <>
                         {/* Carousel com filmes de ficção */}
-                        <div className="flex flex-col gap-y-5">
+                        <div className="flex flex-col gap-y-4">
                             {/* Titulo */}
-                            <CarouselTitle>{tmdbGenres.trending.title}</CarouselTitle>
+                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                                {tmdbGenres.trending.title}
+                            </CarouselTitle>
                             {/* Carousel */}
                             <MovieSerieCarousel slidesData={slidesData.allTrending} slidesType='mixed' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10" />
+                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.cartoonShows && (
                     <>
                         {/* Carousel com desenhos/animes */}
-                        <div className="flex flex-col gap-y-5">
+                        <div className="flex flex-col gap-y-4">
                             {/* Titulo */}
-                            <CarouselTitle>{tmdbGenres.cartoon.title}</CarouselTitle>
+                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                                {tmdbGenres.cartoon.title}
+                            </CarouselTitle>
                             {/* Carousel */}
                             <MovieSerieCarousel slidesData={slidesData.cartoonShows} slidesType='movie' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10" />
+                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.horrorMovies && (
                     <>
                         {/* Carousel com filmes de terror */}
-                        <div className="flex flex-col gap-y-5">
+                        <div className="flex flex-col gap-y-4">
                             {/* Titulo */}
-                            <CarouselTitle>{tmdbGenres.horror.title}</CarouselTitle>
+                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                                {tmdbGenres.horror.title}
+                            </CarouselTitle>
                             {/* Carousel */}
                             <MovieSerieCarousel slidesData={slidesData.horrorMovies} slidesType='movie' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10" />
+                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.popularSeries && (
                     <>
                         {/* Carousel com series populares */}
-                        <div className="flex flex-col gap-y-5">
-                            <CarouselTitle>{tmdbGenres.popular.title}</CarouselTitle>
+                        <div className="flex flex-col gap-y-4">
+                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                                {tmdbGenres.popular.title}
+                            </CarouselTitle>
                             <MovieSerieCarousel slidesData={slidesData.popularSeries} slidesType='serie' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10" />
+                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.fictionMovies && (
                     <>
                         {/* Carousel com filmes de ficção */}
-                        <div className="flex flex-col gap-y-5">
+                        <div className="flex flex-col gap-y-4">
                             {/* Titulo */}
-                            <CarouselTitle>{tmdbGenres.fiction.title}</CarouselTitle>
+                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                                {tmdbGenres.fiction.title}
+                            </CarouselTitle>
                             {/* Carousel */}
                             <MovieSerieCarousel slidesData={slidesData.fictionMovies} slidesType='movie' />
                         </div>

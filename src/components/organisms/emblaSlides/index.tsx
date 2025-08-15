@@ -1,10 +1,9 @@
 // hooks
 import { ReactNode, useCallback, useEffect, memo } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
 import { useDotButton } from "@/hooks/embla/useDotButton";
 import { usePrevNextButtons } from "@/hooks/embla/usePrevNextButtons";
 import { useAutoplayProgress } from "@/hooks/embla/useAutoplayProgress";
-
 
 // componentes
 import DefaultNavigation from "@/components/molecules/emblaDefaultNavigation";
@@ -16,6 +15,7 @@ import autoplay from 'embla-carousel-autoplay';
 import './styles.css';
 
 // tipos
+
 type EmblaCarouselProps = {
     children: ReactNode[] | ReactNode;
     loop?: boolean;
@@ -24,10 +24,10 @@ type EmblaCarouselProps = {
     autoplay?: boolean;
     navigationType: 'default' | 'header';
     dragFree?: boolean;
+    breakpoints?: Record<string, any>;
     activeSlides?: ( indexList: number[], numberOfSlides: number ) => void;
     activeIndex?: ( index: number, numberOfSlides: number ) => void;
-};
-
+}
 export type EmblaStateProps = {
     isBeginning: boolean
     isOver: boolean
@@ -41,9 +41,9 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     const emblaConfig = { 
         loop: props.loop, 
         slidesToScroll: props.slidesPerView, 
-        duration: 20,
+        duration: 25,
         dragFree: props.dragFree,
-        breakpoints: {'(min-width: 768px)': { duration: 25 }}
+        breakpoints: props.breakpoints
     };
 
     // plugins

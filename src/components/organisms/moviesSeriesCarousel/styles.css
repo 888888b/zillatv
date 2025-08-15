@@ -1,18 +1,38 @@
+.movie-serie-carousel .embla {
+    padding: 0 20px;
+}
+
 .movie-serie-carousel .embla__container {
-    column-gap: 10px;
+    column-gap: 8px;
 }
 
-.movie-serie-carousel .scale-animation {
-    width: 140px;
-    aspect-ratio: 1 / 1.5;
+.movie-serie-carousel .embla__slide {
+    width: calc((100% - 16px) / 3);
+}
+
+.movie-serie-carousel .img-wrapper {
     position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    background-color: rgb(22, 20, 43);
-    border-radius: 10px;
 }
 
-.movie-serie-carousel .scale-animation::before {
+.movie-serie-carousel .play-icon-box {
+    display: none;
+}
+
+.movie-serie-carousel .img-box {
+    position: relative;
+    aspect-ratio: 1 / 1.4;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.movie-serie-carousel .img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background-color: var(--color-surface);
+}
+
+.movie-serie-carousel .img-box::before {
     content: '';
     position: absolute;
     width: 400px;
@@ -21,51 +41,61 @@
     top: 0;
     right: 0;
     transform: translate(50%, -50%);
-    background-image: radial-gradient( ellipse, rgb(2, 5, 21), transparent, transparent );
+    background-image: radial-gradient(
+        ellipse, 
+        var(--color-background), 
+        transparent, 
+        transparent
+    );
     z-index: 10;
 }
 
-.movie-serie-carousel .slide-image-container {
-    position: relative;
-}
-
-.movie-serie-carousel .play-icon-box {
-    display: none;
-}
-
-@media screen and ( width >= 500px ) {
-    .movie-serie-carousel .scale-animation {
-        width: 175px;
+@media screen and (width>=640px) {
+    .movie-serie-carousel .embla {
+        padding: 0 40px;
     }
 }
 
-@media screen and ( width >= 768px ) {
-    .movie-serie-carousel .scale-animation {
-        width: 200px;
+@media screen and (width >=768px) {
+    .movie-serie-carousel .embla__slide {
+        width: calc((100% - 24px) / 4);
     }
 
-    .movie-serie-carousel .scale-animation::before {
-        display: none;
-    } 
-
-    .movie-serie-carousel .image {
-        transition: all 0.3s ease-in-out;
+    .movie-serie-carousel .img {
+        transition: transform 0.2s ease-in-out;
+        pointer-events: none;
     }
 
-    .slide-image-container:hover .scale-animation .image {
-        opacity: 40%;
+    .movie-serie-carousel .img-box::before {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        background-image: none;
+        transform: none;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
+        background-color: var( --color-gradient-70);
+    }
+
+    .movie-serie-carousel .img-wrapper:hover .img {
         transform: scale(110%);
     }
 
-    .slide-image-container .favorite-button {
-        transition: opacity 0.3s ease-in-out;
+    .movie-serie-carousel .img-wrapper:hover .img-box::before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .movie-serie-carousel .img-wrapper .favorite-button {
+        transition: opacity 0.2s ease-in-out;
         opacity: 0;
     }
 
-    .slide-image-container:hover .favorite-button {
-        opacity: 100%;
+    .movie-serie-carousel .img-wrapper:hover .favorite-button {
+        opacity: 1;;
     }
-   
+
     .movie-serie-carousel .play-icon-box {
         opacity: 0;
         width: 60px;
@@ -73,10 +103,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: opacity 0.3s linear;
         position: absolute;
         top: 50%;
         left: 50%;
+        transition: opacity 0.3s ease-in-out;
         transform: translate(-50%, -50%);
         z-index: 11;
         cursor: pointer;
@@ -84,13 +114,17 @@
         border-radius: 50%;
     }
 
-    .slide-image-container:hover .play-icon-box {
-        opacity: 100%;
+    .movie-serie-carousel .img-wrapper:hover .play-icon-box {
+        opacity: 1;;
     }
 }
 
-@media screen and ( width >= 1280px ) {
-    .movie-serie-carousel .scale-animation {
-        width: 225px;
+@media screen and (width >=1024px) {
+    .movie-serie-carousel .embla__slide {
+        width: calc((100% - 32px) / 5);
+    }
+
+    .movie-serie-carousel .embla {
+        padding: 0 70px;
     }
 }

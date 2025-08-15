@@ -28,10 +28,15 @@ type ComponentProps = {
     slidesType: 'movie' | 'serie' | 'mixed';
 };
 
+type Slides = {
+    toScroll: number[];
+    inView: number[];
+};
+
 export default function MoviesSeriesCarousel(props: ComponentProps) {
 
     const { push } = useRouter();
-    const [ slidesInView, setSlidesInView ] = useState<number[]>([]);
+    const [slidesToScroll, setSlidesToScroll] = useState<number[]>([]);
     const { dispatch } = useContext(GlobalEventsContext);
     const {
         low_resolution_poster,
@@ -51,7 +56,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
     } = useContext(UserDataContext);
 
     // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
-    const updateUserFavorites = useCallback(async (slideId: string, slideType: string | undefined ): Promise<void> => {
+    const updateUserFavorites = useCallback(async (slideId: string, slideType: string | undefined): Promise<void> => {
         // abre o modal de registro caso o usuario nao esteja logado para completar a ação
         if (!isLoggedIn) {
             dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: true });
@@ -75,7 +80,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
             deleteUserFavoritesOnDb(slideId, type);
         };
 
-    }, [ slidesType, dispatch, favoriteMovies, favoriteSeries, isLoggedIn ]);
+    }, [slidesType, dispatch, favoriteMovies, favoriteSeries, isLoggedIn]);
 
     // verifica se o conteudo esta nos favorites e retorna true ou false
     const findFavoriteOnList = useCallback((id: string): boolean => {
@@ -83,43 +88,48 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
             favoriteMovies?.includes(id) ||
                 favoriteSeries?.includes(id) ? true : false;
         return isFavorite;
-    }, [ favoriteMovies, favoriteSeries ]);
+    }, [favoriteMovies, favoriteSeries]);
 
     // lida com a navegaçao
-    const navigate = useCallback(( slideId: string, slideType: string | undefined ): void => {
-        dispatch({type: 'IS_LOADING_ACTIVE', payload: true});
-        if ( slidesType === 'mixed' && slideType ) {
+    const navigate = useCallback((slideId: string, slideType: string | undefined): void => {
+        dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
+        if (slidesType === 'mixed' && slideType) {
             push(`/player/${slideType}/${slideId}`);
             return;
-        }; 
+        };
         push(`/player/${slidesType}/${slideId}`, { scroll: true });
-    }, [ slidesType ]);
+    }, [slidesType]);
 
     // obtem os slides ativos na viewport | lista com total de slides
-    const getActiveSlides = useCallback(( indexList: number[], numberOfSlides: number ): void => {
-        if ( !indexList || !numberOfSlides ) return;
+    const getActiveSlides = useCallback((indexList: number[], numberOfSlides: number): void => {
+        if (!indexList || !numberOfSlides) return;
         const firstSlide = indexList[0];
         const lastSlide = indexList.at(-1) as number;
         const minLength = indexList.length < (indexList[0] + 1) ? indexList.length : indexList[0];
         const maxLength = indexList.length <= (numberOfSlides - (lastSlide + 1)) ? indexList.length : numberOfSlides - (lastSlide + 1);
-        const prevSlides: number[] = firstSlide > 0 ? Array.from({length: minLength }, (_,i) => i + (indexList[0] - minLength)) : [];
-        const nextSlides: number[] = lastSlide < (numberOfSlides - 1) ? Array.from({length: maxLength}, (_,i) => i + lastSlide + 1) : [];
+        const prevSlides: number[] = firstSlide > 0 ? Array.from({ length: minLength }, (_, i) => i + (indexList[0] - minLength)) : [];
+        const nextSlides: number[] = lastSlide < (numberOfSlides - 1) ? Array.from({ length: maxLength }, (_, i) => i + lastSlide + 1) : [];
         const inView = [...prevSlides, ...indexList, ...nextSlides];
-        setSlidesInView([...inView]);
-    },[]);
+        setSlidesToScroll([...inView]);
+    }, [setSlidesToScroll]);
 
     return props.slidesData ? (
         <div className='movie-serie-carousel'>
-            <EmblaCarousel 
-                navigationType='default' 
-                dragFree={true} 
-                activeSlides={getActiveSlides}>
+            <EmblaCarousel
+                navigationType='default'
+                dragFree={false}
+                activeSlides={getActiveSlides}
+                breakpoints={{
+                    '(min-width: 1px)': { slidesToScroll: 3, duration: 20 },
+                    '(min-width: 768px)': { slidesToScroll: 4, duration: 25 },
+                    '(min-width: 1024px)': { slidesToScroll: 5 },
+                }}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
                 {props.slidesData.map((slide, index) => (
                     slide.poster_path || slide.backdrop_path ? (
-                        <div className={`embla__slide ${slidesInView.includes(index) ? 'active-slide' : 'disable-slide'}`} key={`main-slides-${slide.id}`}>
+                        <div className={`embla__slide ${slidesToScroll.includes(index) ? 'active-slide' : 'disable-slide'}`} key={`main-slides-${slide.id}`}>
                             <>
-                                <div className='slide-image-container'>
+                                <div className='img-wrapper'>
                                     {/* Opção para adicionar o filme/serie aos favoritos */}
                                     <FavoriteButton
                                         updateFavorites={updateUserFavorites}
@@ -131,24 +141,23 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                                     <div
                                         className='play-icon-box'
                                         onClick={() => navigate(slide.id, slide.media_type)} >
-                                        <FaPlay className="text-primary-content text-lg translate-x-px" />
+                                        <FaPlay className="text-background text-lg translate-x-px" />
                                     </div>
 
                                     {/* Imagem do conteudo a ser exibido */}
-                                    <div
-                                        className="scale-animation"
-                                        onClick={() => navigate(slide.id, slide.media_type)}>
+                                    <div className='img-box'>
                                         <img
+                                            onClick={() => navigate(slide.id, slide.media_type)}
                                             src={
                                                 slide.poster_path ?
                                                     `${low_resolution_poster}${slide.poster_path}` :
                                                     `${low_resolution_backdrop}${slide.backdrop_path}`
                                             }
                                             alt={`
-                                            ${slide.title ?? slide.name} ${slidesType} presentation image`
+                                                ${slide.title ?? slide.name} ${slidesType} presentation image`
                                             }
                                             loading='lazy'
-                                            className="image min-w-full min-h-full object-cover"
+                                            className="img"
                                         />
                                     </div>
                                 </div>
@@ -157,7 +166,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                                 <div className="mt-[10px] relative pr-2 max-w-[140px] md:max-w-[200px] xl:max-w-56 lg:hidden">
                                     {/* Titulo */}
                                     <h3
-                                        className="font-medium text-base text-secondary/90 line-clamp-1">
+                                        className="font-medium text-sm text-secondary/90 line-clamp-1">
                                         {slide.title ?? slide.name}
                                     </h3>
                                 </div>

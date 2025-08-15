@@ -7,22 +7,20 @@ import { UsePrevNextButtonsType } from "@/hooks/embla/usePrevNextButtons";
 
 import '@/components/organisms/emblaSlides/styles.css';
 
-const EmblaNavigation = memo(( props: UsePrevNextButtonsType ) => {
+const EmblaNavigation = memo((props: UsePrevNextButtonsType) => {
     return (
         <>
-            {/* Botão para o slide anterior */ }
-            { !props.prevBtnDisabled &&
-                <div 
-                    className="w-16 h-full absolute left-0 top-0 z-50 bg-gradient-to-r from-background to-background/0 flex items-center justify-start embla-navigation">
-                    <PrevSlide onClick={props.onPrevButtonClick} className="bg-primary"/>
+            {/* Botão para o slide anterior */}
+            {!props.prevBtnDisabled &&
+                <div className="absolute left-0 top-0 z-50 flex items-center justify-center bg-background/80 w-5 sm:w-10 lg:w-[70px] h-full">
+                    <PrevSlide onClick={props.onPrevButtonClick} className=" bg-primary embla-navigation" />
                 </div>
             }
 
-            {/* Botão para o proximo slide */ }
-            { !props.nextBtnDisabled &&
-                <div 
-                    className="w-16 h-full absolute right-0 top-0 z-50 bg-gradient-to-r from-transparent to-background flex items-center justify-end embla-navigation">
-                    <NextSlide onClick={props.onNextButtonClick} className="bg-primary"/>
+            {/* Botão para o proximo slide */}
+            {!props.nextBtnDisabled &&
+                <div className="absolute right-0 top-0 z-50 flex items-center justify-center bg-background/80 w-5 sm:w-10 lg:w-[70px] h-full">
+                    <NextSlide onClick={props.onNextButtonClick} className="bg-primary embla-navigation" />
                 </div>
             }
         </>

@@ -1,5 +1,6 @@
 
 .embla {
+
     position: relative;
     box-sizing: border-box;
     z-index: 2;
@@ -10,15 +11,10 @@
     flex-direction: row;
 }
 
-.embla .embla__viewport {
-    overflow: hidden;
-}
-
 .embla__container .embla__slide {
     flex: 0 0 auto;
     overflow: hidden;
     z-index: 3;
-    background-color: #020515;
 }
 
 .embla .embla-navigation {
@@ -37,9 +33,8 @@
     visibility: hidden;
 }
 
-.embla .active-slide {
-    pointer-events: auto;
-    visibility: visible;
+.embla .embla__slide:not(.disable-slide) img {
+    filter: brightness(0.95) contrast(1.05) saturate(1.1);
 }
 
 @media screen and (width >=768px) {
@@ -48,7 +43,7 @@
     }
 
     .embla:hover .embla-navigation {
-        pointer-events: all;
+        pointer-events: initial;
         opacity: 100%;
     }
 }
