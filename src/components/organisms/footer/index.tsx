@@ -1,8 +1,12 @@
 import './styles.css';
 
-export default function Footer() {
+type ComponentProps = {className?: string;};
+
+export default function Footer(props: ComponentProps) {
+    const {className} = props;
+
     return (
-        <footer className="px-4 sm:px-10 lg:px-[70px] mt-10 py-14 bg-surface">
+        <footer className={`px-4 sm:px-10 lg:px-[70px] py-14 bg-surface ${className}`}>
             <h2 className="text-primary font-black text-[22px] font-raleway">ZilluTV</h2>
             <div className="bg-secondary/5 h-px w-full max-w-48 mt-[15px]" />
 
