@@ -1,5 +1,129 @@
-@media screen and ( width >=768px ) {
+footer a,
+footer button {
+    font-size: 16px;
+}
+
+footer h3 {
+    letter-spacing: 0.02em;
+    font-weight: 900;
+    color: var(--color-secondary);
+    font-size: 19px;
+}
+
+footer h2 {
+    letter-spacing: 0.1em;
+}
+
+footer .custom-grid {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 64px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+footer .custom-grid .column:not(:last-of-type) {
+    position: relative;
+}
+
+footer .column:not(:last-of-type)::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    transform: translate(-20px, 32px);
+    left: 0;
+    width: 100vw;
+    height: 1px;
+    background-color: color-mix(in oklab, var(--color-secondary) 5%, transparent);
+}
+
+footer ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px
+}
+
+footer li {
+    font-weight: normal;
+}
+
+footer button {
+    color: var(--color-secondary);
+    width: fit-content;
+    height: 48px;
+    border-radius: 30px;
+    padding: 0 32px;
+    font-weight: normal;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: color-mix(in oklab, var(--color-secondary) 10%, transparent);
+}
+
+footer p {
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+footer .column p {
+    width: clamp(200px, 100%, 350px);
+}
+
+@media screen and (width >=640px) {
+    footer .column:not(:last-of-type)::before {
+        transform: translate(-40px, 32px);
+    }
+}
+
+@media screen and (width >=768px) {
+    footer .custom-grid {
+        grid-template-columns: auto auto;
+    }
+
+    footer .column {
+        width: fit-content;
+    }
+
     footer a:hover {
         text-decoration: underline;
     }
-} 
+
+    footer .column:nth-of-type(3)::before,
+    footer .column:nth-of-type(2)::before {
+        display: none;
+    }
+
+    footer .column:nth-of-type(3) {
+        grid-column: 1 / 3;
+    }
+
+    footer h3 {
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    footer .column:nth-of-type(3) p {
+        width: clamp(350px, 90%, 700px);
+    }
+}
+
+@media screen and (width >=1024px) {
+    footer .column:not(:last-of-type)::before {
+        transform: translate(-70px, 32px);
+    }
+}
+
+@media screen and (width >=1200px) {
+    footer .custom-grid {
+        grid-template-columns: auto auto auto;
+    }
+
+    footer .column:nth-of-type(3) {
+        grid-column: initial;
+    }
+
+    footer .column p {
+        width: 100%;
+        max-width: 300px;
+    }
+}
