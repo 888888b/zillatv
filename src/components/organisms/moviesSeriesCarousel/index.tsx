@@ -117,11 +117,10 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
         <div className='movie-serie-carousel'>
             <EmblaCarousel
                 navigationType='default'
-                dragFree={false}
                 activeSlides={getActiveSlides}
                 breakpoints={{
-                    '(min-width: 1px)': { slidesToScroll: 3, duration: 20 },
-                    '(min-width: 768px)': { slidesToScroll: 4, duration: 25 },
+                    '(min-width: 1px)': { slidesToScroll: 'auto', duration: 20, dragFree: true, loop: false },
+                    '(min-width: 768px)': { slidesToScroll: 4, duration: 25, dragFree: false, loop: true },
                     '(min-width: 1024px)': { slidesToScroll: 5 },
                 }}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
@@ -166,7 +165,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                                 <div className="mt-[10px] relative pr-2 max-w-[140px] md:max-w-[200px] xl:max-w-56 lg:hidden">
                                     {/* Titulo */}
                                     <h3
-                                        className="font-medium text-sm text-secondary/90 line-clamp-1">
+                                        className="font-medium text-sm text-text line-clamp-1">
                                         {slide.title ?? slide.name}
                                     </h3>
                                 </div>

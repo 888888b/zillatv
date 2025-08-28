@@ -2,7 +2,7 @@
 import useTmdbFetch from "@/hooks/tmdb";
 
 // componentes
-import HeaderCarousel from "@/components/organisms/headerCarousel";
+import HeaderCarousel from "@/components/organisms/heroCarousel";
 import MovieSerieCarousel from "@/components/organisms/moviesSeriesCarousel";
 import { CarouselTitle } from "@/components/atoms/carouselTitle";
 import { StopLoading } from "@/components/atoms/stopLoading";
@@ -15,7 +15,8 @@ import { getContentId } from "@/utils/tmdbApiData/id";
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 
-import { tmdbGenres } from "@/app/constants";
+import { tmdbGenres, tmdbSerieGenres } from "@/app/constants";
+import { fetchSeriesByGenre } from "@/hooks/tmdb/seriesByGenre";
 
 export default async function HomePage() {
 
@@ -26,23 +27,21 @@ export default async function HomePage() {
         fetchAllTrending,
         fetchPopularSeries,
         fetchSeriesByIdList,
-        fetchMoviesByIdList,
-        fetchPopularMovies
     } = useTmdbFetch();
 
     try {
-        const popularMovies = await fetchPopularMovies();
-        const moviesIdList = await getContentId(popularMovies);
-        const movies = await fetchMoviesByIdList(moviesIdList);
-        slidesData.headerSlidesData = await checkAvailability(movies);
+        const familySeriesData = await fetchSeriesByGenre(tmdbSerieGenres.family.genre);
+        const familyGenreIds = await getContentId(familySeriesData);
+        const familySeries = await fetchSeriesByIdList(familyGenreIds);
+        slidesData.headerSlidesData = await checkAvailability(familySeries);
         slidesData.fictionMovies = await fetchMoviesByGenre('878');
         slidesData.horrorMovies = await fetchMoviesByGenre('27');
         slidesData.cartoonShows = await fetchMoviesByGenre('16');
         slidesData.allTrending = await fetchAllTrending();
-        const popularSeries = await fetchPopularSeries();
-        const idList = await getContentId(popularSeries);
-        const series = await fetchSeriesByIdList(idList);
-        slidesData.popularSeries = await checkAvailability(series);
+        const popularSeriesData = await fetchPopularSeries();
+        const popularIds = await getContentId(popularSeriesData);
+        const popularSeries = await fetchSeriesByIdList(popularIds);
+        slidesData.popularSeries = await checkAvailability(popularSeries);
         isDataLoaded = true;
     } catch (error) {
         console.error(error);
@@ -51,18 +50,18 @@ export default async function HomePage() {
     return (
         <section className="min-h-screen">
             <HeaderCarousel
-                slidesType="movie"
+                slidesType='serie'
                 slidesData={slidesData.headerSlidesData}
                 currentPage="home"
             />
 
             <div className="w-[calc(100%-40px)] mx-auto h-px bg-secondary/5 sm:hidden my-10" />
 
-            <div className="flex flex-col mb-14 sm:mb-0  sm:-translate-y-[71px] z-10 relative">
+            <div className="flex flex-col mb-14 sm:mb-0  sm:-translate-y-[84px] z-10 relative">
                 {slidesData.allTrending && (
                     <>
                         {/* Carousel com filmes de ficção */}
-                        <div className="flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
                             <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.trending.title}
@@ -71,14 +70,14 @@ export default async function HomePage() {
                             <MovieSerieCarousel slidesData={slidesData.allTrending} slidesType='mixed' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
+                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.cartoonShows && (
                     <>
                         {/* Carousel com desenhos/animes */}
-                        <div className="flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
                             <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.cartoon.title}
@@ -87,14 +86,14 @@ export default async function HomePage() {
                             <MovieSerieCarousel slidesData={slidesData.cartoonShows} slidesType='movie' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
+                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.horrorMovies && (
                     <>
                         {/* Carousel com filmes de terror */}
-                        <div className="flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
                             <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.horror.title}
@@ -103,28 +102,28 @@ export default async function HomePage() {
                             <MovieSerieCarousel slidesData={slidesData.horrorMovies} slidesType='movie' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
+                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.popularSeries && (
                     <>
                         {/* Carousel com series populares */}
-                        <div className="flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-y-8">
                             <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.popular.title}
                             </CarouselTitle>
                             <MovieSerieCarousel slidesData={slidesData.popularSeries} slidesType='serie' />
                         </div>
 
-                        <div className="w-full h-px my-11 lg:mt-12 lg:mb-10 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
+                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </>
                 )}
 
                 {slidesData.fictionMovies && (
                     <>
                         {/* Carousel com filmes de ficção */}
-                        <div className="flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
                             <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.fiction.title}
