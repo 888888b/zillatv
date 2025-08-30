@@ -63,7 +63,7 @@ export default async function HomePage() {
                         {/* Carousel com filmes de ficção */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
                                 {tmdbGenres.trending.title}
                             </CarouselTitle>
                             {/* Carousel */}
@@ -79,7 +79,7 @@ export default async function HomePage() {
                         {/* Carousel com desenhos/animes */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
                                 {tmdbGenres.cartoon.title}
                             </CarouselTitle>
                             {/* Carousel */}
@@ -95,7 +95,7 @@ export default async function HomePage() {
                         {/* Carousel com filmes de terror */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
                                 {tmdbGenres.horror.title}
                             </CarouselTitle>
                             {/* Carousel */}
@@ -110,7 +110,7 @@ export default async function HomePage() {
                     <>
                         {/* Carousel com series populares */}
                         <div className="flex flex-col gap-y-8">
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
                                 {tmdbGenres.popular.title}
                             </CarouselTitle>
                             <MovieSerieCarousel slidesData={slidesData.popularSeries} slidesType='serie' />
@@ -125,7 +125,7 @@ export default async function HomePage() {
                         {/* Carousel com filmes de ficção */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
                                 {tmdbGenres.fiction.title}
                             </CarouselTitle>
                             {/* Carousel */}

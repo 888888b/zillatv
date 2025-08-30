@@ -48,7 +48,7 @@ export default function Header() {
 
     return (
         <MobileMenu>
-            <header ref={headerRef} className="fixed top-0 left-0 px-5 z-40 w-full flex items-center justify-between font-bold sm:px-10 lg:px-[70px] overflow-hidden max-w-[1440px] min-[1440px]:left-1/2 min-[1440px]:-translate-x-1/2">
+            <header ref={headerRef} className="fixed top-0 left-0 px-5 z-40 w-full flex items-center justify-between font-bold sm:px-10 lg:px-16 overflow-hidden max-w-[1440px] min-[1440px]:left-1/2 min-[1440px]:-translate-x-1/2">
                 <div className="flex items-center gap-x-10">
                     {/* icone do menu mobile */}
                     <label htmlFor='header-drawer' className="flex flex-col justify-center items-center gap-y-[3px] *:w-[20px] *:h-[2px] *:bg-secondary *:rounded-[0.04em] bg-secondary/15 h-10 w-[46px] rounded-md cursor-pointer lg:hidden">
