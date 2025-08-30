@@ -1,5 +1,5 @@
 import { tmdbObjProps } from '@/contexts/tmdbContext';
-import { Path } from '@/components/organisms/headerCarousel';
+import { Path } from '@/components/organisms/heroCarousel';
 
 // filtra a lista de imagens de logo buscando por uma imagem em portugues (caso houver logos disponiveis)
 export const getLogoPath = (logos: tmdbObjProps[], slideId: string): Path | undefined => {
