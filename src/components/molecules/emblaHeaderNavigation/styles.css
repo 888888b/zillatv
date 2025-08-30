@@ -9,8 +9,8 @@
 }
 
 :root {
-  --bullet-width: 10px;
-  --bullet-height: 10px
+  --bullet-width: 12px;
+  --bullet-height: 12px;
 }
 
 .bullets-bar {
@@ -19,6 +19,7 @@
   right: 50vw;
   display: flex;
   column-gap: 12px;
+  align-items: center;
   z-index: 30;
 }
 
@@ -35,14 +36,17 @@
 
 .bullets-bar .active-bullet {
   background-color: var(--color-primary);
+  width: var(--bullet-width);
+  height: var(--bullet-height);
 }
 
 .bullets-bar .active-animated-bullet {
   background-color: rgb(255, 255, 19, 0.2);
-  width: 30px;
+  width: 36px;
   border-radius: 15px;
   transition: width 0.3s linear;
   position: relative;
+  height: var(--bullet-height);
 }
 
 .bullets-bar .active-animated-bullet::before {
@@ -50,7 +54,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  height: var(--bullet-height);
+  height: 100%;
   border-radius: 15px;
   animation: autoplay-progress 7s linear forwards;
   background-color: var(--color-primary);
@@ -63,26 +67,5 @@
 @media screen and (width >=640px) {
   .bullets-bar {
     bottom: 96px;
-  }
-}
-
-@media screen and (width >=768px) {
-  :root {
-    --bullet-width: 12px;
-    --bullet-height: 12px;
-  }
-
-
-  .bullets-bar .bullet {
-    width: var(--bullet-width);
-    height: var(--bullet-height);
-  }
-
-  .bullets-bar .active-animated-bullet {
-    width: 36px;
-  }
-
-  .bullets-bar .active-animated-bullet::before {
-    height: var(--bullet-height);
   }
 }

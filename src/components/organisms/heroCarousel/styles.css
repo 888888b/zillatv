@@ -1,0 +1,74 @@
+.hero-carousel {
+  position: relative;
+}
+
+.hero-carousel .embla__slide {
+  width: 100%;
+  height: 578px;
+  overflow: hidden;
+}
+
+.hero-carousel .embla::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 335px;
+  top: 0;
+  pointer-events: none;
+  left: 0;
+  background-image: linear-gradient(to top,
+      var(--color-background),
+      var(--color-gradient-0),
+      var(--color-background));
+  z-index: 5;
+}
+
+.hero-carousel img {
+  max-height: 335px;
+}
+
+@media screen and (width>=640px) {
+  .hero-carousel .embla__container {
+    width: 80%;
+    margin-left: auto;
+  }
+
+  .hero-carousel .embla__slide {
+    height: fit-content;
+  }
+
+  .hero-carousel img {
+    max-height: 95vh;
+    min-height: 500px;
+  }
+
+  .hero-carousel .embla::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    pointer-events: none;
+    left: 0;
+    background-image: linear-gradient(to right,
+        var(--color-background) 0%,
+        var(--color-background) 20%,
+        var(--color-gradient-0) 100%);
+    z-index: 6;
+  }
+
+  .hero-carousel .embla::before {
+    height: 100%;
+    background-image: linear-gradient(to top,
+      var(--color-background),
+      var(--color-gradient-0),
+      var(--color-gradient-70));
+  }
+}
+
+@media screen and (width>=1024px) {
+  .hero-carousel img {
+    min-height: 550px;
+  }
+}
+

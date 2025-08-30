@@ -6,7 +6,7 @@ const HeroButton = memo(( props: ComponentPropsWithRef<'button'> ) => {
     return (
         <button
             {...rest}
-            className={`pointer-events-auto outline-none border-none w-full max-w-[500px] h-12 rounded-[10px] uppercase bg-primary text-primary-content text-sm lg:text-[15px] font-bold sm:w-48 lg:w-52 active:scale-95 transition-transform duration-200 flex items-center gap-x-3 justify-center cursor-pointer ${className}`}>
+            className={`pointer-events-auto outline-none border-none w-fit h-10 rounded-md bg-primary text-background text-base font-bold px-6  active:scale-95 transition-transform duration-200 flex items-center gap-x-3 justify-center cursor-pointer lg:h-12 ${className}`}>
             {children}
         </button>
     );
