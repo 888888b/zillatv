@@ -29,11 +29,11 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
     const updateLinkStyle = () => {
         navLinksRef.current.forEach( link => {
             if ( link?.id === pathname ) {
-                Object.assign(link.style, { color: '#ffff13' });
+                Object.assign(link.style, { color: 'var(--color-primary)' });
             };
 
             if ( link?.id !== pathname && link ) {
-                Object.assign(link.style, { color: '#b3b4b8' });
+                Object.assign(link.style, { color: 'var(--color-text)' });
             };
         });
     };
@@ -53,10 +53,6 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
                 <label htmlFor="header-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <div className="w-80 min-h-full bg-surface px-5 py-6 md:px-10 flex flex-col">
                     {/* conteudo do menu aqui */}
-                    <SearchBar 
-                        className='w-full h-12 md:hidden' 
-                        callback={closeMenu}
-                    />
                     {/* links para navegação */}
                     <ul className="font-semibold text-text mt-12 flex flex-col gap-y-6 text-base *:cursor-pointer">
                         <li 

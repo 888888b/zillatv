@@ -1,0 +1,9 @@
+.active-searchbar {
+    width: 30vw;
+}
+
+@media screen and (width >= 1024px) {
+    .active-searchbar {
+        width: 28vw;
+    }
+}

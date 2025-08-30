@@ -4,6 +4,8 @@ import { useRouter, usePathname } from "next/navigation";
 
 import Image from "next/image";
 
+import './styles.css';
+
 type SearchBarProps = {
     className?: string;
     callback?: () => void;
@@ -33,13 +35,13 @@ export default function SearchBar( props: SearchBarProps ) {
     // ativada sempre que o mouse entra da area da barra de pesquisa 
     const onMouseOverSearchBar = useCallback((e: MouseEvent<HTMLDivElement>): void => {
         if ( searchInputValue.length ) return;
-        e.currentTarget.style.width = '28vw';
+        e.currentTarget.classList.add('active-searchbar');
     }, [ searchInputValue ]);
 
     // ativada sempre que o mouse sai da area da barra de pesquisa 
     const onMouseOutSearchBar = useCallback((e: MouseEvent<HTMLDivElement>): void => {
         if ( searchInputValue.length ) return;
-        e.currentTarget.style.width = '48px';
+        e.currentTarget.classList.remove('active-searchbar');
     }, [ searchInputValue ]);
 
     // adiciona os eventos de mouse para que a animaçao funcione
@@ -51,16 +53,14 @@ export default function SearchBar( props: SearchBarProps ) {
     return (
         <div 
             style={{ animationTimingFunction: 'ease' }} 
-            className={`rounded-[10px] border-[0.1rem] oerflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-12 h-11 ${className}`}
+            className={`rounded-md border-[0.1rem] oerflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-11 h-10 lg:w-[52px] lg:h-12 ${className}`}
             {...mouseEvents}>
             {/* icone de lupa */}
-            <div className="w-11 h-11 flex items-center justify-center">
-                <Image
+            <div className="w-10 aspect-square lg:w-12 flex items-center justify-center">
+                <img
                     src={'/search_icon.png'}
                     alt={'search icon'}
-                    width={24}
-                    height={24}
-                    className="-translate-y-px"
+                    className="-translate-y-px h-6"
                 />
             </div>
 
