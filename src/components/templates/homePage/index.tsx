@@ -14,9 +14,10 @@ import { tmdbObjProps } from "@/contexts/tmdbContext";
 import { getContentId } from "@/utils/tmdbApiData/id";
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
+import { sortByVoteAverageDesc } from '@/utils/tmdbApiData/sortByAverageNote';
 
-import { tmdbGenres, tmdbSerieGenres } from "@/app/constants";
-import { fetchSeriesByGenre } from "@/hooks/tmdb/seriesByGenre";
+import { tmdbGenres } from "@/app/constants";
+import { fetchMoviesByIdList } from "@/hooks/tmdb/moviesByIdList";
 
 export default async function HomePage() {
 
@@ -27,13 +28,15 @@ export default async function HomePage() {
         fetchAllTrending,
         fetchPopularSeries,
         fetchSeriesByIdList,
+        fetchMoviesByIdList
     } = useTmdbFetch();
 
     try {
-        const familySeriesData = await fetchSeriesByGenre(tmdbSerieGenres.family.genre);
-        const familyGenreIds = await getContentId(familySeriesData);
-        const familySeries = await fetchSeriesByIdList(familyGenreIds);
-        slidesData.headerSlidesData = await checkAvailability(familySeries);
+        const trendingMoviesData = await fetchAllTrending('movie');
+        const trendingMoviesIds = await getContentId(trendingMoviesData);
+        const trendingMovies = await fetchMoviesByIdList(trendingMoviesIds);
+        const filteredTrendingMovies = await checkAvailability(trendingMovies);
+        slidesData.headerSlidesData = sortByVoteAverageDesc(filteredTrendingMovies);
         slidesData.fictionMovies = await fetchMoviesByGenre('878');
         slidesData.horrorMovies = await fetchMoviesByGenre('27');
         slidesData.cartoonShows = await fetchMoviesByGenre('16');
@@ -50,20 +53,17 @@ export default async function HomePage() {
     return (
         <section className="min-h-screen">
             <HeaderCarousel
-                slidesType='serie'
+                slidesType='movie'
                 slidesData={slidesData.headerSlidesData}
                 currentPage="home"
             />
-
-            <div className="w-[calc(100%-40px)] mx-auto h-px bg-secondary/5 sm:hidden my-10" />
-
-            <div className="flex flex-col mb-14 sm:mb-0  sm:-translate-y-[84px] z-10 relative">
+            <div className="flex flex-col mt-8 mb-16 sm:mb-0  sm:-translate-y-[100px] z-10 relative">
                 {slidesData.allTrending && (
                     <>
                         {/* Carousel com filmes de ficção */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.trending.title}
                             </CarouselTitle>
                             {/* Carousel */}
@@ -79,7 +79,7 @@ export default async function HomePage() {
                         {/* Carousel com desenhos/animes */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.cartoon.title}
                             </CarouselTitle>
                             {/* Carousel */}
@@ -95,7 +95,7 @@ export default async function HomePage() {
                         {/* Carousel com filmes de terror */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.horror.title}
                             </CarouselTitle>
                             {/* Carousel */}
@@ -110,7 +110,7 @@ export default async function HomePage() {
                     <>
                         {/* Carousel com series populares */}
                         <div className="flex flex-col gap-y-8">
-                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.popular.title}
                             </CarouselTitle>
                             <MovieSerieCarousel slidesData={slidesData.popularSeries} slidesType='serie' />
@@ -125,7 +125,7 @@ export default async function HomePage() {
                         {/* Carousel com filmes de ficção */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
-                            <CarouselTitle className="ml-5 sm:ml-10 lg:ml-[70px]">
+                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-[70px]">
                                 {tmdbGenres.fiction.title}
                             </CarouselTitle>
                             {/* Carousel */}

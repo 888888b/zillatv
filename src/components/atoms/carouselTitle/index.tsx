@@ -15,7 +15,7 @@ export const CarouselTitle = ( props: ElementProps ) => {
     return (
         <h2 
             { ...rest } 
-            className={`text-[19px] font-black font-raleway md:text-[22px] tracking-wide text-secondary flex items-center justify-between md:justify-start gap-x-[10px] flex-nowrap hover:text-primary cursor-pointer transition-colors duration-300 w-fit ${className}`}
+            className={`text-[19px] font-black font-raleway md:text-[22px] tracking-wide text-secondary flex items-center gap-x-[10px] flex-nowrap hover:text-primary cursor-pointer transition-colors duration-300 ${className}`}
             >
             { children }
             <ArrowRight stroke="2" width={24} height={24}/>
