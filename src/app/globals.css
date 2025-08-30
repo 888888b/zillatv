@@ -21,9 +21,9 @@
   --color-primary: #ffff13 /*cor primaria para textos e botoes com destaque*/;
   --color-secondary: #ffffff /*cor secondaria para textos e botoes com destaque*/;
   --color-primary-content: #333333 /*contraste com a cor acima, para textos de botoes e outros*/;
-  --color-background: #020515 /*cor de fundo da pagina*/;
+  --color-background: #060D17 /*cor de fundo da pagina*/;
   --color-text: #b3b4b8 /*cor padrão para textos*/;
-  --color-surface: #16142A /*contraste com a cor de fundo da pagina, para cards e seçoes*/;
+  --color-surface: #0F1621 /*contraste com a cor de fundo da pagina, para cards e seçoes*/;
   --color-accent: #333333 /*constraste para textos em botoes de destaque*/;
   --color-success: "" /**/;
   --color-error: red /**/;
