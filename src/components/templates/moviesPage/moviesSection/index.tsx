@@ -84,7 +84,7 @@ export default function MoviesSection(props: ComponentProps) {
 
     return (
         <div
-            className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-10 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
+            className={`flex flex-col gap-y-8 px-5 sm:px-10 lg:px-16 mt-8 mb-16 sm:mb-0 sm:mt-0 sm:-translate-y-[70px] relative z-10 ${props.className}`}>
             {tmdbGenres &&
                 <GenreSelect
                     onSelectGenre={getSelectedGenre}

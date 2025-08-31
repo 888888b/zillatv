@@ -2,7 +2,7 @@
 import useTmdbFetch from '@/hooks/tmdb';
 
 // componentes
-import HeaderCarousel from '@/components/organisms/headerCarousel';
+import HeaderCarousel from '@/components/organisms/heroCarousel';
 import MoviesSection from './moviesSection';
 import { StopLoading } from '@/components/atoms/stopLoading';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
@@ -30,7 +30,7 @@ export default async function MoviesPage() {
 
     return contentData ? (
         <>
-            <div className='w-full min-h-screen font-inter'>
+            <div className='w-full min-h-screen'>
                 <HeaderCarousel
                     slidesType='movie'
                     slidesData={contentData}

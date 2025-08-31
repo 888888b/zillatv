@@ -1,75 +1,94 @@
-.movie-serie-section-container {
+.movie-serie-section {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat( auto-fill, minmax(150px, 1fr) );
-    column-gap: 10px;
-    row-gap: 40px;
+    grid-template-columns: repeat( auto-fill, minmax(140px, 1fr) );
+    gap: 8px;
 }
 
-.movie-serie-section-container .card-image {
+.movie-serie-section .card-image {
     position: relative;
     width: 100%;
     overflow: hidden;
-    border-radius: 10px;
-    aspect-ratio: 1 / 1.5;
-    cursor: pointer
+    border-radius: 6px;
+    cursor: pointer;
+    aspect-ratio: 1 / 1.4;
 };
 
-.movie-serie-section-container .scale-animation {
-    position: relative;
+.movie-serie-section .img-box {
+    width: 100%;
+    height: 100%;
 }
 
-.movie-serie-section-container .scale-animation::before {
-    content: '';
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    top: 0;
-    right: 0;
-    transform: translate(50%, -50%);
-    background-image: radial-gradient( 
-        ellipse, 
-        var(--color-background), 
-        transparent, 
-        transparent 
-    );
-    z-index: 10;
+.movie-serie-section .img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    background-color: var(--color-surface);
 }
 
-.movie-serie-section-container .play-icon-box {
+.movie-serie-section .play-icon-box, 
+.movie-serie-section .favorite-button {
     display: none;
 }
 
 @media screen and ( width >= 768px ) {
-    .movie-serie-section-container {
-        grid-template-columns: repeat( auto-fill, minmax(200px, 1fr) );
+    .movie-serie-section {
+        grid-template-columns: repeat( auto-fill, minmax(calc((100% - 24px) / 4), 1fr) );
     }
 
-    .movie-serie-section-container .scale-animation::before {
-        display: none;
+    .movie-serie-section .img-box::before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 0;
+        background-image: none;
+        transform: none;
+        visibility: hidden;
+        opacity: 0;
+        z-index: 10;
+        transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+        background-color: var( --color-gradient-70);
     }
 
-    .movie-serie-section-container .image {
-        transition: all 0.3s ease-in-out;
+    .movie-serie-section .img {
+        transition: transform 0.2s ease-in-out;
+        pointer-events: none;
     }
 
-    .movie-serie-section-container .card-image:hover .image {
-        opacity: 40%;
+    .movie-serie-section .card-image:hover .img {
         transform: scale(110%);
-    } 
+    }
 
-    .movie-serie-section-container .play-icon-box {
+    .movie-serie-section .card-image:hover .img-box::before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .movie-serie-section .card-image .favorite-button {
+        transition: opacity 0.2s ease-in-out;
+        opacity: 0;
+        display: block;
+    }
+
+    .movie-serie-section .card-image:hover .favorite-button {
+        opacity: 1;;
+    }
+
+    .movie-serie-section .play-icon-box {
         opacity: 0;
         width: 60px;
         height: 60px;
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: opacity 0.3s linear;
         position: absolute;
         top: 50%;
         left: 50%;
+        transition: opacity 0.2s ease-in-out;
         transform: translate(-50%, -50%);
         z-index: 11;
         cursor: pointer;
@@ -77,22 +96,19 @@
         border-radius: 50%;
     }
 
-    .movie-serie-section-container .card-image:hover .play-icon-box {
-        opacity: 100%;
-    }
-
-    .movie-serie-section-container .card-image button {
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out;
-    }
-
-    .movie-serie-section-container .card-image:hover button {
-        opacity: 100%;
+    .movie-serie-section .card-image:hover .play-icon-box {
+        opacity: 1;;
     }
 }
 
 @media screen and ( width >= 1024px ) {
-    .movie-serie-section-container {
-        row-gap: 0px;
+    .movie-serie-section {
+        grid-template-columns: repeat( auto-fill, minmax(calc((100% - 32px) / 5), 1fr) );
+    }
+}
+
+@media screen and ( width >= 1280px ) {
+    .movie-serie-section {
+        grid-template-columns: repeat( auto-fill, minmax(calc((100% - 40px) / 6), 1fr) );
     }
 }

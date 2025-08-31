@@ -85,7 +85,7 @@ export default function MoviesSeriesSection(props: ComponentProps) {
 
     return data ? (
         <>
-            <div className='movie-serie-section-container'>
+            <div className='movie-serie-section'>
                 {data.map((card, index) => (
                     card.media_type !== 'person' ? (
                         // card
@@ -103,12 +103,12 @@ export default function MoviesSeriesSection(props: ComponentProps) {
                                 <div
                                     className='play-icon-box'
                                     onClick={() => navigate(mediaType ?? card.media_type, card.id)} >
-                                    <FaPlay className="text-primary-content text-lg translate-x-px" />
+                                    <FaPlay className="text-background text-lg translate-x-px" />
                                 </div>
 
                                 {/* Imagem do conteudo a ser exibido */}
                                 <div
-                                    className="scale-animation w-full h-full"
+                                    className="img-box"
                                     onClick={() => navigate(mediaType ?? card.media_type, card.id)}>
                                     <img
                                         src={
@@ -118,17 +118,9 @@ export default function MoviesSeriesSection(props: ComponentProps) {
                                         }
                                         alt={`${card.title ?? card.name} ${mediaType} presentation image`}
                                         loading='lazy'
-                                        className="image w-full h-full object-cover bg-surface"
+                                        className="img"
                                     />
                                 </div>
-                            </div>
-
-                            {/* Container de informações sobre o conteudo */}
-                            <div className=" relative">
-                                {/* Titulo */}
-                                <p className="font-medium md:font-semibold text-base text-secondary line-clamp-1 lg:hidden">
-                                    {card.title ?? card.name}
-                                </p>
                             </div>
                         </div>
                     ) : null
