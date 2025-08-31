@@ -138,3 +138,10 @@
         padding: 0 64px;
     }
 }
+
+@media screen and (width >=1280px) {
+    .movie-serie-carousel .embla__slide {
+        width: calc((100% - 40px) / 6);
+    }
+}
+

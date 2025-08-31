@@ -122,6 +122,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                     '(min-width: 1px)': { slidesToScroll: 'auto', duration: 20, dragFree: true, loop: false },
                     '(min-width: 768px)': { slidesToScroll: 4, duration: 25, dragFree: false, loop: true },
                     '(min-width: 1024px)': { slidesToScroll: 5 },
+                    '(min-width: 1280px)': { slidesToScroll: 6 },
                 }}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
                 {props.slidesData.map((slide, index) => (
