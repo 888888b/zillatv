@@ -75,7 +75,7 @@ const HeaderNavigation = memo((props: HeaderNavigationProps) => {
 
             <div className="hidden absolute bottom-24 right-10 lg:right-16 md:flex items-center justify-center translate-y-1 *:text-secondary/50 *:hover:text-secondary *:hover:scale-125 *:transition-all *:duration-300 *:cursor-pointer z-10">
                 {/* Botão para o slide anterior */}
-                <div onClick={navigateToNextSlide}>
+                <div onClick={navigateToPrevSlide}>
                     <ArrowLeft width={24} height={24} stroke="1.7" />
                 </div>
                 {/* Botão para o proximo slide */}

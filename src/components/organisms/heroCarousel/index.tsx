@@ -82,11 +82,9 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
 
             {/* detalhes do filme/serie */}
             {currentSlide ? (
-                <div className="w-[calc(100%-40px)] sm:w-[calc(100%-80px)] lg:w-[calc(100%-128px)] absolute left-1/2 -translate-x-1/2 top-[335px] flex flex-col items-center gap-y-4 z-[10] pointer-events-none md:pointer-events-auto sm:top-1/2 sm:-translate-y-[calc(50%+20px)] sm:items-start">
+                <div className="w-[calc(100%-40px)] sm:w-[calc(100%-80px)] lg:w-[calc(100%-128px)] absolute left-1/2 -translate-x-1/2 bottom-11 flex flex-col items-center gap-y-4 z-[10] pointer-events-none md:pointer-events-auto sm:bottom-1/2 sm:translate-y-[calc(50%-20px)] sm:items-start">
                     {/* titulo */}
                     <Title title={currentSlide.title ?? currentSlide.name} className='text-center sm:text-left'/>
-                    {/* lista com algumas informaçoes sobre filme/serie */}
-                    <DetailsBar slide={currentSlide} className='hidden sm:flex'/>
                     {/* descrição do filme / serie */}
                     <Description description={currentSlide.overview}/>
                     <div className='flex items-center justify-center gap-x-4 flex-nowrap'>

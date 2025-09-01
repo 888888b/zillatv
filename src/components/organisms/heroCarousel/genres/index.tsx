@@ -10,7 +10,11 @@ export const Genres = (props: ComponentProps) => {
     return (
         <p className={`text-base leading-6 line-clamp-1 overflow-ellipsis sm:max-w-[40%] lg:max-w-[30%] md:hover:max-w-none ${className}`}>
             <span className="font-bold">Gêneros: </span>
-            {genresList.map((genre) => (genre.name)).join(', ')}
+            {genresList.length >= 2 ? 
+            genresList[0].name + ', ' + genresList[1].name
+            :
+            genresList[0].name
+            }
         </p>
     );
 };

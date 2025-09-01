@@ -8,7 +8,7 @@ const Title = (props: ComponentProps) => {
     const { title, className } = props;
 
     return (
-        <h2 ref={ref} className={`text-[35px] leading-9 font-black font-raleway text-secondary line-clamp-1 max-w-full sm:text-5xl md:hover:max-w-full sm:leading-16 lg:max-w-[900px]  lg:text-6xl lg:leading-20 ${className}`}>
+        <h2 ref={ref} className={`text-[35px] leading-[38px] font-black font-raleway text-secondary line-clamp-2 sm:max-w-[80%] sm:text-5xl sm:leading-[55px] lg:text-6xl lg:max-w-[60%] lg:leading-[70px] ${className}`}>
             {title}
         </h2>
     );
