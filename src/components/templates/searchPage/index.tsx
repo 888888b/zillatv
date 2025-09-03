@@ -43,11 +43,11 @@ export default async function SearchPage(props: SearchPageProps) {
 
     return contentData ? (
         <>
-            <section className='search-page-container px-5 sm:px-10 lg:px-[70px]'>
+            <section className='search-page-container px-5 sm:px-10 lg:px-16'>
                 <div className='overlay' />
-                <div className='z-[2] mt-44'>
+                <div className='z-[2] mt-44 md:mt-36'>
                     <ResultsSectionTitle mediaType={'movie'}>{keyword}</ResultsSectionTitle>
-                    <div className='w-full h-px bg-secondary/10 rounded-3xl my-10' ></div >
+                    <div className='w-full h-px bg-secondary/5 md:bg-secondary/10 rounded-3xl my-8' ></div >
                     <SearchResults data={contentData} mediaType={contentType} />
                 </div>
             </section>

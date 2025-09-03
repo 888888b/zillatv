@@ -15,10 +15,10 @@
     width: 100%;
     background-image: linear-gradient( 
         to bottom, 
-        #16142B,
-        #16142B, 
-        #16142B, 
-        #020515
+        var(--color-surface),
+        var(--color-surface), 
+        var(--color-surface), 
+        var(--color-background)
     );
     height: 550px;
     z-index: 1;
