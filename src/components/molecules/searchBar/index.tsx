@@ -38,8 +38,7 @@ export default function SearchBar(props: SearchBarProps) {
         input.value = '';
         reset.style.display = 'none';
         onMouseOutSearchBar();
-        if (pathname !== '/') push('/');
-    }, [resetBtnRef, push, inputRef, pathname]);
+    }, [resetBtnRef, inputRef, pathname]);
 
     // reseta o input sempre que a pagina muda
     useEffect(() => {
@@ -68,6 +67,11 @@ export default function SearchBar(props: SearchBarProps) {
         onMouseOverSearchBar();
         callback && callback();
     }, [callback, push, inputRef, resetBtnRef, onMouseOverSearchBar]);
+
+    const returnToHome = useCallback(() => {
+        onResetInput();
+        push('/');
+    }, [onResetInput, push]);
 
     // adiciona os eventos de mouse para que a animaçao funcione
     const mouseEvents = animation ? {
@@ -99,7 +103,7 @@ export default function SearchBar(props: SearchBarProps) {
             />
 
             {/* reseta o input */}
-            <button className="absolute top-1/2 -translate-y-1/2 right-5 lg:right-6 translate-x-1/2 bg-secondary w-6 h-6 rounded-full items-center justify-center active:scale-95 duration-300 transition-transform hidden cursor-pointer" ref={resetBtnRef} onClick={onResetInput}>
+            <button className="absolute top-1/2 -translate-y-1/2 right-5 lg:right-6 translate-x-1/2 bg-secondary w-6 h-6 rounded-full items-center justify-center active:scale-95 duration-300 transition-transform hidden cursor-pointer" ref={resetBtnRef} onClick={returnToHome}>
                 <Image
                     src={'/close_icon.png'}
                     alt={'close icon'}
