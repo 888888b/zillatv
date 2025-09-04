@@ -85,13 +85,16 @@ export default function SeriesSection(props: ComponentProps) {
     }, [selectedGenre]);
 
     return (
-        <div className={`flex flex-col gap-y-10 px-5 sm:px-10 lg:px-[70px] mt-10 mb-12 sm:mb-0 sm:mt-0 sm:-translate-y-14 relative z-10 ${props.className}`}>
-            <GenreSelect 
-                onSelectGenre={updateSelectedGenre} 
-                selectedGenre={selectedGenre}
-                genres={tmdbSerieGenres}
-            />
-            {contentData ? <Series data={contentData} mediaType="serie" /> : null}
+        <div className={`flex flex-col gap-y-8 px-5 sm:px-10 lg:px-16 mt-8 mb-16 sm:mb-0 sm:mt-0 sm:-translate-y-[70px] relative z-10 ${props.className}`}>
+            {tmdbSerieGenres &&
+                <GenreSelect 
+                    onSelectGenre={updateSelectedGenre} 
+                    selectedGenre={selectedGenre}
+                    genres={tmdbSerieGenres}
+                />
+            }
+            <div className="w-full h-px rounded-3xl bg-secondary/10" />
+            {contentData && <Series data={contentData} mediaType="serie" />}
         </div>
     );
 };

@@ -2,7 +2,7 @@
 import useTmdbFetch from '@/hooks/tmdb';
 
 // componentes
-import HeaderCarousel from '@/components/organisms/headerCarousel';
+import HeaderCarousel from '@/components/organisms/heroCarousel';
 import SeriesSection from './seriesSection';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
