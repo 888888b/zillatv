@@ -1,10 +1,10 @@
 .details-wrapper {
-    width: calc(66% - 30px);
+    width: calc(66% - 32px);
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     column-gap: 80px;
-    gap: 30px;
+    gap: 32px; 
 }
 
 .details-wrapper .list-item {
@@ -14,7 +14,7 @@
     align-items: start;
     flex-wrap: wrap;
     box-sizing: border-box;
-    column-gap: 10px;
+    column-gap: 8px;
     position: relative;
 }
 
@@ -31,7 +31,7 @@
 .details-wrapper dl {
     display: flex;
     flex-direction: column;
-    gap: 30px
+    gap: 32px
 }
 
 .details-wrapper dt, .details-wrapper dd {
@@ -53,7 +53,7 @@
 @media screen and ( width >= 768px ) {
     .details-wrapper {
         flex-direction: row;
-        width: calc(75% - 30px);
+        width: calc(75% - 32px);
     }
 
     .details-wrapper dl .list-item:last-of-type::before {

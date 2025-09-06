@@ -25,18 +25,13 @@ export default function PlayerModal(props: ComponentProps) {
         isPlayerActive && (
             // modal do player
             <div className="w-screen overflow-hidden h-lvh flex items-center justify-center fixed z-[999] top-0 left-0 bg-background/85">
-                <div className="bg-surface max-w-[calc(100%-40px)] sm:max-w-[calc(100%-80px)] md:max-w-none p-4 md:p-7 rounded-[15px] flex flex-col gap-y-5 relative border-2 border-secondary/5">
-                    {/* Titulo do trailer */}
-                    <h2 className="overflow-hidden leading-none line-clamp-2 font-semibold text-lg text-secondary">
-                        {title} - Trailer
-                    </h2>
-
+                <div className="bg-surface max-w-[calc(100%-40px)] sm:max-w-[calc(100%-80px)] md:max-w-none rounded-md flex flex-col gap-y-5 relative border-2 border-secondary/5">
                     {/* Fechamento do modal */}
                     <CloseButton onClick={closePlayer} />
 
                     {/* trailer do filme/serie */}
                     {mediaId ? (
-                        <div className="w-screen max-w-full min-h-[200px] max-h-[65vh] aspect-video md:max-w-[600px] rounded-[15px] lg:max-w-none lg:w-[70vw] overflow-hidden">
+                        <div className="w-screen max-w-full min-h-[200px] max-h-[65vh] aspect-video md:max-w-[600px] rounded-mdlg:max-w-none lg:w-[70vw] overflow-hidden">
                             <iframe
                                 width={'100%'}
                                 height={'100%'}

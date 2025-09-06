@@ -14,21 +14,36 @@
 
 .season-container .embla__container {
     display: flex;
-    column-gap: 10px;
+    column-gap: 8px;
+}
+
+.season-container h3 {
+    letter-spacing: 0.02em;
 }
 
 .season-container .embla__slide{
     width: 100%;
-    max-width: 384px;
     overflow: hidden;
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 8px;
 }
 
-@media screen and ( width >= 640px) {
-    .season-container .embla__container {
-        column-gap: 20px;
+@media screen and (width >= 640px) {
+    .season-container .embla__slide {
+        width: calc((100% - 8px) / 2);
+    }
+}
+
+@media screen and (width >= 1024px) {
+    .season-container .embla__slide {
+        width: calc((100% - 16px) / 3);
+    }
+}
+
+@media screen and (width >= 1440px) {
+    .season-container .embla__slide {
+        width: calc((100% - 24px) / 4);
     }
 }

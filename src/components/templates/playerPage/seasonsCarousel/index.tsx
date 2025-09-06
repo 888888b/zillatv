@@ -49,20 +49,21 @@ export default function EpisodesCarousel(props: ComponentProps) {
     }, [setIsModalActive]);
 
     return seasonData?.episodes ? (
-        <div className={`flex flex-col gap-y-5 ${className}`}>
+        <div className={`flex flex-col gap-y-8 ${className}`}>
             {/* Seletor de temporada */}
-            <SeasonSelector 
-                selectedSeason={selectedSeason} 
-                getSelectedSeason={getSeason} 
-                seasonsList={seasons} 
-                setModalState={setModalState}
-                isModalActive={isModalActive}
-            />
-
-            {/* Titulo do carousel */}
-            <SectionTitle className="line-clamp-2">
-                {seasonData?.name}
-            </SectionTitle>
+            <div className="px-5 sm:px-10 lg:px-16">
+                <SeasonSelector
+                    selectedSeason={selectedSeason}
+                    getSelectedSeason={getSeason}
+                    seasonsList={seasons}
+                    setModalState={setModalState}
+                    isModalActive={isModalActive}
+                />
+                {/* Titulo do carousel */}
+                <SectionTitle className="line-clamp-2 mt-5">
+                    {seasonData?.name}
+                </SectionTitle>
+            </div>
 
             {/* carousel aqui  */}
             <Carousel

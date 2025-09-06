@@ -30,9 +30,11 @@ export default async function FetchCarouselData(props: carouselProps) {
     };
 
     return moviesList ? (
-        <div className={`flex flex-col gap-y-5 ${className}`}>
-            <CarouselTitle>Filmes similares</CarouselTitle>
+        <div className={`flex flex-col gap-y-8 ${className}`}>
+            <CarouselTitle className="px-5 sm:px-10 lg:px-16">
+                Filmes similares
+            </CarouselTitle>
             <MoviesSeriesCarousel slidesData={moviesList} slidesType="movie" />
         </div>
     ) : null;
-};
+}; 

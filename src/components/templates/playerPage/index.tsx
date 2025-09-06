@@ -36,17 +36,17 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
     return contentData ? (
         <>
-            <section className='mb-16'>
+            <section className='mb-16 player-page'>
                 <Header playerData={contentData[0]} />
-                <Main mediaData={contentData[0]} mediaType={props.contentType} />
+                <Main mediaData={contentData[0]} mediaType={props.contentType}/>
                 {props.contentType === 'movie' ?
                     <SimilarMovies 
-                        className='w-full mt-[60px] px-5 sm:px-10 lg:px-[70px]' 
+                        className='w-full' 
                         movieId={props.contentId} 
                     /> 
                     :
                     <SeasonsCarousel 
-                        className='w-full mt-[60px] px-5 sm:px-10 lg:px-[70px]'
+                        className='w-full'
                         serieName={contentData[0].name} 
                         serieId={props.contentId} 
                         seasons={contentData[0].seasons} 

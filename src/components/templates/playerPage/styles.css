@@ -1,8 +1,12 @@
-.header-wrapper {
+.player-header {
     width: 100%;
 }
 
-.header-wrapper .img-box::before {
+.player-header .img-box {
+    position: relative;
+}
+
+.player-header .img-box::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -10,15 +14,13 @@
     top: 0;
     left: 0;
     background-image: linear-gradient(to top,
-            var(--color-gradient-base),
-            var(--color-gradient-base),
-            var(--color-gradient-80),
+            var(--color-background),
             var(--color-gradient-0),
-            var(--color-gradient-base));
+            var(--color-background));
 }
 
 .actors-carousel .embla__container {
-    column-gap: 20px;
+    column-gap: 8px;
 }
 
 .actors-carousel .embla__slide {
@@ -31,22 +33,43 @@
     gap: 20px;
     grid-template-columns: auto;
     justify-content: center;
-}   
+}
+
+.player-page .embla {
+    padding: 0 20px;
+}
 
 @media screen and (width >=640px) {
     .seasons-wrapper {
         grid-template-columns: auto auto;
     }
+
+    .player-page .embla {
+        padding: 0 40px;
+    }
+
+    .player-header .img-box::before {
+        background-image: linear-gradient(
+            to top,
+            var(--color-gradient-base),
+            var(--color-gradient-90),
+            var(--color-gradient-60),
+            var(--color-gradient-0),
+            var(--color-gradient-70));
+    }
 }
 
 @media screen and (width >=768px) {
-    .header-wrapper .img-box::before {
-        background-image: linear-gradient(to top,
-                var(--color-gradient-base),
-                var(--color-gradient-80),
-                var(--color-gradient-60),
-                var(--color-gradient-0),
-                var(--color-gradient-90));
+
+    .player-page .actors-carousel .prev-slide-button,
+    .player-page .actors-carousel .next-slide-button {
+        background-color: color-mix(in oklab, var(--color-surface) 80%, transparent) !important;
+    }
+}
+
+@media screen and (width>=1024px) {
+    .player-page .embla {
+        padding: 0 64px;
     }
 }
 

@@ -6,7 +6,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 // componentes
 import ContentDetails from "../mediaDetails/index";
 import ActorsCarousel from "../actorsCarousel/index";
-import UsersComments from "../commentsSection/index";
+// import UsersComments from "../commentsSection/index";
 import { SectionTitle } from '../sectionTitle';
 
 // tipos
@@ -54,12 +54,12 @@ export default function Main(props: ComponentProps) {
     }, [descriptionRef, textChangeButton]);
 
     return (
-        <main className="flex flex-col relative px-5 mt-0.5 sm:-translate-y-10 sm:px-10 lg:px-[70px]">
+        <main className="flex flex-col relative sm:-mt-[calc(45vh-170px)]">
             {mediaData.overview && (
                 /* Descrição do filme/serie */
                 <>
-                    <div className="flex flex-col w-full md:max-w-3xl gap-y-[10px]">
-                        <p ref={descriptionRef} className='w-full text-[17px] line-clamp-6 lg:text-lg lg:leading-[30px] leading-7 text-text relative'>
+                    <div className="flex flex-col w-full md:max-w-3xl lg:max-w-[850px] gap-y-[10px] box-border px-5 sm:px-10 lg:pl-16">
+                        <p ref={descriptionRef} className='w-full line-clamp-6 text-lg leading-7 relative'>
                             {mediaData.overview}
                         </p>
                         {isTextCut &&
@@ -75,13 +75,13 @@ export default function Main(props: ComponentProps) {
             )}
 
             {/* seção com mais detalhes */}
-            <div className="mt-[60px] w-full flex flex-col gap-y-[30px]">
-                <div>
+            <div className="my-10 py-10 w-full flex flex-col gap-y-8 bg-surface">
+                <div className='px-5 sm:px-10 lg:pl-16'>
                     {/* Titulo da seção */}
                     <SectionTitle className='text-center sm:text-left'>Todos os detalhes</SectionTitle>
 
                     {/* Container com os detalhes */}
-                    <div className="my-[30px] relative flex justify-end w-full max-w-[1024px] lg:gap-[30px]">
+                    <div className="my-8 relative flex justify-end w-full max-w-[1024px] lg:gap-8">
                         {/* Imagem do filme/serie */}
                         <img
                             src={
@@ -100,8 +100,10 @@ export default function Main(props: ComponentProps) {
 
                 { mediaData.credits.cast.some((actor: undefined | tmdbObjProps) => 
                     actor && actor.profile_path) &&
-                    <div className='flex flex-col gap-y-[30px]'>
-                       <SectionTitle className='text-center sm:text-left'>Elenco</SectionTitle>
+                    <div className='flex flex-col gap-y-8'>
+                       <SectionTitle className='text-center sm:text-left px-5 sm:px-10 lg:pl-16'>
+                            Elenco
+                        </SectionTitle>
                         {/* carousel com o elenco do filme/serie */}
                         <ActorsCarousel actorsData={mediaData.credits.cast} />
                     </div>
