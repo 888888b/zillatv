@@ -1,38 +1,37 @@
 // hooks
 import { useRouter, usePathname } from "next/navigation";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useContext } from "react";
+
+// contexto
+import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 
 // tipos
 import { ReactNode } from "react";
 
-// componentes
-import SearchBar from "@/components/molecules/searchBar";
+export default function MobileMenu({ children }: { children: ReactNode }) {
 
-export default function MobileMenu({ children }:{ children: ReactNode }) {
-
-    const drawerInputRef = useRef<null | HTMLInputElement>( null );
+    const drawerInputRef = useRef<null | HTMLInputElement>(null);
     const navLinksRef = useRef<(HTMLLIElement | null)[]>([]);
     const { push } = useRouter();
     const pathname = usePathname();
+    const { dispatch } = useContext(GlobalEventsContext);
+    const pagePath = usePathname();
 
-    // lida com a navegação e fechamento do menu
-    const handleLinkClick = useCallback(( path: string ) => {
+    // ativa o loading e lida com a navegação
+    const navigate = useCallback((path: string) => {
+        if (path === pagePath) return;
+        dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
         push(path);
         drawerInputRef.current?.click();
-    }, [ drawerInputRef, push ]);
-
-    // fechamento direto do menu
-    const closeMenu = useCallback(() => {
-        drawerInputRef.current?.click();
-    }, [ drawerInputRef ]);
+    }, [push, pagePath, dispatch]);
 
     const updateLinkStyle = () => {
-        navLinksRef.current.forEach( link => {
-            if ( link?.id === pathname ) {
+        navLinksRef.current.forEach(link => {
+            if (link?.id === pathname) {
                 Object.assign(link.style, { color: 'var(--color-primary)' });
             };
 
-            if ( link?.id !== pathname && link ) {
+            if (link?.id !== pathname && link) {
                 Object.assign(link.style, { color: 'var(--color-text)' });
             };
         });
@@ -40,7 +39,7 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
 
     useEffect(() => {
         updateLinkStyle();
-    }, [ pathname ]);
+    }, [pathname]);
 
     return (
         <div className="drawer">
@@ -55,37 +54,37 @@ export default function MobileMenu({ children }:{ children: ReactNode }) {
                     {/* conteudo do menu aqui */}
                     {/* links para navegação */}
                     <ul className="font-semibold text-text mt-12 flex flex-col gap-y-6 text-base *:cursor-pointer">
-                        <li 
-                            ref={(e) => {navLinksRef.current[0] = e}} 
-                            onClick={() => handleLinkClick('/')}
-                            style={{animationTimingFunction: 'ease'}}
+                        <li
+                            ref={(e) => { navLinksRef.current[0] = e }}
+                            onClick={() => navigate('/')}
+                            style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id="/">
                             Início
                         </li>
                         <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
-                        <li 
-                            onClick={() => handleLinkClick('/movies')}
-                            ref={(e) => {navLinksRef.current[1] = e}}
-                            style={{animationTimingFunction: 'ease'}}
+                        <li
+                            onClick={() => navigate('/movies')}
+                            ref={(e) => { navLinksRef.current[1] = e }}
+                            style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id="/movies">
                             Filmes
                         </li>
                         <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
-                        <li 
-                            onClick={() => handleLinkClick('/series')}
-                            ref={(e) => {navLinksRef.current[2] = e}}
-                            style={{animationTimingFunction: 'ease'}}
+                        <li
+                            onClick={() => navigate('/series')}
+                            ref={(e) => { navLinksRef.current[2] = e }}
+                            style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id="/series">
                             Séries
                         </li>
                         <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
-                        <li 
-                            onClick={() => handleLinkClick('/favorites')}
-                            ref={(e) => {navLinksRef.current[3] = e}}
-                            style={{animationTimingFunction: 'ease'}}
+                        <li
+                            onClick={() => navigate('/favorites')}
+                            ref={(e) => { navLinksRef.current[3] = e }}
+                            style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id='/favorites'>
                             Favoritos
