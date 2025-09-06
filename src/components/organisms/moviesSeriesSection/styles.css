@@ -10,7 +10,6 @@
     width: 100%;
     overflow: hidden;
     border-radius: 6px;
-    cursor: pointer;
     aspect-ratio: 1 / 1.4;
 };
 
@@ -35,6 +34,10 @@
 @media screen and ( width >= 768px ) {
     .movie-serie-section {
         grid-template-columns: repeat( auto-fill, minmax(calc((100% - 24px) / 4), 1fr) );
+    }
+
+    .movie-serie-section .img-box {
+        pointer-events: none;
     }
 
     .movie-serie-section .img-box::before {
