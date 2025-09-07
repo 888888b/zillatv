@@ -112,9 +112,13 @@ export default async function HomePage() {
                 currentPage="home"
             />
             {/* main carousels */}
-            <div className="flex flex-col mt-8 mb-16 sm:mb-0  sm:-translate-y-[100px] z-10 relative">
+            <div className="flex flex-col mt-8 mb-16 sm:-mt-[84px] z-10 relative">
                 {Object.values(carouselsData).map((carousel, index) => (
                     <div key={`home-main-carousel-${index}`}>
+                        {/* linha divisoria */}
+                        {index !== 0 &&
+                            <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
+                        }
                         {/* Carousel com desenhos/animes */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
@@ -124,7 +128,6 @@ export default async function HomePage() {
                             {/* Carousel */}
                             <MovieSerieCarousel slidesData={carousel.data} slidesType='mixed' />
                         </div>
-                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                     </div>
                 ))}
             </div>
