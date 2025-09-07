@@ -8,7 +8,7 @@ import Header from "@/components/organisms/header";
 import Footer from "@/components/organisms/footer";
 import LoginModal from "@/components/organisms/loginModal";
 import RegisterModal from "@/components/organisms/registerModal";
-import ProfileModal from "@/components/profileModal";
+// import ProfileModal from "@/components/profileModal";
 import { ToastContainer } from "react-toastify";
 import Loading from '@/components/molecules/pageLoading';
 
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   <Header/>
                   <LoginModal/>
                   <RegisterModal/>
-                  <ProfileModal/>
+                  {/* <ProfileModal/> */}
                   <ToastContainer/>
                   { children }
                   <Footer/>
