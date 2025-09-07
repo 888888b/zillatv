@@ -39,7 +39,7 @@ const GenreSelect = memo((props: ComponentProps) => {
         <div className={'relative'}>
             <h3 className='font-medium text-text text-base mb-1 leading-6 text-center sm:text-left'>Gênero</h3>
             {/*wrapper do botao de seletor */}
-            <div id='genre-selector' className={`border border-secondary/20 rounded-[10px] w-fit flex items-center justify-start gap-8 flex-nowrap cursor-pointer md:hover:border-secondary transition-colors duration-300 text-secondary font-medium text-lg overflow-hidden mx-auto sm:mx-0 ${isGenreSelectorActive ? 'z-999 relative' : 'z-0 static'}`}  onClick={selectorToggle}>
+            <div id='genre-selector' className={`border border-secondary/20 rounded-md w-fit flex items-center justify-start gap-8 flex-nowrap cursor-pointer md:hover:border-secondary transition-colors duration-300 text-secondary font-medium text-lg overflow-hidden mx-auto sm:mx-0 ${isGenreSelectorActive ? 'z-999 relative' : 'z-0 static'}`}  onClick={selectorToggle}>
                 {/* botao do seletor */}
                 <button ref={ref} id={genres.cartoon.genre} className='h-12 pl-6 min-w-[150px] text-left border-none outline-none pointer-events-none'>
                 {selectedGenre.title}
