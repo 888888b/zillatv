@@ -10,23 +10,19 @@ import { StopLoading } from '@/components/atoms/stopLoading';
 // tipos
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 
-// funções utilitarias
+// utilitarios
 import { checkAvailability } from '@/utils/tmdbApiData/availability';
-import { getContentId } from '@/utils/tmdbApiData/id';
+import { headerSeriesList } from '@/app/constants';
 
 export default async function MoviesPage() {
 
     const contentData: tmdbObjProps[] = [];
     const {
-        fetchPopularSeries,
         fetchSeriesByIdList,
-        fetchAllTrending
     } = useTmdbFetch();
 
-    const popularSeries = await fetchAllTrending('tv');
-    const seriesIdList = await getContentId(popularSeries);
-    const series = await fetchSeriesByIdList(seriesIdList);
-    const filtered = await checkAvailability(series);
+    const topSeries = await fetchSeriesByIdList(headerSeriesList);
+    const filtered = await checkAvailability(topSeries);
     contentData.push(...filtered);
 
     return contentData ? (

@@ -1,50 +1,103 @@
 // hooks
 import useTmdbFetch from "@/hooks/tmdb";
-
 // componentes
 import HeaderCarousel from "@/components/organisms/heroCarousel";
 import MovieSerieCarousel from "@/components/organisms/moviesSeriesCarousel";
 import { CarouselTitle } from "@/components/atoms/carouselTitle";
 import { StopLoading } from "@/components/atoms/stopLoading";
-
+import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
+// utilitarios
+import { checkAvailability } from "@/utils/tmdbApiData/availability";
+import { tmdbGenres, headerMoviesList } from "@/app/constants";
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
-
-// funções utilitarias
-import { getContentId } from "@/utils/tmdbApiData/id";
-import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
-import { sortByVoteAverageDesc } from '@/utils/tmdbApiData/sortByAverageNote';
-
-import { tmdbGenres } from "@/app/constants";
-import { fetchMoviesByIdList } from "@/hooks/tmdb/moviesByIdList";
+type CarouselDataType = {
+    [key: string]: { data: tmdbObjProps[], title: string }
+};
 
 export default async function HomePage() {
 
-    const slidesData: Record<string, tmdbObjProps[] | undefined> = {};
-    let isDataLoaded = false; 
+    const carouselsData: CarouselDataType = {};
+    let isDataLoaded = false;
     const {
-        fetchMoviesByGenre,
         fetchAllTrending,
-        fetchPopularSeries,
-        fetchSeriesByIdList,
-        fetchMoviesByIdList
+        fetchMoviesByIdList,
+        fetchPlatformContent
     } = useTmdbFetch();
 
     try {
-        const trendingMoviesData = await fetchAllTrending('movie');
-        const trendingMoviesIds = await getContentId(trendingMoviesData);
-        const trendingMovies = await fetchMoviesByIdList(trendingMoviesIds);
-        const filteredTrendingMovies = await checkAvailability(trendingMovies);
-        slidesData.headerSlidesData = sortByVoteAverageDesc(filteredTrendingMovies);
-        slidesData.fictionMovies = await fetchMoviesByGenre('878');
-        slidesData.horrorMovies = await fetchMoviesByGenre('27');
-        slidesData.cartoonShows = await fetchMoviesByGenre('16');
-        slidesData.allTrending = await fetchAllTrending();
-        const popularSeriesData = await fetchPopularSeries();
-        const popularIds = await getContentId(popularSeriesData);
-        const popularSeries = await fetchSeriesByIdList(popularIds);
-        slidesData.popularSeries = await checkAvailability(popularSeries);
+        // carousel do header
+        const topMovies = await fetchMoviesByIdList(headerMoviesList);
+        const filteredTopMovies = await checkAvailability(topMovies);
+        carouselsData.headerSlides = { 
+            data: [...filteredTopMovies.map(item => ({ ...item, media_type: 'movie' })),], 
+            title: 'Recomendados' 
+        };
+        // filmes / series em trending
+        const allTrending = await fetchAllTrending('all');
+        const filteredTrending = await checkAvailability(allTrending);
+        carouselsData.allTrending = { 
+            data: [...filteredTrending], 
+            title: tmdbGenres.trending.title 
+        }
+        // --- Netflix ---
+        const netflixSeries = await fetchPlatformContent('netflix', 'tv');
+        const netflixMovies = await fetchPlatformContent('netflix', 'movie');
+        const filteredNetflixMovies = await checkAvailability(netflixMovies);
+        const filteredNetflixSeries = await checkAvailability(netflixSeries);
+        carouselsData.netflix = {
+            data: [
+                ...filteredNetflixSeries.map(item => ({ ...item, media_type: 'tv' })),
+                ...filteredNetflixMovies.map(item => ({ ...item, media_type: 'movie' }))],
+            title: tmdbGenres.netflix.title
+        };
+        // --- Disney+ ---
+        const disneySeries = await fetchPlatformContent("disney", "tv");
+        const disneyMovies = await fetchPlatformContent("disney", "movie");
+        const filteredDisneySeries = await checkAvailability(disneySeries);
+        const filteredDisneyMovies = await checkAvailability(disneyMovies);
+        carouselsData.disney = {
+            data: [
+                ...filteredDisneySeries.map(item => ({ ...item, media_type: 'tv' })),
+                ...filteredDisneyMovies.map(item => ({ ...item, media_type: 'movie' }))],
+            title: tmdbGenres.disney.title
+        };
+
+        // --- HBO / Max ---
+        const hboSeries = await fetchPlatformContent("hbo", "tv");
+        const hboMovies = await fetchPlatformContent("hbo", "movie");
+        const filteredHboSeries = await checkAvailability(hboSeries);
+        const filteredHboMovies = await checkAvailability(hboMovies);
+        carouselsData.hbo = {
+            data: [
+                ...filteredHboSeries.map(item => ({ ...item, media_type: 'tv' })),
+                ...filteredHboMovies.map(item => ({ ...item, media_type: 'movie' }))],
+            title: tmdbGenres.HBO.title
+        };
+
+        // --- Hulu ---
+        const huluSeries = await fetchPlatformContent("hulu", "tv");
+        const huluMovies = await fetchPlatformContent("hulu", "movie");
+        const filteredHuluSeries = await checkAvailability(huluSeries);
+        const filteredHuluMovies = await checkAvailability(huluMovies);
+        carouselsData.hulu = {
+            data: [
+                ...filteredHuluSeries.map(item => ({ ...item, media_type: 'tv' })),
+                ...filteredHuluMovies.map(item => ({ ...item, media_type: 'movie' }))],
+            title: tmdbGenres.hulu.title
+        };
+
+        // --- Prime Video ---
+        const primeSeries = await fetchPlatformContent("prime", "tv");
+        const primeMovies = await fetchPlatformContent("prime", "movie");
+        const filteredPrimeSeries = await checkAvailability(primeSeries);
+        const filteredPrimeMovies = await checkAvailability(primeMovies);
+        carouselsData.prime = {
+            data: [
+                ...filteredPrimeSeries.map(item => ({ ...item, media_type: 'tv' })),
+                ...filteredPrimeMovies.map(item => ({ ...item, media_type: 'movie' }))],
+            title: tmdbGenres.prime.title
+        };
         isDataLoaded = true;
     } catch (error) {
         console.error(error);
@@ -52,91 +105,33 @@ export default async function HomePage() {
 
     return (
         <section className="min-h-screen">
+            {/* hero carousel */}
             <HeaderCarousel
                 slidesType='movie'
-                slidesData={slidesData.headerSlidesData}
+                slidesData={carouselsData.headerSlides.data}
                 currentPage="home"
             />
+            {/* main carousels */}
             <div className="flex flex-col mt-8 mb-16 sm:mb-0  sm:-translate-y-[100px] z-10 relative">
-                {slidesData.allTrending && (
-                    <>
-                        {/* Carousel com filmes de ficção */}
-                        <div className="flex flex-col gap-y-8">
-                            {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
-                                {tmdbGenres.trending.title}
-                            </CarouselTitle>
-                            {/* Carousel */}
-                            <MovieSerieCarousel slidesData={slidesData.allTrending} slidesType='mixed' />
-                        </div>
-
-                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
-                    </>
-                )}
-
-                {slidesData.cartoonShows && (
-                    <>
+                {Object.values(carouselsData).map((carousel, index) => (
+                    <div key={`home-main-carousel-${index}`}>
                         {/* Carousel com desenhos/animes */}
                         <div className="flex flex-col gap-y-8">
                             {/* Titulo */}
                             <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
-                                {tmdbGenres.cartoon.title}
+                                {carousel.title}
                             </CarouselTitle>
                             {/* Carousel */}
-                            <MovieSerieCarousel slidesData={slidesData.cartoonShows} slidesType='movie' />
+                            <MovieSerieCarousel slidesData={carousel.data} slidesType='mixed' />
                         </div>
-
                         <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
-                    </>
-                )}
-
-                {slidesData.horrorMovies && (
-                    <>
-                        {/* Carousel com filmes de terror */}
-                        <div className="flex flex-col gap-y-8">
-                            {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
-                                {tmdbGenres.horror.title}
-                            </CarouselTitle>
-                            {/* Carousel */}
-                            <MovieSerieCarousel slidesData={slidesData.horrorMovies} slidesType='movie' />
-                        </div>
-
-                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
-                    </>
-                )}
-
-                {slidesData.popularSeries && (
-                    <>
-                        {/* Carousel com series populares */}
-                        <div className="flex flex-col gap-y-8">
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
-                                {tmdbGenres.popular.title}
-                            </CarouselTitle>
-                            <MovieSerieCarousel slidesData={slidesData.popularSeries} slidesType='serie' />
-                        </div>
-
-                        <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
-                    </>
-                )}
-
-                {slidesData.fictionMovies && (
-                    <>
-                        {/* Carousel com filmes de ficção */}
-                        <div className="flex flex-col gap-y-8">
-                            {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
-                                {tmdbGenres.fiction.title}
-                            </CarouselTitle>
-                            {/* Carousel */}
-                            <MovieSerieCarousel slidesData={slidesData.fictionMovies} slidesType='movie' />
-                        </div>
-                    </>
-                )}
+                    </div>
+                ))}
             </div>
-
-            <ScrollToTop/>
-            {isDataLoaded && <StopLoading/>}
+            {/* volta ao top sempre que a pagina carrega */}
+            <ScrollToTop />
+            {/* encerra a animação de loading */}
+            {isDataLoaded && <StopLoading />}
         </section>
     );
 };
