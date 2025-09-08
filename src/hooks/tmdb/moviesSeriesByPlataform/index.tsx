@@ -13,7 +13,6 @@ export const fetchPlatformContent = async (
         const networkId = seriesNetworks[platform];
         const providerId = moviesProviders[platform];
         const url = `https://api.themoviedb.org/3/discover/${type}?api_key=${token}&${type === 'movie' ? `with_watch_providers=${providerId}` : `with_networks=${networkId}`}&watch_region=BR&language=pt-BR&include_image_language=pt,null&page=${page}`;
-        console.log(url);
         const res = await fetch(url);
         if (!res.ok) {
             throw new Error(`Erro ao buscar ${type} da plataforma ${platform}: ${res.status}`);
