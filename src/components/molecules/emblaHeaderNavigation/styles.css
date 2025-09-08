@@ -16,7 +16,7 @@
 .bullets-bar {
   position: absolute;
   bottom: 0;
-  right: 50vw;
+  right: calc(50%);
   display: flex;
   column-gap: 12px;
   align-items: center;

@@ -41,10 +41,11 @@ const HeaderNavigation = memo((props: HeaderNavigationProps) => {
     } = props;
 
     useEffect(() => {
+        // centraliza a barra de bullets 
         const bulletsBar = bulletsBarRef.current;
         if (!bulletsBar) return;
-
-        const width = bulletsBar.clientWidth / 2;
+        const width = bulletsBar.clientWidth / 2 - 12;
+        if (width <= 0) return;
         Object.assign(bulletsBar.style, { transform: `translateX(${width}px)` });
     }, [scrollSnaps]);
 
