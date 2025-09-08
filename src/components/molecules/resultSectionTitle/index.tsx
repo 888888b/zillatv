@@ -14,7 +14,7 @@ export default function children( props: ComponentProps ) {
                     {children ? 'Exibindo resultados para' : 'Exibindo'}
                 </p>
 
-                <h2 className=" leading-9 text-secondary font-black text-4xl md:leading-11 xl:text-5xl xl:leading-[60px] line-clamp-2 truncate max-w-[550px]">
+                <h2 className=" leading-9 text-secondary font-black text-4xl md:leading-11 xl:text-5xl xl:leading-[60px] line-clamp-3 overflow-ellipsis max-w-[768px]">
                     {children ? 
                     children 
                     : 
