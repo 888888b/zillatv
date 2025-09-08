@@ -1,21 +1,7 @@
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
-export type Platform =
-    | "netflix"
-    | "disney"
-    | "hbo"
-    | "hulu"
-    | "prime";
-
+import { Platform, seriesNetworks, moviesProviders }  from '@/app/constants';
 export type ContentType = "movie" | "tv";
-
-const PLATFORM_IDS: Record<Platform, number> = {
-    netflix: 213,
-    disney: 2739,
-    hbo: 49,
-    hulu: 453,
-    prime: 1024,
-};
 
 export const fetchPlatformContent = async (
     platform: Platform,
@@ -24,8 +10,10 @@ export const fetchPlatformContent = async (
 ): Promise<tmdbObjProps[] | undefined> => {
     try {
         const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-        const networkId = PLATFORM_IDS[platform];
-        const url = `https://api.themoviedb.org/3/discover/${type}?api_key=${token}&with_networks=${networkId}&language=pt-BR&include_image_language=pt&page=${page}`;
+        const networkId = seriesNetworks[platform];
+        const providerId = moviesProviders[platform];
+        const url = `https://api.themoviedb.org/3/discover/${type}?api_key=${token}&${type === 'movie' ? `with_watch_providers=${providerId}` : `with_networks=${networkId}`}&watch_region=BR&language=pt-BR&include_image_language=pt,null&page=${page}`;
+        console.log(url);
         const res = await fetch(url);
         if (!res.ok) {
             throw new Error(`Erro ao buscar ${type} da plataforma ${platform}: ${res.status}`);

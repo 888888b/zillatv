@@ -12,16 +12,16 @@ import useTmdbFetch from "@/hooks/tmdb";
 import GenreSelect from "@/components/molecules/genreSelect";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
 
-// funções utilitarias
+// utilitarios
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-
 import { tmdbGenres } from "@/app/constants";
-import { tmdbObjProps } from "@/contexts/tmdbContext";
 
+// tipos
+import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { Platform, moviesProviders } from '@/app/constants';
 type ComponentProps = {
     className?: string
 };
-
 export type GenreType = {
     genre: string;
     title: string;
@@ -30,6 +30,7 @@ export type GenreType = {
 export default function MoviesSection(props: ComponentProps) {
 
     const [selectedGenre, setSelectedGenre] = useState<GenreType>(tmdbGenres.trending);
+    const platforms = Object.keys(moviesProviders);
     const [
         contentData,
         setContentData
@@ -40,7 +41,8 @@ export default function MoviesSection(props: ComponentProps) {
         fetchMoviesByGenre,
         fetchReleasedMovies,
         fetchPopularMovies,
-        fetchTrendingMovies
+        fetchTrendingMovies,
+        fetchPlatformContent
     } = useTmdbFetch();
 
     const getSelectedGenre = useCallback((genre: GenreType) => {
@@ -75,13 +77,25 @@ export default function MoviesSection(props: ComponentProps) {
         setContentData([...filtered]);
     };
 
+    // buscar filmes por plataforma (netflix, hbo, disney, hulu, prime video)
+    const fetchMoviesByPlatform = async (platform: Platform) => {
+        const movies = await fetchPlatformContent(platform, 'movie');
+        const filtered = await checkAvailability(movies);
+        console.log(filtered);
+        setContentData([...filtered]);
+    };
+
     useEffect(() => {
         if (selectedGenre.genre === 'release') { fetchLatestMovies(); return };
         if (selectedGenre.genre === 'popular') { fetchPopular(); return };
         if (selectedGenre.genre === 'trending') { fetchTrending(); return };
+        if (platforms.includes(selectedGenre.genre)) {
+            fetchMoviesByPlatform(selectedGenre.genre as Platform);
+            return;
+        };
         fetchMovies();
     }, [selectedGenre]);
-
+  
     return (
         <div
             className={`flex flex-col gap-y-8 px-5 sm:px-10 lg:px-16 mt-8 mb-16 sm:-mt-[84px] relative z-10 ${props.className}`}>

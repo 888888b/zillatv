@@ -12,18 +12,16 @@ import useTmdbFetch from "@/hooks/tmdb";
 import GenreSelect from "@/components/molecules/genreSelect";
 import Series from "@/components/organisms/moviesSeriesSection";
 
-// funções utilitarias
+// utilitarios
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
+import { tmdbSerieGenres } from "@/app/constants";
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
-
+import { Platform, seriesNetworks }  from '@/app/constants';
 type ComponentProps = {
     className?: string
 };
-
-import { tmdbSerieGenres } from "@/app/constants";
-
 type GenreType = {
     genre: string;
     title: string;
@@ -32,6 +30,7 @@ type GenreType = {
 export default function SeriesSection(props: ComponentProps) {
 
     const [selectedGenre, setSelectedGenre] = useState<GenreType>(tmdbSerieGenres.trending);
+    const platforms = Object.keys(seriesNetworks);
     const [
         contentData,
         setContentData
@@ -42,7 +41,8 @@ export default function SeriesSection(props: ComponentProps) {
         fetchSeriesByGenre,
         fetchReleasedSeries,
         fetchAllTrending,
-        fetchPopularSeries
+        fetchPopularSeries,
+        fetchPlatformContent
     } = useTmdbFetch();
 
     const updateSelectedGenre = useCallback((genre: GenreType) => {
@@ -77,18 +77,29 @@ export default function SeriesSection(props: ComponentProps) {
         setContentData([...filtered]);
     };
 
+    // buscar series por plataforma (netflix, hbo, disney, hulu, prime video)
+    const fetchSeriesByPlatform = async (platform: Platform) => {
+        const series = await fetchPlatformContent(platform, 'tv');
+        const filtered = await checkAvailability(series);
+        setContentData([...filtered]);
+    };
+
     useEffect(() => {
-        if (selectedGenre.genre === 'release') {fetchLatestSeries(); return};
-        if (selectedGenre.genre === 'popular') {fetchPopular(); return};
-        if (selectedGenre.genre === 'trending') {fetchTrending(); return};
+        if (selectedGenre.genre === 'release') { fetchLatestSeries(); return };
+        if (selectedGenre.genre === 'popular') { fetchPopular(); return };
+        if (selectedGenre.genre === 'trending') { fetchTrending(); return };
+        if (platforms.includes(selectedGenre.genre)) {
+            fetchSeriesByPlatform(selectedGenre.genre as Platform);
+            return;
+        };
         fetchSeries();
     }, [selectedGenre]);
 
     return (
         <div className={`flex flex-col gap-y-8 px-5 sm:px-10 lg:px-16 mt-8 mb-16 sm:-mt-[84px] relative z-10 ${props.className}`}>
             {tmdbSerieGenres &&
-                <GenreSelect 
-                    onSelectGenre={updateSelectedGenre} 
+                <GenreSelect
+                    onSelectGenre={updateSelectedGenre}
                     selectedGenre={selectedGenre}
                     genres={tmdbSerieGenres}
                 />

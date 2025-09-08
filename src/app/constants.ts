@@ -14,58 +14,66 @@ export const tmdbConfig = {
 // generos e respectivos titulos para filmes
 export const tmdbGenres = {
   cartoon: { genre: '16', title: 'Desenho' },
+  netflix: { genre: 'netflix', title: 'Netflix' },
   release: { genre: 'release', title: 'Lançamentos' },
   trending: { genre: 'trending', title: 'Em alta' },
+  paramount: {genre: 'paramount', title: 'Paramount'},
   horror: { genre: '27', title: 'Terror' },
-  netflix: { genre: 'netflix', title: 'Netflix'},
+  appleTV: {genre: 'appleTV', title:'AppleTV'},
   action: { genre: '28', title: 'Ação' },
+  HBO: { genre: 'HBO', title: 'HBO' },
   comedy: { genre: '35', title: 'Comédia' },
   romance: { genre: '10749', title: 'Romance' },
-  HBO: { genre: 'hbo', title: 'HBO Max'},
+  crunchyroll: {genre:'crunchyroll', title: 'Crunchyroll'},
   documentary: { genre: '99', title: 'Documentário' },
+  plutoTV: {genre: 'plutoTV', title: 'PlutoTV'},
   war: { genre: '10752', title: 'Guerra' },
-  disney: { genre: 'disney', title: 'Disney Plus'},
+  disneyPlus: { genre: 'disneyPlus', title: 'Disney Plus' },
   fiction: { genre: '878', title: 'Ficção' },
   adventure: { genre: '12', title: 'Aventura' },
   popular: { genre: 'popular', title: 'Populares' },
-  hulu: { genre: 'hulu', title: 'Hulu'},
+  primeVideo: { genre: 'primeVideo', title: 'Prime Video' },
   crime: { genre: '80', title: 'Crime' },
   drama: { genre: '18', title: 'Drama' },
   family: { genre: '10751', title: 'Família' },
   history: { genre: '36', title: 'História' },
-  prime: { genre: 'prime', title: 'Prime Video'},
   music: { genre: '10402', title: 'Música' },
   mystery: { genre: '9648', title: 'Suspense' },
   tvmovie: { genre: '10770', title: 'TV' },
   thriller: { genre: '53', title: 'Thriller' },
-  western: { genre: '37', title: 'Faroeste' }
+  western: { genre: '37', title: 'Faroeste' },
+  globoPlay: {genre: 'globoPlay', title: 'Globo Play'}
 };
 
 // generos e respectivos titulos para series
 export const tmdbSerieGenres = {
   release: { genre: 'release', title: 'Lançamentos' },
+  netflix: { genre: 'netflix', title: 'Netflix' },
   suspense: { genre: '9648', title: 'Suspense' },
   trending: { genre: 'trending', title: 'Em alta' },
+  paramount: {genre: 'paramount', title: 'Paramount'},
   action: { genre: '10759', title: 'Ação' },
-  netflix: { genre: 'netflix', title: 'Netflix'},
   comedy: { genre: '35', title: 'Comédia' },
   war: { genre: '10768', title: 'Guerra' },
+  appleTV: {genre: 'appleTV', title:'AppleTV'},
   cartoon: { genre: '16', title: 'Desenho' },
   documentary: { genre: '99', title: 'Documentário' },
-  HBO: { genre: 'hbo', title: 'HBO Max'},
+  HBO: { genre: 'HBO', title: 'HBO' },
   popular: { genre: 'popular', title: 'Populares' },
   crime: { genre: '80', title: 'Crime' },
-  disney: { genre: 'disney', title: 'Disney Plus'},
+  crunchyroll: {genre:'crunchyroll', title: 'Crunchyroll'},
   drama: { genre: '18', title: 'Drama' },
   family: { genre: '10751', title: 'Família' },
+  disneyPlus: { genre: 'disneyPlus', title: 'Disney Plus' },
   kids: { genre: '10762', title: 'Infantil' },
-  hulu: { genre: 'hulu', title: 'Hulu'},
   news: { genre: '10763', title: 'Notícias' },
+  plutoTV: {genre: 'plutoTV', title: 'PlutoTV'},
   reality: { genre: '10764', title: 'Reality' },
   scifi: { genre: '10765', title: 'Ficção' },
+  globoPlay: {genre: 'globoPlay', title: 'Globo Play'},
   soap: { genre: '10766', title: 'Novela' },
   talk: { genre: '10767', title: 'Entrevista' },
-  prime: { genre: 'prime', title: 'Prime Video'},
+  primeVideo: { genre: 'primeVideo', title: 'Prime Video' },
   western: { genre: '37', title: 'Faroeste' }
 };
 
@@ -91,3 +99,40 @@ export const headerSeriesList = [
   "94997"   // House of the Dragon
 ];
 
+// plataformas disponiveis para buscas de conteudo
+export type Platform =
+  | "netflix"
+  | "disneyPlus"
+  | "HBO"
+  | "primeVideo"
+  | "paramount"
+  | "plutoTV"
+  | "globoPlay"
+  | "appleTV"
+  | "crunchyroll";
+
+// id como provedor de filmes 
+export const moviesProviders: Record<Platform, string> = {
+  disneyPlus: '337',
+  netflix: '8',
+  HBO: '1899',
+  appleTV: '350',
+  primeVideo: '119',
+  paramount: '531',
+  globoPlay: '307',
+  crunchyroll: '283',
+  plutoTV: '300'
+};
+
+// id como produtor de series
+export const seriesNetworks: Record<Platform, string> = {
+  netflix: '213',
+  disneyPlus: '2739',
+  HBO: '49',
+  paramount: '4330',
+  globoPlay: '3290',
+  primeVideo: '1024',
+  plutoTV: '3245',
+  crunchyroll: '1112',
+  appleTV: '2552'
+};

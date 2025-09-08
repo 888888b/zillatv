@@ -52,20 +52,20 @@ export default async function HomePage() {
             title: tmdbGenres.netflix.title
         };
         // --- Disney+ ---
-        const disneySeries = await fetchPlatformContent("disney", "tv");
-        const disneyMovies = await fetchPlatformContent("disney", "movie");
+        const disneySeries = await fetchPlatformContent("disneyPlus", "tv");
+        const disneyMovies = await fetchPlatformContent("disneyPlus", "movie");
         const filteredDisneySeries = await checkAvailability(disneySeries);
         const filteredDisneyMovies = await checkAvailability(disneyMovies);
         carouselsData.disney = {
             data: [
                 ...filteredDisneySeries.map(item => ({ ...item, media_type: 'tv' })),
                 ...filteredDisneyMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.disney.title
+            title: tmdbGenres.disneyPlus.title
         };
 
         // --- HBO / Max ---
-        const hboSeries = await fetchPlatformContent("hbo", "tv");
-        const hboMovies = await fetchPlatformContent("hbo", "movie");
+        const hboSeries = await fetchPlatformContent("HBO", "tv");
+        const hboMovies = await fetchPlatformContent("HBO", "movie");
         const filteredHboSeries = await checkAvailability(hboSeries);
         const filteredHboMovies = await checkAvailability(hboMovies);
         carouselsData.hbo = {
@@ -75,28 +75,28 @@ export default async function HomePage() {
             title: tmdbGenres.HBO.title
         };
 
-        // --- Hulu ---
-        const huluSeries = await fetchPlatformContent("hulu", "tv");
-        const huluMovies = await fetchPlatformContent("hulu", "movie");
-        const filteredHuluSeries = await checkAvailability(huluSeries);
-        const filteredHuluMovies = await checkAvailability(huluMovies);
+        // --- paramount ---
+        const paramountSeries = await fetchPlatformContent("paramount", "tv");
+        const paramountMovies = await fetchPlatformContent("paramount", "movie");
+        const filteredParamountSeries = await checkAvailability(paramountSeries);
+        const filteredParamountMovies = await checkAvailability(paramountMovies);
         carouselsData.hulu = {
             data: [
-                ...filteredHuluSeries.map(item => ({ ...item, media_type: 'tv' })),
-                ...filteredHuluMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.hulu.title
+                ...filteredParamountSeries.map(item => ({ ...item, media_type: 'tv' })),
+                ...filteredParamountMovies.map(item => ({ ...item, media_type: 'movie' }))],
+            title: tmdbGenres.paramount.title
         };
 
         // --- Prime Video ---
-        const primeSeries = await fetchPlatformContent("prime", "tv");
-        const primeMovies = await fetchPlatformContent("prime", "movie");
+        const primeSeries = await fetchPlatformContent("primeVideo", "tv");
+        const primeMovies = await fetchPlatformContent("primeVideo", "movie");
         const filteredPrimeSeries = await checkAvailability(primeSeries);
         const filteredPrimeMovies = await checkAvailability(primeMovies);
         carouselsData.prime = {
             data: [
                 ...filteredPrimeSeries.map(item => ({ ...item, media_type: 'tv' })),
                 ...filteredPrimeMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.prime.title
+            title: tmdbGenres.primeVideo.title
         };
         isDataLoaded = true;
     } catch (error) {
