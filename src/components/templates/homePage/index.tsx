@@ -120,7 +120,7 @@ export default async function HomePage() {
                             <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                         }
                         {/* Carousel com desenhos/animes */}
-                        <div className="flex flex-col gap-y-8">
+                        <div className="flex flex-col gap-y-4 md:gap-y-8">
                             {/* Titulo */}
                             <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
                                 {carousel.title}
