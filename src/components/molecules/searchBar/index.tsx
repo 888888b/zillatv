@@ -9,13 +9,13 @@ import './styles.css';
 type SearchBarProps = {
     className?: string;
     callback?: () => void;
-    animation?: boolean;
+    isAnimated?: boolean;
 };
 
 export default function SearchBar(props: SearchBarProps) {
 
     const { push } = useRouter();
-    const { className, callback, animation } = props;
+    const { className, callback, isAnimated } = props;
     const pathname = usePathname();
     const inputBoxRef = useRef<HTMLFormElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -36,9 +36,10 @@ export default function SearchBar(props: SearchBarProps) {
         const reset = resetBtnRef.current;
         if (!reset || !input) return;
         input.value = '';
-        reset.style.display = 'none';
-        onMouseOutSearchBar();
-    }, [resetBtnRef, inputRef, pathname]);
+        if (isAnimated) reset.style.display = 'none';
+        isAnimated && onMouseOutSearchBar();
+        callback && callback();
+    }, [callback, resetBtnRef, inputRef, pathname]);
 
     // reseta o input sempre que a pagina muda
     useEffect(() => {
@@ -59,14 +60,13 @@ export default function SearchBar(props: SearchBarProps) {
         if (!input || !reset) return;
         if (input.value) {
             push(`/search?keyword=${input.value}`);
-            reset.style.display = 'flex';
+            if (isAnimated) reset.style.display = 'flex';
         } else {
             push('/');
-            reset.style.display = 'none';
+            if (isAnimated) reset.style.display = 'none';
         };
-        onMouseOverSearchBar();
-        callback && callback();
-    }, [callback, push, inputRef, resetBtnRef, onMouseOverSearchBar]);
+        isAnimated && onMouseOverSearchBar();
+    }, [push, inputRef, resetBtnRef, onMouseOverSearchBar]);
 
     const returnToHome = useCallback(() => {
         onResetInput();
@@ -74,20 +74,26 @@ export default function SearchBar(props: SearchBarProps) {
     }, [onResetInput, push]);
 
     // adiciona os eventos de mouse para que a animaçao funcione
-    const mouseEvents = animation ? {
+    const inputMouseEvents = isAnimated ? {
         onMouseEnter: onMouseOverSearchBar,
         onMouseLeave: onMouseOutSearchBar
     } : {};
 
+    // adiciona evento de click e ref para controlar o reset do carousel caso a barra seja animada
+    const resetBtnAtributes =  {
+        onClick: isAnimated ? returnToHome : onResetInput,
+        ref: resetBtnRef
+    };
+
     return (
-        <form className={`rounded-md border-[0.1rem] overflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-10 h-10 lg:w-12 lg:h-12 ${className}`} onSubmit={(e) => e.preventDefault()} {...mouseEvents} ref={inputBoxRef}>
+        <form className={`rounded-md border-[0.1rem] overflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 w-10 h-10 lg:w-12 lg:h-12 ${className}`} onSubmit={(e) => e.preventDefault()} {...inputMouseEvents} ref={inputBoxRef}>
             {/* icone de lupa */}
             <Image
                 src={'/search_icon.png'}
                 alt={'search icon'}
                 width={24}
                 height={24}
-                className="absolute top-1/2 -translate-y-1/2 left-5 lg:left-[22px] -translate-x-1/2"
+                className="absolute top-1/2 -translate-y-1/2 left-5 md:left-[19px] lg:left-[22px] -translate-x-1/2"
             />
 
             {/* campo de pesquisa */}
@@ -103,7 +109,7 @@ export default function SearchBar(props: SearchBarProps) {
             />
 
             {/* reseta o input */}
-            <button className="absolute top-1/2 -translate-y-1/2 right-5 lg:right-6 translate-x-1/2 bg-secondary w-6 h-6 rounded-full items-center justify-center active:scale-95 duration-300 transition-transform hidden cursor-pointer" ref={resetBtnRef} onClick={returnToHome}>
+            <button className={`absolute top-1/2 -translate-y-1/2 right-5 lg:right-6 translate-x-1/2 bg-secondary w-6 h-6 rounded-full items-center justify-center active:scale-95 duration-300 transition-transform cursor-pointer ${isAnimated ? 'hidden' : 'flex'}`} {...resetBtnAtributes} onClick={returnToHome}>
                 <Image
                     src={'/close_icon.png'}
                     alt={'close icon'}

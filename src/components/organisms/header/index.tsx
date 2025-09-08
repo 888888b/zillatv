@@ -1,7 +1,7 @@
 'use client';
 
 // hooks
-import { useEffect, useRef, useContext } from 'react';
+import { useEffect, useRef, useContext, useState, useCallback } from 'react';
 
 // componentes
 import SearchBar from '@/components/molecules/searchBar';
@@ -18,16 +18,19 @@ import './styles.css';
 
 export default function Header() {
 
-    const headerRef = useRef<null | HTMLElement>( null );
+    const headerRef = useRef<null | HTMLElement>(null);
+    const mobileSearchBar = useRef<HTMLDivElement | null>(null);
+    const [isSearchBarActive, setIsSearchBarActive] = useState<boolean>(false);
     const {
         isLoggedIn
-    } = useContext( UserDataContext );
+    } = useContext(UserDataContext);
 
-    const updateHeaderStyles = () => {
+    // utiliza a classe .is-scrolling para alterar altura e cor de fundo do header ao scrollar a pagina
+    const updateHeaderStyles = (): void => {
         const header = headerRef.current;
-        if ( !header ) return;
+        if (!header) return;
 
-        if ( window.scrollY > 10 ) {
+        if (window.scrollY > 10) {
             header.classList.add('is-scrolling');
             return
         };
@@ -36,14 +39,24 @@ export default function Header() {
     };
 
     useEffect(() => {
-        if ( window !== undefined ) {
-            updateHeaderStyles();
-            window.addEventListener('scroll', updateHeaderStyles);
-        };
-
+        if (!window) return;
+        updateHeaderStyles();
+        window.addEventListener('scroll', updateHeaderStyles);
         return () => {
             window.removeEventListener('scroll', updateHeaderStyles);
         };
+    }, []);
+
+    const hideMobileSearchBar = useCallback((): void => {
+        const bar = mobileSearchBar.current;
+        if (!bar) return;
+        bar.classList.remove('active');
+    }, []);
+
+    const showMobileSearchBar = useCallback((): void => {
+        const bar = mobileSearchBar.current;
+        if (!bar) return;
+        bar.classList.add('active');
     }, []);
 
     return (
@@ -66,29 +79,38 @@ export default function Header() {
                             className='h-7 w-fit lg:h-[30px] cursor-pointer'
                         />
                     </Link>
-                    
+
                     {/* barra com links para navegação meio */}
-                    <NavLinksBar isUserLoggedIn={isLoggedIn}/>
+                    <NavLinksBar isUserLoggedIn={isLoggedIn} />
                 </div>
 
                 {/* barra de navegaçao direita */}
                 <div className='flex items-center gap-x-6'>
-                    {/* barra de pesquisa */}
+                    {/* icone de pesquisa */}
                     <img
+                        onClick={showMobileSearchBar}
                         src='/search_icon.png'
                         alt='Icone de lupa do ZillaTV'
                         loading='eager'
                         className='h-[26px] w-fit cursor-pointer md:hidden'
                     />
-                    <SearchBar animation={true} className='hidden md:inline'/>
-                    { !isLoggedIn ?
+                    {/* barra de pesquisa mobile */}
+                    <div ref={mobileSearchBar} className='w-full h-full absolute left-0 top-0 flex items-center justify-center px-5 sm:px-10 mobile-search-bar'>
+                        <SearchBar 
+                            isAnimated={false} 
+                            className='md:hidden w-full h-12' 
+                            callback={hideMobileSearchBar}/>
+                    </div>
+                    {/* componente da barra de pesquisa */}
+                    <SearchBar isAnimated={true} className='hidden md:inline' />
+                    {!isLoggedIn ?
                         /* botão de login/singup lado direito */
-                        <AuthButtons/> :
+                        <AuthButtons /> :
                         /* dropdown com opções para gerencialmento de conta */
-                        <ProfileIcon/>
+                        <ProfileIcon />
                     }
                 </div>
-                
+
             </header>
         </MobileMenu>
     );
