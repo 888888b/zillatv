@@ -18,7 +18,6 @@ footer .custom-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 64px;
-    max-width: 1300px;
     margin: 0 auto;
 }
 
