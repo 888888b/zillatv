@@ -6,7 +6,7 @@ import { useState, useCallback } from 'react';
 // componentes
 import PlayerModal from '@/components/templates/playerPage/trailerPlayback';
 import Image from '@/components/atoms/heroImage';
-import PlayButton from '@/components/molecules/heroButton';
+import PlayButton from '@/components/molecules/playButton';
 import AddToList from '../addToListButton';
 
 // icons
