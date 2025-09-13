@@ -8,7 +8,7 @@ export const Genres = (props: ComponentProps) => {
     const {genresList, className} = props;
 
     return (
-        <p className={`text-base leading-6 line-clamp-1 overflow-ellipsis sm:max-w-[40%] lg:max-w-[30%] md:hover:max-w-none ${className}`}>
+        <p className={`[font-size:clamp(1rem,1.15vw,1.125rem)] line-clamp-1 overflow-ellipsis sm:max-w-[40%] lg:max-w-[30%] md:hover:max-w-none ${className}`}>
             <span className="font-bold">Gêneros: </span>
             {genresList.length >= 2 ? 
             genresList[0].name + ', ' + genresList[1].name

@@ -9,8 +9,8 @@
 }
 
 :root {
-  --bullet-width: 12px;
-  --bullet-height: 12px;
+  --bullet-width: clamp(0.75rem, 0.9vw, 0.875rem);
+  --bullet-height: clamp(0.75rem, 0.9vw, 0.875rem);
 }
 
 .bullets-bar {
@@ -18,7 +18,7 @@
   bottom: 0;
   right: calc(50%);
   display: flex;
-  column-gap: 12px;
+  column-gap: var(--bullet-width);
   align-items: center;
   z-index: 30;
 }
@@ -31,7 +31,7 @@
   width: var(--bullet-width);
   height: var(--bullet-height);
   transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: color-mix(in oklab, var(--color-secondary) 40%, transparent);
 }
 
 .bullets-bar .active-bullet {
@@ -41,8 +41,8 @@
 }
 
 .bullets-bar .active-animated-bullet {
-  background-color: rgb(255, 255, 19, 0.2);
-  width: 36px;
+  background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  width: calc(var(--bullet-width) * 3);
   border-radius: 15px;
   transition: width 0.3s linear;
   position: relative;
@@ -56,7 +56,7 @@
   top: 0;
   height: 100%;
   border-radius: 15px;
-  animation: autoplay-progress 7s linear forwards;
+  animation: autoplay-progress 10s linear forwards;
   background-color: var(--color-primary);
 }
 
@@ -66,6 +66,6 @@
 
 @media screen and (width >=640px) {
   .bullets-bar {
-    bottom: 96px;
+    bottom: 6rem;
   }
 }

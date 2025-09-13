@@ -1,13 +1,17 @@
 .movie-serie-carousel .embla {
-    padding: 0 20px;
+    padding: 0 1.25rem;
 }
 
 .movie-serie-carousel .embla__container {
-    column-gap: 8px;
+    column-gap: 0.5rem;
 }
 
 .movie-serie-carousel .embla__slide {
-    width: clamp(140px, 30%, 200px);
+    width: clamp(8.75rem, 30%, 12.5rem);
+}
+
+.movie-serie-carousel .embla__slide:last-of-type {
+    margin-right: 0.5rem;
 }
 
 .movie-serie-carousel .img-wrapper {
@@ -38,17 +42,13 @@
 
 @media screen and (width>=640px) {
     .movie-serie-carousel .embla {
-        padding: 0 40px;
+        padding: 0 2.5rem;
     }
 }
 
 @media screen and (width >=768px) {
     .movie-serie-carousel .embla__slide {
-        width: calc((100% - 24px) / 4);
-    }
-
-    .movie-serie-carousel .embla__slide:last-of-type {
-        margin-right: 8px;
+        width: calc((100% - 1.5rem) / 4);
     }
 
     .movie-serie-carousel .img {
@@ -94,8 +94,8 @@
 
     .movie-serie-carousel .play-icon-box {
         opacity: 0;
-        width: 60px;
-        height: 60px;
+        width: 3.75rem;
+        height: 3.75rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -117,17 +117,29 @@
 
 @media screen and (width >=1024px) {
     .movie-serie-carousel .embla__slide {
-        width: calc((100% - 32px) / 5);
+        width: calc((100% - 2rem) / 5);
     }
 
     .movie-serie-carousel .embla {
-        padding: 0 64px;
+        padding: 0 4rem;
     }
 }
 
 @media screen and (width >=1280px) {
     .movie-serie-carousel .embla__slide {
-        width: calc((100% - 40px) / 6);
+        width: calc((100% - 2.5rem) / 6);
+    }
+}
+
+@media screen and (width >=1536px) {
+    .movie-serie-carousel .embla__slide {
+        width: calc((100% - 3rem) / 7);
+    }
+}
+
+@media screen and (width >=1792px) {
+    .movie-serie-carousel .embla__slide {
+        width: calc((100% - 3.5rem) / 8);
     }
 }
 

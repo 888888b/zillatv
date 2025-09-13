@@ -38,7 +38,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         ${ fonts.inter.variable }
         antialiased
       `}>
-        <div className="relative overflow-x-hidden max-w-[1440px] mx-auto">
+        <div className="relative overflow-x-hidden max-w-[2000px] mx-auto">
           <TmdbProvider>
               <UserDataProvider>
                 <GlobalEventsProvider>

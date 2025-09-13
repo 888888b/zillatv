@@ -49,7 +49,7 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
     // plugins
     const emblaPlugins = props.autoplay ? [
         autoplay({
-            delay: 7000, 
+            delay: 10000, 
             stopOnInteraction: false 
         })
     ] : [];

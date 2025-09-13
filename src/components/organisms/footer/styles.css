@@ -1,32 +1,34 @@
 footer a,
 footer button {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 footer h3 {
-    letter-spacing: 0.02em;
     font-weight: 900;
     color: var(--color-secondary);
-    font-size: 19px;
+    font-size: clamp(1.125rem, 1.3vw, 1.25rem); /*clamp(18px, 1.3vw, 20px)*/
 }
 
 footer h2 {
-    letter-spacing: 0.1em;
+    letter-spacing: 0.1em !important;
+    font-size:clamp(1.125rem ,1.3vw, 1.25rem);
 }
 
 footer .custom-grid {
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 1fr;
     gap: 64px;
     max-width: 1300px;
     margin: 0 auto;
 }
 
-footer .custom-grid .column:not(:last-of-type) {
+footer .column:nth-of-type(1),
+footer .column:nth-of-type(2) {
     position: relative;
 }
 
-footer .column:not(:last-of-type)::before {
+footer .column:nth-of-type(1)::before,
+footer .column:nth-of-type(2)::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -52,7 +54,7 @@ footer button {
     width: fit-content;
     height: 48px;
     border-radius: 30px;
-    padding: 0 32px;
+    padding: 0 2em;
     font-weight: normal;
     font-size: 16px;
     cursor: pointer;
@@ -61,69 +63,54 @@ footer button {
 
 footer p {
     font-weight: normal;
-    font-size: 15px;
-    line-height: 24px;
+    font-size: clamp(0.937rem, 1.1vw, 1.0625rem);
 }
 
 footer .column p {
-    width: clamp(200px, 100%, 350px);
+    width: clamp(12.5rem, 100%, 37.5rem);
 }
 
 @media screen and (width >=640px) {
-    footer .column:not(:last-of-type)::before {
+    footer .column:nth-of-type(1)::before {
         transform: translate(-40px, 32px);
     }
 }
 
 @media screen and (width >=768px) {
     footer .custom-grid {
-        grid-template-columns: auto auto;
-    }
-
-    footer .column {
-        width: fit-content;
-    }
-
-    footer a:hover {
-        text-decoration: underline;
-    }
-
-    footer .column:nth-of-type(3)::before,
-    footer .column:nth-of-type(2)::before {
-        display: none;
+        grid-template-columns: 1fr 1fr;
     }
 
     footer .column:nth-of-type(3) {
         grid-column: 1 / 3;
     }
 
-    footer h3 {
-        font-weight: 600;
-        font-size: 18px;
+    footer .column:nth-of-type(2)::before {
+        display: none;
     }
 
-    footer .column:nth-of-type(3) p {
-        width: clamp(350px, 90%, 700px);
+    footer h3 {
+        font-weight: 600;
     }
+
 }
 
 @media screen and (width >=1024px) {
     footer .column:not(:last-of-type)::before {
-        transform: translate(-70px, 32px);
+        transform: translate(-64px, 32px);
     }
 }
 
-@media screen and (width >=1200px) {
+@media screen and (width >=1280px) {
     footer .custom-grid {
-        grid-template-columns: auto auto auto;
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
     footer .column:nth-of-type(3) {
         grid-column: initial;
     }
 
-    footer .column p {
-        width: 100%;
-        max-width: 300px;
+    footer .column:not(:last-of-type)::before {
+        transform: translate(-128px, 32px);
     }
 }

@@ -7,7 +7,7 @@ const AddToListButton = memo(( props: ComponentPropsWithRef<'button'> ) => {
     return (
         <button
             {...rest}
-            className={`pointer-events-auto outline-none w-fit h-10 rounded-md box-border border border-primary text-secondary text-base font-bold px-6 active:scale-95 transition-all duration-200 flex items-center gap-x-1 justify-center cursor-pointer lg:h-12 ${className}`}>
+            className={`[font-size:clamp(1rem,1.15vw,1.125rem)] pointer-events-auto outline-none w-fit h-10 rounded-md box-border border border-primary text-secondary font-bold px-[1.5em] active:scale-95 transition-all duration-200 flex items-center gap-x-1 justify-center cursor-pointer lg:h-12 ${className}`}>
             <IoIosAdd className="text-3xl"/>
             Salvar
         </button>

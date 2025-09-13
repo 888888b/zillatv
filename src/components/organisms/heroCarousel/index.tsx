@@ -6,10 +6,9 @@ import { useRouter } from 'next/navigation';
 
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
-import PlayButton from '@/components/molecules/heroButton';
+import PlayButton from '@/components/molecules/playButton';
 import AddToListButton from '@/components/molecules/addToListButton';
 import Title from './title';
-import DetailsBar from './details';
 import Description from './description';
 import Genres from './genres';
 import dynamic from 'next/dynamic';
@@ -82,7 +81,7 @@ export default function HeaderCarousel(props: HeaderCarouselProps) {
 
             {/* detalhes do filme/serie */}
             {currentSlide ? (
-                <div className="w-[calc(100%-40px)] sm:w-[calc(100%-80px)] lg:w-[calc(100%-128px)] absolute left-1/2 -translate-x-1/2 bottom-11 flex flex-col items-center gap-y-4 z-[10] pointer-events-none md:pointer-events-auto sm:bottom-1/2 sm:translate-y-[calc(50%-20px)] sm:items-start">
+                <div className="w-[calc(100%-40px)] sm:w-[calc(100%-80px)] lg:w-[calc(100%-128px)] absolute left-1/2 -translate-x-1/2 bottom-11 flex flex-col items-center gap-y-4 z-[10] pointer-events-none md:pointer-events-auto sm:bottom-1/2 sm:translate-y-[calc(50%-28px)] sm:items-start">
                     {/* titulo */}
                     <Title title={currentSlide.title ?? currentSlide.name} className='text-center sm:text-left'/>
                     {/* descrição do filme / serie */}

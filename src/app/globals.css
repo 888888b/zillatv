@@ -2,7 +2,9 @@
 
 @plugin "daisyui" {
   themes: "dark-theme" --default;
-};
+}
+
+;
 
 /* cores necessarias para animações do daisy ui */
 @plugin "daisyui/theme" {
@@ -10,23 +12,45 @@
   default: true;
   prefersdark: true;
   color-scheme: dark;
-  --color-base-300: #e5e7eb /**/;
-  --color-base-100: #ffffff /**/;
+  --color-base-300: #e5e7eb
+    /**/
+  ;
+  --color-base-100: #ffffff
+    /**/
+  ;
 }
 
 /* cores e fontes utilizadas no projeto */
 @theme {
   --font-inter: var(--font-inter), "sans-serif";
   --font-raleway: var(--font-raleway), "sans-serif";
-  --color-primary: #ffff13 /*cor primaria para textos e botoes com destaque*/;
-  --color-secondary: #ffffff /*cor secondaria para textos e botoes com destaque*/;
-  --color-primary-content: #333333 /*contraste com a cor acima, para textos de botoes e outros*/;
-  --color-background: #060D17 /*cor de fundo da pagina*/;
-  --color-text: #b3b4b8 /*cor padrão para textos*/;
-  --color-surface: #0F1621 /*contraste com a cor de fundo da pagina, para cards e seçoes*/;
-  --color-accent: #333333 /*constraste para textos em botoes de destaque*/;
-  --color-success: "" /**/;
-  --color-error: red /**/;
+  --color-primary: #ffff13
+    /*cor primaria para textos e botoes com destaque*/
+  ;
+  --color-secondary: #ffffff
+    /*cor secondaria para textos e botoes com destaque*/
+  ;
+  --color-primary-content: #333333
+    /*contraste com a cor acima, para textos de botoes e outros*/
+  ;
+  --color-background: #060D17
+    /*cor de fundo da pagina*/
+  ;
+  --color-text: #b3b4b8
+    /*cor padrão para textos*/
+  ;
+  --color-surface: #0F1621
+    /*contraste com a cor de fundo da pagina, para cards e seçoes*/
+  ;
+  --color-accent: #333333
+    /*constraste para textos em botoes de destaque*/
+  ;
+  --color-success: ""
+    /**/
+  ;
+  --color-error: red
+    /**/
+  ;
 }
 
 :root {
@@ -62,9 +86,25 @@
   --color-gradient-base: color-mix(in oklab, var(--color-background) 100%, transparent);
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-inter), helvetica, sans-serif;
 }
 
+body h1,
+body h2,
+body h3,
+body h4,
+body h5 {
+  line-height: 1.25;
+  letter-spacing: 0.025em;
+}
+
+body p {
+  line-height: 1.5;
+}

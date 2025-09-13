@@ -112,7 +112,7 @@ export default async function HomePage() {
                 currentPage="home"
             />
             {/* main carousels */}
-            <div className="flex flex-col mt-8 mb-16 sm:-mt-[84px] z-10 relative">
+            <div className="flex flex-col mt-8 mb-16 sm:-mt-[76px] md:-mt-[84px] z-10 relative">
                 {Object.values(carouselsData).map((carousel, index) => (
                     <div key={`home-main-carousel-${index}`}>
                         {/* linha divisoria */}
