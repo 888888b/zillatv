@@ -8,9 +8,9 @@ export default function Footer(props: ComponentProps) {
     const { className } = props;
 
     return (
-        <footer className={`px-4 sm:px-10 lg:px-16 xl:px-32 pt-16 pb-8 bg-surface border-t-2 border-secondary/5 flex flex-col gap-y-16 items-center ${className}`}>
+        <footer className={`px-4 sm:px-10 lg:px-16 xl:px-32 pt-16 pb-8 bg-surface border-t-2 border-secondary/5 ${className}`}>
             {/* titulo */}
-            <h2 className="w-full font-semibold uppercase text-secondary hidden md:inline xl:text-center">
+            <h2 className="w-full font-semibold uppercase text-secondary hidden md:block xl:text-center mb-16">
                 Filmes populares - séries em alta - animes online
             </h2>
 
@@ -61,7 +61,9 @@ export default function Footer(props: ComponentProps) {
                     </p>
                 </div>
             </div>
-
+            {/* divisor */}
+            <div className='my-8 bg-transparent h-px w-full xl:bg-secondary/5'/>
+            {/* copyright */}
             <p className='w-full text-left xl:text-center'>© 2025 ZillaTV. Todos os direitos reservados.</p>
         </footer>
     );

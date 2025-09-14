@@ -94,8 +94,8 @@
 
     .movie-serie-carousel .play-icon-box {
         opacity: 0;
-        width: 3.75rem;
-        height: 3.75rem;
+        width: 35%;
+        aspect-ratio: 1 / 1;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -105,9 +105,11 @@
         transition: opacity 0.2s ease-in-out;
         transform: translate(-50%, -50%);
         z-index: 11;
+        color: var(--color-background);
         cursor: pointer;
         background-color: var(--color-primary);
         border-radius: 50%;
+        font-size: clamp(1.125rem, 1.3vw, 1.25rem);
     }
 
     .movie-serie-carousel .img-wrapper:hover .play-icon-box {

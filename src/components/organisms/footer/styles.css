@@ -6,12 +6,12 @@ footer button {
 footer h3 {
     font-weight: 900;
     color: var(--color-secondary);
-    font-size: clamp(1.125rem, 1.3vw, 1.25rem); /*clamp(18px, 1.3vw, 20px)*/
+    font-size: clamp(1.125rem, 1.3vw, 1.25rem);
 }
 
 footer h2 {
     letter-spacing: 0.1em !important;
-    font-size:clamp(1.125rem ,1.3vw, 1.25rem);
+    font-size: clamp(1.125rem, 1.3vw, 1.25rem);
 }
 
 footer .custom-grid {
@@ -91,7 +91,6 @@ footer .column p {
     footer h3 {
         font-weight: 600;
     }
-
 }
 
 @media screen and (width >=1024px) {
@@ -110,6 +109,13 @@ footer .column p {
     }
 
     footer .column:not(:last-of-type)::before {
-        transform: translate(-128px, 32px);
+        display: none;
+    }
+}
+
+@media screen and (width >=1536px) {
+    footer .custom-grid {
+        justify-content: center;
+        grid-template-columns: repeat(3, fit-content(clamp(12.5rem, 100%, 25rem)))
     }
 }

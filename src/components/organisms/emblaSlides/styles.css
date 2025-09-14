@@ -39,7 +39,7 @@
 
 @media screen and (width >=768px) {
     .embla .embla-navigation {
-        transition: opacity 0.3s ease-in-out;
+        transition: all 0.15s ease-in-out;
     }
 
     .embla:hover .embla-navigation {

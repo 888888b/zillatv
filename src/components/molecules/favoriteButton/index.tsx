@@ -5,11 +5,11 @@ type ComponentProps = ComponentPropsWithRef<'button'> & {
     isFavorite: boolean;
     buttonId: string;
     mediaType?: string;
-    updateFavorites: ( itemId: string, mediaType: string ) => void
+    updateFavorites: (itemId: string, mediaType: string) => void
 }
 
-export default function FavoriteButton( props: ComponentProps ) {
-    const [ isLoading, setIsLoading ] = useState( false );
+export default function FavoriteButton(props: ComponentProps) {
+    const [isLoading, setIsLoading] = useState(false);
     const {
         updateFavorites,
         buttonId,
@@ -31,14 +31,12 @@ export default function FavoriteButton( props: ComponentProps ) {
     return (
         <button
             {...rest}
-            className={`favorite-button z-30 absolute top-3 right-3 w-fit h-fit cursor-pointer text-text hover:text-secondary ${className}`}
-            onClick={handleFavoriteButton}
-        >
-            {isLoading ? (
-                <span className='loading loading-bars loading-lg'></span>
-            ) : (
-                <BookmarkIcon/>
-            )}
+            className={`favorite-button z-30 absolute top-3 right-3 w-fit h-fit cursor-pointer text-text hover:text-secondary transition-all hover:scale-105 duration-300 ${className}`}
+            onClick={handleFavoriteButton}>
+            {isLoading ?
+                <span className='loading loading-bars loading-lg 2xl:loading-xl' />
+                :
+                <BookmarkIcon className='aspect-square w-[clamp(1.75rem,2.05vw,2rem)]'/>}
         </button>
     );
 };

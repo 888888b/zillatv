@@ -13,14 +13,18 @@ const EmblaNavigation = memo((props: UsePrevNextButtonsType) => {
             {/* Botão para o slide anterior */}
             {!props.prevBtnDisabled &&
                 <div className="prev-slide-button absolute left-0 top-0 z-50 flex items-center justify-center md:bg-background/80 w-5 sm:w-10 lg:w-16 h-full">
-                    <PrevSlide onClick={props.onPrevButtonClick} className=" bg-primary embla-navigation" />
+                    <div className="embla-navigation">
+                        <PrevSlide onClick={props.onPrevButtonClick}/>
+                    </div>
                 </div>
             }
 
             {/* Botão para o proximo slide */}
             {!props.nextBtnDisabled &&
                 <div className="next-slide-button absolute right-0 top-0 z-50 flex items-center justify-center md:bg-background/80 w-5 sm:w-10 lg:w-16 h-full">
-                    <NextSlide onClick={props.onNextButtonClick} className="bg-primary embla-navigation" />
+                    <div className='embla-navigation'>
+                        <NextSlide onClick={props.onNextButtonClick}/>
+                    </div>
                 </div>
             }
         </>

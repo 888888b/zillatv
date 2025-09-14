@@ -9,8 +9,8 @@ export default function PrevSlideButton( props: ComponentProps ) {
     return (
         <button
             {...rest}
-            className={`w-6 h-6 hover:scale-110 duration-300 transition-all rounded-full z-30 cursor-pointer items-center justify-center hidden md:flex outline-none border-none ${className}`}>
-            <ArrowLeft color="#333333" width={24} height={24} stroke="1.7" />
+            className={`w-[1.5rem,1.65vw,1.625rem] aspect-square hover:scale-110 rounded-full z-30 cursor-pointer items-center justify-center hidden md:flex outline-none border-none bg-primary opacity-50 hover:opacity-100 transition-all duration-150 ${className}`}>
+            <ArrowLeft color="var(--color-background)" width={24} height={24} stroke="1.7" />
         </button>
     );
 };

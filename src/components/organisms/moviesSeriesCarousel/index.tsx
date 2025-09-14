@@ -140,7 +140,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                                     <div
                                         className='play-icon-box'
                                         onClick={() => navigate(slide.id, slide.media_type)} >
-                                        <FaPlay className="text-background text-lg translate-x-px" />
+                                        <FaPlay className="translate-x-px" />
                                     </div>
 
                                     {/* Imagem do conteudo a ser exibido */}
