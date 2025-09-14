@@ -121,7 +121,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                 slidesPerView={'auto'}
                 breakpoints={{
                     '(max-width: 768px)': {  duration: 20, dragFree: true, loop: false },
-                    '(max-width: 2000px)': { duration: 25, dragFree: false, loop: true },
+                    '(max-width: 2000px)': { duration: 25, dragFree: false, loop: true, align: 'start' },
                 }}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
                 {props.slidesData.map((slide, index) => (

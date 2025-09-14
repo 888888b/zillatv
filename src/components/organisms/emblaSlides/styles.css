@@ -1,6 +1,5 @@
 
 .embla {
-
     position: relative;
     box-sizing: border-box;
     z-index: 2;
@@ -12,6 +11,7 @@
 }
 
 .embla__container .embla__slide {
+    transform: translate3d(0, 0, 0);
     flex: 0 0 auto;
     overflow: hidden;
     z-index: 3;
