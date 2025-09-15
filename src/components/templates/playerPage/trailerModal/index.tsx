@@ -25,11 +25,13 @@ export default function TrailerModal(props: ComponentProps) {
         isPlayerActive && (
             // modal do player
             <div className="w-screen overflow-hidden h-lvh flex items-center justify-center fixed z-[999] top-0 left-0 bg-background/85 px-5 sm:px-10 lg:px-16">
-                <div ref={playerWrapperRef} className="bg-surface w-full aspect-video max-h-[80vh] relative border-2 border-secondary/5">
+                <div ref={playerWrapperRef} className="bg-surface w-full lg:w-fit relative border-2 border-secondary/5">
                     {/* Fechamento do modal */}
-                    <CloseButton onClick={closePlayer} />
+                    <CloseButton onClick={closePlayer} className="z-5"/>
                     {/* trailer do filme/serie */}
-                    <YoutubePlayer videoID={mediaId} />
+                    <div className="w-full lg:w-[70vw] overflow-hidden aspect-video flex items-center justify-center z-[4]">
+                        <YoutubePlayer videoID={mediaId} />
+                    </div>
                 </div>
 
                 <div className="modal-backdrop bg-black/85"></div>

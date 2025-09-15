@@ -80,6 +80,6 @@ export default function YouTubePlayer(props: ComponentProps) {
   };
 
   return (
-    <div className="pointer-events-none" ref={containerRef} />
+    <div className="pointer-events-none scale-150" ref={containerRef} />
   );
 };
