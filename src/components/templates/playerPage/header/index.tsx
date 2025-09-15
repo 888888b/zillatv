@@ -1,10 +1,10 @@
 'use client';
 
 // hooks
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 // componentes
-import PlayerModal from '@/components/templates/playerPage/trailerPlayback';
+import TrailerModal from '@/components/templates/playerPage/trailerModal';
 import Image from '@/components/atoms/heroImage';
 import PlayButton from '@/components/molecules/playButton';
 import AddToList from '../addToListButton';
@@ -22,6 +22,7 @@ type HeaderProps = {
 export default function Header(props: HeaderProps) {
     const playerData = props.playerData;
     const [isPlayerActive, setIsPlayerActive] = useState(false);
+    const [videoID, setVideoID] = useState<string | null>(null);
 
     const openPlayer = useCallback((): void => {
         setIsPlayerActive(true);
@@ -31,13 +32,18 @@ export default function Header(props: HeaderProps) {
         setIsPlayerActive(false);
     }, [setIsPlayerActive]);
 
-    const getTrailerKey = useCallback((): string | undefined => {
+    const getTrailerKey = useCallback((): void => {
         if (!playerData) return;
         const keywords = ['dublado', 'Dublado', 'pt', 'BR', 'en', 'legendado', 'Legendado']
         const videos: tmdbObjProps[] = playerData.videos.results;
         const video = keywords.map(key => (videos.find(video => JSON.stringify(video).includes(key)))).find(video => video !== undefined);
-        return video ? video.key : undefined;
+        const key = video ? video.key : null;
+        setVideoID(key);
     }, [playerData]);
+
+    useEffect(() => {
+        getTrailerKey();
+    }, []);
 
     return (
         <div className='player-header'>
@@ -55,21 +61,24 @@ export default function Header(props: HeaderProps) {
                     </h1>
                     <div className='flex items-center justify-center gap-x-4 flex-nowrap'>
                         {/* Ir para pagina de detalhes */}
-                        <PlayButton onClick={openPlayer}>
-                            <FaPlay className='text-base'/>
+                        <PlayButton onClick={openPlayer} className={`${!videoID && 'opacity-70 pointer-events-none'}`}>
+                            <FaPlay className='text-base' />
                             Assistir
                         </PlayButton>
                         {/* adicionar filme/serie aos favoritos */}
-                        <AddToList/>
+                        <AddToList />
                     </div>
                 </div>
             </div>
-            <PlayerModal
-                title={playerData.name ?? playerData.title}
-                mediaId={getTrailerKey()}
-                isPlayerActive={isPlayerActive}
-                closePlayer={closePlayer}
-            />
+
+            {videoID &&
+                <TrailerModal
+                    title={playerData.name ?? playerData.title}
+                    mediaId={videoID}
+                    isPlayerActive={isPlayerActive}
+                    closePlayer={closePlayer}
+                />
+            }
         </div>
     );
 };
