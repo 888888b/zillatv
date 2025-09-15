@@ -50,7 +50,7 @@ export default function Header(props: HeaderProps) {
                 {/* Informações do filme/serie */}
                 <div className='w-full px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 lg:px-16 overflow-hidden sm:absolute sm:left-0 sm:bottom-[calc(45vh-130px)] z-5'>
                     {/* titulo */}
-                    <h1 className={`text-[35px] leading-[38px] text-center sm:text-left font-black font-raleway text-secondary line-clamp-3 sm:max-w-[80%] sm:text-5xl sm:leading-[55px] lg:text-6xl lg:max-w-[60%] lg:leading-[70px]`}>
+                    <h1 className={`[font-size:clamp(2.18rem,7vw,3rem)] font-black font-raleway text-secondary line-clamp-3 sm:max-w-[80%] lg:[font-size:clamp(3rem,5vw,5rem)] lg:max-w-[60%]`}>
                         {playerData.title ?? playerData.name}
                     </h1>
                     <div className='flex items-center justify-center gap-x-4 flex-nowrap'>

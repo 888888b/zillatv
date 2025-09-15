@@ -59,12 +59,12 @@ export default function Main(props: ComponentProps) {
                 /* Descrição do filme/serie */
                 <>
                     <div className="flex flex-col w-full md:max-w-3xl lg:max-w-[850px] gap-y-[10px] box-border px-5 sm:px-10 lg:pl-16">
-                        <p ref={descriptionRef} className='w-full line-clamp-6 text-lg leading-7 relative'>
-                            {mediaData.overview}
+                        <p ref={descriptionRef} className='w-full line-clamp-6 [font-size:clamp(1.125rem,1.3vw,1.25rem)] relative'>
+                            {mediaData.overview} 
                         </p>
                         {isTextCut &&
                             <button
-                                className="border-2 border-secondary/10 outline-none text-secondary text-sm font-semibold uppercase h-10 flex items-center justify-center rounded-xs cursor-pointer"
+                                className="[font-size:clamp(0.875rem,1.05vw,1rem)] border-2 border-secondary/10 outline-none text-secondary font-semibold uppercase h-10 flex items-center justify-center cursor-pointer"
                                 onClick={showEntireText}
                                 ref={textChangeButton}>
                                 ver mais
@@ -79,7 +79,6 @@ export default function Main(props: ComponentProps) {
                 <div className='px-5 sm:px-10 lg:pl-16'>
                     {/* Titulo da seção */}
                     <SectionTitle className='text-center sm:text-left'>Todos os detalhes</SectionTitle>
-
                     {/* Container com os detalhes */}
                     <div className="my-8 relative flex justify-end w-full max-w-[1024px] lg:gap-8">
                         {/* Imagem do filme/serie */}

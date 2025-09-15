@@ -7,12 +7,11 @@ type ComponentProps = {
 
 export const ActorImage = (props: ComponentProps) => {
     const {profile_photo_base_url} = tmdbConfig;
-
     return (
         <img
             src={profile_photo_base_url + props.path}
             alt={`Imagem do ator/atora ${props.actor}`}
-            className="object-cover w-20 h-20 lg:w-24 lg:h-24 rounded-full overflow-hidden"
+            className="object-cover w-[clamp(5rem,6.05vw,6rem)] aspect-square rounded-full overflow-hidden lg:w-[clamp(6rem,7.05vw,7rem)]"
             loading={'lazy'}
         />
     );

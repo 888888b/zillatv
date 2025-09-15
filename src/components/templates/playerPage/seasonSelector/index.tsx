@@ -71,7 +71,7 @@ export default function SelectSeason(props: ComponentProps) {
         <>
             <button
                 onClick={openModal}
-                className="border border-secondary/20 h-12 px-5 outline-none text-secondary text-[17px] font-medium w-fit max-w-full flex items-center cursor-pointer rounded-md justify-center flex-nowrap overflow-hidden hover:border-secondary transition-colors duration-300">
+                className="[font-size:clamp(1.0625,1.2vw,1.1875)] border border-secondary/20 h-10 lg:h-12 px-5 outline-none text-secondary font-medium w-fit max-w-full flex items-center cursor-pointer rounded-md justify-center flex-nowrap overflow-hidden hover:border-secondary transition-colors duration-300">
                 {/* Nome da temporada - Data de lançamento */}
                 <span ref={getSelectedSeasonRef} className="line-clamp-1 whitespace-nowrap">
                     {seasonsList[0].name} {" - " + getReleaseDate(seasonsList[0].air_date)}
@@ -94,7 +94,7 @@ export default function SelectSeason(props: ComponentProps) {
                                     key={`season-${season.id}`}
                                     onClick={(e) => {updateSelector(e)}}
                                     id={season.season_number}
-                                    className={`w-full h-12 flex items-center justify-center cursor-pointer rounded-md line-clamp-1 border outline-none box-border px-5 md:hover:border-primary md:hover:text-secondary md:hover:scale-105 transition-all duration-300 ${Number(selectedSeason) === season.season_number ? 'text-secondary border-primary font-medium' : 'text-secondary/95 border-primary/20 md:text-secondary/80'}`}
+                                    className={`[font-size:clamp(1rem,1.15vw,1.125rem)] w-full h-12 flex items-center justify-center cursor-pointer rounded-md line-clamp-1 border outline-none box-border px-5 md:hover:border-primary md:hover:text-secondary md:hover:scale-105 transition-all duration-300 ${Number(selectedSeason) === season.season_number ? 'text-secondary border-primary font-medium' : 'text-secondary/95 border-primary/20 md:text-secondary/80'}`}
                                 >
                                     <span className="truncate">
                                         {season.name} {season.air_date && ' - '} {getReleaseDate(season.air_date)}

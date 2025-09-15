@@ -72,10 +72,10 @@ export default function EpisodesCarousel(props: ComponentProps) {
                             {/* informações do episodeo */}
                             <div className="max-w-[90%] overflow-ellipsis">
                                 {/* titulo */}
-                                <h3 className="line-clamp-1 font-raleway font-bold text-lg leading-7 text-secondary lg:text-xl lg:leading-8">
+                                <h3 className="[font-size:clamp(1.125rem,2vw,1.25rem)] line-clamp-1 font-raleway font-bold text-secondary lg:[font-size:clamp(1.25rem,1.4vw,1.375rem)]">
                                     {episode.name ?? ''}
                                 </h3>
-                                <div className="flex gap-x-[12px] font-medium lg:text-lg text-secondary">
+                                <div className="flex gap-x-[12px] font-medium [font-size:clamp(1.125rem,1.3vw,1.25rem)] text-secondary">
                                     {/* Data de lançamento  */}
                                     <p className="flex items-center w-fit">
                                         {getReleaseDate(episode.air_date)}
@@ -84,7 +84,7 @@ export default function EpisodesCarousel(props: ComponentProps) {
                                     <p>{getRunTime(episode.runtime)}</p>
                                 </div>
                                 {/* Descrição */}
-                                <p className="text-base lg:text-lg line-clamp-4 font-normal leading-7 mt-2">
+                                <p className="[font-size:clamp(1rem,1.8vw,1.125rem)] line-clamp-4 font-normal mt-2">
                                     {episode.overview.length > 3 ?
                                         episode.overview
                                         :
