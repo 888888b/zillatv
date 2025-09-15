@@ -22,6 +22,7 @@ import { tmdbObjProps } from '@/contexts/tmdbContext';
 import { tmdbConfig } from '@/app/constants';
 
 import './styles.css';
+import { undefined } from 'zod';
 
 type ComponentProps = {
     slidesData: tmdbObjProps[] | undefined;
@@ -120,8 +121,8 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                 activeSlides={getActiveSlides}
                 slidesPerView={'auto'}
                 breakpoints={{
-                    '(max-width: 768px)': {  duration: 20, dragFree: true, loop: false },
-                    '(max-width: 2000px)': { duration: 25, dragFree: false, loop: true, align: 'start' },
+                    '(min-width: 1px)': {  duration: 20, dragFree: true, loop: false },
+                    '(min-width: 768px)': { duration: 25, dragFree: false, loop: true, align: 'start' },
                 }}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
                 {props.slidesData.map((slide, index) => (
