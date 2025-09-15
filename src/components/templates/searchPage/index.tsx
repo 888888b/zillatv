@@ -3,7 +3,6 @@ import useTmdbFetch from '@/hooks/tmdb';
 
 // componentes
 import SearchResults from '@/components/organisms/moviesSeriesSection';
-import ResultsSectionTitle from '@/components/molecules/resultSectionTitle';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
 
@@ -45,10 +44,8 @@ export default async function SearchPage(props: SearchPageProps) {
         <>
             <section className='search-page-container px-5 sm:px-10 lg:px-16'>
                 <div className='overlay' />
-                <div className='z-[2] mt-44 md:mt-36'>
-                    <ResultsSectionTitle mediaType={'movie'}>{keyword}</ResultsSectionTitle>
-                    <div className='w-full h-px bg-secondary/5 md:bg-secondary/10 rounded-3xl my-8' ></div >
-                    <SearchResults data={contentData} mediaType={contentType} />
+                <div className='z-[2] mt-[clamp(6rem,9vw,7.5rem)] flex flex-col items-start gap-y-5'>
+                    <SearchResults data={contentData} mediaType={contentType}/>
                 </div>
             </section>
 

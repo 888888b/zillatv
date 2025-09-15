@@ -2,14 +2,14 @@
 
 // hooks
 import { useRouter } from 'next/navigation';
-import { useContext, useState, useCallback } from 'react';
+import { useContext, useCallback } from 'react';
 import useFirebase from '@/hooks/firebase';
 
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
 // icones
-import { FaPlay, FaStar } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 
 // contextos
 import { UserDataContext } from '@/contexts/authenticationContext';
