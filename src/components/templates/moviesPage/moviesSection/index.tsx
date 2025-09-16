@@ -106,7 +106,7 @@ export default function MoviesSection(props: ComponentProps) {
                     genres={tmdbGenres}
                 />
             }
-            <div className="w-full h-px rounded-3xl bg-secondary/10" />
+            <div className="w-full h-px rounded-3xl bg-secondary/10 sm:hidden" />
             {contentData && <MoviesSeriesSection data={contentData} mediaType="movie" />}
         </div>
     );

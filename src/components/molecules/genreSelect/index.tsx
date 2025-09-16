@@ -37,9 +37,9 @@ const GenreSelect = memo((props: ComponentProps) => {
     return (
         // seletor
         <div className={'relative'}>
-            <h3 className='font-medium text-text text-base mb-1 leading-6 text-center sm:text-left'>Gênero</h3>
+            <h3 className='font-medium mb-1 [font-size:clamp(1rem,1.15vw,1.125rem)] text-center sm:text-left'>Gênero</h3>
             {/*wrapper do botao de seletor */}
-            <div id='genre-selector' className={`border border-secondary/20 rounded-md w-fit flex items-center justify-start gap-8 flex-nowrap cursor-pointer md:hover:border-secondary transition-colors duration-300 text-secondary font-medium text-lg overflow-hidden mx-auto sm:mx-0 ${isGenreSelectorActive ? 'z-999 relative' : 'z-0 static'}`}  onClick={selectorToggle}>
+            <div id='genre-selector' className={`border border-secondary/20 rounded-md w-fit flex items-center justify-start gap-8 flex-nowrap cursor-pointer md:hover:border-secondary transition-colors duration-300 text-secondary font-medium [font-size:clamp(1.125rem,1.3vw,1.25rem)] overflow-hidden mx-auto sm:mx-0 ${isGenreSelectorActive ? 'z-999 relative' : 'z-0 static'}`}  onClick={selectorToggle}>
                 {/* botao do seletor */}
                 <button ref={ref} id={genres.cartoon.genre} className='h-12 pl-6 min-w-[150px] text-left border-none outline-none pointer-events-none'>
                 {selectedGenre.title}
@@ -52,12 +52,12 @@ const GenreSelect = memo((props: ComponentProps) => {
 
             {/* container com generos para selecionar */}
             <div className={`w-full sm:w-fit max-w-[768px] md:max-w-[80vw] lg:max-w-[60vw] absolute top-[86px] left-0 z-40 px-6 py-5 bg-surface rounded-[10px] ${isGenreSelectorActive ? 'visible' : 'invisible'} border-2 border-secondary/5`}>
-                <ul className='grid grid-cols-[auto] justify-items-center sm:grid-cols-[auto_auto_auto] md:grid-cols-[auto_auto_auto_auto] sm:justify-items-start sm:overflow-hidden gap-8 sm:gap-y-5 sm:gap-x-10 text-[17px] max-h-[50vh] overflow-scroll *:cursor-pointer *:hover:underline *:whitespace-nowrap'>
+                <ul className='grid grid-cols-[auto] justify-items-center sm:grid-cols-[auto_auto_auto] md:grid-cols-[auto_auto_auto_auto] sm:justify-items-start sm:overflow-hidden gap-8 sm:gap-y-5 sm:gap-x-10 [font-size:clamp(1.0625rem,1.2vw,1.1875rem)] max-h-[50vh] overflow-scroll *:cursor-pointer *:hover:underline *:whitespace-nowrap'>
                     {Object.values(genres).map((genre) => (
                         <li  
                             onClick={() => selectGenre(genre)}                            
                             key={`${genre.genre}-movie-genre`}
-                            className={`${selectedGenre.genre === genre.genre ? 'text-primary font-semibold pointer-events-none' : 'font-mediu'}`}>
+                            className={`${selectedGenre.genre === genre.genre && 'text-primary font-semibold pointer-events-none'}`}>
                             {genre.title}
                         </li>
                     ))}

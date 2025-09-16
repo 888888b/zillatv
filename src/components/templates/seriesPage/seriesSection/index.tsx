@@ -104,7 +104,7 @@ export default function SeriesSection(props: ComponentProps) {
                     genres={tmdbSerieGenres}
                 />
             }
-            <div className="w-full h-px rounded-3xl bg-secondary/10" />
+            <div className="w-full h-px rounded-3xl bg-secondary/10 sm:hidden" />
             {contentData && <Series data={contentData} mediaType="serie" />}
         </div>
     );
