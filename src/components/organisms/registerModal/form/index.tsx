@@ -1,11 +1,13 @@
 // Hooks
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
 // Ferramentas de validação
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
+// componentes
+import { InputErrorMsg } from "@/components/atoms/inputErrorMessage";
+import { AuthInput } from "@/components/atoms/authFormInput";
+import { SubmitButton } from "@/components/atoms/authFormSubmitButton";
 // tipos
 import { ErrorMessages } from "@/contexts/globalEventsContext";
 
@@ -46,11 +48,11 @@ type componentProps = {
 
 export default function RegisterForm(props: componentProps) {
 
-    const { 
-        authErrors, 
-        registerUser, 
-        isUserCreatingAccount, 
-        isModalActive 
+    const {
+        authErrors,
+        registerUser,
+        isUserCreatingAccount,
+        isModalActive
     } = props;
 
     const {
@@ -68,59 +70,49 @@ export default function RegisterForm(props: componentProps) {
         reset();
     }, [isModalActive]);
 
-    return isModalActive ? (
+    return isModalActive && (
         // formulario de inscrição
-        <form onSubmit={handleSubmit(registerUser)} className="flex flex-col w-full">
-            {/* pegar nome */}
-            <input
+        <form onSubmit={handleSubmit(registerUser)} className="flex flex-col items-center w-full">
+            {/* campo de nome */}
+            <AuthInput
                 type="text"
                 placeholder="Nome"
-                className="w-full font-medium text-base placeholder:text-text bg-secondary/10 rounded-lg h-12 px-[15px] border outline-none text-secondary"
                 {...register('name')}
                 maxLength={31}
                 style={{
-                    borderColor: errors.name ? 'var(--color-error)' : 'transparent',
-                    backgroundColor: errors.name ? 'rgba(255, 0, 0, 0.1)' : ''
+                    borderColor: errors.name && 'var(--color-error)',
+                    backgroundColor: errors.name && 'color-mix(in oklab, var(--color-error) 10%, transparent)'
                 }}
             />
-            {/* erro de digitação caso houver */}
+            {/* erro de validaçao | nome */}
             {errors.name?.message && (
-                <p className="text-error font-normal text-base mt-[10px]">{errors.name.message}</p>
+                <InputErrorMsg className="mt-2">{errors.name.message}</InputErrorMsg>
             )}
-
-            {/* pegar email */}
-            <input
+            {/* campo de email */}
+            <AuthInput
                 type="email"
                 placeholder="Email"
-                className="w-full font-medium text-base placeholder:text-text bg-secondary/10 rounded-lg h-12 px-[15px] border outline-none text-secondary mt-[15px]"
+                className='mt-4'
                 maxLength={41}
                 {...register('email')}
                 style={{
-                    borderColor: errors.email || authErrors.register ? 'var(--color-error)' : 'transparent',
-                    backgroundColor: errors.email || authErrors.register ? 'rgba(255, 0, 0, 0.1)' : ''
+                    borderColor: (errors.email || authErrors.register) && 'var(--color-error)',
+                    backgroundColor: (errors.email || authErrors.register) && 'color-mix(in oklab, var(--color-error) 10%, transparent)'
                 }}
             />
-
-            {/* Renderiza o erro passado pelo contexto caso houver, se não, renderiza o erro do registerSchema */}
-            {authErrors.register ? (
-                <p className="text-error font-normal mt-[10px] text-base">
-                    {authErrors.register}
-                </p>
-            ) : (
-                <>
-                    {errors.email?.message && (
-                        <p
-                            className="text-error font-normal mt-[10px] text-base">
-                            {errors.email.message}
-                        </p>
-                    )}
-                </>
+            {/* erro de validaçao | email */}
+            {errors.email?.message && (
+                <InputErrorMsg className="mt-2">{errors.email.message}</InputErrorMsg>
             )}
-
-            <input
+            {/* erro de auth | email */}
+            {authErrors.register && (
+                <InputErrorMsg className="mt-2">{authErrors.register}</InputErrorMsg>
+            )}
+            {/* campor de senha */}
+            <AuthInput
                 type="password"
                 placeholder="Senha"
-                className="w-full font-medium text-base placeholder:text-text bg-secondary/10 rounded-lg h-12 px-[15px] border outline-none text-secondary mt-[15px]"
+                className="mt-4"
                 {...register('password')}
                 maxLength={11}
                 style={{
@@ -128,32 +120,17 @@ export default function RegisterForm(props: componentProps) {
                     backgroundColor: errors.password ? 'rgba(255, 0, 0, 0.1)' : ''
                 }}
             />
-
-
+            {/* erro de validaçao | auth */}
             {errors.password?.message && (
-                <p className="text-error font-normal mt-[10px] text-base">
-                    {errors.password.message}
-                </p>
+                <InputErrorMsg className="mt-2">{errors.password.message}</InputErrorMsg> 
             )}
-
-            <button
-                className="mt-[25px] w-full rounded-lg flex items-center justify-center h-12 font-semibold border-none outline-none transition-all duration-200 active:scale-95 text-accent gap-x-5 bg-primary/70 cursor-pointer"
-                type="submit"
-                style={{
-                    backgroundColor: isValid ? 'var(--color-primary)' : '',
-                    color: isValid ? 'var(--color-accent)' : ''
-                }}>
-                {isUserCreatingAccount ? (
-                    <>
-                        Criando conta
-                        <span className="loading loading-dots loading-md"></span>
-                    </>
-                ) : (
-                    <>
-                        Criar conta
-                    </>
-                )}
-            </button>
+            <SubmitButton 
+                onLoadingText="Criando conta"
+                isValid={isValid}
+                isUserLogginIn={isUserCreatingAccount}
+                className="mt-6">
+                Criar conta
+            </SubmitButton>
         </form>
-    ) : null;
+    );
 };

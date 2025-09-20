@@ -9,8 +9,8 @@ export const GoogleAuthButton = (props: ComponentProps) => {
     return (
         <button
             {...rest}
-            className={`w-full max-w-[350px] h-12 rounded-lg mt-10 bg-secondary text-accent text-base font-medium px-5 flex items-center gap-x-5 border-none outline-none justify-start transition-transform active:scale-95 duration-200 cursor-pointer ${className}`}>
-            <FcGoogle className="text-2xl" />
+            className={`w-full h-12 rounded-md bg-secondary text-background [font-size:clamp(1rem,1.15vw,1.125rem)] font-medium px-5 flex items-center gap-x-5 border-none outline-none justify-start transition-transform active:scale-95 duration-200 cursor-pointer whitespace-nowrap ${className}`}>
+            <FcGoogle className="[font-size:1.5em]" />
             Continuar com o Google
         </button>
     );

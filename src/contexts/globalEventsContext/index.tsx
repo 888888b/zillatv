@@ -24,7 +24,7 @@ export interface ModalsControllerProps {
 };
 
 // Ação para alterar o estado dos modais
-type Action = { type: string, payload?: any };
+export type Action = { type: string, payload?: any };
 
 const initialState = {
     isRegisterModalActive: false,
