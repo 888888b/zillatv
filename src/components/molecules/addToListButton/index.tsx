@@ -1,15 +1,13 @@
 import { ComponentPropsWithRef, memo } from "react";
-import { IoIosAdd } from "react-icons/io";
+import { FiBookmark } from "react-icons/fi";
 
 const AddToListButton = memo(( props: ComponentPropsWithRef<'button'> ) => {
     const { className, ...rest } = props;
-
     return (
         <button
             {...rest}
-            className={`[font-size:clamp(1rem,1.15vw,1.125rem)] pointer-events-auto outline-none w-fit h-10 rounded-md box-border border border-primary text-secondary font-bold px-[1.5em] active:scale-95 transition-all duration-200 flex items-center gap-x-1 justify-center cursor-pointer lg:h-12 ${className}`}>
-            <IoIosAdd className="text-3xl"/>
-            Salvar
+            className={`pointer-events-auto outline-none w-[clamp(2.5rem,4.7vw,3rem)] aspect-square rounded-md border-2 border-primary/70 text-primary/70 active:scale-95 lg:hover:border-primary lg:hover:text-primary transition-all duration-200 flex items-center justify-center cursor-pointer ${className}`}>
+            <FiBookmark className="w-5 h-5 lg:w-6 lg:h-6"/>
         </button>
     );
 });

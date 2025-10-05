@@ -1,24 +1,17 @@
+// hooks
+import { memo, useRef, useCallback } from "react";
 // components
 import { DotButton } from "@/components/atoms/dotButton";
-import NextSlide from '@/components/molecules/nextSlideButton';
-import PrevSlide from '@/components/molecules/prevSlideButton';
 import { ArrowLeft } from "@/components/atoms/arrowLeftIcon";
 import { ArrowRight } from "@/components/atoms/arrowRightIcon";
-
-// hooks
-import { memo, useRef, useEffect, useCallback } from "react";
-import './styles.css';
-
 // tipos
 import { UseDotButtonType } from "@/hooks/embla/useDotButton";
-
 type PrevNextButtonsType = {
     onPrevButtonClick: () => void;
     onNextButtonClick: () => void;
     onReset: () => void;
     isAutoplayActive: boolean;
 };
-
 type HeaderNavigationProps =
     UseDotButtonType &
     PrevNextButtonsType &
@@ -26,9 +19,10 @@ type HeaderNavigationProps =
         isAutoplayActive: boolean;
         timeUntilNextSlide: number | null;
     }
+// outros
+import './styles.css';
 
 const HeaderNavigation = memo((props: HeaderNavigationProps) => {
-
     const bulletsBarRef = useRef<HTMLDivElement>(null);
     const {
         onPrevButtonClick,
@@ -39,15 +33,6 @@ const HeaderNavigation = memo((props: HeaderNavigationProps) => {
         isAutoplayActive,
         onReset
     } = props;
-
-    useEffect(() => {
-        // centraliza a barra de bullets 
-        const bulletsBar = bulletsBarRef.current;
-        if (!bulletsBar) return;
-        const width = bulletsBar.clientWidth / 2 - 12;
-        if (width <= 0) return;
-        Object.assign(bulletsBar.style, { transform: `translateX(${width}px)` });
-    }, [scrollSnaps]);
 
     // ir ao slide anterior
     const navigateToPrevSlide = useCallback(() => {
@@ -73,16 +58,13 @@ const HeaderNavigation = memo((props: HeaderNavigationProps) => {
                     />
                 ))}
             </div>
-
-            <div className="hidden absolute bottom-24 right-10 lg:right-16 md:flex items-center justify-center translate-y-1 *:text-secondary/50 *:hover:text-secondary *:hover:scale-125 *:transition-all *:duration-300 *:cursor-pointer z-10">
-                {/* Botão para o slide anterior */}
-                <div onClick={navigateToPrevSlide}>
-                    <ArrowLeft width={24} height={24} stroke="1.7" />
-                </div>
-                {/* Botão para o proximo slide */}
-                <div onClick={navigateToNextSlide}>
-                    <ArrowRight width={24} height={24} stroke="1.7" />
-                </div>
+            {/* Botão para o slide anterior */}
+            <div onClick={navigateToPrevSlide} className="navigation-controlls absolute top-[calc((100%-200px)/2)] -translate-y-1/2 left-5 lg:left-8 -translate-x-1/2 mt-[72px] z-15">
+                <ArrowLeft width={35} height={35} stroke="1.7" />
+            </div> 
+            {/* Botão para o proximo slide */}
+            <div onClick={navigateToNextSlide} className="navigation-controlls absolute top-[calc((100%-200px)/2)] -translate-y-1/2 right-5 lg:right-8 translate-x-1/2 mt-[72px] z-15">
+                <ArrowRight width={35} height={35} stroke="1.7" />
             </div>
         </>
     )

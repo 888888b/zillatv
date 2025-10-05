@@ -24,7 +24,7 @@ const Image = memo((props: ComponentProps) => {
             }
             loading='lazy'
             alt={`Imagem poster de ${slideData.title ?? slideData.name}`}
-            className={`aspect-square w-full lg:aspect-video object-cover object-bottom ${className}`}
+            className={`w-full aspect-video object-cover object-center ${className}`}
         />
     );
 });

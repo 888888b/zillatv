@@ -1,52 +1,58 @@
 @keyframes autoplay-progress {
   from {
-    width: var(--bullet-width);
+    transform: translate3d(-100%, 0, 0);
   }
 
   to {
-    width: 100%;
+    transform: translate3d(0, 0, 0);
   }
 }
 
+@keyframes active-slide {
+  from { 
+    background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  }
+  to { background-color: var(--color-primary);}
+}
+
 :root {
-  --bullet-width: clamp(0.75rem, 0.9vw, 0.875rem);
-  --bullet-height: clamp(0.75rem, 0.9vw, 0.875rem);
+  --bullet-width: clamp(2rem, 2.5vw, 2.5rem);
+  --bullet-height: clamp(0.5rem, 0.64vw, 0.625rem);
 }
 
 .bullets-bar {
   position: absolute;
   bottom: 0;
-  right: calc(50%);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  column-gap: var(--bullet-width);
+  column-gap: var(--bullet-height);
   align-items: center;
   z-index: 30;
+  pointer-events: all;
 }
 
 .bullets-bar .bullet {
-  border-radius: 50%;
+  border-radius: 6px;
   border: none;
   outline: none;
   cursor: pointer;
   width: var(--bullet-width);
   height: var(--bullet-height);
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: color-mix(in oklab, var(--color-secondary) 40%, transparent);
+  transition: all 0.15s linear;
+  background-color: color-mix(in oklab, var(--color-secondary) 20%, transparent);
 }
 
 .bullets-bar .active-bullet {
-  background-color: var(--color-primary);
-  width: var(--bullet-width);
-  height: var(--bullet-height);
+  background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  animation: active-slide 0.15s linear 1s forwards;
 }
 
 .bullets-bar .active-animated-bullet {
   background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
-  width: calc(var(--bullet-width) * 3);
-  border-radius: 15px;
-  transition: width 0.3s linear;
   position: relative;
-  height: var(--bullet-height);
+  overflow: hidden;
+  width: calc(var(--bullet-width) * 2);
 }
 
 .bullets-bar .active-animated-bullet::before {
@@ -54,18 +60,31 @@
   position: absolute;
   left: 0;
   top: 0;
+  width: 100%;
   height: 100%;
-  border-radius: 15px;
-  animation: autoplay-progress 10s linear forwards;
+  border-radius: 6px;
+  transition: none;
+  transform: translate3d(-100%, 0, 0);
+  animation: autoplay-progress 7s linear 0.15s forwards;
   background-color: var(--color-primary);
-}
-
-.bullets-bar .active-animated-bullet .bullet {
-  transition: all 0s linear;
 }
 
 @media screen and (width >=640px) {
   .bullets-bar {
-    bottom: 6rem;
+    bottom: clamp(60px, 11.8vw, 110px);
+    transform: none;
+    left: var(--page-padding);
+  }
+}
+
+@media screen and (width>=1024px) {
+  .bullets-bar .bullet:not(.active-animated-bullet, .active-bullet):hover {
+    background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  }
+}
+
+@media screen and (width >=1536px) {
+  .bullets-bar {
+    left: calc((100% - 1536px) / 2 + 64px);
   }
 }
