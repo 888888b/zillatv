@@ -1,21 +1,18 @@
 // hooks
-import { ReactNode, useCallback, useEffect, memo } from "react";
-import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
+import { ReactNode, useCallback, useEffect, memo, useRef, MutableRefObject } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import { useDotButton } from "@/hooks/embla/useDotButton";
 import { usePrevNextButtons } from "@/hooks/embla/usePrevNextButtons";
 import { useAutoplayProgress } from "@/hooks/embla/useAutoplayProgress";
-
 // componentes
 import DefaultNavigation from "@/components/molecules/emblaDefaultNavigation";
 import HeaderNavigation from "@/components/molecules/emblaHeaderNavigation";
-
 // plugins do embla
 import autoplay from 'embla-carousel-autoplay';
+import ClassNames from "embla-carousel-class-names";
 
 import './styles.css';
-
 // tipos
-
 type EmblaCarouselProps = {
     children: ReactNode[] | ReactNode;
     loop?: boolean;
@@ -24,9 +21,10 @@ type EmblaCarouselProps = {
     autoplay?: boolean;
     navigationType: 'default' | 'header';
     dragFree?: boolean;
+    fadeAnimation?: boolean;
     breakpoints?: Record<string, any>;
-    activeSlides?: ( indexList: number[], numberOfSlides: number ) => void;
-    activeIndex?: ( index: number, numberOfSlides: number ) => void;
+    activeSlides?: (indexList: number[], numberOfSlides: number) => void;
+    selectedSnap?: (index: number) => void;
 }
 export type EmblaStateProps = {
     isBeginning: boolean
@@ -35,41 +33,31 @@ export type EmblaStateProps = {
     activeIndex: number
 };
 
-const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
-
+const EmblaCarousel = memo((props: EmblaCarouselProps) => {
     // configuraçoes do carousel
-    const emblaConfig = { 
-        loop: props.loop, 
-        slidesToScroll: props.slidesPerView, 
-        duration: 25,
+    const emblaConfig = {
+        loop: props.loop,
+        slidesToScroll: props.slidesPerView,
+        duration: props.duration ?? 25,
         dragFree: props.dragFree,
         breakpoints: props.breakpoints
     };
-
     // plugins
-    const emblaPlugins = props.autoplay ? [
-        autoplay({
-            delay: 10000, 
-            stopOnInteraction: false 
-        })
-    ] : [];
-
+    const emblaPlugins = [ClassNames()];
+    if (props.autoplay) emblaPlugins.push(autoplay({ delay: 7000, stopOnInteraction: false }));
     // ref e api do embla
     const [
-        emblaRef, 
+        emblaRef,
         emblaApi
-    ] = useEmblaCarousel( emblaConfig, emblaPlugins );
-
+    ] = useEmblaCarousel({...emblaConfig, align: 'center'}, emblaPlugins);
     // iniciar barra de progresso do autoplay
     const { isAutoplayActive, timeUntilNextSlide } = useAutoplayProgress(emblaApi);
-
     // iniciar bullets de navegaçao
-    const { 
-        selectedIndex, 
-        scrollSnaps, 
-        onDotButtonClick 
+    const {
+        selectedIndex,
+        scrollSnaps,
+        onDotButtonClick
     } = useDotButton(emblaApi);
-
     // iniciar botoes de navegaçao
     const {
         prevBtnDisabled,
@@ -78,20 +66,20 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
         onNextButtonClick
     } = usePrevNextButtons(emblaApi);
 
-    const setSlidesInView = useCallback(() => {
+    const setSlidesInView = useCallback((): void => {
         if (!props.activeSlides || !emblaApi) return;
         const inView = emblaApi.slidesInView();
         const numberOfSlides = emblaApi.slideNodes().length;
         props.activeSlides(inView, numberOfSlides);
-    }, [ emblaApi ]);
+    }, [emblaApi, props.activeSlides]);
 
-    const returnToBeggining = useCallback(() => {
+    const returnToBeggining = useCallback((): void => {
         scrollToIndex(0);
     }, []);
-  
+
     // disponibilizar o slide ativo para camadas superiores
     useEffect(() => {
-        if ( !props.activeSlides || !emblaApi ) return;
+        if (!emblaApi) return;
         emblaApi.on('slidesInView', setSlidesInView);
         emblaApi.on('slidesChanged', returnToBeggining);
         setSlidesInView();
@@ -99,25 +87,18 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
             emblaApi.off('slidesInView', setSlidesInView);
             emblaApi.off('slidesChanged', returnToBeggining);
         };
-    }, [ emblaApi ]);
+    }, [emblaApi]);
 
-    // reiniciar o carousel assim houver mudança nos slides
     useEffect(() => {
-        if ( !props.activeIndex || !emblaApi ) return;
-        const numberOfSlides = emblaApi.slideNodes().length;
-        props.activeIndex(selectedIndex, numberOfSlides);
-    }, [ emblaApi, selectedIndex ]);   
+        if (props.selectedSnap) props.selectedSnap(selectedIndex);
+    }, [selectedIndex]);
 
-    const scrollToIndex = useCallback(( index: number ) => {
-        if (emblaApi) {
-            emblaApi.scrollTo( index );
-        };
-    }, [ emblaApi ]);
+    const scrollToIndex = useCallback((index: number): void => {
+        if (emblaApi) emblaApi.scrollTo(index);
+    }, [emblaApi]);
 
-    const resetAutoplayTimer = useCallback(() => {
-        if (emblaApi) {
-            emblaApi.plugins().autoplay.reset();  
-        };
+    const resetAutoplayTimer = useCallback((): void => {
+        if (emblaApi) emblaApi.plugins().autoplay.reset();
     }, [emblaApi]);
 
     return (
@@ -125,12 +106,12 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
             <div className="embla">
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container">
-                        { props.children }
+                        {props.children}
                     </div>
                 </div>
 
-                { props.navigationType === 'default' ? (
-                    <DefaultNavigation 
+                {props.navigationType === 'default' ? (
+                    <DefaultNavigation
                         onNextButtonClick={onNextButtonClick}
                         onPrevButtonClick={onPrevButtonClick}
                         prevBtnDisabled={prevBtnDisabled}
@@ -138,14 +119,14 @@ const EmblaCarousel = memo(( props: EmblaCarouselProps ) => {
                     />
                 ) : (
                     <HeaderNavigation
-                    selectedIndex={selectedIndex}
-                    scrollSnaps={scrollSnaps}
-                    onDotButtonClick={onDotButtonClick}  
-                    onNextButtonClick={onNextButtonClick}
-                    onPrevButtonClick={onPrevButtonClick}
-                    isAutoplayActive={isAutoplayActive}
-                    timeUntilNextSlide={timeUntilNextSlide}
-                    onReset={resetAutoplayTimer}
+                        selectedIndex={selectedIndex}
+                        scrollSnaps={scrollSnaps}
+                        onDotButtonClick={onDotButtonClick}
+                        onNextButtonClick={onNextButtonClick}
+                        onPrevButtonClick={onPrevButtonClick}
+                        isAutoplayActive={isAutoplayActive}
+                        timeUntilNextSlide={timeUntilNextSlide}
+                        onReset={resetAutoplayTimer}
                     />
                 )}
 
