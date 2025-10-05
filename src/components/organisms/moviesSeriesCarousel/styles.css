@@ -1,5 +1,11 @@
 .movie-serie-carousel .embla {
-    padding: 0 1.25rem;
+    position: relative;
+    padding: 0 var(--page-padding);
+}
+
+.movie-serie-carousel .embla .disable-slide {
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .movie-serie-carousel .embla__container {
@@ -7,7 +13,13 @@
 }
 
 .movie-serie-carousel .embla__slide {
-    width: clamp(8.75rem, 30%, 12.5rem);
+    width: calc((100% - 16px) / 3);
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+.movie-serie-carousel .embla__slide:not(.is-in-view) {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .movie-serie-carousel .embla__slide:last-of-type {
@@ -41,14 +53,24 @@
 }
 
 @media screen and (width>=640px) {
-    .movie-serie-carousel .embla {
-        padding: 0 2.5rem;
+    .movie-serie-carousel .embla__slide {
+        width: calc((100% - 16px) / 3);
     }
 }
 
 @media screen and (width >=768px) {
     .movie-serie-carousel .embla__slide {
-        width: calc((100% - 1.5rem) / 4);
+        width: calc((100% - 24px) / 4);
+    }
+}
+
+@media screen and (width >=1024px) {
+    .movie-serie-carousel .embla {
+        padding: 0;
+    }
+
+    .movie-serie-carousel .embla__slide {
+        width: calc((100% - 32px - var(--page-padding) * 2) / 5);
     }
 
     .movie-serie-carousel .img {
@@ -115,33 +137,36 @@
     .movie-serie-carousel .img-wrapper:hover .play-icon-box {
         opacity: 1;;
     }
-}
 
-@media screen and (width >=1024px) {
-    .movie-serie-carousel .embla__slide {
-        width: calc((100% - 2rem) / 5);
-    }
-
-    .movie-serie-carousel .embla {
-        padding: 0 4rem;
+    .movie-serie-carousel .prev-slide-box,
+    .movie-serie-carousel .next-slide-box {
+        background-color: var(--color-gradient-80);
     }
 }
 
 @media screen and (width >=1280px) {
     .movie-serie-carousel .embla__slide {
-        width: calc((100% - 2.5rem) / 6);
+        width: calc((100% - 40px - var(--page-padding) * 2) / 6);
     }
 }
 
 @media screen and (width >=1536px) {
-    .movie-serie-carousel .embla__slide {
-        width: calc((100% - 3rem) / 7);
+    .movie-serie-carousel .embla {
+        width: calc(var(--page-max-width) - var(--page-padding) * 2);
+        margin-inline: auto;
+        overflow-x: hidden;
     }
-}
-
-@media screen and (width >=1792px) {
     .movie-serie-carousel .embla__slide {
-        width: calc((100% - 3.5rem) / 8);
+        width: calc((100% - 56px) / 8);
+    }
+    .movie-serie-carousel .prev-slide-box,
+    .movie-serie-carousel .next-slide-box {
+        display: none;
+    }
+
+    .movie-serie-carousel .embla:hover .prev-slide-box,
+    .movie-serie-carousel .embla:hover .next-slide-box {
+        display: flex;
     }
 }
 

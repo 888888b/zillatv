@@ -1,5 +1,4 @@
 'use client';
-
 // hooks
 import { useContext, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -23,28 +22,25 @@ import { tmdbConfig } from '@/app/constants';
 
 import './styles.css';
 import { undefined } from 'zod';
-
+// tipos
 type ComponentProps = {
     slidesData: tmdbObjProps[] | undefined;
     slidesType: 'movie' | 'serie' | 'mixed';
-};
-
-type Slides = {
-    toScroll: number[];
-    inView: number[];
+    className?: string;
 };
 
 export default function MoviesSeriesCarousel(props: ComponentProps) {
-
     const { push } = useRouter();
-    const [slidesToScroll, setSlidesToScroll] = useState<number[]>([]);
     const { dispatch } = useContext(GlobalEventsContext);
     const {
         low_resolution_poster,
         low_resolution_backdrop
     } = tmdbConfig;
-
-    const { slidesType } = props;
+    const { 
+        slidesType, 
+        className, 
+        slidesData 
+    } = props;
     const {
         addUserFavoritesToDb,
         deleteUserFavoritesOnDb
@@ -101,33 +97,19 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
         push(`/player/${slidesType}/${slideId}`, { scroll: true });
     }, [slidesType]);
 
-    // obtem os slides ativos na viewport | lista com total de slides
-    const getActiveSlides = useCallback((indexList: number[], numberOfSlides: number): void => {
-        if (!indexList || !numberOfSlides) return;
-        const firstSlide = indexList[0];
-        const lastSlide = indexList.at(-1) as number;
-        const minLength = indexList.length < (indexList[0] + 1) ? indexList.length : indexList[0];
-        const maxLength = indexList.length <= (numberOfSlides - (lastSlide + 1)) ? indexList.length : numberOfSlides - (lastSlide + 1);
-        const prevSlides: number[] = firstSlide > 0 ? Array.from({ length: minLength }, (_, i) => i + (indexList[0] - minLength)) : [];
-        const nextSlides: number[] = lastSlide < (numberOfSlides - 1) ? Array.from({ length: maxLength }, (_, i) => i + lastSlide + 1) : [];
-        const inView = [...prevSlides, ...indexList, ...nextSlides];
-        setSlidesToScroll([...inView]);
-    }, [setSlidesToScroll]);
-
-    return props.slidesData ? (
-        <div className='movie-serie-carousel'>
+    return slidesData ? (
+        <div className={`movie-serie-carousel ${className}`}>
             <EmblaCarousel
                 navigationType='default'
-                activeSlides={getActiveSlides}
                 slidesPerView={'auto'}
                 breakpoints={{
-                    '(min-width: 1px)': {  duration: 20, dragFree: true, loop: false },
-                    '(min-width: 768px)': { duration: 25, dragFree: false, loop: true, align: 'start' },
+                    '(min-width: 1px)': {  duration: 20, dragFree: true, loop: true },
+                    '(min-width: 1024px)': { duration: 25, dragFree: false }
                 }}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
-                {props.slidesData.map((slide, index) => (
+                {slidesData.map((slide) => (
                     slide.poster_path || slide.backdrop_path ? (
-                        <div className={`embla__slide ${slidesToScroll.includes(index) ? 'active-slide' : 'disable-slide'}`} key={`main-slides-${slide.id}`}>
+                        <div className={'embla__slide'} key={`main-slides-${slide.id}`}>
                             <>
                                 <div className='img-wrapper'>
                                     {/* Opção para adicionar o filme/serie aos favoritos */}

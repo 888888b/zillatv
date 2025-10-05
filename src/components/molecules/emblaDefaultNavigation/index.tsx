@@ -1,7 +1,8 @@
+// hook
 import { memo } from "react";
-
-import NextSlide from '@/components/molecules/nextSlideButton';
-import PrevSlide from '@/components/molecules/prevSlideButton';
+// componentes
+import { ArrowLeft } from "@/components/atoms/arrowLeftIcon";
+import { ArrowRight } from "@/components/atoms/arrowRightIcon";
 
 import { UsePrevNextButtonsType } from "@/hooks/embla/usePrevNextButtons";
 
@@ -12,18 +13,18 @@ const EmblaNavigation = memo((props: UsePrevNextButtonsType) => {
         <>
             {/* Botão para o slide anterior */}
             {!props.prevBtnDisabled &&
-                <div className="prev-slide-button absolute left-0 top-0 z-50 flex items-center justify-center md:bg-background/80 w-5 sm:w-10 lg:w-16 h-full">
-                    <div className="embla-navigation">
-                        <PrevSlide onClick={props.onPrevButtonClick}/>
+                <div className="prev-slide-box absolute left-0 top-0 z-50 flex items-center justify-center w-5 sm:w-10 lg:w-16 h-full">
+                    <div className="navigation-controlls" onClick={props.onPrevButtonClick}>
+                        <ArrowLeft width={35} height={35} stroke="1.7" />
                     </div>
                 </div>
             }
 
             {/* Botão para o proximo slide */}
             {!props.nextBtnDisabled &&
-                <div className="next-slide-button absolute right-0 top-0 z-50 flex items-center justify-center md:bg-background/80 w-5 sm:w-10 lg:w-16 h-full">
-                    <div className='embla-navigation'>
-                        <NextSlide onClick={props.onNextButtonClick}/>
+                <div className="next-slide-box absolute right-0 top-0 z-50 flex items-center justify-center w-5 sm:w-10 lg:w-16 h-full">
+                    <div className='navigation-controlls' onClick={props.onNextButtonClick}>
+                        <ArrowRight width={35} height={35} stroke="1.7" />
                     </div>
                 </div>
             }
