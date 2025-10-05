@@ -98,7 +98,7 @@ export default function MoviesSection(props: ComponentProps) {
   
     return (
         <div
-            className={`flex flex-col gap-y-8 px-5 sm:px-10 lg:px-16 mt-8 mb-16 sm:-mt-[84px] relative z-10 ${props.className}`}>
+            className={`flex flex-col gap-y-8 page-padding page-max-width relative z-10 ${props.className}`}>
             {tmdbGenres &&
                 <GenreSelect
                     onSelectGenre={getSelectedGenre}

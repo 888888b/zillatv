@@ -42,7 +42,7 @@ export default async function SearchPage(props: SearchPageProps) {
 
     return contentData ? (
         <>
-            <section className='search-page-container px-5 sm:px-10 lg:px-16'>
+            <section className='search-page-container page-max-width page-padding'>
                 <div className='overlay' />
                 <div className='z-[2] mt-[clamp(6rem,9vw,7.5rem)] flex flex-col items-start gap-y-5'>
                     <SearchResults data={contentData} mediaType={contentType}/>

@@ -1,7 +1,7 @@
 .movie-serie-section {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(calc((100% - 16px) / 3), 1fr));
     gap: 8px;
 }
 
@@ -12,8 +12,6 @@
     border-radius: 6px;
     aspect-ratio: 1 / 1.4;
 }
-
-;
 
 .movie-serie-section .img-box {
     width: 100%;

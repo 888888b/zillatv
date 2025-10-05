@@ -8,7 +8,8 @@ import { StopLoading } from "@/components/atoms/stopLoading";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 // utilitarios
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { tmdbGenres, headerMoviesList } from "@/app/constants";
+import { sortByVoteAverageDesc } from "@/utils/tmdbApiData/sortByAverageNote";
+import { tmdbGenres } from "@/app/constants";
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 type CarouselDataType = {
@@ -21,24 +22,37 @@ export default async function HomePage() {
     let isDataLoaded = false;
     const {
         fetchAllTrending,
-        fetchMoviesByIdList,
-        fetchPlatformContent
+        fetchPlatformContent,
+        fetchMovieById,
+        fetchSeriebyId
     } = useTmdbFetch();
 
     try {
         // carousel do header
-        const topMovies = await fetchMoviesByIdList(headerMoviesList);
-        const filteredTopMovies = await checkAvailability(topMovies);
-        carouselsData.headerSlides = { 
-            data: [...filteredTopMovies.map(item => ({ ...item, media_type: 'movie' })),], 
-            title: 'Recomendados' 
+        const allTrending = await fetchAllTrending('all');
+        const allTrendingsAvailable = await checkAvailability(allTrending);
+        const headerSlides = await Promise.all(allTrendingsAvailable.map((item) =>
+            new Promise(async (resolve, reject) => {
+                const res = item.media_type === 'movie' ?
+                    await fetchMovieById(item.id) :
+                    await fetchSeriebyId(item.id);
+                if (res) {
+                    const media = { ...res, media_type: item.media_type };
+                    resolve(media);
+                } else {
+                    reject();
+                };
+            })
+        )) as tmdbObjProps[];
+        const filteredHeaderSlides = headerSlides.filter((_, index) => index < 6);
+        carouselsData.headerSlides = {
+            data: [...filteredHeaderSlides],
+            title: ''
         };
         // filmes / series em trending
-        const allTrending = await fetchAllTrending('all');
-        const filteredTrending = await checkAvailability(allTrending);
-        carouselsData.allTrending = { 
-            data: [...filteredTrending], 
-            title: tmdbGenres.trending.title 
+        carouselsData.allTrending = {
+            data: [...allTrendingsAvailable],
+            title: tmdbGenres.trending.title
         }
         // --- Netflix ---
         const netflixSeries = await fetchPlatformContent('netflix', 'tv');
@@ -107,26 +121,30 @@ export default async function HomePage() {
         <section className="min-h-screen">
             {/* hero carousel */}
             <HeaderCarousel
-                slidesType='movie'
                 slidesData={carouselsData.headerSlides.data}
                 currentPage="home"
             />
             {/* main carousels */}
-            <div className="flex flex-col mt-8 mb-16 sm:-mt-[76px] md:-mt-[84px] z-10 relative">
+            <div className="flex flex-col mt-12 mb-16 relative z-10 sm:-mt-[clamp(0px,5.5vw,56px)]">
                 {Object.values(carouselsData).map((carousel, index) => (
+                    index > 0 &&
                     <div key={`home-main-carousel-${index}`}>
                         {/* linha divisoria */}
-                        {index !== 0 &&
-                            <div className="w-full h-px my-11 lg:my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
+                        {index !== 1 &&
+                            <div className="w-full h-px my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                         }
                         {/* Carousel com desenhos/animes */}
-                        <div className="flex flex-col gap-y-4 md:gap-y-8">
+                        <div className="flex flex-col gap-y-4 page-max-width">
                             {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start mx-auto w-[calc(100%-40px)] sm:w-fit sm:mx-0 sm:ml-10 lg:ml-16">
+                            <CarouselTitle className="justify-between sm:justify-start page-padding">
                                 {carousel.title}
                             </CarouselTitle>
                             {/* Carousel */}
-                            <MovieSerieCarousel slidesData={carousel.data} slidesType='mixed' />
+                            <MovieSerieCarousel
+                                slidesData={carousel.data}
+                                slidesType='mixed'
+                                className={carousel.title.toLowerCase()}
+                            />
                         </div>
                     </div>
                 ))}
@@ -135,6 +153,6 @@ export default async function HomePage() {
             <ScrollToTop />
             {/* encerra a animação de loading */}
             {isDataLoaded && <StopLoading />}
-        </section>
+        </section >
     );
 };
