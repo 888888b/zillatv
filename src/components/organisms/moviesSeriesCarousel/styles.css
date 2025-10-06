@@ -157,7 +157,7 @@
         overflow-x: hidden;
     }
     .movie-serie-carousel .embla__slide {
-        width: calc((100% - 56px) / 8);
+        width: calc((100% - 48px) / 7);
     }
     .movie-serie-carousel .prev-slide-box,
     .movie-serie-carousel .next-slide-box {
