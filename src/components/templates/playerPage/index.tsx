@@ -1,14 +1,12 @@
 // hooks
 import useTmdbFetch from '@/hooks/tmdb';
-
 // componentes
 import Header from './header/index';
-import SeasonsCarousel from './seasonsCarousel';
+import SeasonsCarousel from './seasonsWrapper';
 import Main from './main/index'
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import SimilarMovies from './moviesCarousel';
 import { StopLoading } from '@/components/atoms/stopLoading';
-
 // tipos
 import { tmdbObjProps } from '@/contexts/tmdbContext';
 type PlayerPageProps = {contentId: string; contentType: string};

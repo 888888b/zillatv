@@ -1,20 +1,15 @@
 'use client';
-
 // hooks
 import { useEffect, useState, useCallback } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
-
 // componentes
 import SeasonSelector from "../seasonSelector";
 import Carousel from "@/components/templates/playerPage/episodesCarousel";
 import { SectionTitle } from "../sectionTitle";
-
 // funções utilitarias
 import { handlePromise } from "@/utils/tmdbApiData/promise";
-
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
-
 type ComponentProps = {
     seasons: tmdbObjProps[];
     serieId: string;
@@ -23,7 +18,6 @@ type ComponentProps = {
 };
 
 export default function EpisodesCarousel(props: ComponentProps) {
-
     const { seasons, serieId, serieName, className } = props;
     const { fetchSeasons } = useTmdbFetch();
     const [seasonData, setSeasonData] = useState<tmdbObjProps>();
@@ -40,7 +34,7 @@ export default function EpisodesCarousel(props: ComponentProps) {
         })();
     }, [selectedSeason]);
 
-    const getSeason = useCallback((index: string) => {
+    const setSeason = useCallback((index: string) => {
         setSelectedSeason(index);
     }, [setSelectedSeason]);
 
@@ -49,23 +43,19 @@ export default function EpisodesCarousel(props: ComponentProps) {
     }, [setIsModalActive]);
 
     return seasonData?.episodes ? (
-        <div className={`flex flex-col gap-y-8 ${className}`}>
+        <div className={`flex flex-col gap-y-4 page-max-width ${className}`}>
             {/* Seletor de temporada */}
-            <div className="px-5 sm:px-10 lg:px-16">
+            <div className="page-padding">
                 <SeasonSelector
-                    selectedSeason={selectedSeason}
-                    getSelectedSeason={getSeason}
-                    seasonsList={seasons}
-                    setModalState={setModalState}
-                    isModalActive={isModalActive}
+                selectedSeason={selectedSeason}
+                getSelectedSeason={setSeason}
+                seasonsList={seasons}
+                setIsModalActive={setModalState}
+                isModalActive={isModalActive}
                 />
-                {/* Titulo do carousel */}
-                <SectionTitle className="line-clamp-2 mt-5">
-                    {seasonData?.name}
-                </SectionTitle>
             </div>
 
-            {/* carousel aqui  */}
+            {/* carousel de episodeos  */}
             <Carousel
                 episodes={seasonData.episodes}
                 serieName={serieName}

@@ -1,12 +1,35 @@
-.player-header {
-    width: 100%;
-}
-
-.player-header .img-box {
+.player-page .embla {
     position: relative;
 }
 
-.player-header .img-box::before {
+.player-page .embla__container {
+    column-gap: 8px;
+}
+
+.player-page .embla__slide {
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+.player-page .embla__slide:not(.is-in-view) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.player-page .hero .media-logo {
+    filter: brightness(0.95) contrast(1.05) saturate(1.1);
+    max-height: clamp(70px, 8.8vw, 120px);
+    max-width: 70%;
+}
+
+.player-page .hero .disabled-title,
+.player-page .hero .disabled-logo {
+    visibility: hidden;
+    margin: 0 !important;
+    height: 0;
+    overflow: hidden;
+}
+
+.player-page .hero .img-box::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -19,12 +42,17 @@
             var(--color-background));
 }
 
-.actors-carousel .embla__container {
-    column-gap: 8px;
+.player-page .actors-carousel .embla {
+    padding: 0 var(--page-padding);
 }
 
 .actors-carousel .embla__slide {
     background-color: transparent !important;
+}
+
+.player-page .actors-carousel .prev-slide-box,
+.player-page .actors-carousel .next-slide-box {
+    background-color: color-mix(in oklab, var(--color-surface) 80%, transparent);
 }
 
 .seasons-wrapper {
@@ -35,46 +63,48 @@
     justify-content: center;
 }
 
-.player-page .embla {
-    padding: 0 20px;
-}
-
 @media screen and (width >=640px) {
+    .player-page .hero .media-logo {
+        max-width: clamp(350px, 45vw, 500px);
+    }
+
     .seasons-wrapper {
         grid-template-columns: auto auto;
     }
 
-    .player-page .embla {
-        padding: 0 40px;
-    }
-
-    .player-header .img-box::before {
-        background-image: linear-gradient(
-            to top,
-            var(--color-gradient-base),
-            var(--color-gradient-90),
-            var(--color-gradient-60),
-            var(--color-gradient-0),
-            var(--color-gradient-70));
-    }
-}
-
-@media screen and (width >=768px) {
-
-    .player-page .actors-carousel .prev-slide-button,
-    .player-page .actors-carousel .next-slide-button {
-        background-color: color-mix(in oklab, var(--color-surface) 80%, transparent) !important;
-    }
-}
-
-@media screen and (width>=1024px) {
-    .player-page .embla {
-        padding: 0 64px;
+    .player-page .hero .img-box::before {
+        background-image: linear-gradient(to top,
+                var(--color-gradient-base),
+                var(--color-gradient-90),
+                var(--color-gradient-60),
+                var(--color-gradient-0),
+                var(--color-gradient-70));
     }
 }
 
 @media screen and (width >=1280px) {
     .seasons-wrapper {
         grid-template-columns: auto auto auto;
+    }
+}
+
+@media screen and (width >=1536px) {
+   .actors-carousel .embla {
+        width: var(--page-max-width);
+    }
+
+    .player-page .embla {
+        margin-inline: auto;
+        overflow-x: hidden;
+    }
+
+   .player-page .prev-slide-box,
+   .player-page .next-slide-box {
+        display: none;
+    }
+
+   .player-page .embla:hover .prev-slide-box,
+   .player-page .embla:hover .next-slide-box {
+        display: flex;
     }
 }

@@ -1,28 +1,50 @@
 'use client';
-
 // hooks
 import { useState, useCallback, useEffect } from 'react';
-
 // componentes
 import TrailerModal from '@/components/templates/playerPage/trailerModal';
-import Image from '@/components/atoms/heroImage';
+import LazyImage from '../lazyImage';
 import PlayButton from '@/components/atoms/playButton';
-import AddToList from '../addToListButton';
-
+import Title from '@/components/organisms/heroCarousel/title';
+import AddToListButton from '@/components/molecules/addToListButton';
 // icons
 import { FaPlay } from "react-icons/fa";
-
+// utilitarios
+import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
+import { tmdbConfig } from '@/app/constants';
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
-
-type HeaderProps = {
-    playerData: tmdbObjProps;
+type HeaderProps = { playerData: tmdbObjProps };
+type MediaImages = {
+    lowResolutionImage: string;
+    highResolutionImage: string;
+    lowResolutionLogo: string;
+    highResolutionLogo: string;
 };
 
 export default function Header(props: HeaderProps) {
     const playerData = props.playerData;
     const [isPlayerActive, setIsPlayerActive] = useState(false);
     const [videoID, setVideoID] = useState<string | null>(null);
+    const logo = getLogoPath(playerData.images.logos, playerData.id);
+    const { 
+        blur_resolution_backdrop, 
+        blur_resolution_poster,
+        high_resolution_backdrop, 
+        high_resolution_poster,
+        low_resolution_logo,
+        high_resolution_logo
+    } = tmdbConfig;
+    const mediaImages: MediaImages = {
+        lowResolutionImage: playerData.backdrop_path ?
+            blur_resolution_backdrop + playerData.backdrop_path :
+            blur_resolution_poster + playerData.poster_path,
+        highResolutionImage: playerData.backdrop_path ?
+            high_resolution_backdrop + playerData.backdrop_path :
+            high_resolution_poster + playerData.poster_path,
+        lowResolutionLogo: logo ? low_resolution_logo + logo.path : '',
+        highResolutionLogo: logo ? high_resolution_logo + logo.path : '',
+    };
 
     const openPlayer = useCallback((): void => {
         setIsPlayerActive(true);
@@ -32,6 +54,7 @@ export default function Header(props: HeaderProps) {
         setIsPlayerActive(false);
     }, [setIsPlayerActive]);
 
+    // busca os ids de trailer do filme/serie, da prioridade a trailers em portugues ou legendados
     const getTrailerKey = useCallback((): void => {
         if (!playerData) return;
         const keywords = ['dublado', 'Dublado', 'pt', 'BR', 'en', 'legendado', 'Legendado']
@@ -43,22 +66,35 @@ export default function Header(props: HeaderProps) {
 
     useEffect(() => {
         getTrailerKey();
-    }, []);
+    }, [playerData]);
 
     return (
-        <div className='player-header'>
-            <div className='w-full pb-10 relative'>
+        <div className='hero w-full'>
+            <div className='w-full relative'>
                 {/* Imagem do filme/serie */}
-                <div className="img-box">
-                    <Image slideData={playerData} className='max-h-[335px] sm:max-h-[95vh] sm:min-h-[500px] lg:min-h-[550px]' />
+                <div className="img-box relative">
+                    <LazyImage
+                        lowSrc={mediaImages.lowResolutionImage}
+                        highSrc={mediaImages.highResolutionImage}
+                        alt={`Poster do filme/serie ${playerData.name ?? playerData.title}`}
+                        className='media-image h-[335px] w-full aspect-video object-cover object-center sm:h-auto sm:max-h-[100vh] sm:min-h-[400px] transition-opacity duration-300 ease-out' />
                 </div>
 
                 {/* Informações do filme/serie */}
-                <div className='w-full px-5 flex flex-col items-center justify-between gap-y-4 sm:items-start sm:px-10 lg:px-16 overflow-hidden sm:absolute sm:left-0 sm:bottom-[calc(45vh-130px)] z-5'>
+                <div className='w-full page-padding page-max-width flex flex-col items-center gap-y-4 z-10 relative mx-auto -mt-10 sm:absolute sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2'>
                     {/* titulo */}
-                    <h1 className={`[font-size:clamp(2.18rem,7vw,3rem)] font-black font-raleway text-secondary line-clamp-3 sm:max-w-[80%] lg:[font-size:clamp(3rem,5vw,5rem)] lg:max-w-[60%]`}>
-                        {playerData.title ?? playerData.name}
-                    </h1>
+                    { !logo ? 
+                        // texto
+                        <Title>{playerData.name ?? playerData.title}</Title>
+                        :
+                        // imagem
+                        <LazyImage
+                            lowSrc={mediaImages.lowResolutionLogo}
+                            highSrc={mediaImages.highResolutionLogo}
+                            className='media-logo'
+                            alt={`Logo do filme/serie ${playerData.title ?? playerData.name}`}
+                        />
+                    }
                     <div className='flex items-center justify-center gap-x-4 flex-nowrap'>
                         {/* Ir para pagina de detalhes */}
                         <PlayButton onClick={openPlayer} className={`${!videoID && 'opacity-70 pointer-events-none'}`}>
@@ -66,7 +102,7 @@ export default function Header(props: HeaderProps) {
                             Assistir
                         </PlayButton>
                         {/* adicionar filme/serie aos favoritos */}
-                        <AddToList />
+                        <AddToListButton className='opacity-70 pointer-events-none'/>
                     </div>
                 </div>
             </div>

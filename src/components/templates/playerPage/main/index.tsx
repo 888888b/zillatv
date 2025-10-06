@@ -1,33 +1,37 @@
 'use client';
-
 // hooks
 import { useState, useRef, useEffect, useCallback } from 'react';
-
 // componentes
 import ContentDetails from "../mediaDetails/index";
 import ActorsCarousel from "../actorsCarousel/index";
+import LazyImage from '../lazyImage';
 // import UsersComments from "../commentsSection/index";
 import { SectionTitle } from '../sectionTitle';
-
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
-
-type ComponentProps = {
-    mediaData: tmdbObjProps;
-    mediaType: string;
-};
-
+type ComponentProps = { mediaData: tmdbObjProps, mediaType: string };
+type MediaImage = { lowResolutionImage: string, highResolutionImage: string };
+// utilitarios
 import { tmdbConfig } from "@/app/constants";
 
 export default function Main(props: ComponentProps) {
-
     const { mediaData, mediaType } = props
     const descriptionRef = useRef<HTMLParagraphElement | null>(null);
     const textChangeButton = useRef<HTMLButtonElement | null>(null);
     const {
         high_resolution_backdrop,
-        high_resolution_poster
+        high_resolution_poster,
+        blur_resolution_backdrop,
+        blur_resolution_poster
     } = tmdbConfig;
+    const mediaImage: MediaImage = {
+        lowResolutionImage: mediaData.backdrop_path ?
+            blur_resolution_backdrop + mediaData.backdrop_path :
+            blur_resolution_poster + mediaData.poster_path,
+        highResolutionImage: mediaData.backdrop_path ?
+            high_resolution_backdrop + mediaData.backdrop_path :
+            high_resolution_poster + mediaData.poster_path
+    };
     const [isTextCut, setIsTextCut] = useState<boolean>(false);
 
     // define se o texto precisa ou nao de um botao VER MAIS / VER MENOS
@@ -54,13 +58,13 @@ export default function Main(props: ComponentProps) {
     }, [descriptionRef, textChangeButton]);
 
     return (
-        <main className="flex flex-col relative sm:-mt-[calc(45vh-170px)]">
+        <main className="flex flex-col relative mt-8 sm:-mt-[clamp(84px,13vw,134px)]">
             {mediaData.overview && (
                 /* Descrição do filme/serie */
-                <>
-                    <div className="flex flex-col w-full md:max-w-3xl lg:max-w-[850px] gap-y-[10px] box-border px-5 sm:px-10 lg:pl-16">
+                <div className='page-max-width w-full'>
+                    <div className="flex flex-col w-full md:max-w-3xl lg:max-w-[850px] 2xl:max-w-[1000px] gap-y-[10px] box-border page-padding">
                         <p ref={descriptionRef} className='w-full line-clamp-6 [font-size:clamp(1.125rem,1.3vw,1.25rem)] relative'>
-                            {mediaData.overview} 
+                            {mediaData.overview}
                         </p>
                         {isTextCut &&
                             <button
@@ -71,24 +75,21 @@ export default function Main(props: ComponentProps) {
                             </button>
                         }
                     </div>
-                </>
+                </div>
             )}
 
             {/* seção com mais detalhes */}
             <div className="my-10 py-10 w-full flex flex-col gap-y-8 bg-surface">
-                <div className='px-5 sm:px-10 lg:pl-16'>
+                <div className='page-padding page-max-width w-full'>
                     {/* Titulo da seção */}
                     <SectionTitle className='text-center sm:text-left'>Todos os detalhes</SectionTitle>
                     {/* Container com os detalhes */}
                     <div className="my-8 relative flex justify-end w-full max-w-[1024px] lg:gap-8">
                         {/* Imagem do filme/serie */}
-                        <img
-                            src={
-                                mediaData.poster_path ?
-                                    high_resolution_poster + mediaData.poster_path :
-                                    high_resolution_backdrop + mediaData.backdrop_path
-                            }
-                            alt={`Imagen poster de ${mediaData.title ?? mediaData.name}`}
+                        <LazyImage
+                            lowSrc={mediaImage.lowResolutionImage}
+                            highSrc={mediaImage.highResolutionImage}
+                            alt={`Poster do filme/serie ${mediaData.title ?? mediaData.name}`}
                             loading='lazy'
                             className='w-1/3 md:w-1/4 lg:object-bottom rounded-lg object-cover absolute top-0 left-0 h-full'
                         />
@@ -97,10 +98,11 @@ export default function Main(props: ComponentProps) {
                     </div>
                 </div>
 
-                { mediaData.credits.cast.some((actor: undefined | tmdbObjProps) => 
+                {/* carousel com de atores  */}
+                {mediaData.credits.cast.some((actor: undefined | tmdbObjProps) =>
                     actor && actor.profile_path) &&
-                    <div className='flex flex-col gap-y-8'>
-                       <SectionTitle className='text-center sm:text-left px-5 sm:px-10 lg:pl-16'>
+                    <div className='flex flex-col gap-y-8 page-max-width'>
+                        <SectionTitle className='text-center sm:text-left page-padding'>
                             Elenco
                         </SectionTitle>
                         {/* carousel com o elenco do filme/serie */}

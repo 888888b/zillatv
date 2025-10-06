@@ -1,27 +1,18 @@
 // hooks
 import useTmdbFetch from "@/hooks/tmdb";
-
 // componentes
 import MoviesSeriesCarousel from "@/components/organisms/moviesSeriesCarousel";
 import { CarouselTitle } from "@/components/atoms/carouselTitle";
-
 // funções utilitarias
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
-
-type carouselProps = {
-    movieId: string;
-    className?: string;
-};
+type carouselProps = { movieId: string, className?: string };
 
 export default async function FetchCarouselData(props: carouselProps) {
-
     const moviesList: tmdbObjProps[] = [];
     const { movieId, className } = props;
     const { fetchSimilarMovies } = useTmdbFetch();
-
     const movies = await fetchSimilarMovies(movieId)
 
     if (movies) {
@@ -30,8 +21,8 @@ export default async function FetchCarouselData(props: carouselProps) {
     };
 
     return moviesList ? (
-        <div className={`flex flex-col gap-y-8 ${className}`}>
-            <CarouselTitle className="px-5 sm:px-10 lg:px-16">
+        <div className={`flex flex-col gap-y-4 ${className}`}>
+            <CarouselTitle className="page-padding">
                 Filmes similares
             </CarouselTitle>
             <MoviesSeriesCarousel slidesData={moviesList} slidesType="movie" />
