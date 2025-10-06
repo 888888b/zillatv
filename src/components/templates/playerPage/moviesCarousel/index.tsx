@@ -21,7 +21,7 @@ export default async function FetchCarouselData(props: carouselProps) {
     };
 
     return moviesList ? (
-        <div className={`flex flex-col gap-y-4 ${className}`}>
+        <div className={`flex flex-col gap-y-4 page-max-width ${className}`}>
             <CarouselTitle className="page-padding">
                 Filmes similares
             </CarouselTitle>
