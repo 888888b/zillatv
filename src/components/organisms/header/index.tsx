@@ -1,8 +1,6 @@
 'use client';
-
 // hooks
 import { useEffect, useRef, useContext, useState, useCallback } from 'react';
-
 // componentes
 import SearchBar from '@/components/molecules/searchBar';
 import AuthButtons from './authButtons';
@@ -10,32 +8,21 @@ import NavLinksBar from './navLinksBar';
 import MobileMenu from './mobileMenu';
 import ProfileIcon from './profileIcon';
 import Link from 'next/link';
-
 // contexto
 import { UserDataContext } from '@/contexts/authenticationContext';
 
 import './styles.css';
 
 export default function Header() {
-
     const headerRef = useRef<null | HTMLElement>(null);
     const mobileSearchBar = useRef<HTMLDivElement | null>(null);
-    const [isSearchBarActive, setIsSearchBarActive] = useState<boolean>(false);
-    const {
-        isLoggedIn
-    } = useContext(UserDataContext);
+    const { isLoggedIn } = useContext(UserDataContext);
 
     // utiliza a classe .is-scrolling para alterar altura e cor de fundo do header ao scrollar a pagina
     const updateHeaderStyles = (): void => {
-        const header = headerRef.current;
-        if (!header) return;
-
-        if (window.scrollY > 10) {
-            header.classList.add('is-scrolling');
-            return
-        };
-
-        header.classList.remove('is-scrolling');
+        const el = headerRef.current;
+        if (!el) return;
+        window.scrollY > 10 ? el.classList.add('is-scrolling') : el.classList.remove('is-scrolling');
     };
 
     useEffect(() => {
@@ -49,15 +36,13 @@ export default function Header() {
 
     const hideMobileSearchBar = useCallback((): void => {
         const bar = mobileSearchBar.current;
-        if (!bar) return;
-        bar.classList.remove('active');
-    }, []);
+        if (bar) bar.classList.remove('active');
+    }, [mobileSearchBar]);
 
     const showMobileSearchBar = useCallback((): void => {
         const bar = mobileSearchBar.current;
-        if (!bar) return;
-        bar.classList.add('active');
-    }, []);
+        if (bar) bar.classList.add('active');
+    }, [mobileSearchBar]);
 
     return (
         <MobileMenu>
@@ -92,18 +77,18 @@ export default function Header() {
                         src='/search_icon.png'
                         alt='Icone de lupa do ZillaTV'
                         loading='eager'
-                        className='h-[26px] w-fit cursor-pointer md:hidden'
+                        className='h-[26px] w-fit cursor-pointer lg:hidden'
                     />
                     {/* barra de pesquisa mobile */}
-                    <div ref={mobileSearchBar} className='w-full h-full absolute left-0 top-0 flex items-center justify-center px-5 sm:px-10 mobile-search-bar'>
+                    <div ref={mobileSearchBar} className='w-full h-full absolute left-0 top-0 flex items-center justify-center page-padding mobile-search-bar'>
                         <SearchBar 
                             isAnimated={false} 
-                            className='md:hidden w-full h-12' 
+                            className='lg:hidden w-full h-12' 
                             callback={hideMobileSearchBar}/>
                     </div>
-                    {/* componente da barra de pesquisa */}
-                    <SearchBar isAnimated={true} className='hidden md:inline 2xl:hidden' />
-                    {/* barra de pesquisa em grandes telas */}
+                    {/* barra de pesquisa em telas de 1024px a 1536px */}
+                    <SearchBar isAnimated={true} className='hidden lg:inline 2xl:hidden' />
+                    {/* barra de pesquisa em telas acima de 1536px */}
                     <SearchBar isAnimated={false} className='hidden 2xl:inline w-[20vw]' />
                     {!isLoggedIn ?
                         /* botão de login/singup lado direito */
