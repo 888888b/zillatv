@@ -6,9 +6,14 @@ export const tmdbConfig = {
   medium_resolution_backdrop: 'https://image.tmdb.org/t/p/w1280',
   low_resolution_poster: 'https://image.tmdb.org/t/p/w342',
   low_resolution_backdrop: 'https://image.tmdb.org/t/p/w780',
+  blur_resolution_poster: 'https://image.tmdb.org/t/p/w185',
+  blur_resolution_backdrop: 'https://image.tmdb.org/t/p/w300',
   profile_photo_base_url: 'https://image.tmdb.org/t/p/w185',
-  still_image_base_url: 'https://image.tmdb.org/t/p/w500',
-  ImageBasePath: 'https://image.tmdb.org/t/p'
+  high_resolution_still: 'https://image.tmdb.org/t/p/w500',
+  low_resolution_still: 'https://image.tmdb.org/t/p/w185',
+  ImageBasePath: 'https://image.tmdb.org/t/p',
+  low_resolution_logo: 'https://image.tmdb.org/t/p/w185',
+  high_resolution_logo: 'https://image.tmdb.org/t/p/w500',
 };
 
 // generos e respectivos titulos para filmes
