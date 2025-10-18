@@ -58,7 +58,7 @@ export default function Main(props: ComponentProps) {
                     {/* carousel de atores em telas grandes  */}
                     {mediaData.credits.cast.some((actor: undefined | tmdbObjProps) =>
                         actor && actor.profile_path) &&
-                        <div className='flex-col gap-y-6 page-max-width hidden lg:flex'>
+                        <div className='flex-col gap-y-6 hidden lg:flex '>
                             <SectionTitle className='text-center sm:text-left'>
                                 Elenco
                             </SectionTitle>

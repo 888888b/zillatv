@@ -16,9 +16,9 @@ export default function MainActors(props: ComponentProps) {
                 navigationType="default"
                 dragFree={true}
                 slidesPerView={'auto'}>
-                {actorsData.map((actor: tmdbObjProps) => (
+                {actorsData.map((actor: tmdbObjProps, index) => (
                     // slide
-                    <div className="embla__slide flex flex-col gap-y-3 items-center bg-secondary/10 lg:bg-surface rounded-md p-4" key={actor.id}>
+                    <div className="embla__slide flex flex-col gap-y-3 items-center bg-secondary/10 lg:bg-surface rounded-md p-4" key={`actor-${index}-${actor.id}`}>
                         {/* imagem do ator/atora */}
                         <ActorCard path={actor.profile_path} actor={actor.name} />
                         {/* detalhes sobre */}
