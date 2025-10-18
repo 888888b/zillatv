@@ -134,7 +134,7 @@ export default async function HomePage() {
                             <div className="w-full h-px my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
                         }
                         {/* Carousel com desenhos/animes */}
-                        <div className="flex flex-col gap-y-4 page-max-width">
+                        <div className="flex flex-col gap-y-6 page-max-width">
                             {/* Titulo */}
                             <CarouselTitle className="justify-between sm:justify-start page-padding">
                                 {carousel.title}
