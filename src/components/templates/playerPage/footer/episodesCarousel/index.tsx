@@ -49,17 +49,19 @@ export default function EpisodesCarousel(props: ComponentProps) {
                 {episodesList?.map((episode: tmdbObjProps) => (
                     episode.still_path ? (
                         // slide/episodio
-                        <div className="embla__slide" key={`episode-${episode.id}`}>
-                            {/* imagem */}
-                            <LazyImage
-                                lowSrc={low_resolution_still + episode.still_path}
-                                highSrc={high_resolution_still + episode.still_path}
-                                alt={`Poster da temporada ${seasonNumber} da serie ${serieName}`}
-                                className='w-full aspect-video object-cover rounded-md bg-surface'
-                            />
+                        <div className="embla__slide bg-surface" key={`episode-${episode.id}`}>
+                            <div className='px-2 pt-2'>
+                                {/* imagem */}
+                                <LazyImage
+                                    lowSrc={low_resolution_still + episode.still_path}
+                                    highSrc={high_resolution_still + episode.still_path}
+                                    alt={`Poster da temporada ${seasonNumber} da serie ${serieName}`}
+                                    className='w-full aspect-video object-cover rounded-md bg-secondary/5'
+                                />
+                            </div>
 
                             {/* informações do episodeo */}
-                            <div className="max-w-[90%] mt-3 overflow-ellipsis">
+                            <div className="p-6 overflow-ellipsis">
                                 {/* titulo */}
                                 <h3 className="[font-size:clamp(1.0625rem,1.8vw,1.125rem)] line-clamp-1 font-raleway font-bold text-secondary lg:[font-size:clamp(1.125rem,1.21vw,1.1875rem)]">
                                     {episode.name ?? ''}

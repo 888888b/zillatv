@@ -59,7 +59,7 @@ export default function SelectSeason(props: ComponentProps) {
         <>
             <button
                 onClick={openModal}
-                className="[font-size:clamp(0.9375rem,1.6vw,1rem)] lg:[font-size:clamp(1rem,1.07vw,1.0625rem)] border border-secondary/20 h-10 lg:h-12 px-[1.5em] outline-none text-secondary font-semibold w-fit max-w-full flex items-center cursor-pointer rounded-md justify-center flex-nowrap overflow-hidden hover:border-secondary transition-colors duration-300">
+                className="[font-size:clamp(0.9375rem,1.6vw,1rem)] lg:[font-size:clamp(1rem,1.07vw,1.0625rem)] border border-secondary/20 h-10 lg:h-12 px-[1em] outline-none text-secondary font-semibold w-fit max-w-full flex items-center cursor-pointer rounded-md justify-center flex-nowrap overflow-hidden hover:border-secondary transition-colors duration-300">
                 {/* Nome da temporada - Data de lançamento */}
                 <span ref={selectedSeasonNameRef} className="line-clamp-1 uppercase whitespace-nowrap">
                     {seasonsList[0].name} {" - " + getReleaseDate(seasonsList[0].air_date)}

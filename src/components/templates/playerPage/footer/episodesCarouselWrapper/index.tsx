@@ -5,6 +5,7 @@ import useTmdbFetch from "@/hooks/tmdb";
 // componentes
 import SeasonSelector from "../seasonSelector";
 import Carousel from "@/components/templates/playerPage/footer/episodesCarousel";
+import SectionTitle from "../../sectionTitle";
 // funções utilitarias
 import { handlePromise } from "@/utils/tmdbApiData/promise";
 // tipos
@@ -43,15 +44,16 @@ export default function EpisodesCarousel(props: ComponentProps) {
 
     return seasonData?.episodes ? (
         <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
-            <div id='episodes-carousel' className="absolute -top-[116px] left-0"/>
-            {/* Seletor de temporada */}
-            <div className="page-padding">
-                <SeasonSelector
-                selectedSeason={selectedSeason}
-                getSelectedSeason={setSeason}
-                seasonsList={seasons}
-                setIsModalActive={setModalState}
-                isModalActive={isModalActive}
+            <div id='episodes-carousel' className="absolute -top-[116px] left-0" />
+            <div className="page-padding flex items-center justify-between gap-x-6 gap-y-2 flex-wrap">
+                <SectionTitle className="text-left">Episódios</SectionTitle>
+                {/* Seletor de temporada */}
+                <SeasonSelector 
+                    selectedSeason={selectedSeason}
+                    getSelectedSeason={setSeason}
+                    seasonsList={seasons}
+                    setIsModalActive={setModalState}
+                    isModalActive={isModalActive}
                 />
             </div>
 
