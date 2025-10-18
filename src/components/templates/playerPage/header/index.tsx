@@ -2,7 +2,7 @@
 // hooks
 import { useState, useCallback, useEffect } from 'react';
 // componentes
-import TrailerModal from '@/components/templates/playerPage/trailerModal';
+import TrailerModal from '@/components/templates/playerPage/header/trailerModal';
 import LazyImage from '../lazyImage';
 import PlayButton from '@/components/atoms/playButton';
 import Title from '@/components/organisms/heroCarousel/title';
@@ -96,9 +96,9 @@ export default function Header(props: HeaderProps) {
                         />
                     }
                     <div className='flex items-center justify-center gap-x-4 flex-nowrap'>
-                        {/* Ir para pagina de detalhes */}
+                        {/* abre o modal do trailer */}
                         <PlayButton onClick={openPlayer} className={`${!videoID && 'opacity-70 pointer-events-none'}`}>
-                            <FaPlay className='text-base' />
+                            <FaPlay/>
                             Assistir
                         </PlayButton>
                         {/* adicionar filme/serie aos favoritos */}

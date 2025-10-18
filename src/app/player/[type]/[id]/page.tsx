@@ -2,7 +2,7 @@ import PlayerPage from "@/components/templates/playerPage";
 
 type ComponentProps = {
     id: string;
-    type: string;
+    type: 'movie' | 'serie' | 'tv';
 };
 
 export default async function Player({ params }: { params: Promise<ComponentProps> }) {

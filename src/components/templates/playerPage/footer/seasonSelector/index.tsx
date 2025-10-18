@@ -2,7 +2,7 @@
 import { useRef, MouseEvent, useCallback, useEffect } from "react";
 // componentes
 import { CloseButton } from "@/components/atoms/closeButton";
-import { SectionTitle } from "../sectionTitle";
+import SectionTitle from "../../sectionTitle";
 // icones
 import { IoPlay } from "react-icons/io5";
 // utilitarios
@@ -16,8 +16,6 @@ type ComponentProps = {
     isModalActive: boolean;
     setIsModalActive: (isActive: boolean) => void;
 };
-
-import '../styles.css';
 
 export default function SelectSeason(props: ComponentProps) {
     const {
@@ -61,12 +59,12 @@ export default function SelectSeason(props: ComponentProps) {
         <>
             <button
                 onClick={openModal}
-                className="[font-size:clamp(1.0625,1.2vw,1.1875)] border border-secondary/20 h-10 lg:h-12 px-[1.25em] outline-none text-secondary font-medium w-fit max-w-full flex items-center cursor-pointer rounded-md justify-center flex-nowrap overflow-hidden hover:border-secondary transition-colors duration-300">
+                className="[font-size:clamp(0.9375rem,1.6vw,1rem)] lg:[font-size:clamp(1rem,1.07vw,1.0625rem)] border border-secondary/20 h-10 lg:h-12 px-[1.5em] outline-none text-secondary font-semibold w-fit max-w-full flex items-center cursor-pointer rounded-md justify-center flex-nowrap overflow-hidden hover:border-secondary transition-colors duration-300">
                 {/* Nome da temporada - Data de lançamento */}
-                <span ref={selectedSeasonNameRef} className="line-clamp-1 whitespace-nowrap">
+                <span ref={selectedSeasonNameRef} className="line-clamp-1 uppercase whitespace-nowrap">
                     {seasonsList[0].name} {" - " + getReleaseDate(seasonsList[0].air_date)}
                 </span>
-                <IoPlay className="text-sm rotate-90 ml-5" />
+                <IoPlay className="rotate-90 ml-4" />
             </button>
             {/* Input checkbox que controla a abertura/fechamento do modal de temporadas */}
             <input ref={checkboxInputRef} type="checkbox" id="my_modal_6" className="modal-toggle" />

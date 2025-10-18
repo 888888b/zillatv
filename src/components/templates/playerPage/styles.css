@@ -46,13 +46,9 @@
     padding: 0 var(--page-padding);
 }
 
-.actors-carousel .embla__slide {
-    background-color: transparent !important;
-}
-
 .player-page .actors-carousel .prev-slide-box,
 .player-page .actors-carousel .next-slide-box {
-    background-color: color-mix(in oklab, var(--color-surface) 80%, transparent);
+    background-color: color-mix(in oklab, var(--color-surface) 85%, transparent);
 }
 
 .seasons-wrapper {
@@ -82,6 +78,29 @@
     }
 }
 
+@media screen and (width >=1024px) {
+    .player-page .actors-carousel .embla {
+        padding: 0;
+    }
+
+    .player-page .prev-slide-box,
+    .player-page .next-slide-box {
+        display: none;
+    }
+
+    .player-page .embla:hover .prev-slide-box,
+    .player-page .embla:hover .next-slide-box {
+        display: flex;
+    }
+
+    .player-page .actors-carousel .prev-slide-box,
+    .player-page .actors-carousel .next-slide-box {
+        background-color: color-mix(in oklab, var(--color-background) 85%, transparent);
+    }
+
+ 
+}
+
 @media screen and (width >=1280px) {
     .seasons-wrapper {
         grid-template-columns: auto auto auto;
@@ -89,22 +108,12 @@
 }
 
 @media screen and (width >=1536px) {
-   .actors-carousel .embla {
+    .actors-carousel .embla {
         width: var(--page-max-width);
     }
 
     .player-page .embla {
         margin-inline: auto;
         overflow-x: hidden;
-    }
-
-   .player-page .prev-slide-box,
-   .player-page .next-slide-box {
-        display: none;
-    }
-
-   .player-page .embla:hover .prev-slide-box,
-   .player-page .embla:hover .next-slide-box {
-        display: flex;
     }
 }

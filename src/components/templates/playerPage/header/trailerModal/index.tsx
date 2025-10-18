@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 // componentes
 import { CloseButton } from "@/components/atoms/closeButton";
-import YoutubePlayer from '../youtubePlayer';
+import YoutubePlayer from '../../youtubePlayer';
 
 type ComponentProps = {
     title: string;

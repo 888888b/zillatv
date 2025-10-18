@@ -1,0 +1,47 @@
+.where-to-watch {
+    padding-inline: var(--page-padding);
+}
+
+.where-to-watch .columns-titles,
+.where-to-watch .streaming-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.where-to-watch .columns-titles {
+    row-gap: 12px;
+}
+
+.where-to-watch .streaming-card {
+    row-gap: 40px;
+}
+
+.where-to-watch .streaming-card:nth-of-type(2n + 1) {
+    background: color-mix(in oklab, var(--color-secondary) 5%, transparent);
+}
+
+@media screen and (width >=768px) {
+    .where-to-watch .columns-titles,
+    .where-to-watch .streaming-card {
+        grid-template-columns: 1fr 1fr 1fr clamp(130px, 13.7vw, 140px);
+    }
+}
+
+@media screen and (width >=1024px) {
+    .where-to-watch {
+        padding: 0;
+    }
+
+    .where-to-watch .columns-titles,
+    .where-to-watch .streaming-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (width >=1280px) {
+    .where-to-watch .columns-titles,
+    .where-to-watch .streaming-card {
+        grid-template-columns: 1fr 1fr 1fr 140px;
+    }
+}

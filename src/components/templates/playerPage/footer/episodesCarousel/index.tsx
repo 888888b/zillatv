@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 // componentes
 import EmblaCarousel from "@/components/organisms/emblaSlides";
-import LazyImage from '../lazyImage';
+import LazyImage from '../../lazyImage';
 //utilitarios
 import { getRunTime } from "@/utils/tmdbApiData/runtime";
 import { tmdbConfig } from "@/app/constants";
@@ -59,17 +59,17 @@ export default function EpisodesCarousel(props: ComponentProps) {
                             />
 
                             {/* informações do episodeo */}
-                            <div className="max-w-[90%] overflow-ellipsis">
+                            <div className="max-w-[90%] mt-3 overflow-ellipsis">
                                 {/* titulo */}
-                                <h3 className="[font-size:clamp(1.125rem,2vw,1.25rem)] line-clamp-1 font-raleway font-bold text-secondary lg:[font-size:clamp(1.25rem,1.4vw,1.375rem)]">
+                                <h3 className="[font-size:clamp(1.0625rem,1.8vw,1.125rem)] line-clamp-1 font-raleway font-bold text-secondary lg:[font-size:clamp(1.125rem,1.21vw,1.1875rem)]">
                                     {episode.name ?? ''}
                                 </h3>
                                 {/* Duração do episodio */}
-                                <p className='font-medium [font-size:clamp(1.125rem,1.3vw,1.25rem)] text-secondary'>
+                                <p className='font-medium [font-size:clamp(1rem,1.7vw,1.0625rem)] lg:[font-size:clamp(1.0625rem,1.15vw,1.125rem)] text-secondary'>
                                     {getRunTime(episode.runtime)}
                                 </p>
                                 {/* Descrição */}
-                                <p className="[font-size:clamp(1rem,1.8vw,1.125rem)] line-clamp-4 font-normal mt-3">
+                                <p className="[font-size:clamp(1rem,1.7vw,1.0625rem)] lg:[font-size:clamp(1.0625rem,1.15vw,1.125rem)] line-clamp-4 font-normal mt-[6px]">
                                     {episode.overview}
                                 </p>
                             </div>

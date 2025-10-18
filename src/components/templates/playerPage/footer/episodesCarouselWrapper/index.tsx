@@ -4,8 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
 // componentes
 import SeasonSelector from "../seasonSelector";
-import Carousel from "@/components/templates/playerPage/episodesCarousel";
-import { SectionTitle } from "../sectionTitle";
+import Carousel from "@/components/templates/playerPage/footer/episodesCarousel";
 // funções utilitarias
 import { handlePromise } from "@/utils/tmdbApiData/promise";
 // tipos
@@ -43,7 +42,8 @@ export default function EpisodesCarousel(props: ComponentProps) {
     }, [setIsModalActive]);
 
     return seasonData?.episodes ? (
-        <div className={`flex flex-col gap-y-4 page-max-width ${className}`}>
+        <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
+            <div id='episodes-carousel' className="absolute -top-[116px] left-0"/>
             {/* Seletor de temporada */}
             <div className="page-padding">
                 <SeasonSelector

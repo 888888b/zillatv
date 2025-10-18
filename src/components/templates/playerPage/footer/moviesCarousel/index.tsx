@@ -2,7 +2,7 @@
 import useTmdbFetch from "@/hooks/tmdb";
 // componentes
 import MoviesSeriesCarousel from "@/components/organisms/moviesSeriesCarousel";
-import { CarouselTitle } from "@/components/atoms/carouselTitle";
+import SectionTitle from "../../sectionTitle";
 // funções utilitarias
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 // tipos
@@ -21,10 +21,11 @@ export default async function FetchCarouselData(props: carouselProps) {
     };
 
     return moviesList ? (
-        <div className={`flex flex-col gap-y-4 page-max-width ${className}`}>
-            <CarouselTitle className="page-padding">
+        <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
+            <div id='similar-movies' className="absolute -top-[116px] left-0"/>
+            <SectionTitle className="page-padding text-left">
                 Filmes similares
-            </CarouselTitle>
+            </SectionTitle>
             <MoviesSeriesCarousel slidesData={moviesList} slidesType="movie" />
         </div>
     ) : null;
