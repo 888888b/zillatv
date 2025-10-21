@@ -13,7 +13,7 @@ export const tmdbConfig = {
   low_resolution_still: 'https://image.tmdb.org/t/p/w185',
   ImageBasePath: 'https://image.tmdb.org/t/p',
   low_resolution_logo: 'https://image.tmdb.org/t/p/w185',
-  high_resolution_logo: 'https://image.tmdb.org/t/p/w500',
+  high_resolution_logo: 'https://image.tmdb.org/t/p/original',
 };
 
 // generos e respectivos titulos para filmes
