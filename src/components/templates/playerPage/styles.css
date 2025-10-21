@@ -16,7 +16,7 @@
 }
 
 .player-page .hero .media-logo {
-    filter: brightness(0.95) contrast(1.05) saturate(1.1);
+    filter: brightness(1.05) contrast(1.1) saturate(1.2);
     max-height: clamp(70px, 8.8vw, 120px);
     max-width: 70%;
 }
