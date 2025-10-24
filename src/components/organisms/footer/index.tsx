@@ -1,70 +1,63 @@
-import { AndroidIcon } from '@/components/atoms/androidIcon';
-import { WindowsIcon } from '@/components/atoms/windowsIcon';
-import './styles.css';
+import { FaGithubSquare, FaLinkedin, FaWhatsappSquare } from "react-icons/fa";
+import { BsFillPlayFill } from "react-icons/bs";
+import { RiGlobalLine } from "react-icons/ri";
 
-type ComponentProps = { className?: string; };
-
-export default function Footer(props: ComponentProps) {
-    const { className } = props;
+export default function Footer({ className }: { className?: string }) {
+    const currentYear = new Date().getFullYear();
 
     return (
-        <footer className={`px-4 sm:px-10 lg:px-16 xl:px-32 pt-16 pb-8 bg-surface border-t-2 border-secondary/5 ${className}`}>
-            {/* titulo */}
-            <h2 className="w-full font-semibold uppercase text-secondary hidden md:block xl:text-center mb-16">
-                Filmes populares - séries em alta - animes online
-            </h2>
-
-            <div className='custom-grid flex flex-col gap-y-16'>
-                {/* downloads */}
-                <div className='column flex flex-col'>
-                    <h3>Baixe nosso aplicativo</h3>
-                    {/* baixar aplicativo android */}
-                    <button className='mt-6 flex items-center gap-x-2 transition-transform active:scale-95 duration-200'>
-                        <AndroidIcon size={20}/>
-                        Android
-                    </button>
-                    {/* baixar aplicativo desktop*/}
-                    <button className='mt-2 flex items-center gap-x-2 transition-transform active:scale-95 duration-200'>
-                        <WindowsIcon size={20}/>
-                        Windows
-                    </button>
-                    <p className='mt-4'>
-                        Tenha acesso à nossa plataforma de filmes no seu celular Android ou computador!
+        <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 ${className}`}>
+            <div className="page-padding page-max-width flex gap-12 flex-wrap items-center justify-between xl:flex-nowrap xl:justify-center xl:items-start xl:gap-16 xl:mx-auto">
+                <aside>
+                    {/* logo do projeto */}
+                    <img src="/white_project_logo.svg" alt="Logo do Zilla TV" className='h-[clamp(22px,2.4vw,24px)]' />
+                    <p className="mt-2 font-medium [font-size:clamp(0.875rem,1vw,1rem)] whitespace-nowrap">
+                        Descubra e acompanhe tudo sobre seus <br />filmes e séries favoritas!
                     </p>
+                    {/* redes sociais / contato */}
+                    <div className="flex items-center gap-x-4 mt-3 mb-6 [font-size:clamp(24px,1.65vw,26px)] ">
+                        <a href="https://www.linkedin.com/in/vitor-araujo-2054622a6" target="_blank" rel="noopener noreferrer">
+                            <FaLinkedin />
+                        </a>
+                        <a href="https://github.com/888888b/" target="_blank" rel="noopener noreferrer">
+                            <FaGithubSquare />
+                        </a>
+                        <a href="https://wa.me/5562998648742" target="_blank" rel="noopener noreferrer">
+                            <FaWhatsappSquare/>
+                        </a>
+                    </div>
+                    {/* selecionar / trocar idioma da pagina */}
+                    <button className="outline-0 h-[clamp(40px,4.8vw,48px)] rounded-md border-2 border-secondary/30 px-[1em] flex items-center font-semibold gap-x-2 [font-size:clamp(0.875rem,1vw,1rem)] cursor-pointer">
+                        <RiGlobalLine className="[font-size:clamp(22px,1.5vw,24px)]" />
+                        Português (Brazil)
+                        <BsFillPlayFill className="rotate-90" />
+                    </button>
+                </aside>
+
+                {/* informações adicionais sobre o projeto */}
+                <div>
+                    <h4 className="text-secondary font-extrabold [font-size:clamp(1rem,1.15vw,1.125rem)]">
+                        <img src="/api_icon.svg" alt="Icone de API" aria-hidden={true} className="inline-block h-[clamp(25px,1.7vw,27px)] mr-1" />
+                        Conteúdos e API
+                    </h4>
+                    <p className="mt-4 font-medium [font-size:clamp(0.875rem,1vw,1rem)] max-w-[clamp(400px,37.5vw,650px)]">As informações sobre filmes e séries exibidas nesta plataforma são fornecidas pela API do The Movie Database (TMDB). Todos os direitos autorais pertencem aos seus respectivos detentores.</p>
                 </div>
 
-                {/* sobre conteudos e api */}
-                <div className='column flex flex-col'>
-                    <h3>Conteúdos & API</h3> 
-                    <img
-                        src='/tmdb_logo.png'
-                        alt='Imagem logo do TMDB'
-                        loading='lazy'
-                        className='h-9 w-fit mt-6'
-                    />
-                    <p className='mt-3'>
-                        As informações sobre filmes e séries exibidas nesta plataforma são fornecidas pela API do The Movie Database (TMDB). Todos os direitos autorais pertencem aos seus respectivos detentores.
-                    </p>
-                </div>
-
-                {/* breve descrição sobre o projeto */}
-                <div className='column flex flex-col'>
-                    <h3>Sobre o projeto</h3> 
-                    <img
-                        src='/project_logo.svg'
-                        alt='Imagem logo do TMDB'
-                        loading='lazy'
-                        className='h-9 w-fit mt-6'
-                    />
-                    <p className='mt-3'>
-                        Somos uma plataforma dedicada a reunir informações sobre filmes e séries. Nosso objetivo é oferecer detalhes, sinopses e dados organizados de forma simples e acessível, ajudando você a descobrir e acompanhar suas produções favoritas.
-                    </p>
+                <div>
+                    <h4 className="text-secondary font-extrabold [font-size:clamp(1rem,1.15vw,1.125rem)]">
+                        <img src="/about_icon.svg" alt="Icone de sobre" aria-hidden={true} className="inline-block h-[clamp(22px,1.5vw,24px)] mr-1" />
+                        Sobre o projeto
+                    </h4>
+                    <p className="mt-4 font-medium [font-size:clamp(0.875rem,1vw,1rem)] max-w-[clamp(400px,37.5vw,650px)]">O ZillaTV é uma plataforma dedicada a reunir informações sobre filmes e séries. Seu objetivo é oferecer detalhes, sinopses e dados organizados de forma simples e acessível, ajudando você a descobrir e acompanhar suas produções favoritas</p>
                 </div>
             </div>
-            {/* divisor */}
-            <div className='my-8 bg-transparent h-px w-full xl:bg-secondary/5'/>
+
             {/* copyright */}
-            <p className='w-full text-left xl:text-center'>© 2025 ZillaTV. Todos os direitos reservados.</p>
+            <div className="w-full flex justify-center py-5 bg-surface">
+                <p className="font-medium [font-size:clamp(0.875rem,1vw,1rem)]">
+                    © {currentYear} ZillaTV - Todos os direitos reservados
+                </p>
+            </div>
         </footer>
     );
 };
