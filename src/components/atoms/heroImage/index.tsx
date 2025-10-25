@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef, memo } from "react"
+import { ComponentPropsWithRef } from "react"
 import { tmdbConfig } from "@/app/constants";
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 
@@ -6,7 +6,7 @@ type ComponentProps = ComponentPropsWithRef<'img'> & {
     slideData: tmdbObjProps
 };
 
-const Image = memo((props: ComponentProps) => {
+const Image = (props: ComponentProps) => {
     const { slideData, className, ...rest } = props;
     // urls para imagens
     const {
@@ -27,7 +27,5 @@ const Image = memo((props: ComponentProps) => {
             className={`w-full aspect-video object-cover object-center ${className}`}
         />
     );
-});
-
-Image.displayName = 'HeaderCarouselImage';
+};
 export default Image;

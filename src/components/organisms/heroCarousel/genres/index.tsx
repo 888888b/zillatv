@@ -1,10 +1,10 @@
-import { ComponentPropsWithRef, memo } from "react";
+import { ReactNode } from "react";
+type ComponentProps = { className?: string, children: ReactNode }
 
-const Genres = memo((props: ComponentPropsWithRef<'p'>) => {
-    const { className, ...rest } = props;
+const Genres = (props: ComponentProps) => {
+    const { className, children } = props;
     return (
-        <p {...rest} className={`[font-size:clamp(1rem,1.15vw,1.125rem)] line-clamp-1 overflow-ellipsis sm:max-w-[40%] lg:max-w-[30%] md:hover:max-w-none ${className}`}/>
+        <p className={`[font-size:clamp(1rem,1.15vw,1.125rem)] line-clamp-1 overflow-ellipsis sm:max-w-[40%] lg:max-w-[30%] md:hover:max-w-none ${className}`}>{children}</p>
     );
-});
-Genres.displayName = 'HeroSlideGenres';
+};
 export default Genres;
