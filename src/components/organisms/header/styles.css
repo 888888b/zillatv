@@ -4,9 +4,8 @@
 }
 
 header {
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-block: 1.25rem;
+    transition: all 0.15s linear;
 }
 
 .is-scrolling {
@@ -27,7 +26,15 @@ header .mobile-search-bar.active {
 
 @media screen and ( width >= 1024px ) {
     header {
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
+        padding-top: initial;
+        padding-bottom: initial;
+    }
+
+    header:not(.is-scrolling) {
+        padding-block: 1.5rem;
+    }
+
+    header.is-scrolling {
+        padding-block: 1.25rem;
     }
 }
