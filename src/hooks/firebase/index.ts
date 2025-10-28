@@ -1,22 +1,19 @@
 // Hooks
 import { useContext, useEffect } from "react";
-
 // Inicializador do Firebase
 import { initializeApp, FirebaseError } from "firebase/app";
-
 // Ferramentas para interação com o Firebase Realtime Database
 import { getDatabase, set, ref as getDatabaseRef, get, remove, update, onValue } from "firebase/database";
-
+// Ferramentas para interação com o Firebase storage
 import { getDownloadURL, uploadBytes, getStorage, ref as getStorageRef, deleteObject } from "firebase/storage";
-
 // Ferramentas para interação com o Firebase Authentication
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, deleteUser, signOut, updateProfile, User as UserInterface, verifyBeforeUpdateEmail } from "firebase/auth";
-
 // Contextos
 import { GlobalEventsContext } from "@/contexts/globalEventsContext";
 import { UserDataContext } from "@/contexts/authenticationContext";
-
+// Componentes
 import { toast } from "react-toastify";
+import { addUserFavoritesToDb } from "./addUserFavoritesToDb";
 import { CommentProps, ReplyProps } from "@/components/templates/playerPage/main/commentsSection";
 
 interface UserDataOnDb {
@@ -51,46 +48,45 @@ const firebaseErrorMessages = {
     "auth/email-already-exists": "O endereço de e-mail já existe.",
     "auth/reset-password-exceed-limit": "O limite de redefinição de senha foi excedido.",
 };
-  
+
+const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
+    // databaseURL: 'http://localhost:9001/?ns=zillocine',
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
+};
+
+export const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const storage = getStorage(app);
+const googleProvider = new GoogleAuthProvider()
+const githubProvider = new GithubAuthProvider();
+auth.useDeviceLanguage();
 
 export default function useFirebase() {
 
-    const userData = useContext( UserDataContext );
+    const userData = useContext(UserDataContext);
     const {
         dispatch
-    } = useContext( GlobalEventsContext );
-
-    const firebaseConfig = {
-        apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-        databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
-        // databaseURL: 'http://localhost:9001/?ns=zillocine',
-        projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-        storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-        messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-        appId: process.env.NEXT_PUBLIC_APP_ID,
-        measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
-    };
-
-    const app = initializeApp( firebaseConfig );
-    const auth = getAuth();
-    const storage = getStorage( app );
-    const googleProvider = new GoogleAuthProvider()
-    const githubProvider = new GithubAuthProvider();
-    auth.useDeviceLanguage();
+    } = useContext(GlobalEventsContext);
 
     const getCurrentUser = async () => {
         try {
             await auth.authStateReady();
-            
-            if ( auth.currentUser ) {
-                if ( !userData.isLoggedIn || auth.currentUser.uid !== userData.uid ) {
-                    updateUserContext( auth.currentUser );
+
+            if (auth.currentUser) {
+                if (!userData.isLoggedIn || auth.currentUser.uid !== userData.uid) {
+                    updateUserContext(auth.currentUser);
                     getUserFavoritesOnDb();
                 };
             };
         } catch (error) {
-            console.error( error );   
+            console.error(error);
         };
     };
 
@@ -99,10 +95,10 @@ export default function useFirebase() {
         getCurrentUser();
     }, [])
 
-    const updateUserContext = async ( user: UserInterface ) => {
+    const updateUserContext = async (user: UserInterface) => {
         try {
-            const name = await extractName( user.displayName );
-            userData.setUserData( prev => ({
+            const name = await extractName(user.displayName);
+            userData.setUserData(prev => ({
                 ...prev,
                 isLoggedIn: true,
                 name: name,
@@ -112,12 +108,12 @@ export default function useFirebase() {
             }));
 
         } catch (error) {
-            console.error( 'Erro ao atualizar o contexto com os dados do usuario' + error );
+            console.error('Erro ao atualizar o contexto com os dados do usuario' + error);
         }
     };
 
     const resetUserContext = () => {
-        userData.setUserData( prev => ({
+        userData.setUserData(prev => ({
             ...prev,
             isLoggedIn: false,
             name: null,
@@ -128,13 +124,13 @@ export default function useFirebase() {
     };
 
     // Extrai o primeiro e último nome do usuário e atualiza o contexto
-    const extractName = async ( name: string | null ): Promise<string | null> => {
-        if ( !name ) return null;
+    const extractName = async (name: string | null): Promise<string | null> => {
+        if (!name) return null;
 
         const extractedWords = name.split(' ');
         let userName;
 
-        if ( extractedWords.length < 3 ) {
+        if (extractedWords.length < 3) {
             userName = name;
         } else {
             userName = `${extractedWords[0]} ${extractedWords.at(-1)}`;
@@ -144,34 +140,34 @@ export default function useFirebase() {
     };
 
 
-   // Busca a imagem de perfil do usuário no Firebase Storage
-    const getUserImageOnStorage = async ( storageRef: any ): Promise<void> => {
+    // Busca a imagem de perfil do usuário no Firebase Storage
+    const getUserImageOnStorage = async (storageRef: any): Promise<void> => {
         const user = auth.currentUser;
 
-        if ( user ) {
+        if (user) {
             try {
                 // Obtém a URL de download da imagem de perfil no Storage
-                const url = await getDownloadURL( storageRef );
+                const url = await getDownloadURL(storageRef);
 
                 // Atualiza o perfil do usuário com a nova URL da imagem
-                await updateProfile( user, { photoURL: url });
+                await updateProfile(user, { photoURL: url });
 
                 // Atualiza o contexto com a nova URL da imagem de perfil
-                userData.setUserData( prev => ({
+                userData.setUserData(prev => ({
                     ...prev,
                     photoUrl: url
                 }));
 
                 // Desativa o loading após a operação bem-sucedida
-                dispatch({type: 'IS_PROFILE_PHOTO_UPDATING', payload: false});
+                dispatch({ type: 'IS_PROFILE_PHOTO_UPDATING', payload: false });
 
                 // Exibe mensagem de sucesso
-                toast.success( 'Imagem de perfil atualizada', { 
+                toast.success('Imagem de perfil atualizada', {
                     position: 'bottom-right',
                     autoClose: 3000,
                 });
 
-            } catch ( error ) {
+            } catch (error) {
                 throw new Error("Erro ao buscar ou atualizar a imagem de perfil" + error);
             };
         };
@@ -179,56 +175,58 @@ export default function useFirebase() {
 
 
     // Manda a imagem de perfil do usuário para o Firebase Storage
-    const uploadUserImage = async ( imageFile: File ): Promise<void> => {
+    const uploadUserImage = async (imageFile: File): Promise<void> => {
         const user = auth.currentUser;
 
         // Aciona um elemento de loading durante o processo de upload da nova imagem de perfil para o Firebase Storage
-        dispatch({type: 'IS_PROFILE_PHOTO_UPDATING', payload: true});
+        dispatch({ type: 'IS_PROFILE_PHOTO_UPDATING', payload: true });
 
         if (user) {
-            const storageRef = getStorageRef( storage, `users/${user.uid}/profilePhoto` );
+            const storageRef = getStorageRef(storage, `users/${user.uid}/profilePhoto`);
 
             try {
                 // Faz o upload da imagem para o Firebase Storage
-                const snapshot = await uploadBytes( storageRef, imageFile );
+                const snapshot = await uploadBytes(storageRef, imageFile);
 
                 // Busca e atualiza a imagem de perfil no armazenamento
-                await getUserImageOnStorage( snapshot.ref );
+                await getUserImageOnStorage(snapshot.ref);
 
-            } catch ( error ) {
+            } catch (error) {
                 console.error("Erro ao fazer upload da imagem:", error);
 
                 // Desativa o loading caso ocorra um erro na operação
-                dispatch({type: 'IS_PROFILE_PHOTO_UPDATING', payload: false});
+                dispatch({ type: 'IS_PROFILE_PHOTO_UPDATING', payload: false });
             };
         };
     };
 
     const deleteCurrentUser = async () => {
         const user = auth.currentUser;
-    
-        if ( user ) {
+
+        if (user) {
             try {
-                await deleteCurrentUserOnDb( user.uid );
-                await deleteCurrentUserOnStorage( user.uid );
-                await deleteUser( user );
+                await deleteCurrentUserOnDb(user.uid);
+                await deleteCurrentUserOnStorage(user.uid);
+                await deleteUser(user);
 
                 resetUserContext();
 
                 toast.success('Conta excluída', {
                     position: 'bottom-right',
                     autoClose: 3000
-                });  
+                });
 
-            } catch ( error ) {
-                console.error( error );
+            } catch (error) {
+                console.error(error);
 
-                if ( error instanceof FirebaseError ) {    
-                    dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: true});
-                    dispatch({type: 'SET_ERROR', payload: {
-                        type: 'formInstructions',
-                        message: firebaseErrorMessages[ error.code as keyof typeof firebaseErrorMessages ] || 'Faça login novamente para encerrar sua conta.'
-                    }})
+                if (error instanceof FirebaseError) {
+                    dispatch({ type: 'IS_LOGIN_MODAL_ACTIVE', payload: true });
+                    dispatch({
+                        type: 'SET_ERROR', payload: {
+                            type: 'formInstructions',
+                            message: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Faça login novamente para encerrar sua conta.'
+                        }
+                    })
 
                 } else {
                     toast.error('Não foi possível encerrar sua conta, tente novamente', {
@@ -241,51 +239,51 @@ export default function useFirebase() {
         };
     };
 
-    const deleteCurrentUserOnDb = async ( userId: string ) => {
-        const db = getDatabase( app );
-        const userRef = getDatabaseRef( db, `users/${userId}` )
+    const deleteCurrentUserOnDb = async (userId: string) => {
+        const db = getDatabase(app);
+        const userRef = getDatabaseRef(db, `users/${userId}`)
 
         try {
-            await remove( userRef );
+            await remove(userRef);
             await fetch('https://updateemailslist-6lpci3axsq-uc.a.run.app', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
             });
-            
-        } catch ( error ) {
+
+        } catch (error) {
             console.error('Erro ao deletar dados do usuário no firebase realtime database' + error);
             return false;
         };
     };
 
-    const deleteCurrentUserOnStorage = async ( userId: string ) => {
-        const storageRef = getStorageRef( storage, `users/${userId}/profilePhoto` );
+    const deleteCurrentUserOnStorage = async (userId: string) => {
+        const storageRef = getStorageRef(storage, `users/${userId}/profilePhoto`);
 
         try {
-            await deleteObject( storageRef );  
-        } catch ( error ) {
-            console.error( 'Erro ao deletar dados do usuário no firebase storage' + error );
-        } 
+            await deleteObject(storageRef);
+        } catch (error) {
+            console.error('Erro ao deletar dados do usuário no firebase storage' + error);
+        }
     };
-    
+
 
     const signOutUser = async () => {
         try {
-            await signOut( auth );
+            await signOut(auth);
 
             resetUserContext();
 
-            toast.success('Conta desconectada', { 
+            toast.success('Conta desconectada', {
                 position: 'bottom-right',
                 autoClose: 3000
             });
-        } catch ( error ) {
-            if ( error instanceof FirebaseError ) {
-                console.error( error.message );
+        } catch (error) {
+            if (error instanceof FirebaseError) {
+                console.error(error.message);
 
-                const customErrorMessage = firebaseErrorMessages[ error.code as keyof typeof firebaseErrorMessages ] || 'Não foi possível desconectar sua conta, tente novamente';
+                const customErrorMessage = firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível desconectar sua conta, tente novamente';
 
-                toast.success(`${customErrorMessage}`, { 
+                toast.success(`${customErrorMessage}`, {
                     position: 'bottom-right',
                     autoClose: 3000
                 });
@@ -293,295 +291,309 @@ export default function useFirebase() {
         };
     };
 
-    const signInWithGoogle = async ( modalType: string ) => {
+    const signInWithGoogle = async (modalType: string) => {
         try {
-            const user = await signInWithPopup( auth, googleProvider );
-            
-            if ( user.user ) {
+            const user = await signInWithPopup(auth, googleProvider);
+
+            if (user.user) {
                 // Verifica se o usuário já existe no banco de dados
-                const userExists = await fetchUserOnDb( user.user.uid );
-                
-                if ( !userExists ) {
+                const userExists = await fetchUserOnDb(user.user.uid);
+
+                if (!userExists) {
                     // Adiciona o usuário ao banco de dados
-                    await addUserToDb( '', user.user.uid );
+                    await addUserToDb('', user.user.uid);
                 }
 
                 // Atualiza o contexto com os dados do usuário
-                updateUserContext( user.user );
-                
+                updateUserContext(user.user);
+
                 // Fecha o modal que estiver aberto após o login
-                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
-                dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: false});
-                
+                dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: false });
+                dispatch({ type: 'IS_LOGIN_MODAL_ACTIVE', payload: false });
+
                 // Exibe mensagem de boas-vindas ao usuário
-                const userName = await extractName( user.user.displayName );
+                const userName = await extractName(user.user.displayName);
                 toast.success(`Bem-vindo ${userName}!`, {
                     position: 'bottom-right',
                     autoClose: 3000
                 });
             };
-            
-        } catch ( error ) {
-            if ( error instanceof FirebaseError ) {
-                console.error( error.message );
-                
+
+        } catch (error) {
+            if (error instanceof FirebaseError) {
+                console.error(error.message);
+
                 // Atualiza o modal com a mensagem de erro
-                dispatch({type: 'SET_ERROR', payload: {
-                    type: 'googleAuth',
-                    message: error.message
-                }});
+                dispatch({
+                    type: 'SET_ERROR', payload: {
+                        type: 'googleAuth',
+                        message: error.message
+                    }
+                });
             };
         };
     };
-   
-    const signInWithGithub = async ( modalType: string ) => {
+
+    const signInWithGithub = async (modalType: string) => {
         try {
-            const user = await signInWithPopup( auth, githubProvider );
-            
-            if ( user.user ) {
+            const user = await signInWithPopup(auth, githubProvider);
+
+            if (user.user) {
                 // Verifica se o usuário já existe no banco de dados
-                const userExists = await fetchUserOnDb( user.user.uid );
-                
-                if ( !userExists ) {
+                const userExists = await fetchUserOnDb(user.user.uid);
+
+                if (!userExists) {
                     // Adiciona o usuário ao banco de dados
-                    await addUserToDb( '', user.user.uid );
+                    await addUserToDb('', user.user.uid);
                 }
 
                 // Atualiza o contexto com os dados do usuário
-                updateUserContext( user.user );
-                
+                updateUserContext(user.user);
+
                 // Fecha o modal que estiver aberto após o login
-                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
-                dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: false});
-                
+                dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: false });
+                dispatch({ type: 'IS_LOGIN_MODAL_ACTIVE', payload: false });
+
                 // Exibe mensagem de boas-vindas ao usuário
-                const userName = await extractName( user.user.displayName );
+                const userName = await extractName(user.user.displayName);
                 toast.success(`Bem-vindo ${userName}!`, {
                     position: 'bottom-right',
                     autoClose: 3000
                 });
             };
-            
-        } catch ( error ) {
-            if ( error instanceof FirebaseError ) {
-                console.error( error.message );
-                
+
+        } catch (error) {
+            if (error instanceof FirebaseError) {
+                console.error(error.message);
+
                 // Atualiza o modal com a mensagem de erro
                 // Atualiza o modal com a mensagem de erro
-                dispatch({type: 'SET_ERROR', payload: {
-                    type: 'githubAuth',
-                    message: error.message
-                }});
+                dispatch({
+                    type: 'SET_ERROR', payload: {
+                        type: 'githubAuth',
+                        message: error.message
+                    }
+                });
             };
         };
     };
-    
+
 
     // Adiciona algumas informações extras do usuário como, nome e id no Realtime DB
-    const addUserToDb = async ( userEmail: string, userId: string ): Promise<void> => {
-        const db = getDatabase( app );
-        const userRef = getDatabaseRef( db, `users/${userId}` );
+    const addUserToDb = async (userEmail: string, userId: string): Promise<void> => {
+        const db = getDatabase(app);
+        const userRef = getDatabaseRef(db, `users/${userId}`);
 
         try {
             // Adiciona os dados do usuário ao Realtime DB
-            await set( userRef, { email: userEmail });
+            await set(userRef, { email: userEmail });
             await fetch('https://updateemailslist-6lpci3axsq-uc.a.run.app', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
             });
 
-        } catch ( error ) {
+        } catch (error) {
             throw new Error("Erro ao adicionar usuário ao banco de dados" + error);
         };
     };
 
 
-    const registerUser = async ( name: string, email: string, password: string ) => {
+    const registerUser = async (name: string, email: string, password: string) => {
         // Controla uma animação de carregamento
-        dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: true});
+        dispatch({ type: 'IS_ACCOUNT_BEING_CREATED', payload: true });
 
         try {
             // Cria o usuário
-            const response = await createUserWithEmailAndPassword( auth, email, password );
-            
-            if ( response && auth.currentUser ) {
+            const response = await createUserWithEmailAndPassword(auth, email, password);
+
+            if (response && auth.currentUser) {
                 // Atualiza o nome de usuário
-                await updateProfile( auth.currentUser, { displayName: name });
+                await updateProfile(auth.currentUser, { displayName: name });
 
                 // Verifica se o usuário já existe no banco de dados
-                const userExists = await fetchUserOnDb( auth.currentUser.uid );
-                
-                if ( !userExists ) {
+                const userExists = await fetchUserOnDb(auth.currentUser.uid);
+
+                if (!userExists) {
                     // Adiciona o usuário ao banco de dados
-                    await addUserToDb( email, auth.currentUser.uid );
+                    await addUserToDb(email, auth.currentUser.uid);
                 };
-        
+
                 // Atualiza o contexto com os dados do usuário
-                updateUserContext( auth.currentUser );
-                
+                updateUserContext(auth.currentUser);
+
                 // Exibe mensagem de boas-vindas
-                const userName = await extractName( auth.currentUser?.displayName ?? name );
-                toast.success( `Parabéns ${userName}, sua conta foi criada!`, {
+                const userName = await extractName(auth.currentUser?.displayName ?? name);
+                toast.success(`Parabéns ${userName}, sua conta foi criada!`, {
                     position: 'bottom-right',
                     autoClose: 3000
                 });
-                
+
                 // Fecha o modal do formulário de registro
-                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
+                dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: false });
 
                 // Controla uma animação de carregamento
-                dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: false});
+                dispatch({ type: 'IS_ACCOUNT_BEING_CREATED', payload: false });
 
             } else {
                 // Atualiza o modal com a mensagem de erro
-                dispatch({type: 'SET_ERROR', payload: {
-                    type: 'register',
-                    message: 'Não foi possível criar sua conta, tente novamente'
-                }});
+                dispatch({
+                    type: 'SET_ERROR', payload: {
+                        type: 'register',
+                        message: 'Não foi possível criar sua conta, tente novamente'
+                    }
+                });
 
                 // Controla uma animação de carregamento
-                dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: false});
+                dispatch({ type: 'IS_ACCOUNT_BEING_CREATED', payload: false });
             };
-        
-        } catch ( error ) {
-            if ( error instanceof FirebaseError ) {
 
-                if ( error.code !== "auth/network-request-failed" ) {        
+        } catch (error) {
+            if (error instanceof FirebaseError) {
+
+                if (error.code !== "auth/network-request-failed") {
                     // Atualiza o modal com a mensagem de erro
-                    dispatch({type: 'SET_ERROR', payload: {
-                        type: 'register',
-                        message: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível criar sua conta, tente novamente'
-                    }});
+                    dispatch({
+                        type: 'SET_ERROR', payload: {
+                            type: 'register',
+                            message: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível criar sua conta, tente novamente'
+                        }
+                    });
                 };
             };
 
             // Controla uma animação de carregamento
-            dispatch({type: 'IS_ACCOUNT_BEING_CREATED', payload: false});
+            dispatch({ type: 'IS_ACCOUNT_BEING_CREATED', payload: false });
         };
     };
 
     // Busca informações do usuario no Realtime DB com base no id
-    const fetchUserOnDb = async ( userId: string ) => {
-        const db = getDatabase( app );
-        const userRef = getDatabaseRef( db, `users/${userId}` );
-        const snapshot = await get( userRef );
+    const fetchUserOnDb = async (userId: string) => {
+        const db = getDatabase(app);
+        const userRef = getDatabaseRef(db, `users/${userId}`);
+        const snapshot = await get(userRef);
 
         try {
-            if ( snapshot.exists() ) {
+            if (snapshot.exists()) {
                 return snapshot.val() as UserDataOnDb;
             }
 
             return null;
-        
-        } catch ( error ) {
-            throw new Error('Erro ao buscar os dados do usuário' + error );
+
+        } catch (error) {
+            throw new Error('Erro ao buscar os dados do usuário' + error);
         };
     };
 
-    const authenticateUser = async ( email: string, password: string, modalType: string ): Promise<void> => {
+    const authenticateUser = async (email: string, password: string, modalType: string): Promise<void> => {
         // Controla uma animação de carregamento
-        dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: true});
+        dispatch({ type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: true });
 
         try {
             // Autentica o usuário com email e senha
-            const response = await signInWithEmailAndPassword( auth, email, password );
+            const response = await signInWithEmailAndPassword(auth, email, password);
 
-            if ( response && auth.currentUser ) {
+            if (response && auth.currentUser) {
                 // Verifica se o usuário já existe no banco de dados
-                const userExists = await fetchUserOnDb( auth.currentUser.uid );
-                
-                if ( !userExists ) {
+                const userExists = await fetchUserOnDb(auth.currentUser.uid);
+
+                if (!userExists) {
                     // Adiciona o usuário ao banco de dados
-                    await addUserToDb( email, auth.currentUser.uid );
+                    await addUserToDb(email, auth.currentUser.uid);
                 };
 
                 // Atualiza o contexto com os dados do usuário
-                updateUserContext( auth.currentUser );
+                updateUserContext(auth.currentUser);
 
                 // Fecha o modal de login ou registro com base no tipo
-                dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: false});
-                dispatch({type: 'IS_REGISTER_MODAL_ACTIVE', payload: false});
+                dispatch({ type: 'IS_LOGIN_MODAL_ACTIVE', payload: false });
+                dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: false });
                 // Controla uma animação de carregamento
-                dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false});
-        
+                dispatch({ type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false });
+
                 // Exibe mensagem de boas-vindas ao usuário
-                const name = await extractName( auth.currentUser.displayName );
-                toast.success( `Bem-vindo de volta ${name}!`, {
+                const name = await extractName(auth.currentUser.displayName);
+                toast.success(`Bem-vindo de volta ${name}!`, {
                     position: 'bottom-right',
                     autoClose: 3000
                 });
 
             } else {
                 // Atualiza o modal com a mensagem de erro
-                dispatch({type: 'SET_ERROR', payload: {
-                    type: 'login',
-                    message: 'Não foi possível acessar sua conta, tente novamente'
-                }});
+                dispatch({
+                    type: 'SET_ERROR', payload: {
+                        type: 'login',
+                        message: 'Não foi possível acessar sua conta, tente novamente'
+                    }
+                });
 
                 // Controla uma animação de carregamento
-                dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false});    
+                dispatch({ type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false });
             };;
-            
-        } catch ( error ) {
-            if ( error instanceof FirebaseError ) {
+
+        } catch (error) {
+            if (error instanceof FirebaseError) {
                 console.error(error);
-    
-                if ( error.code !== "auth/network-request-failed" ) {
+
+                if (error.code !== "auth/network-request-failed") {
                     // Lança uma mensagem ao modal para indicar erro na operação
-                    dispatch({type: 'SET_ERROR', payload: {
-                        type: 'login',
-                        message: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível acessar sua conta, tente novamente'
-                    }});
+                    dispatch({
+                        type: 'SET_ERROR', payload: {
+                            type: 'login',
+                            message: firebaseErrorMessages[error.code as keyof typeof firebaseErrorMessages] || 'Não foi possível acessar sua conta, tente novamente'
+                        }
+                    });
                 };
             };
 
             // Controla uma animação de carregamento
-            dispatch({type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false});    
+            dispatch({ type: 'IS_USER_LOGGING_INTO_ACCOUNT', payload: false });
         };
-    };    
+    };
 
-    const updateUserData = async ( newEmail: string | null, newName: string | null ) => {
+    const updateUserData = async (newEmail: string | null, newName: string | null) => {
         try {
             // Verifica o novo email do usuário
-            if ( newEmail && newEmail !== userData.email ) {
+            if (newEmail && newEmail !== userData.email) {
                 const response = await fetch('https://findonemailslist-6lpci3axsq-uc.a.run.app', {
                     method: 'POST',
-                    headers: {"Content-Type": "application/json"},
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ emailToFind: newEmail })
                 });
 
-                if ( response.ok ) {
+                if (response.ok) {
                     const { isUnique } = await response.json();
-                    if ( isUnique ) {
-                        dispatch({type: 'SET_ERROR', payload: {
-                            type: 'emailVerification',
-                            message: 'Já existe uma conta vinculada a este email'
-                        }})
+                    if (isUnique) {
+                        dispatch({
+                            type: 'SET_ERROR', payload: {
+                                type: 'emailVerification',
+                                message: 'Já existe uma conta vinculada a este email'
+                            }
+                        })
 
                         return { success: true };
                     };
 
-                    return { success: false, message: 'Já existe uma conta vinculada a este email'};
+                    return { success: false, message: 'Já existe uma conta vinculada a este email' };
 
                 };
             };
-    
-            // Verifica se o usuario atual esta authenticado
-            if ( auth.currentUser ) {
-                // Atualiza o nome vinculado à conta do usuário
-                if ( newName && newName !== auth.currentUser.displayName ) {
-                    await updateProfile( auth.currentUser, { displayName: newName });
-                    
-                    // Atualiza o contexto do usuário com o nome editado
-                    if ( auth.currentUser.displayName ) {
-                        const extractedName = await extractName( auth.currentUser.displayName );
 
-                        userData.setUserData( prev => ({
-                            ...prev, 
+            // Verifica se o usuario atual esta authenticado
+            if (auth.currentUser) {
+                // Atualiza o nome vinculado à conta do usuário
+                if (newName && newName !== auth.currentUser.displayName) {
+                    await updateProfile(auth.currentUser, { displayName: newName });
+
+                    // Atualiza o contexto do usuário com o nome editado
+                    if (auth.currentUser.displayName) {
+                        const extractedName = await extractName(auth.currentUser.displayName);
+
+                        userData.setUserData(prev => ({
+                            ...prev,
                             name: extractedName
                         }));
 
-                        toast.success( 'Nome de usuário alterado', {
+                        toast.success('Nome de usuário alterado', {
                             position: 'bottom-right',
                             autoClose: 3000
                         });
@@ -589,57 +601,59 @@ export default function useFirebase() {
                 };
             };
 
-        } catch ( error ) {
-            if ( error instanceof FirebaseError ) {
-                console.error( error.message );
+        } catch (error) {
+            if (error instanceof FirebaseError) {
+                console.error(error.message);
             };
         };
-    };    
+    };
 
-    const verifyNewUserEmail = async ( newEmail: string ) => {
+    const verifyNewUserEmail = async (newEmail: string) => {
         const user = auth.currentUser;
-    
-        if ( user ) {
-            try {      
-                await verifyBeforeUpdateEmail( user, newEmail );
-                
+
+        if (user) {
+            try {
+                await verifyBeforeUpdateEmail(user, newEmail);
+
                 // Notifica o usuário sobre o envio do link de verificação
                 toast.success(`Link de verificação enviado para ${newEmail}`, {
                     position: 'bottom-right',
                     autoClose: 3000
                 });
 
-            } catch ( error ) {
-                if ( error instanceof FirebaseError ) {
+            } catch (error) {
+                if (error instanceof FirebaseError) {
                     console.error(error.message);
-    
+
                     // Avisa o usuário de que é preciso se autenticar novamente
-                    dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: true});
-                    dispatch({type: 'SET_ERROR', payload: {
-                        type: 'formInstructions',
-                        message: 'Faça login novamente para solicitar um link de atualização de email'
-                    }})
+                    dispatch({ type: 'IS_LOGIN_MODAL_ACTIVE', payload: true });
+                    dispatch({
+                        type: 'SET_ERROR', payload: {
+                            type: 'formInstructions',
+                            message: 'Faça login novamente para solicitar um link de atualização de email'
+                        }
+                    })
                 };
             };
         };
     };
 
     const getUserFavoritesOnDb = async () => {
-        const db = getDatabase( app );
+        const db = getDatabase(app);
         const user = auth.currentUser;
-        const userRef = getDatabaseRef( db, `users/${user?.uid}` );
+        const userRef = getDatabaseRef(db, `users/${user?.uid}`);
 
         try {
-            const snapshot = await get( userRef );
+            const snapshot = await get(userRef);
             const userDataOnDb = snapshot.val();
 
-            if ( userDataOnDb ) {
-                 userData.setUserData( prev => ({
+            if (userDataOnDb) {
+                userData.setUserData(prev => ({
                     ...prev,
                     favoriteMovies: userDataOnDb.favoriteMovies ?? null
                 }));
 
-                userData.setUserData( prev => ({
+                userData.setUserData(prev => ({
                     ...prev,
                     favoriteSeries: userDataOnDb.favoriteSeries ?? null
                 }));
@@ -647,124 +661,82 @@ export default function useFirebase() {
             };
 
         } catch (error) {
-            console.error( 'Erro ao buscar os favoritos do usuario' + error );
+            console.error('Erro ao buscar os favoritos do usuario' + error);
         }
     };
 
-    // Adiciona os filmes/series favoritos do usuario ao banco de dados
-    const addUserFavoritesToDb = async ( contentId: string, contentType: string ): Promise<void> => {
-        const db = getDatabase( app );
+    const deleteUserFavoritesOnDb = async (contentId: string, contentType: string): Promise<void> => {
+        const db = getDatabase(app);
         const user = auth.currentUser;
-        const userRef = getDatabaseRef( db, `users/${user?.uid}` );
+        const userRef = getDatabaseRef(db, `users/${user?.uid}`);
 
         try {
-            const snapshot = await get( userRef );
-            const userDataOnDb = await snapshot.val()
-
-            if ( userDataOnDb ) {
-                if ( contentType === 'movie' ) {
-                    const updatedData = userDataOnDb.favoriteMovies ? [
-                        contentId,
-                        ...userDataOnDb.favoriteMovies
-                    ] : [contentId]
-
-                    await update( userRef, {
-                        favoriteMovies: updatedData
-                    });
-                };   
-    
-                if ( contentType === 'serie' || contentType === 'tv' ) {
-                    const updatedData = userDataOnDb.favoriteSeries ? [
-                        contentId, 
-                        ...userDataOnDb.favoriteSeries
-                    ] : [contentId]
-
-                    await update( userRef, {
-                        favoriteSeries: updatedData
-                    });
-                };
-
-            }; 
-
-            getUserFavoritesOnDb();
-
-        } catch (error) {
-            throw new Error( 'Erro ao adicionar item aos favoritos do usuario' + error );
-        }
-    };
-
-    const deleteUserFavoritesOnDb = async ( contentId: string, contentType: string ): Promise<void> => {
-        const db = getDatabase( app );
-        const user = auth.currentUser;
-        const userRef = getDatabaseRef( db, `users/${user?.uid}` );
-
-        try {
-            const snapshot = await get( userRef );
+            const snapshot = await get(userRef);
             const userDataOnDb = snapshot.val()
 
-            if ( userDataOnDb ) {
-                if ( contentType === 'movie' && userDataOnDb.favoriteMovies ) {
-                    const updatedData = userDataOnDb.favoriteMovies.filter(( id: string ) => id !== contentId )
-                    await update( userRef, { favoriteMovies: updatedData });
-                };   
-    
-                if ( contentType === 'serie' && userDataOnDb.favoriteSeries ) {
-                    const updatedData = userDataOnDb.favoriteSeries.filter(( id: string ) => id !== contentId );
-                    await update( userRef, { favoriteSeries: updatedData });
-                };   
+            if (userDataOnDb) {
+                if (contentType === 'movie' && userDataOnDb.favoriteMovies) {
+                    const updatedData = userDataOnDb.favoriteMovies.filter((id: string) => id !== contentId)
+                    await update(userRef, { favoriteMovies: updatedData });
+                };
+
+                if (contentType === 'serie' && userDataOnDb.favoriteSeries) {
+                    const updatedData = userDataOnDb.favoriteSeries.filter((id: string) => id !== contentId);
+                    await update(userRef, { favoriteSeries: updatedData });
+                };
             };
 
             getUserFavoritesOnDb();
 
         } catch (error) {
-            throw new Error( 'Erro ao deletar item dos favoritos do usuario' + error );
+            throw new Error('Erro ao deletar item dos favoritos do usuario' + error);
         }
     };
 
-    const addUserCommentsToDb = async ( commentData: CommentProps, contentId: string ) => {
-        const db = getDatabase( app );
-        const commentRef = getDatabaseRef( db, `comments/${commentData.id}` );
-        const commentIdsListRef = getDatabaseRef( db, `commentIdsList/${contentId}` );
+    const addUserCommentsToDb = async (commentData: CommentProps, contentId: string) => {
+        const db = getDatabase(app);
+        const commentRef = getDatabaseRef(db, `comments/${commentData.id}`);
+        const commentIdsListRef = getDatabaseRef(db, `commentIdsList/${contentId}`);
 
         try {
-            await update( commentRef, { comment: commentData });
-            const snapshot = await get( commentIdsListRef );
-            
+            await update(commentRef, { comment: commentData });
+            const snapshot = await get(commentIdsListRef);
+
             if (snapshot.exists()) {
                 const list = snapshot.val();
-                await update( commentIdsListRef, { idsList: [...list.idsList, commentData.id]});
+                await update(commentIdsListRef, { idsList: [...list.idsList, commentData.id] });
             } else {
-                await update ( commentIdsListRef, { idsList: [commentData.id] });
+                await update(commentIdsListRef, { idsList: [commentData.id] });
             };
 
-            const commentsList = await getCommentsOnDb( contentId );
+            const commentsList = await getCommentsOnDb(contentId);
             return commentsList;
 
         } catch (error) {
-            throw new Error( 'Erro ao adicionar comentario ao banco de dados' + error );
+            throw new Error('Erro ao adicionar comentario ao banco de dados' + error);
         };
     };
 
-    const getCommentsOnDb = async ( contentId: string ): Promise<any> => {
-        const db = getDatabase( app );
-        const commentIdsListRef = getDatabaseRef( db, `commentIdsList/${contentId}` );
+    const getCommentsOnDb = async (contentId: string): Promise<any> => {
+        const db = getDatabase(app);
+        const commentIdsListRef = getDatabaseRef(db, `commentIdsList/${contentId}`);
 
         try {
-            const snapshot = await get( commentIdsListRef );
+            const snapshot = await get(commentIdsListRef);
             if (snapshot.exists()) {
                 const list = snapshot.val();
-                
-                return new Promise(( resolve, reject ) => {
+
+                return new Promise((resolve, reject) => {
                     try {
-                        Promise.all( list.idsList.map( async ( commentId: string ) => {
-                            const commentRef = getDatabaseRef( db, `comments/${commentId}` );
-                            const commentData = await get( commentRef );
+                        Promise.all(list.idsList.map(async (commentId: string) => {
+                            const commentRef = getDatabaseRef(db, `comments/${commentId}`);
+                            const commentData = await get(commentRef);
                             return commentData.val().comment;
-                        })).then( result => {
-                            resolve( result );
+                        })).then(result => {
+                            resolve(result);
                         });
                     } catch (error) {
-                        reject( error );
+                        reject(error);
                     };
                 });
             } else {
@@ -772,60 +744,60 @@ export default function useFirebase() {
             };
 
         } catch (error) {
-            console.error( 'Erro ao buscar comentario no banco de dados' + error );
+            console.error('Erro ao buscar comentario no banco de dados' + error);
         };
     };
 
-    const getUserReactionOnDb = async ( ...commentsIds: string[] ): Promise<Record<string, any>[]> => {
-        const db = getDatabase( app );
+    const getUserReactionOnDb = async (...commentsIds: string[]): Promise<Record<string, any>[]> => {
+        const db = getDatabase(app);
         const user = auth.currentUser;
-        
-        return new Promise(( resolve, reject ) => {
+
+        return new Promise((resolve, reject) => {
             try {
-                Promise.all(commentsIds.map(async ( id ) => {
-                    const reactionRef = getDatabaseRef( db, `reactions/${id}/${user?.uid}` );
-                    const userReaction = await get( reactionRef );
-                    return { 
+                Promise.all(commentsIds.map(async (id) => {
+                    const reactionRef = getDatabaseRef(db, `reactions/${id}/${user?.uid}`);
+                    const userReaction = await get(reactionRef);
+                    return {
                         id: id,
                         userReaction: userReaction.exists() ? userReaction.val().reaction : null
                     };
-                })).then(( reaction ) => {
-                    resolve( reaction );
+                })).then((reaction) => {
+                    resolve(reaction);
                 });
 
             } catch (error) {
-                reject( error );
+                reject(error);
             };
         });
     };
 
-    const updateUserReactionOnDb = async ( commentId: string, reaction: string ) => {
+    const updateUserReactionOnDb = async (commentId: string, reaction: string) => {
         const user = auth.currentUser;
-        const db = getDatabase( app );
-        const reactionRef = getDatabaseRef( db, `reactions/${commentId}/${user?.uid}` );
+        const db = getDatabase(app);
+        const reactionRef = getDatabaseRef(db, `reactions/${commentId}/${user?.uid}`);
 
         try {
-            const snapshot = await get( reactionRef );
+            const snapshot = await get(reactionRef);
             const prevUserReaction = snapshot.val();
- 
-            if ( prevUserReaction && prevUserReaction.reaction === reaction ) {
-                await update( reactionRef, { reaction: null });
+
+            if (prevUserReaction && prevUserReaction.reaction === reaction) {
+                await update(reactionRef, { reaction: null });
             };
 
-            if (( prevUserReaction && prevUserReaction.reaction !== reaction ) || !prevUserReaction ) {
-                await update( reactionRef, { reaction });
+            if ((prevUserReaction && prevUserReaction.reaction !== reaction) || !prevUserReaction) {
+                await update(reactionRef, { reaction });
             };
 
-            const updatedReaction = (await get( reactionRef )).val();
+            const updatedReaction = (await get(reactionRef)).val();
             const response = await fetch('https://updatereactionscount-6lpci3axsq-uc.a.run.app', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({  commentId, userId: auth.currentUser?.uid })
+                body: JSON.stringify({ commentId, userId: auth.currentUser?.uid })
             });
 
-            if ( response.ok ) {
+            if (response.ok) {
                 const { updatedComment } = await response.json();
-                if ( !updatedReaction ) {
+                if (!updatedReaction) {
                     return [updatedComment, updatedReaction];
                 };
 
@@ -833,43 +805,43 @@ export default function useFirebase() {
             };
 
         } catch (error) {
-            throw new Error( 'Erro ao adicionar reação do usuario ao banco de dados' + error );
+            throw new Error('Erro ao adicionar reação do usuario ao banco de dados' + error);
         }
     };
 
-    const addUserReplyToDb = async ( replyData: ReplyProps ) => {
-        const db = getDatabase( app );
-        const commentRef = getDatabaseRef( db, `replies/${replyData.replyingId}/${replyData.id}` );
+    const addUserReplyToDb = async (replyData: ReplyProps) => {
+        const db = getDatabase(app);
+        const commentRef = getDatabaseRef(db, `replies/${replyData.replyingId}/${replyData.id}`);
 
         try {
-            await update( commentRef, { reply: replyData });
+            await update(commentRef, { reply: replyData });
             const response = await fetch('https://updaterepliescount-6lpci3axsq-uc.a.run.app', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({  commentId: replyData.replyingId, userId: auth.currentUser?.uid })
+                body: JSON.stringify({ commentId: replyData.replyingId, userId: auth.currentUser?.uid })
             });
 
-            if ( response.ok ) {
+            if (response.ok) {
                 const { updatedComment } = await response.json();
                 return updatedComment;
             };
 
         } catch (error) {
-            throw new Error( 'Erro ao adicionar comentario ao banco de dados' + error );
+            throw new Error('Erro ao adicionar comentario ao banco de dados' + error);
         };
     };
 
-    const getRepliesOnDb = async ( commentId: string ) => {
-        const db = getDatabase( app );
-        const repliesRef = getDatabaseRef( db, `replies/${commentId}` );
+    const getRepliesOnDb = async (commentId: string) => {
+        const db = getDatabase(app);
+        const repliesRef = getDatabaseRef(db, `replies/${commentId}`);
 
         try {
-            const snapshot = await get( repliesRef );
+            const snapshot = await get(repliesRef);
             const repliesList = snapshot.val();
             return repliesList;
 
         } catch (error) {
-            console.error( 'Erro ao buscar respostas no banco de dados' + error );
+            console.error('Erro ao buscar respostas no banco de dados' + error);
         }
     };
 
