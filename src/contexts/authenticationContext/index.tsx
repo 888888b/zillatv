@@ -2,7 +2,7 @@
 
 import React, { createContext, Dispatch, ReactNode, useState } from "react";
 
-interface UserDataProps {
+export interface UserDataProps {
     isLoggedIn: boolean;
     name: null | string;
     email: null | string;
