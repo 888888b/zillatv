@@ -14,6 +14,7 @@ import { UserDataContext } from "@/contexts/authenticationContext";
 // Componentes
 import { toast } from "react-toastify";
 import { addUserFavoritesToDb } from "./addUserFavoritesToDb";
+import { getUserFavoritesOnDb } from "./getUserFavoritesOnDb";
 import { CommentProps, ReplyProps } from "@/components/templates/playerPage/main/commentsSection";
 
 interface UserDataOnDb {
@@ -69,7 +70,6 @@ const githubProvider = new GithubAuthProvider();
 auth.useDeviceLanguage();
 
 export default function useFirebase() {
-
     const userData = useContext(UserDataContext);
     const {
         dispatch
@@ -82,7 +82,7 @@ export default function useFirebase() {
             if (auth.currentUser) {
                 if (!userData.isLoggedIn || auth.currentUser.uid !== userData.uid) {
                     updateUserContext(auth.currentUser);
-                    getUserFavoritesOnDb();
+                    getUserFavoritesOnDb(userData.setUserData);
                 };
             };
         } catch (error) {
@@ -638,59 +638,32 @@ export default function useFirebase() {
         };
     };
 
-    const getUserFavoritesOnDb = async () => {
+    const deleteUserFavoritesOnDb = async (mediaId: string, mediaType: string): Promise<void> => {
         const db = getDatabase(app);
         const user = auth.currentUser;
         const userRef = getDatabaseRef(db, `users/${user?.uid}`);
-
+        const updatedMediaList: string[] = [];
         try {
-            const snapshot = await get(userRef);
-            const userDataOnDb = snapshot.val();
-
-            if (userDataOnDb) {
-                userData.setUserData(prev => ({
-                    ...prev,
-                    favoriteMovies: userDataOnDb.favoriteMovies ?? null
-                }));
-
-                userData.setUserData(prev => ({
-                    ...prev,
-                    favoriteSeries: userDataOnDb.favoriteSeries ?? null
-                }));
-
-            };
-
-        } catch (error) {
-            console.error('Erro ao buscar os favoritos do usuario' + error);
-        }
-    };
-
-    const deleteUserFavoritesOnDb = async (contentId: string, contentType: string): Promise<void> => {
-        const db = getDatabase(app);
-        const user = auth.currentUser;
-        const userRef = getDatabaseRef(db, `users/${user?.uid}`);
-
-        try {
-            const snapshot = await get(userRef);
-            const userDataOnDb = snapshot.val()
-
-            if (userDataOnDb) {
-                if (contentType === 'movie' && userDataOnDb.favoriteMovies) {
-                    const updatedData = userDataOnDb.favoriteMovies.filter((id: string) => id !== contentId)
-                    await update(userRef, { favoriteMovies: updatedData });
-                };
-
-                if (contentType === 'serie' && userDataOnDb.favoriteSeries) {
-                    const updatedData = userDataOnDb.favoriteSeries.filter((id: string) => id !== contentId);
-                    await update(userRef, { favoriteSeries: updatedData });
+            // busca e tratamento dos dados
+            const data = (await get(userRef)).val();
+            if (data) {
+                if (mediaType === 'movie') {
+                    const updatedData = data.favoriteMovies?.filter((id: string) => id !== mediaId);
+                    updatedMediaList.push(...updatedData);
+                } else {
+                    const updatedData = data.favoriteSeries?.filter((id: string) => id !== mediaId);
+                    updatedMediaList.push(...updatedData);
                 };
             };
-
-            getUserFavoritesOnDb();
+            // define o campo / atualiza a database e o contexto
+            const fieldToUpdate = mediaType === 'movie' ?
+                { favoriteMovies: updatedMediaList } : { favoriteSeries: updatedMediaList };
+            await update(userRef, fieldToUpdate);
+            userData.setUserData(prev => ({...prev, ...fieldToUpdate}));
 
         } catch (error) {
             throw new Error('Erro ao deletar item dos favoritos do usuario' + error);
-        }
+        };
     };
 
     const addUserCommentsToDb = async (commentData: CommentProps, contentId: string) => {
