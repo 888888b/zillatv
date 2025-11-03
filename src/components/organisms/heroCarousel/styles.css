@@ -17,12 +17,6 @@
 .hero-carousel .embla__slide {
   width: 100%;
   overflow: hidden;
-  transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
-}
-
-.hero-carousel .embla__slide:not(.is-in-view) {
-  opacity: 0;
-  visibility: hidden;
 }
 
 .hero-carousel .embla::before {
@@ -64,22 +58,6 @@
   aspect-ratio: 1 / 1;
   background-color: var(--color-text);
   border-radius: 50%;
-}
-
-.hero-carousel .disabled-title,
-.hero-carousel .disabled-logo {
-  visibility: hidden;
-  margin: 0 !important;
-  height: 0;
-  overflow: hidden;
-}
-
-.hero-carousel.loading-slides-logos .slide-img {
-  filter: blur(10px) !important;
-}
-
-.hero-carousel.loading-slides-logos .slide-details {
-  display: none;
 }
 
 @media screen and (width>=640px) {

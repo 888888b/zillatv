@@ -1,7 +1,7 @@
 'use client';
 // hooks
 import { useRouter } from 'next/navigation';
-import { useContext, useCallback, useMemo } from 'react';
+import { useContext, useCallback, memo } from 'react';
 import useFirebase from '@/hooks/firebase';
 // icones
 import { FaBookmark } from "react-icons/fa";
@@ -38,15 +38,12 @@ export default function MoviesSeriesSection(props: ComponentProps) {
         deleteUserFavoritesOnDb
     } = useFirebase();
     const { dispatch } = useContext(GlobalEventsContext);
-    const cardsData = useMemo(() => {
-        const updatedData: tmdbObjProps[] | undefined = data?.map(slide => {
-            return {
-                ...slide,
-                isFavorite: (favoriteMovies?.includes(slide.id) || favoriteSeries?.includes(slide.id) && isLoggedIn)
-            };
-        });
-        return updatedData;
-    }, [data, favoriteSeries, favoriteMovies, isLoggedIn]);
+    const cardsData: tmdbObjProps[] | undefined = data?.map(slide => {
+        return {
+            ...slide,
+            isFavorite: (favoriteMovies?.includes(slide.id) || favoriteSeries?.includes(slide.id) && isLoggedIn)
+        };
+    });
 
     // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
     const updateFavorites = useCallback(
@@ -71,7 +68,8 @@ export default function MoviesSeriesSection(props: ComponentProps) {
             };
         }, [dispatch, isLoggedIn, deleteUserFavoritesOnDb, addUserFavoritesToDb]);
 
-    const navigate = useCallback((mediaId: string, mediaType: string) => {
+    // leva para a pagina do player
+    const navigateToPlayer = useCallback((mediaId: string, mediaType: string) => {
         dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
         push(`player/${mediaType}/${mediaId}`);
     }, [push, dispatch]);
@@ -79,11 +77,10 @@ export default function MoviesSeriesSection(props: ComponentProps) {
     return cardsData ? (
         <>
             <div className='movie-serie-section'>
-                {cardsData.map((media, index) => (
+                {cardsData.map(media => (
                     media.media_type !== 'person' ? (
-                        // media
-                        <div key={`result-${index}-${media.id}`} className='card'>
-                            <div onClick={() => navigate(media.id, media.media_type)} className='card-img'>
+                        <div key={`card-${media.id}`} className='card'>
+                            <div onClick={() => navigateToPlayer(media.id, media.media_type)} className='card-img'>
                                 {/* icone de favorito */}
                                 {media.isFavorite &&
                                     <div className='bookmark-icon bg-background/60 w-[clamp(28px,3.55vw,36px)] aspect-square rounded-full flex items-center justify-center z-30 absolute top-[clamp(4px,1.2vw,12px)] right-[clamp(4px,1.2vw,12px)] text-primary [font-size:clamp(0.875rem,1.6vw,1rem)]'>
@@ -104,7 +101,7 @@ export default function MoviesSeriesSection(props: ComponentProps) {
                             </div>
                             <DetailsCard
                                 updateFavorites={updateFavorites}
-                                navigate={navigate}
+                                navigate={navigateToPlayer}
                                 media={media}
                             />
                         </div>

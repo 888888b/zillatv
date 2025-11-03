@@ -10,7 +10,6 @@
 }
 
 .embla .embla__slide {
-    transform: translate3d(0, 0, 0);
     flex: 0 0 auto;
     overflow: hidden;
     z-index: 3;
@@ -21,7 +20,11 @@
     pointer-events: none;
 }
 
-.embla .embla__slide:not(.disable-slide) img {
+.embla .embla__slide {
+    transform: translate3d(0, 0, 0);
+}
+
+.embla .embla__slide.is-in-view img:not(.slide-logo) {
     filter: brightness(0.95) contrast(1.05) saturate(1.1);
 }
 

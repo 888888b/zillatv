@@ -9,14 +9,16 @@
 
 .movie-serie-carousel .embla__slide {
     width: calc((100% - 16px) / 3);
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+    transition: opacity 1s ease-out, visibility 0.1s none;
     position: relative;
+    opacity: 0;
+    visibility: hidden;
 }
 
-.movie-serie-carousel .embla__slide:not(.is-in-view) {
-  opacity: 0;
-  visibility: hidden;
-}
+.movie-serie-carousel .embla__slide.is-in-view {
+  opacity: 1;
+  visibility: visible;
+}   
 
 .movie-serie-carousel .embla__slide:last-of-type {
     margin-right: 0.5rem;

@@ -1,5 +1,5 @@
 // hooks
-import { useCallback, useContext, memo } from 'react';
+import { useCallback, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 // componentes
 import Title from "../title";
@@ -11,11 +11,7 @@ import Genres from '../genres';
 // tipos
 import { tmdbObjProps } from "@/contexts/tmdbContext";
 import { ComponentPropsWithRef } from 'react';
-
-type ComponentProps = {
-    className?: string,
-    slideData: tmdbObjProps
-} & ComponentPropsWithRef<'div'>;
+type ComponentProps = { slideData: tmdbObjProps | undefined } & ComponentPropsWithRef<'div'>;
 // icones
 import { FaPlay } from 'react-icons/fa';
 // contexto
@@ -24,13 +20,13 @@ import { GlobalEventsContext } from '@/contexts/globalEventsContext';
 import { tmdbConfig } from '@/app/constants';
 import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
 
-function SlideInfoWrapper(props: ComponentProps) {
+export default function SlideInfoWrapper(props: ComponentProps) {
     const { className, slideData, ...rest } = props;
     const { dispatch } = useContext(GlobalEventsContext);
     const { push } = useRouter();
     const { high_resolution_logo } = tmdbConfig;
-    const logo = getLogoPath(slideData.images.logos, slideData.id);
-    const genres: string = slideData.genres.map((genre: tmdbObjProps) => (genre.name)).filter((_: string, index: number) => index < 2).join(', ');
+    const logo = getLogoPath(slideData?.images.logos, slideData?.id);
+    const genres: string = slideData?.genres.map((genre: tmdbObjProps) => (genre.name)).filter((_: string, index: number) => index < 2).join(', ');
 
     // lida com a nevegaçao entre paginas
     const navigateToPlayer = useCallback((): void => {
@@ -39,7 +35,7 @@ function SlideInfoWrapper(props: ComponentProps) {
         push(`/player/${slideData.media_type}/${slideData.id}`);
     }, [push, slideData]);
 
-    return (
+    return slideData && (
         <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
             {/* titulo*/}
             {logo ?
@@ -68,4 +64,3 @@ function SlideInfoWrapper(props: ComponentProps) {
         </div>
     );
 };
-export default memo(SlideInfoWrapper);

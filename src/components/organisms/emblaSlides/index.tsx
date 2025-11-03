@@ -1,5 +1,5 @@
 // hooks
-import { ReactNode, useCallback, useEffect, memo, useRef, MutableRefObject } from "react";
+import { ReactNode, useCallback, useEffect, memo } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useDotButton } from "@/hooks/embla/useDotButton";
 import { usePrevNextButtons } from "@/hooks/embla/usePrevNextButtons";
@@ -8,13 +8,14 @@ import { useAutoplayProgress } from "@/hooks/embla/useAutoplayProgress";
 import DefaultNavigation from "@/components/molecules/emblaDefaultNavigation";
 import HeaderNavigation from "@/components/molecules/emblaHeaderNavigation";
 // plugins do embla
-import autoplay from 'embla-carousel-autoplay';
+import Autoplay from 'embla-carousel-autoplay';
 import ClassNames from "embla-carousel-class-names";
+import Fade from 'embla-carousel-fade';
 
 import './styles.css';
 // tipos
 type EmblaCarouselProps = {
-    children: ReactNode[] | ReactNode;
+    children: ReactNode;
     loop?: boolean;
     slidesPerView?: 'auto' | number;
     duration?: number;
@@ -23,7 +24,6 @@ type EmblaCarouselProps = {
     dragFree?: boolean;
     fadeAnimation?: boolean;
     breakpoints?: Record<string, any>;
-    activeSlides?: (indexList: number[], numberOfSlides: number) => void;
     selectedSnap?: (index: number) => void;
 }
 export type EmblaStateProps = {
@@ -35,6 +35,7 @@ export type EmblaStateProps = {
 
 const EmblaCarousel = memo((props: EmblaCarouselProps) => {
     // configuraçoes do carousel
+    const { selectedSnap } = props;
     const emblaConfig = {
         loop: props.loop,
         slidesToScroll: props.slidesPerView,
@@ -44,7 +45,8 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
     };
     // plugins
     const emblaPlugins = [ClassNames()];
-    if (props.autoplay) emblaPlugins.push(autoplay({ delay: 7000, stopOnInteraction: false }));
+    if (props.autoplay) emblaPlugins.push(Autoplay({ delay: 7000, stopOnInteraction: false }));
+    if (props.fadeAnimation) emblaPlugins.push(Fade());
     // ref e api do embla
     const [
         emblaRef,
@@ -66,40 +68,30 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
         onNextButtonClick
     } = usePrevNextButtons(emblaApi);
 
-    const setSlidesInView = useCallback((): void => {
-        if (!props.activeSlides || !emblaApi) return;
-        const inView = emblaApi.slidesInView();
-        const numberOfSlides = emblaApi.slideNodes().length;
-        props.activeSlides(inView, numberOfSlides);
-    }, [emblaApi, props.activeSlides]);
-
-    const returnToBeggining = useCallback((): void => {
-        scrollToIndex(0);
-    }, []);
-
-    // disponibilizar o slide ativo para camadas superiores
-    useEffect(() => {
-        if (!emblaApi) return;
-        emblaApi.on('slidesInView', setSlidesInView);
-        emblaApi.on('slidesChanged', returnToBeggining);
-        setSlidesInView();
-        return () => {
-            emblaApi.off('slidesInView', setSlidesInView);
-            emblaApi.off('slidesChanged', returnToBeggining);
-        };
-    }, [emblaApi]);
-
-    useEffect(() => {
-        if (props.selectedSnap) props.selectedSnap(selectedIndex);
-    }, [selectedIndex]);
-
     const scrollToIndex = useCallback((index: number): void => {
         if (emblaApi) emblaApi.scrollTo(index);
     }, [emblaApi]);
 
     const resetAutoplayTimer = useCallback((): void => {
-        if (emblaApi) emblaApi.plugins().autoplay.reset();
+        if (!emblaApi) return;
+        const plugins = emblaApi.plugins();
+        if (plugins && plugins.autoplay) plugins.autoplay.reset();
     }, [emblaApi]);
+
+    const returnToBeggining = useCallback((): void => {
+        scrollToIndex(0);
+    }, [scrollToIndex]);
+
+    // disponibilizar o slide ativo para camadas superiores
+    useEffect(() => {
+        if (!emblaApi) return;
+        emblaApi.on('slidesChanged', returnToBeggining);
+        return () => {emblaApi.off('slidesChanged', returnToBeggining)};
+    }, [emblaApi, returnToBeggining]);
+
+    useEffect(() => {
+        if (selectedSnap) selectedSnap(selectedIndex);
+    }, [selectedIndex, selectedIndex]);
 
     return (
         <div>

@@ -1,11 +1,10 @@
 'use client';
 // hooks
-import { useContext, useCallback, useMemo } from 'react';
+import { useContext, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import useFirebase from "@/hooks/firebase";
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
-import { toast } from 'react-toastify';
 import DetailsCard from '@/components/molecules/mediaDetailsCard';
 // icones
 import { FaBookmark } from "react-icons/fa6";
@@ -48,15 +47,12 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
         isLoggedIn,
         setUserData
     } = useContext(UserDataContext);
-    const carouselData = useMemo(() => {
-        const data: tmdbObjProps[] | undefined = slidesData?.map(slide => {
-            return {
-                ...slide,
-                isFavorite: (favoriteMovies?.includes(slide.id) || favoriteSeries?.includes(slide.id) && isLoggedIn)
-            };
-        });
-        return data;
-    }, [slidesData, favoriteSeries, favoriteMovies, isLoggedIn]);
+    const carouselData: tmdbObjProps[] | undefined = slidesData?.map(slide => {
+        return {
+            ...slide,
+            isFavorite: (favoriteMovies?.includes(slide.id) || favoriteSeries?.includes(slide.id) && isLoggedIn)
+        };
+    });
 
     // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
     const updateFavorites = useCallback(
@@ -81,8 +77,8 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
             };
         }, [dispatch, isLoggedIn, deleteUserFavoritesOnDb, addUserFavoritesToDb]);
 
-    // lida com a navegaçao
-    const navigate = useCallback((mediaId: string, mediaType: string): void => {
+    // leva para a pagina do player
+    const navigateToPlayer = useCallback((mediaId: string, mediaType: string): void => {
         dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
         if (slidesType === 'mixed' && mediaType) {
             push(`/player/${mediaType}/${mediaId}`);
@@ -101,14 +97,14 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                     '(min-width: 1024px)': { duration: 25, dragFree: false }
                 }}>
                 {/* Gerando slides a partir de um array de objetos retornados pela api do TMDB */}
-                {carouselData.map((media) => (
+                {carouselData.map(media => (
                     (media.poster_path || media.backdrop_path) ? (
                         <div className='embla__slide' key={`default-slide-${media.id}`}>
-                            <div onClick={() => navigate(media.id, media.media_type)} className='img-box'>
+                            <div onClick={() => navigateToPlayer(media.id, media.media_type)} className='img-box'>
                                 {/* icone de favorito */}
                                 {media.isFavorite &&
                                     <div className='bookmark-icon bg-background/60 w-[clamp(28px,3.55vw,36px)] aspect-square rounded-full flex items-center justify-center z-30 absolute top-[clamp(4px,1.2vw,12px)] right-[clamp(4px,1.2vw,12px)] text-primary [font-size:clamp(0.875rem,1.6vw,1rem)]'>
-                                        <FaBookmark /> 
+                                        <FaBookmark />
                                     </div>
                                 }
                                 {/* Imagem do filme/serie */}
@@ -133,7 +129,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                             {/* informações do filme/serie em telas grandes */}
                             <DetailsCard
                                 updateFavorites={updateFavorites}
-                                navigate={navigate}
+                                navigate={navigateToPlayer}
                                 media={media}
                             />
                         </div>
