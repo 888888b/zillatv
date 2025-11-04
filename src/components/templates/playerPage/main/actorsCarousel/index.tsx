@@ -3,8 +3,8 @@
 import EmblaCarousel from "@/components/organisms/emblaSlides";
 import ActorCard from "../actorCard";
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-type ComponentProps = { actorsData: tmdbObjProps[], className?: string };
+import { TmdbMediaProps } from "@/app/types";
+type ComponentProps = { actorsData: TmdbMediaProps[], className?: string };
 
 export default function MainActors(props: ComponentProps) {
     const { actorsData, className } = props;
@@ -16,7 +16,7 @@ export default function MainActors(props: ComponentProps) {
                 navigationType="default"
                 dragFree={true}
                 slidesPerView={'auto'}>
-                {actorsData.map((actor: tmdbObjProps, index) => (
+                {actorsData.map((actor: TmdbMediaProps, index) => (
                     // slide
                     <div className="embla__slide flex flex-col gap-y-3 items-center bg-secondary/10 lg:bg-surface rounded-md p-4" key={`actor-${index}-${actor.id}`}>
                         {/* imagem do ator/atora */}

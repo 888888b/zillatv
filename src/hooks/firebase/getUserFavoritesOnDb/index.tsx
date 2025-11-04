@@ -2,8 +2,8 @@ import {app} from '../index';
 import {getAuth} from 'firebase/auth';
 import {getDatabase, ref as getDatabaseRef, get } from 'firebase/database';
 import { Dispatch, SetStateAction } from 'react';
-import { UserDataProps } from '@/contexts/authenticationContext';
-type SetUserProps = Dispatch<SetStateAction<UserDataProps>>
+import { UserData } from '@/contexts/user';
+type SetUserProps = Dispatch<SetStateAction<UserData>>
 
 export const getUserFavoritesOnDb = async (setUserData: SetUserProps) => {
     const db = getDatabase(app);

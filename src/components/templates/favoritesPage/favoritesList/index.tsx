@@ -1,23 +1,19 @@
 // hooks
 import { useRouter } from "next/navigation";
 import useFirebase from "@/hooks/firebase";
-
 // icones
 import { FaPlay } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
-
 // funções utilitarias
 import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
 import { getRunTime } from "@/utils/tmdbApiData/runtime";
 import { getImdbReviews } from "@/utils/tmdbApiData/reviews";
-
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-
+import { TmdbMediaProps } from "@/app/types";
 import { tmdbConfig } from "@/app/constants";
 
 type ComponentProps = {
-    contentData: tmdbObjProps[]
+    contentData: TmdbMediaProps[]
 };
 
 export default function FavoritesList( props: ComponentProps ) {
@@ -34,7 +30,7 @@ export default function FavoritesList( props: ComponentProps ) {
 
     // funções
     // -------------------------------------------------------------
-    const navigate = ( content: tmdbObjProps ) => {
+    const navigate = ( content: TmdbMediaProps ) => {
         const contentObjKeys = Object.keys( content );
         
         // considera o conteudo como 'serie'
@@ -47,7 +43,7 @@ export default function FavoritesList( props: ComponentProps ) {
         push(`player/movie/${content.id}`, { scroll: true });
     };
 
-    // const deleteFavorite = ( content: tmdbObjProps ) => {
+    // const deleteFavorite = ( content: TmdbMediaProps ) => {
     //     const contentObjKeys = Object.keys( content );
 
     //     // considera o conteudo como 'serie'

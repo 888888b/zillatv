@@ -1,11 +1,16 @@
 // tipos
-import { Action } from "@/contexts/globalEventsContext";
+import { Action as ModalAction } from "@/contexts/modal";
+import { Action as ErrorAction } from '@/contexts/auth';
 import { Dispatch } from "react";
 
-export const openRegisterModal = (dispatch: Dispatch<Action>, msg?: string) => {
-    dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: true });
+export const openRegisterModal = (
+    setModal: Dispatch<ModalAction>, 
+    setError: Dispatch<ErrorAction>, 
+    msg?: string
+    ) => {
+    setModal({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: true });
     if (msg) {
-        dispatch({
+        setError({
             type: 'SET_ERROR', payload: {
                 type: 'formInstructions',
                 message: msg

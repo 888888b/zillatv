@@ -1,20 +1,17 @@
-
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-
+import { TmdbMediaProps } from "@/app/types";
 // Icons com React-icons
 import { AiFillDelete } from "react-icons/ai";
-
 // Fornece funções para interação com serviços do firebase
 import useFirebase from "@/hooks/firebase";
 
 type DeleteFavoriteProps = {
-    content: tmdbObjProps;
+    content: TmdbMediaProps;
 };
 
 export default function DeleteFavorite( props: DeleteFavoriteProps ) {
     const { deleteUserFavoritesOnDb } = useFirebase();
 
-    const deleteFavorite = ( content: tmdbObjProps ) => {
+    const deleteFavorite = ( content: TmdbMediaProps ) => {
         const contentObjKeys = Object.keys( content );
 
         if (contentObjKeys.includes( 'first_air_date' )) {

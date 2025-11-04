@@ -6,11 +6,11 @@ import SectionTitle from "../../sectionTitle";
 // funções utilitarias
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 type carouselProps = { movieId: string, className?: string };
 
 export default async function FetchCarouselData(props: carouselProps) {
-    const moviesList: tmdbObjProps[] = [];
+    const moviesList: TmdbMediaProps[] = [];
     const { movieId, className } = props;
     const { fetchSimilarMovies } = useTmdbFetch();
     const movies = await fetchSimilarMovies(movieId)

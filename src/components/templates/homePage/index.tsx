@@ -8,12 +8,11 @@ import { StopLoading } from "@/components/atoms/stopLoading";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 // utilitarios
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { sortByVoteAverageDesc } from "@/utils/tmdbApiData/sortByAverageNote";
 import { tmdbGenres } from "@/app/constants";
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 type CarouselDataType = {
-    [key: string]: { data: tmdbObjProps[], title: string }
+    [key: string]: { data: TmdbMediaProps[], title: string }
 };
 
 export default async function HomePage() {
@@ -43,7 +42,7 @@ export default async function HomePage() {
                     reject();
                 };
             })
-        )) as tmdbObjProps[];
+        )) as TmdbMediaProps[];
         const filteredHeaderSlides = headerSlides.filter((_, index) => index < 6);
         carouselsData.headerSlides = {
             data: [...filteredHeaderSlides],

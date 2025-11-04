@@ -1,5 +1,5 @@
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 import { Platform, seriesNetworks, moviesProviders }  from '@/app/constants';
 export type ContentType = "movie" | "tv";
 
@@ -7,7 +7,7 @@ export const fetchPlatformContent = async (
     platform: Platform,
     type: ContentType = "tv",
     page: number = 1
-): Promise<tmdbObjProps[] | undefined> => {
+): Promise<TmdbMediaProps[] | undefined> => {
     try {
         const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
         const networkId = seriesNetworks[platform];

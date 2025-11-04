@@ -9,7 +9,7 @@ import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import SimilarMovies from './footer/moviesCarousel';
 import { StopLoading } from '@/components/atoms/stopLoading';
 // tipos
-import { tmdbObjProps } from '@/contexts/tmdbContext';
+import { TmdbMediaProps } from '@/app/types';
 type ComponentProps = { contentId: string; contentType: 'serie' | 'movie' | 'tv' };
 
 import './styles.css';
@@ -17,15 +17,15 @@ import './styles.css';
 export default async function PlayerPage(props: ComponentProps) {
     const { fetchSeriebyId, fetchMovieById } = useTmdbFetch();
     const { searchInfoByTmdbId, searchStreamingsById } = useWatchmode();
-    const contentData: tmdbObjProps[] = [];
+    const contentData: TmdbMediaProps[] = [];
     const { contentType, contentId } = props;
     let streamingsInfo: StreamingsInfo[] | undefined = undefined;
 
     if (contentType === 'movie') {
-        const movie: tmdbObjProps | undefined = await fetchMovieById(contentId);
+        const movie: TmdbMediaProps | undefined = await fetchMovieById(contentId);
         if (movie) contentData.push(movie);
     } else {
-        const serie: tmdbObjProps | undefined = await fetchSeriebyId(contentId);
+        const serie: TmdbMediaProps | undefined = await fetchSeriebyId(contentId);
         if (serie) contentData.push(serie);
     };
     const titleInfo = await searchInfoByTmdbId({

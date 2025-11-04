@@ -6,13 +6,13 @@ import SeriesSection from './seriesSection';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
 // tipos
-import { tmdbObjProps } from '@/contexts/tmdbContext';
+import { TmdbMediaProps } from '@/app/types';
 // utilitarios
 import { checkAvailability } from '@/utils/tmdbApiData/availability';
 import { getContentId } from '@/utils/tmdbApiData/id';
 
 export default async function MoviesPage() {
-    const headerSlides: tmdbObjProps[] = [];
+    const headerSlides: TmdbMediaProps[] = [];
     const { fetchSeriesByIdList, fetchAllTrending } = useTmdbFetch();
     const trendingSeries = await fetchAllTrending('tv');
     const seriesIdsList = await getContentId( trendingSeries );

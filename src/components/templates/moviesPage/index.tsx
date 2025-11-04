@@ -6,13 +6,13 @@ import MoviesSection from './moviesSection';
 import { StopLoading } from '@/components/atoms/stopLoading';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 // tipos
-import { tmdbObjProps } from '@/contexts/tmdbContext';
+import { TmdbMediaProps } from "@/app/types";
 // funções utilitarias
 import { checkAvailability } from '@/utils/tmdbApiData/availability';
 import { getContentId } from '@/utils/tmdbApiData/id';
 
 export default async function MoviesPage() {
-    const contentData: tmdbObjProps[]  = [];
+    const contentData: TmdbMediaProps[]  = [];
     const { fetchMoviesByIdList, fetchReleasedMovies } = useTmdbFetch();
     const releaseMovies = await fetchReleasedMovies();
     const moviesIdList = await getContentId( releaseMovies );

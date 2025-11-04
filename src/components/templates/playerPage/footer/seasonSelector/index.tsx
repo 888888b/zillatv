@@ -8,9 +8,9 @@ import { IoPlay } from "react-icons/io5";
 // utilitarios
 import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 type ComponentProps = {
-    seasonsList: tmdbObjProps[];
+    seasonsList: TmdbMediaProps[];
     getSelectedSeason: (id: string) => void;
     selectedSeason: string;
     isModalActive: boolean;

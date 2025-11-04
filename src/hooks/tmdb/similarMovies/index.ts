@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 // busca filmes similares ao escolhido pelo usuario
-export const fetchSimilarMovies = async ( movieId: string ): Promise<tmdbObjProps[] | undefined> => {
+export const fetchSimilarMovies = async ( movieId: string ): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     try {

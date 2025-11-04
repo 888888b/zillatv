@@ -8,7 +8,8 @@ import {
 } from "react";
 import useFirebase from "@/hooks/firebase";
 // contextos
-import { GlobalEventsContext } from "@/contexts/globalEventsContext";
+import { AuthContext } from "@/contexts/auth";
+import { ModalsContext } from "@/contexts/modal";
 // icones
 import { HiOutlineMail } from "react-icons/hi";
 // componentes
@@ -32,12 +33,10 @@ export default function RegisterModal() {
         signInWithGoogle,
     } = useFirebase();
     // controle do modal de registro
-    const {
-        isRegisterModalActive,
-        dispatch,
-        errors,
-        isUserCreatingAnAccount
-    } = useContext(GlobalEventsContext);
+    const { isUserCreatingAnAccount, errors, ...authRest } = useContext(AuthContext);
+    const setError = authRest.dispatch;
+    const { isRegisterModalActive, ...modalRest } = useContext(ModalsContext);
+    const setModal = modalRest.dispatch;
     const checkboxInputRef = useRef<HTMLInputElement | null>(null);
 
     // Simula um click para o input que exibe/esconde o modal de regitro
@@ -61,9 +60,9 @@ export default function RegisterModal() {
 
     // fecha o modal | reseta qualquer mensagem de erro
     const closeModal = useCallback((): void => {
-        resetAuthErrors(errors, dispatch);
-        dispatch({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: false });
-    }, [dispatch, errors, resetAuthErrors]);
+        resetAuthErrors(errors, setError);
+        setModal({ type: 'IS_REGISTER_MODAL_ACTIVE', payload: false });
+    }, [setError, setModal, errors, resetAuthErrors]);
 
     const googleSignIn = useCallback((): void => {
         signInWithGoogle('register');

@@ -1,6 +1,6 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
-export const fetchTrendingMovies = async (): Promise<tmdbObjProps[] | undefined> => {
+export const fetchTrendingMovies = async (): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     try {

@@ -6,11 +6,11 @@ import EmblaCarousel from '@/components/organisms/emblaSlides';
 import SlideInfoWrapper from './slideInfoWrapper'
 import Image from './image';
 // tipos
-import { tmdbObjProps } from '@/contexts/tmdbContext';
+import { TmdbMediaProps } from '@/app/types';
 import { Path } from '@/utils/tmdbApiData/getLogoPath';
 type HeaderCarouselProps = {
     currentPage: 'home' | 'movies' | 'series';
-    slidesData: tmdbObjProps[] | undefined
+    slidesData: TmdbMediaProps[] | undefined
 };
 // utilitarios
 import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
@@ -33,7 +33,7 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
         medium_resolution_poster
     } = tmdbConfig;
 
-    const getPath = useCallback((media: tmdbObjProps, quality: "low" | "medium" | "high"): string => {
+    const getPath = useCallback((media: TmdbMediaProps, quality: "low" | "medium" | "high"): string => {
         if (media.backdrop_path) {
             if (quality === 'low') return low_resolution_backdrop + media.backdrop_path;
             if (quality === 'medium') return medium_resolution_backdrop + media.backdrop_path;

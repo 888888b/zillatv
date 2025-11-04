@@ -1,6 +1,6 @@
 'use client';
 // hooks
-import { useEffect, useRef, useContext, useState, useCallback } from 'react';
+import { useEffect, useRef, useContext, useCallback } from 'react';
 // componentes
 import SearchBar from '@/components/molecules/searchBar';
 import AuthButtons from './authButtons';
@@ -9,7 +9,7 @@ import MobileMenu from './mobileMenu';
 import ProfileIcon from './profileIcon';
 import Link from 'next/link';
 // contexto
-import { UserDataContext } from '@/contexts/authenticationContext';
+import { UserDataContext } from '@/contexts/user';
 
 import './styles.css';
 

@@ -3,11 +3,10 @@ import { PiPlayBold, PiBookmarkSimpleBold, PiBookmarkSimpleFill } from "react-ic
 // componentes
 import { Tooltip } from "@/components/atoms/tooltip";
 import ShareButton from '@/components/molecules/shareButton';
-import { ToggleFavoriteBtn } from "@/components/atoms/toggleFavoriteBtn";
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 type ComponentProps = { 
-    media: tmdbObjProps;
+    media: TmdbMediaProps;
     navigate: (mediaId: string, mediaType: string) => void;
     updateFavorites: (mediaId: string, mediaType: string, isFavorite: boolean) => void;
 };

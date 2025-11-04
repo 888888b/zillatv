@@ -13,8 +13,8 @@ import { FaPlay } from "react-icons/fa";
 import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
 import { tmdbConfig } from '@/app/constants';
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-type HeaderProps = { playerData: tmdbObjProps };
+import { TmdbMediaProps } from '@/app/types';
+type HeaderProps = { playerData: TmdbMediaProps };
 type MediaImages = {
     lowResolutionImage: string;
     highResolutionImage: string;
@@ -58,7 +58,7 @@ export default function Header(props: HeaderProps) {
     const getTrailerKey = useCallback((): void => {
         if (!playerData) return;
         const keywords = ['dublado', 'Dublado', 'pt', 'BR', 'en', 'legendado', 'Legendado']
-        const videos: tmdbObjProps[] = playerData.videos.results;
+        const videos: TmdbMediaProps[] = playerData.videos.results;
         const video = keywords.map(key => (videos.find(video => JSON.stringify(video).includes(key)))).find(video => video !== undefined);
         const key = video ? video.key : null;
         setVideoID(key);

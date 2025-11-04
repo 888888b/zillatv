@@ -2,13 +2,13 @@ import {app} from '../index';
 import {getAuth} from 'firebase/auth';
 import {getDatabase, ref as getDatabaseRef, get, update} from 'firebase/database';
 import { Dispatch, SetStateAction } from 'react';
-import { UserDataProps } from '@/contexts/authenticationContext';
+import { UserData } from '@/contexts/user';
 
 // Adiciona os filmes/series favoritos do usuario ao banco de dados
 export const addUserFavoritesToDb = async (
     mediaId: string,
     mediaType: string,
-    setUserData: Dispatch<SetStateAction<UserDataProps>>
+    setUserData: Dispatch<SetStateAction<UserData>>
 ): Promise<void> => {
     const db = getDatabase(app);
     const auth = getAuth()

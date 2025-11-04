@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 // busca series com base em palavras chaves
-export const fetchSerieByTerm = async ( term: string ): Promise<tmdbObjProps[] | undefined> => {
+export const fetchSerieByTerm = async ( term: string ): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     try{

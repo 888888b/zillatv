@@ -9,9 +9,9 @@ import { getRunTime } from "@/utils/tmdbApiData/runtime";
 import { tmdbConfig } from "@/app/constants";
 import { setTimeout } from 'timers';
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from '@/app/types';
 type ComponentProps = {
-    episodes: tmdbObjProps[];
+    episodes: TmdbMediaProps[];
     serieName: string;
     seasonNumber: string;
     className?: string;
@@ -21,7 +21,7 @@ type ComponentProps = {
 import './styles.css';
 
 export default function EpisodesCarousel(props: ComponentProps) {
-    const [episodesList, setEpisodesList] = useState<tmdbObjProps[] | null>(null);
+    const [episodesList, setEpisodesList] = useState<TmdbMediaProps[] | null>(null);
     const ref = useRef<HTMLDivElement | null>(null);
     const { high_resolution_still, low_resolution_still } = tmdbConfig;
     const { episodes, serieName, seasonNumber, className, isDataLoading } = props;
@@ -46,7 +46,7 @@ export default function EpisodesCarousel(props: ComponentProps) {
         <div ref={ref} className={`episodes-carousel ${className}`}>
             <EmblaCarousel navigationType='default'>
                 {/* Gerando slides apartir da lista de episodios retornados pela api do TMDB */}
-                {episodesList?.map((episode: tmdbObjProps) => (
+                {episodesList?.map((episode: TmdbMediaProps) => (
                     episode.still_path ? (
                         // slide/episodio
                         <div className="embla__slide bg-surface" key={`episode-${episode.id}`}>

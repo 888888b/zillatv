@@ -1,9 +1,8 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-
+import { TmdbMediaProps } from "@/app/types";
 import { fetchSeriebyId } from "../serieById";
 
 // Busca multiplas series a partir de uma lista de ids
-export const fetchSeriesByIdList = async ( idsList: string[] ): Promise<(tmdbObjProps | undefined)[]> => {
+export const fetchSeriesByIdList = async ( idsList: string[] ): Promise<(TmdbMediaProps | undefined)[]> => {
     return new Promise(( resolve, reject ) => {
         try {
             Promise.all(idsList.map(async ( id ) => {

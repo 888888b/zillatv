@@ -1,27 +1,22 @@
 'use client';
-
 // hooks
 import { useState, useEffect, useContext } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
-
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-
+import { TmdbMediaProps } from "@/app/types";
 // contextos
-import { UserDataContext } from "@/contexts/authenticationContext";
-
+import { UserDataContext } from "@/contexts/user";
 // componentes
 import UnauthenticatedUserMsg from "./unauthenticatedUser";
 import NoFavoritesMsg from "./emptyFavoritesList";
 import FavoritesList from "./favoritesList";
-
 // funções utilitarias
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 
 export default function FavoritesPage() {
 
-    const [contentData, setContentData] = useState<tmdbObjProps[]>([]);
+    const [contentData, setContentData] = useState<TmdbMediaProps[]>([]);
     const {
         fetchMoviesByIdList,
         fetchSeriesByIdList

@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 // Busca filmes com base no genero fornecido
-export const fetchMoviesByGenre = async ( genre: string, page: number = 1 ): Promise<tmdbObjProps[] | undefined> => {
+export const fetchMoviesByGenre = async ( genre: string, page: number = 1 ): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     try {

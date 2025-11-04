@@ -1,6 +1,6 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
-export const fetchMultiTypes = async ( keyword: string ): Promise<tmdbObjProps[] | undefined> => {
+export const fetchMultiTypes = async ( keyword: string ): Promise<TmdbMediaProps[] | undefined> => {
     const api_key = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     try {

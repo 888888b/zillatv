@@ -11,9 +11,9 @@ import WhereToWatch from "./whereToWatch";
 import SectionTitle from '../sectionTitle';
 // tipos
 import { StreamingsInfo } from '@/hooks/watchmode';
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from '@/app/types';
 type ComponentProps = { 
-    mediaData: tmdbObjProps; 
+    mediaData: TmdbMediaProps; 
     mediaType: 'serie' | 'movie' | 'tv';
     streamingsData: StreamingsInfo[] | undefined;
 };
@@ -56,7 +56,7 @@ export default function Main(props: ComponentProps) {
                     {/* Exibe opções de streamings para assistir o filme/serie */}
                     <WhereToWatch data={streamingsData}/>
                     {/* carousel de atores em telas grandes  */}
-                    {mediaData.credits.cast.some((actor: undefined | tmdbObjProps) =>
+                    {mediaData.credits.cast.some((actor: undefined | TmdbMediaProps) =>
                         actor && actor.profile_path) &&
                         <div className='flex-col gap-y-6 hidden lg:flex '>
                             <SectionTitle className='text-center sm:text-left'>
@@ -95,7 +95,7 @@ export default function Main(props: ComponentProps) {
                         </div>
                     </div>
                     {/* carousel de atores em dispositivos moveis */}
-                    {mediaData.credits.cast.some((actor: undefined | tmdbObjProps) =>
+                    {mediaData.credits.cast.some((actor: undefined | TmdbMediaProps) =>
                         actor && actor.profile_path) &&
                         <div className='mt-10 flex flex-col gap-y-6 page-max-width lg:hidden'>
                             <SectionTitle className='text-center sm:text-left page-padding'>

@@ -1,10 +1,10 @@
 'use client';
 
 import { useContext, useEffect } from 'react';
-import { GlobalEventsContext } from '@/contexts/globalEventsContext';
+import { GlobalContext } from '@/contexts/global';
 
 export const StopLoading = () => {
-    const {dispatch} = useContext(GlobalEventsContext);
+    const {dispatch} = useContext(GlobalContext);
     useEffect(() => {
         dispatch({type: 'IS_LOADING_ACTIVE', payload: false});
     }, [dispatch]);

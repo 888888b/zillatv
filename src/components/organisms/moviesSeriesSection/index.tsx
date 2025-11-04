@@ -6,8 +6,8 @@ import useFirebase from '@/hooks/firebase';
 // icones
 import { FaBookmark } from "react-icons/fa";
 // contextos
-import { UserDataContext } from '@/contexts/authenticationContext';
-import { GlobalEventsContext } from '@/contexts/globalEventsContext';
+import { UserDataContext } from '@/contexts/user';
+import { GlobalContext } from '@/contexts/global';
 // utilitarios
 import { tmdbConfig } from '@/app/constants';
 import { openRegisterModal } from '@/utils/context/openRegisterModal';
@@ -15,8 +15,8 @@ import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
 // componentes
 import DetailsCard from '@/components/molecules/mediaDetailsCard';
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-type ComponentProps = { data: tmdbObjProps[], mediaType?: string };
+import { TmdbMediaProps } from "@/app/types";
+type ComponentProps = { data: TmdbMediaProps[], mediaType?: string };
 
 import './styles.css';
 
@@ -37,8 +37,8 @@ export default function MoviesSeriesSection(props: ComponentProps) {
         addUserFavoritesToDb,
         deleteUserFavoritesOnDb
     } = useFirebase();
-    const { dispatch } = useContext(GlobalEventsContext);
-    const cardsData: tmdbObjProps[] | undefined = data?.map(slide => {
+    const { dispatch } = useContext(GlobalContext);
+    const cardsData: TmdbMediaProps[] | undefined = data?.map(slide => {
         return {
             ...slide,
             isFavorite: (favoriteMovies?.includes(slide.id) || favoriteSeries?.includes(slide.id) && isLoggedIn)

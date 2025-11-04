@@ -1,14 +1,11 @@
 // hooks
 import useTmdbFetch from '@/hooks/tmdb';
-
 // componentes
 import SearchResults from '@/components/organisms/moviesSeriesSection';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
-
 // tipos
-import { tmdbObjProps } from '@/contexts/tmdbContext';
-
+import { TmdbMediaProps } from '@/app/types';
 // funções utilitarias
 import { checkAvailability } from '@/utils/tmdbApiData/availability';
 
@@ -19,7 +16,7 @@ type SearchPageProps = {
 };
 
 export default async function SearchPage(props: SearchPageProps) {
-    const contentData: tmdbObjProps[] = [];
+    const contentData: TmdbMediaProps[] = [];
     let contentType: string | undefined;
 
     const {

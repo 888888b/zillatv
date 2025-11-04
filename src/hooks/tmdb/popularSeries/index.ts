@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 // busca series populares entre os usuarios do TMDB
-export const fetchPopularSeries = async (): Promise<tmdbObjProps[] | undefined> => {
+export const fetchPopularSeries = async (): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     try{

@@ -8,7 +8,8 @@ import {
 } from "react";
 import useFirebase from "@/hooks/firebase";
 // contextos
-import { GlobalEventsContext } from "@/contexts/globalEventsContext";
+import { AuthContext } from "@/contexts/auth";
+import { ModalsContext } from "@/contexts/modal";
 // icones
 import { RiUser6Line } from "react-icons/ri";
 // componentes
@@ -32,12 +33,10 @@ export default function LoginModal() {
         signInWithGoogle,
     } = useFirebase();
     // controle do modal de login
-    const {
-        isLoginModalActive,
-        dispatch,
-        errors,
-        isUserLoggingIntoAccount
-    } = useContext(GlobalEventsContext);
+    const { isUserLoggingIntoAccount, errors, ...authRest } = useContext(AuthContext);
+    const setError = authRest.dispatch;
+    const { isLoginModalActive, ...modalRest } = useContext(ModalsContext);
+    const setModal = modalRest.dispatch;
     // ref do input que controla o modal
     const checkboxInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -61,9 +60,9 @@ export default function LoginModal() {
 
     // fecha o modal | reseta qualquer mensagem de erro
     const closeModal = useCallback((): void => {
-        resetAuthErrors(errors, dispatch);
-        dispatch({ type: 'IS_LOGIN_MODAL_ACTIVE', payload: false });
-    }, [dispatch, errors]);
+        resetAuthErrors(errors, setError);
+        setModal({ type: 'IS_LOGIN_MODAL_ACTIVE', payload: false });
+    }, [setError, setModal, errors]);
 
     const googleSignIn = useCallback((): void => {
         signInWithGoogle('login');
@@ -78,7 +77,7 @@ export default function LoginModal() {
                     <div className="flex flex-col justify-start items-center w-[clamp(300px,28vw,400px)]">
                         {errors.formInstructions && (
                             <InputErrorMsg className="border-l-2 border-error pl-4 mb-10">
-                                {errors.formInstructions}  
+                                {errors.formInstructions}
                             </InputErrorMsg>
                         )}
                         {/* icone de usuario */}
@@ -86,7 +85,7 @@ export default function LoginModal() {
                             <RiUser6Line className="text-secondary [font-size:1.5em]" />
                         </div>
                         {/* titulo do modal */}
-                        <ModalTitle className="mt-4" title="Bem vindo !" subtitle="Acesse sua conta"/>
+                        <ModalTitle className="mt-4" title="Bem vindo !" subtitle="Acesse sua conta" />
                         {/* Botão de login com google */}
                         <GoogleAuthButton onClick={googleSignIn} className="mt-10" />
                         {/* Renderiza o erro passado pelo contexto caso houver, se não, renderiza o erro do loginSchema */}
@@ -95,7 +94,7 @@ export default function LoginModal() {
                         )}
                         {/* separador */}
                         <div className="my-6 w-full relative before:w-full before:h-px before:rounded-xl before:bg-secondary/10 before:absolute flex items-center justify-center before:-z-10">
-                            <FormLineSeparator/>
+                            <FormLineSeparator />
                         </div>
                         {/* titulo para o formulario de login */}
                         <FormTitle className="mb-6">Entrar com email</FormTitle>

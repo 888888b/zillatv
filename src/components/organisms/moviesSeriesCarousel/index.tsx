@@ -9,10 +9,12 @@ import DetailsCard from '@/components/molecules/mediaDetailsCard';
 // icones
 import { FaBookmark } from "react-icons/fa6";
 // contextos
-import { UserDataContext } from '@/contexts/authenticationContext';
-import { GlobalEventsContext } from "@/contexts/globalEventsContext";
+import { UserDataContext } from '@/contexts/user';
+import { GlobalContext } from "@/contexts/global";
+import { ModalsContext } from '@/contexts/modal';
+import { AuthContext } from '@/contexts/auth';
 // utilitarios
-import { tmdbObjProps } from '@/contexts/tmdbContext';
+import { TmdbMediaProps } from '@/app/types';
 import { tmdbConfig } from '@/app/constants';
 import { openRegisterModal } from '@/utils/context/openRegisterModal';
 import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
@@ -20,14 +22,16 @@ import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
 import './styles.css';
 // tipos
 type ComponentProps = {
-    slidesData: tmdbObjProps[] | undefined;
+    slidesData: TmdbMediaProps[] | undefined;
     slidesType: 'movie' | 'serie' | 'mixed';
     className?: string;
 };
 
 export default function MoviesSeriesCarousel(props: ComponentProps) {
     const { push } = useRouter();
-    const { dispatch } = useContext(GlobalEventsContext);
+    const setEvent = useContext(GlobalContext).dispatch;
+    const setModal = useContext(ModalsContext).dispatch;
+    const setError = useContext(AuthContext).dispatch;
     const {
         low_resolution_poster,
         low_resolution_backdrop
@@ -47,7 +51,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
         isLoggedIn,
         setUserData
     } = useContext(UserDataContext);
-    const carouselData: tmdbObjProps[] | undefined = slidesData?.map(slide => {
+    const carouselData: TmdbMediaProps[] | undefined = slidesData?.map(slide => {
         return {
             ...slide,
             isFavorite: (favoriteMovies?.includes(slide.id) || favoriteSeries?.includes(slide.id) && isLoggedIn)
@@ -61,7 +65,8 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
             // abre o modal de registro caso o usuario nao esteja logado para completar a ação
             if (!isLoggedIn) {
                 openRegisterModal(
-                    dispatch,
+                    setModal,
+                    setError,
                     'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
                 );
                 return;
@@ -75,17 +80,17 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                 await addUserFavoritesToDb(mediaId, mediaType, setUserData);
                 showSuccessMsg(addingMsg);
             };
-        }, [dispatch, isLoggedIn, deleteUserFavoritesOnDb, addUserFavoritesToDb]);
+        }, [setError, setModal, isLoggedIn, deleteUserFavoritesOnDb, addUserFavoritesToDb]);
 
     // leva para a pagina do player
     const navigateToPlayer = useCallback((mediaId: string, mediaType: string): void => {
-        dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
+        setEvent({ type: 'IS_LOADING_ACTIVE', payload: true });
         if (slidesType === 'mixed' && mediaType) {
             push(`/player/${mediaType}/${mediaId}`);
             return;
         };
         push(`/player/${slidesType}/${mediaId}`);
-    }, [slidesType, dispatch, push]);
+    }, [slidesType, setEvent, push]);
 
     return carouselData ? (
         <div className={`movie-serie-carousel ${className}`}>

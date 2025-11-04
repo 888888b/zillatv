@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 // faz uma busca mais detalhada de um filme com o id fornecido
-export const fetchMovieById = async ( movieId: string ): Promise<tmdbObjProps | undefined> => {
+export const fetchMovieById = async ( movieId: string ): Promise<TmdbMediaProps | undefined> => {
   const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
   try {

@@ -9,9 +9,9 @@ import SectionTitle from "../../sectionTitle";
 // funções utilitarias
 import { handlePromise } from "@/utils/tmdbApiData/promise";
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 type ComponentProps = {
-    seasons: tmdbObjProps[];
+    seasons: TmdbMediaProps[];
     serieId: string;
     serieName: string;
     className?: string;
@@ -20,7 +20,7 @@ type ComponentProps = {
 export default function EpisodesCarousel(props: ComponentProps) {
     const { seasons, serieId, serieName, className } = props;
     const { fetchSeasons } = useTmdbFetch();
-    const [seasonData, setSeasonData] = useState<tmdbObjProps>();
+    const [seasonData, setSeasonData] = useState<TmdbMediaProps>();
     const [selectedSeason, setSelectedSeason] = useState<string>('1')
     const [isModalActive, setIsModalActive] = useState<boolean>(false);
     const [isDataLoading, setIsDataLoading] = useState<boolean>(true);

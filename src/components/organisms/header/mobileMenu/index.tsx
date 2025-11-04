@@ -1,10 +1,8 @@
 // hooks
 import { useRouter, usePathname } from "next/navigation";
 import { useRef, useEffect, useCallback, useContext } from "react";
-
 // contexto
-import { GlobalEventsContext } from "@/contexts/globalEventsContext";
-
+import { GlobalContext } from "@/contexts/global";
 // tipos
 import { ReactNode } from "react";
 
@@ -14,7 +12,7 @@ export default function MobileMenu({ children }: { children: ReactNode }) {
     const navLinksRef = useRef<(HTMLLIElement | null)[]>([]);
     const { push } = useRouter();
     const pathname = usePathname();
-    const { dispatch } = useContext(GlobalEventsContext);
+    const { dispatch } = useContext(GlobalContext);
     const pagePath = usePathname();
 
     // ativa o loading e lida com a navegação

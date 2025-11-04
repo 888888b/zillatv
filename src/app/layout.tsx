@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
-
 // fontes
 import * as fonts from '@/app/fonts/index';
-
 // componentes
 import Header from "@/components/organisms/header";
 import Footer from "@/components/organisms/footer";
@@ -11,12 +9,11 @@ import RegisterModal from "@/components/organisms/registerModal";
 // import ProfileModal from "@/components/profileModal";
 import { ToastContainer } from "react-toastify";
 import Loading from '@/components/molecules/pageLoading';
-
 // contextos
-import { TmdbProvider } from "@/contexts/tmdbContext";
-import { GlobalEventsProvider } from "@/contexts/globalEventsContext";
-import { UserDataProvider } from "@/contexts/authenticationContext";
-
+import { GlobalProvider } from '@/contexts/global'
+import { UserProvider } from "@/contexts/user";
+import { ModalsProvider } from "@/contexts/modal";
+import { AuthProvider } from "@/contexts/auth";
 // estilos
 import "./globals.css";
 import 'react-toastify/ReactToastify.css';
@@ -34,25 +31,27 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-br">
       <body className={` 
-        ${ fonts.raleway.variable } 
-        ${ fonts.inter.variable }
+        ${fonts.raleway.variable} 
+        ${fonts.inter.variable}
         antialiased
       `}>
         <div className="relative overflow-x-hidden max-w-[2000px] mx-auto">
-          <TmdbProvider>
-              <UserDataProvider>
-                <GlobalEventsProvider>
-                  <Loading/>
-                  <Header/>
-                  <LoginModal/>
-                  <RegisterModal/>
+          <GlobalProvider>
+            <AuthProvider>
+              <UserProvider>
+                <ModalsProvider>
+                  <Loading />
+                  <Header />
+                  <LoginModal />
+                  <RegisterModal />
                   {/* <ProfileModal/> */}
-                  <ToastContainer/>
-                  { children }
-                  <Footer/>
-                </GlobalEventsProvider>
-              </UserDataProvider>
-          </TmdbProvider>
+                  <ToastContainer />
+                  {children}
+                  <Footer />
+                </ModalsProvider>
+              </UserProvider>
+            </AuthProvider>
+          </GlobalProvider>
         </div>
       </body>
     </html>

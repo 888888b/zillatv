@@ -1,5 +1,4 @@
 'use client';
-
 // hooks
 import {
     useCallback,
@@ -7,17 +6,14 @@ import {
     useEffect
 } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
-
 // componentes
 import GenreSelect from "@/components/molecules/genreSelect";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
-
 // utilitarios
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 import { tmdbGenres } from "@/app/constants";
-
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 import { Platform, moviesProviders } from '@/app/constants';
 type ComponentProps = {
     className?: string
@@ -34,7 +30,7 @@ export default function MoviesSection(props: ComponentProps) {
     const [
         contentData,
         setContentData
-    ] = useState<tmdbObjProps[] | null>(null);
+    ] = useState<TmdbMediaProps[] | null>(null);
 
     // funções para buscar filmes
     const {

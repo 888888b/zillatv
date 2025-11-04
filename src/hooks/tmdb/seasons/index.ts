@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 // busca as temporadas de uma serie com base no id da serie e numero da temporada
-export const fetchSeasons = async ( serieId: string, seasonNumber: string ): Promise<tmdbObjProps[] | undefined> => {
+export const fetchSeasons = async ( serieId: string, seasonNumber: string ): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
     
     try {

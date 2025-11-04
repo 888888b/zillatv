@@ -1,15 +1,13 @@
 // hooks
 import { useContext, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-
 // contexto
-import { GlobalEventsContext } from '@/contexts/globalEventsContext';
+import { GlobalContext } from '@/contexts/global';
 
-// estilo
 import './styles.css';
 
 export default function NavLinksBar({ isUserLoggedIn }: { isUserLoggedIn: boolean }) {
-    const { dispatch } = useContext(GlobalEventsContext);
+    const { dispatch } = useContext(GlobalContext);
     const { push } = useRouter();
     const pagePath = usePathname();
 

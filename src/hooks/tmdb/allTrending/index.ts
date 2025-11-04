@@ -1,8 +1,8 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 type MediaType = 'movie' | 'tv' | 'all';
 
-export const fetchAllTrending = async (mediaType?: MediaType): Promise<tmdbObjProps[] | undefined> => {
+export const fetchAllTrending = async (mediaType?: MediaType): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
     const type = mediaType ? mediaType : 'all';
     try {

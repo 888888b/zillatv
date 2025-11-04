@@ -1,14 +1,10 @@
 // hooks
 import { useContext, useCallback } from "react";
-
 // contextos
-import { GlobalEventsContext } from "@/contexts/globalEventsContext";
+import { ModalsContext } from "@/contexts/modal";
 
 export default function AuthButtons() {
-
-    const {
-        dispatch
-    } = useContext( GlobalEventsContext );
+    const {dispatch} = useContext(ModalsContext);
 
     const handleLoginButton = useCallback(() => {
         dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: true});

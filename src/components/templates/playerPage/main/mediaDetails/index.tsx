@@ -1,10 +1,10 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from '@/app/types';
 import { useRef, useEffect, useCallback } from 'react';
 
 import './styles.css';
 
 type ComponentProps = {
-    mediaData: tmdbObjProps;
+    mediaData: TmdbMediaProps;
     mediaType: 'serie' | 'movie' | 'tv';
     className?: string;
     updateMediaImgHeight: (height: number) => void;
@@ -60,14 +60,14 @@ export default function ContentDetails(props: ComponentProps) {
     };
     // --------------------------------------------------------------------
     // Obtem o nome dos produtores do filme/serie
-    const getContentProducers = (crew: tmdbObjProps[]): string => {
+    const getContentProducers = (crew: TmdbMediaProps[]): string => {
         const producers = crew.filter(people => people.job === 'Producer');
         if (!producers.length) return 'Informação não disponivel';
         return producers.map(producer => producer.name).join(', ');
     };
     // --------------------------------------------------------------------
     // retorma o novo do criador da serie
-    const getContentCreator = (creators: tmdbObjProps[]): string => {
+    const getContentCreator = (creators: TmdbMediaProps[]): string => {
         if (!creators || !creators.length) return 'Informação não disponivel';
         return creators.map(creator => creator.name).join(', ');
     };

@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 // busca filmes lançamentos com base na data fornecida
-export const fetchReleasedMovies = async ( page: number = 1 ): Promise<tmdbObjProps[] | undefined> => {
+export const fetchReleasedMovies = async ( page: number = 1 ): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
     const newDate = new Date().toISOString().split('T')[0];
 

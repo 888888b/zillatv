@@ -9,7 +9,7 @@ import { InputErrorMsg } from "@/components/atoms/inputErrorMessage";
 import { AuthInput } from "@/components/atoms/authFormInput";
 import { SubmitButton } from "@/components/atoms/authFormSubmitButton";
 // tipos
-import { ErrorMessages } from "@/contexts/globalEventsContext";
+import { ErrorMessages } from "@/contexts/auth";
 
 const loginSchema = z.object({
     email: z.string()

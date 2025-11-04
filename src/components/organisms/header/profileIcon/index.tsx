@@ -1,11 +1,9 @@
 // hooks
 import { useContext, useState } from "react";
 // import useFirebase from "@/components/hooks/firebase";
-
 // contextos
-import { UserDataContext } from "@/contexts/authenticationContext";
+import { UserDataContext } from "@/contexts/user";
 // import { GlobalEventsContext } from "@/contexts/globalEventsContext";
-
 // icones
 // import { TbLogout2 } from "react-icons/tb";
 // import { AiOutlineDelete } from "react-icons/ai";

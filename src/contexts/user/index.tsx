@@ -2,7 +2,7 @@
 
 import React, { createContext, Dispatch, ReactNode, useState } from "react";
 
-export interface UserDataProps {
+export interface UserData {
     isLoggedIn: boolean;
     name: null | string;
     email: null | string;
@@ -12,8 +12,8 @@ export interface UserDataProps {
     uid: null | string;
 };
 
-interface ContextProps extends UserDataProps {
-    setUserData: Dispatch<React.SetStateAction<UserDataProps>>;
+interface ContextProps extends UserData {
+    setUserData: Dispatch<React.SetStateAction<UserData>>;
 };
 
 export const UserDataContext = createContext<ContextProps>({
@@ -27,9 +27,8 @@ export const UserDataContext = createContext<ContextProps>({
     setUserData: () => {}
 });
 
-export const UserDataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-
-    const [ userData, setUserData ] = useState<UserDataProps>({
+export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [ userData, setUserData ] = useState<UserData>({
         isLoggedIn: false,
         name: null,
         email: null,
@@ -38,7 +37,6 @@ export const UserDataProvider: React.FC<{ children: ReactNode }> = ({ children }
         favoriteSeries: null,
         uid: null
     });
-
     return (
         <UserDataContext.Provider value={{ ...userData, setUserData }}>
             { children }

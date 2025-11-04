@@ -1,9 +1,9 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 import { fetchMovieById } from "../movieById";
 
 // Busca multiplos filmes a partir de uma lista de ids
-export const fetchMoviesByIdList = async ( idsList: string[] ): Promise<(tmdbObjProps | undefined)[]> => {
+export const fetchMoviesByIdList = async ( idsList: string[] ): Promise<(TmdbMediaProps | undefined)[]> => {
     return new Promise(( resolve, reject ) => {
         try {
             Promise.all(idsList.map(async ( id ) => {

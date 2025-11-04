@@ -1,7 +1,7 @@
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 
 /*Seleciona os primeiros 7 ids de filmes/series*/
-export const getContentId = async ( data: tmdbObjProps[] | undefined ) => {
+export const getContentId = async ( data: TmdbMediaProps[] | undefined ) => {
     if ( !data ) {
         return [];
     };

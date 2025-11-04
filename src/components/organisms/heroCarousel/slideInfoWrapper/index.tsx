@@ -9,24 +9,24 @@ import PlayButton from "@/components/atoms/playButton";
 import AddToListButton from "@/components/molecules/addToListButton";
 import Genres from '../genres';
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 import { ComponentPropsWithRef } from 'react';
-type ComponentProps = { slideData: tmdbObjProps | undefined } & ComponentPropsWithRef<'div'>;
+type ComponentProps = { slideData: TmdbMediaProps | undefined } & ComponentPropsWithRef<'div'>;
 // icones
 import { FaPlay } from 'react-icons/fa';
 // contexto
-import { GlobalEventsContext } from '@/contexts/globalEventsContext';
+import { GlobalContext } from '@/contexts/global';
 // utilitarios
 import { tmdbConfig } from '@/app/constants';
 import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
 
 export default function SlideInfoWrapper(props: ComponentProps) {
     const { className, slideData, ...rest } = props;
-    const { dispatch } = useContext(GlobalEventsContext);
+    const { dispatch } = useContext(GlobalContext);
     const { push } = useRouter();
     const { high_resolution_logo } = tmdbConfig;
     const logo = getLogoPath(slideData?.images.logos, slideData?.id);
-    const genres: string = slideData?.genres.map((genre: tmdbObjProps) => (genre.name)).filter((_: string, index: number) => index < 2).join(', ');
+    const genres: string = slideData?.genres.map((genre: TmdbMediaProps) => (genre.name)).filter((_: string, index: number) => index < 2).join(', ');
 
     // lida com a nevegaçao entre paginas
     const navigateToPlayer = useCallback((): void => {

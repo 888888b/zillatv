@@ -1,9 +1,9 @@
 // tipos
-import { ErrorMessages, Action } from "@/contexts/globalEventsContext";
+import { ErrorMessages, Action } from "@/contexts/auth";
+import { Dispatch } from "react";
 export type ErrorMessage = keyof ErrorMessages;
-type Dispatch = (value: Action) => void;
 
-export const resetAuthErrors = (authErrors: ErrorMessages, dispatch: Dispatch): void => {
+export const resetAuthErrors = (authErrors: ErrorMessages, dispatch: Dispatch<Action>): void => {
     const errorsList = Object.keys(authErrors) as ErrorMessage[];
     errorsList.forEach((error) => {
         if (authErrors[error]) {

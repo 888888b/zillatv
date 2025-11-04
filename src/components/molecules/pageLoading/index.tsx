@@ -1,11 +1,11 @@
 'use client';
 
 import { useContext, useEffect } from 'react';
-import { GlobalEventsContext } from '@/contexts/globalEventsContext';
+import { GlobalContext } from '@/contexts/global';
 import './styles.css';
 
 export default function Loading() {
-    const { isLoadingActive } = useContext(GlobalEventsContext);
+    const { isLoadingActive } = useContext(GlobalContext);
 
     useEffect(() => {
         if (!document) return;

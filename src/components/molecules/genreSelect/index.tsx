@@ -4,12 +4,12 @@ import { memo, useCallback, useState, useRef } from 'react';
 import { GenreType } from '@/components/templates/moviesPage/moviesSection';
 // componentes
 import { ArrowRight } from '@/components/atoms/arrowRightIcon';
-import { tmdbObjProps } from '@/contexts/tmdbContext';
+import { TmdbMediaProps } from '@/app/types';
 
 type ComponentProps = {
     onSelectGenre: (genre: GenreType) => void;
     selectedGenre: GenreType;
-    genres: tmdbObjProps;
+    genres: TmdbMediaProps;
 };
 
 const GenreSelect = memo((props: ComponentProps) => {

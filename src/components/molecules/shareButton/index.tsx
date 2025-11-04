@@ -1,10 +1,10 @@
 // icones
 import { PiShareFatBold } from "react-icons/pi";
 // tipos
-import { tmdbObjProps } from "@/contexts/tmdbContext";
+import { TmdbMediaProps } from "@/app/types";
 type ComponentProps = {
     className?: string;
-    media: tmdbObjProps;
+    media: TmdbMediaProps;
 };
 // componentes
 import { toast } from "react-toastify";

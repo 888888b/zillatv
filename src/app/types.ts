@@ -1,0 +1,1 @@
+export type TmdbMediaProps = {[key: string]: any}; 

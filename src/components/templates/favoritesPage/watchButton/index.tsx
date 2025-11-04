@@ -1,18 +1,15 @@
 import { useRouter } from "next/navigation";
-
 // Icons com React-icons
 import { FaPlay } from "react-icons/fa";
-
-import { tmdbObjProps } from "@/contexts/tmdbContext";
-
+import { TmdbMediaProps } from "@/app/types";
 type WatchButtonProps = {
-    content: tmdbObjProps;
+    content: TmdbMediaProps;
 };
 
 export default function WatchButton( props: WatchButtonProps ) {
     const router = useRouter();
 
-    const nextNavigate = ( content: tmdbObjProps ) => {
+    const nextNavigate = ( content: TmdbMediaProps ) => {
         const contentObjKeys = Object.keys( content );
 
         if (contentObjKeys.includes( 'first_air_date' )) {
