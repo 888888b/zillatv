@@ -8,6 +8,7 @@
     width: 3.7em;
     transform-origin: center;
     animation: rotate4 2s linear infinite;
+    transform: translateZ(0);
 }
 
 .svg-loading-box circle {
