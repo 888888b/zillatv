@@ -5,24 +5,9 @@ nav ul li {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 500;
     font-size: clamp(1rem, 1.15vw, 1.125rem);
-    color: color-mix(in oklab, var(--color-secondary) 90%, transparent);
-}
-nav ul li::before {
-    content: '';
-    width: 0;
-    height: 0.08em;
-    border-radius: 0.32px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: var(--color-primary);
-    bottom: -5px;
-    left: 0px;
-    position: absolute;
+    color: var(--color-text);
 }
 
 nav ul li:hover {
-    color: var(--color-primary);
-}
-
-nav ul li:hover::before {
-    width: 100%;
+    color: var(--color-secondary);
 }

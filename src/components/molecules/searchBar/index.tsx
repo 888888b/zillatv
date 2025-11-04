@@ -84,7 +84,7 @@ export default function SearchBar(props: SearchBarProps) {
         <form className={`rounded-md border-[0.1rem] overflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 h-10 lg:h-12 ${isAnimated && 'w-10 lg:w-12'} ${className}`} onSubmit={(e) => e.preventDefault()} {...inputMouseEvents} ref={inputBoxRef}>
             {/* icone de lupa */}
             <Image
-                src={'/search_icon.png'}
+                src={'/search_icon.svg'}
                 alt={'search icon'}
                 width={24}
                 height={24}

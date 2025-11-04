@@ -61,7 +61,7 @@ export default function Header() {
                             src='/project_logo.svg'
                             alt='Imagem logo do ZillaTV'
                             loading='lazy'
-                            className='h-7 w-fit lg:h-[clamp(1.875rem,2vw,2rem)] cursor-pointer'
+                            className='h-7 w-fit lg:h-[clamp(1.875rem,2vw,2rem)] cursor-pointer hidden lg:block'
                         />
                     </Link>
 

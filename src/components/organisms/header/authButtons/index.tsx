@@ -30,7 +30,7 @@ export default function AuthButtons() {
 
             {/* botão de login */}
             <button 
-                className="px-[1.25em] bg-secondary text-background cursor-pointer rounded-md h-10 font-semibold md:px-0 md:bg-transparent md:text-secondary md:font-medium"
+                className="px-[1.25em] bg-secondary text-background cursor-pointer rounded-md h-10 font-semibold md:px-0 md:bg-transparent md:text-text md:hover:text-secondary md:transition-colors md:duration-300 md:font-medium"
                 onClick={handleLoginButton}>
                 Entrar
             </button>
