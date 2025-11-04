@@ -7,7 +7,9 @@ import useFirebase from '@/hooks/firebase';
 import { FaBookmark } from "react-icons/fa";
 // contextos
 import { UserDataContext } from '@/contexts/user';
-import { GlobalContext } from '@/contexts/global';
+import { GlobalContext } from "@/contexts/global";
+import { ModalsContext } from '@/contexts/modal';
+import { AuthContext } from '@/contexts/auth';
 // utilitarios
 import { tmdbConfig } from '@/app/constants';
 import { openRegisterModal } from '@/utils/context/openRegisterModal';
@@ -23,6 +25,9 @@ import './styles.css';
 export default function MoviesSeriesSection(props: ComponentProps) {
     const { data } = props;
     const { push } = useRouter();
+    const setEvent = useContext(GlobalContext).dispatch;
+    const setModal = useContext(ModalsContext).dispatch;
+    const setError = useContext(AuthContext).dispatch;
     const {
         isLoggedIn,
         favoriteMovies,
@@ -37,7 +42,6 @@ export default function MoviesSeriesSection(props: ComponentProps) {
         addUserFavoritesToDb,
         deleteUserFavoritesOnDb
     } = useFirebase();
-    const { dispatch } = useContext(GlobalContext);
     const cardsData: TmdbMediaProps[] | undefined = data?.map(slide => {
         return {
             ...slide,
@@ -52,7 +56,8 @@ export default function MoviesSeriesSection(props: ComponentProps) {
             // abre o modal de registro caso o usuario nao esteja logado para completar a ação
             if (!isLoggedIn) {
                 openRegisterModal(
-                    dispatch,
+                    setModal,
+                    setError,
                     'Faça login ou crie uma conta para adicionar filmes e series aos seus favoritos'
                 );
                 return;
@@ -66,13 +71,13 @@ export default function MoviesSeriesSection(props: ComponentProps) {
                 await addUserFavoritesToDb(mediaId, mediaType, setUserData);
                 showSuccessMsg(addingMsg);
             };
-        }, [dispatch, isLoggedIn, deleteUserFavoritesOnDb, addUserFavoritesToDb]);
+        }, [setModal, setError, isLoggedIn, deleteUserFavoritesOnDb, addUserFavoritesToDb]);
 
     // leva para a pagina do player
     const navigateToPlayer = useCallback((mediaId: string, mediaType: string) => {
-        dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
+        setEvent({ type: 'IS_LOADING_ACTIVE', payload: true });
         push(`player/${mediaType}/${mediaId}`);
-    }, [push, dispatch]);
+    }, [push, setEvent]);
 
     return cardsData ? (
         <>
