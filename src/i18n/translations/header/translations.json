@@ -1,0 +1,80 @@
+{
+    "pt-BR": {
+        "movies": "Filmes",
+        "series": "Séries",
+        "home": "Início",
+        "favorites": "Favoritos"
+    },
+    "en-US": {
+        "movies": "Movies",
+        "series": "Series",
+        "home": "Home",
+        "favorites": "Favorites"
+    },
+    "es-ES": {
+        "movies": "Películas",
+        "series": "Series",
+        "home": "Inicio",
+        "favorites": "Favoritos"
+    },
+    "es-MX": {
+        "movies": "Películas",
+        "series": "Series",
+        "home": "Inicio",
+        "favorites": "Favoritos"
+    },
+    "fr-FR": {
+        "movies": "Films",
+        "series": "Séries",
+        "home": "Accueil",
+        "favorites": "Favoris"
+    },
+    "de-DE": {
+        "movies": "Filme",
+        "series": "Serien",
+        "home": "Startseite",
+        "favorites": "Favoriten"
+    },
+    "it-IT": {
+        "movies": "Film",
+        "series": "Serie",
+        "home": "Home",
+        "favorites": "Preferiti"
+    },
+    "ja-JP": {
+        "movies": "映画",
+        "series": "シリーズ",
+        "home": "ホーム",
+        "favorites": "お気に入り"
+    },
+    "ko-KR": {
+        "movies": "영화",
+        "series": "시리즈",
+        "home": "홈",
+        "favorites": "즐겨찾기"
+    },
+    "zh-CN": {
+        "movies": "电影",
+        "series": "剧集",
+        "home": "首页",
+        "favorites": "收藏"
+    },
+    "zh-TW": {
+        "movies": "電影",
+        "series": "影集",
+        "home": "首頁",
+        "favorites": "收藏"
+    },
+    "ru-RU": {
+        "movies": "Фильмы",
+        "series": "Сериалы",
+        "home": "Главная",
+        "favorites": "Избранное"
+    },
+    "ar-SA": {
+        "movies": "الأفلام",
+        "series": "المسلسلات",
+        "home": "الرئيسية",
+        "favorites": "المفضلة"
+    }
+}

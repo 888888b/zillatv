@@ -7,7 +7,7 @@ import { RiGlobalLine } from "react-icons/ri";
 // contexto
 import useLanguage from '@/hooks/lang';
 // linguagens
-import languages from '@/i18n/languages.json';
+import { languages } from '@/i18n/languages';
 // tipo
 import { Lang } from '@/contexts/lang';
 

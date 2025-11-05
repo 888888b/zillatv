@@ -1,0 +1,106 @@
+{
+    "pt-BR": {
+        "view_similar": "Ver similares",
+        "watch": "Assistir",
+        "create_account": "Criar conta",
+        "login": "Entrar",
+        "select_season": "Selecione uma temporada",
+        "genre": "Gênero"
+    },
+    "en-US": {
+        "view_similar": "View similar",
+        "watch": "Watch",
+        "create_account": "Create account",
+        "login": "Sign in",
+        "select_season": "Select a season",
+        "genre": "Genre"
+    },
+    "es-ES": {
+        "view_similar": "Ver similares",
+        "watch": "Ver",
+        "create_account": "Crear cuenta",
+        "login": "Iniciar sesión",
+        "select_season": "Selecciona una temporada",
+        "genre": "Género"
+    },
+    "es-MX": {
+        "view_similar": "Ver similares",
+        "watch": "Ver",
+        "create_account": "Crear cuenta",
+        "login": "Iniciar sesión",
+        "select_season": "Selecciona una temporada",
+        "genre": "Género"
+    },
+    "fr-FR": {
+        "view_similar": "Voir similaires",
+        "watch": "Regarder",
+        "create_account": "Créer un compte",
+        "login": "Se connecter",
+        "select_season": "Sélectionnez une saison",
+        "genre": "Genre"
+    },
+    "de-DE": {
+        "view_similar": "Ähnliche anzeigen",
+        "watch": "Ansehen",
+        "create_account": "Konto erstellen",
+        "login": "Anmelden",
+        "select_season": "Staffel auswählen",
+        "genre": "Genre"
+    },
+    "it-IT": {
+        "view_similar": "Vedi simili",
+        "watch": "Guarda",
+        "create_account": "Crea account",
+        "login": "Accedi",
+        "select_season": "Seleziona una stagione",
+        "genre": "Genere"
+    },
+    "ja-JP": {
+        "view_similar": "類似作品を見る",
+        "watch": "視聴",
+        "create_account": "アカウント作成",
+        "login": "ログイン",
+        "select_season": "シーズンを選択",
+        "genre": "ジャンル"
+    },
+    "ko-KR": {
+        "view_similar": "비슷한 작품 보기",
+        "watch": "보기",
+        "create_account": "계정 생성",
+        "login": "로그인",
+        "select_season": "시즌 선택",
+        "genre": "장르"
+    },
+    "zh-CN": {
+        "view_similar": "查看类似",
+        "watch": "观看",
+        "create_account": "创建账号",
+        "login": "登录",
+        "select_season": "选择季",
+        "genre": "类型"
+    },
+    "zh-TW": {
+        "view_similar": "查看類似",
+        "watch": "觀看",
+        "create_account": "建立帳號",
+        "login": "登入",
+        "select_season": "選擇季",
+        "genre": "類型"
+    },
+    "ru-RU": {
+        "view_similar": "Похожие фильмы",
+        "watch": "Смотреть",
+        "create_account": "Создать аккаунт",
+        "login": "Войти",
+        "select_season": "Выбрать сезон",
+        "genre": "Жанр"
+    },
+    "ar-SA": {
+        "view_similar": "عرض مشابه",
+        "watch": "مشاهدة",
+        "create_account": "إنشاء حساب",
+        "login": "تسجيل الدخول",
+        "select_season": "اختر الموسم",
+        "genre": "النوع"
+    }
+}

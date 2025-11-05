@@ -1,7 +1,8 @@
 "use client";
 import { createContext, useEffect, useState, ReactNode } from "react";
+import { LangCode, LangLabel } from "@/i18n/languages";
 
-export type Lang = { code: string, label: string };
+export type Lang = { code: LangCode, label: LangLabel };
 
 export type LanguageContextType = {
     language: Lang;

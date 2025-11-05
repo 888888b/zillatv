@@ -1,0 +1,106 @@
+{
+    "pt-BR": {
+        "content_api": "Conteúdos & API",
+        "discover_follow": "Descubra e acompanhe tudo sobre seus filmes e séries favoritas!",
+        "about_project": "Sobre o Projeto",
+        "description_api": "As informações sobre filmes e séries exibidas nesta plataforma são fornecidas pela API do The Movie Database (TMDB). Todos os direitos autorais pertencem aos seus respectivos detentores.",
+        "description_project": "O ZillaTV é uma plataforma dedicada a reunir informações sobre filmes e séries. Seu objetivo é oferecer detalhes, sinopses e dados organizados de forma simples e acessível, ajudando você a descobrir e acompanhar suas produções favoritas.",
+        "copyright": "ZillaTV - Todos os direitos reservados"
+    },
+    "en-US": {
+        "content_api": "Content & API",
+        "discover_follow": "Discover and follow everything about your favorite movies and series!",
+        "about_project": "About the Project",
+        "description_api": "Movie and series information shown on this platform is provided by The Movie Database (TMDB). All copyrights belong to their respective owners.",
+        "description_project": "ZillaTV is a platform dedicated to gathering information about movies and series. Its goal is to offer details, synopses, and organized data in a simple and accessible way, helping you discover and follow your favorite productions.",
+        "copyright": "ZillaTV - All rights reserved"
+    },
+    "es-ES": {
+        "content_api": "Contenido & API",
+        "discover_follow": "¡Descubre y sigue todo sobre tus películas y series favoritas!",
+        "about_project": "Sobre el Proyecto",
+        "description_api": "La información sobre películas y series mostrada en esta plataforma es proporcionada por The Movie Database (TMDB). Todos los derechos de autor pertenecen a sus respectivos propietarios.",
+        "description_project": "ZillaTV es una plataforma dedicada a recopilar información sobre películas y series. Su objetivo es ofrecer detalles, sinopsis y datos organizados de forma simple y accesible, ayudándole a descubrir y seguir sus producciones favoritas.",
+        "copyright": "ZillaTV - Todos los derechos reservados"
+    },
+    "es-MX": {
+        "content_api": "Contenido & API",
+        "discover_follow": "¡Descubre y sigue todo sobre tus películas y series favoritas!",
+        "about_project": "Sobre el Proyecto",
+        "description_api": "La información sobre películas y series mostrada en esta plataforma es proporcionada por The Movie Database (TMDB). Todos los derechos de autor pertenecen a sus respectivos propietarios.",
+        "description_project": "ZillaTV es una plataforma dedicada a recopilar información sobre películas y series. Su objetivo es ofrecer detalles, sinopsis y datos organizados de forma sencilla y accesible, ayudándote a descubrir y seguir tus producciones favoritas.",
+        "copyright": "ZillaTV - Todos los derechos reservados"
+    },
+    "fr-FR": {
+        "content_api": "Contenus & API",
+        "discover_follow": "Découvrez et suivez tout sur vos films et séries préférés !",
+        "about_project": "À propos du projet",
+        "description_api": "Les informations sur les films et séries présentées sur cette plateforme proviennent de l'API The Movie Database (TMDB). Tous les droits d'auteur appartiennent à leurs propriétaires respectifs.",
+        "description_project": "ZillaTV est une plateforme dédiée à rassembler des informations sur les films et séries. Son objectif est d'offrir des détails, des synopsis et des données organisées de manière simple et accessible pour vous aider à découvrir et suivre vos productions préférées.",
+        "copyright": "ZillaTV - Tous droits réservés"
+    },
+    "de-DE": {
+        "content_api": "Inhalte & API",
+        "discover_follow": "Entdecken und verfolgen Sie alles über Ihre Lieblingsfilme und -serien!",
+        "about_project": "Über das Projekt",
+        "description_api": "Die auf dieser Plattform angezeigten Film- und Serieninformationen werden von der The Movie Database (TMDB) bereitgestellt. Alle Urheberrechte liegen bei ihren jeweiligen Eigentümern.",
+        "description_project": "ZillaTV ist eine Plattform, die sich der Sammlung von Informationen über Filme und Serien widmet. Ziel ist es, Details, Zusammenfassungen und organisierte Daten auf einfache und zugängliche Weise bereitzustellen, um Ihnen zu helfen, Ihre Lieblingsproduktionen zu entdecken und zu verfolgen.",
+        "copyright": "ZillaTV - Alle Rechte vorbehalten"
+    },
+    "it-IT": {
+        "content_api": "Contenuti & API",
+        "discover_follow": "Scopri e segui tutto sui tuoi film e serie preferiti!",
+        "about_project": "Informazioni sul Progetto",
+        "description_api": "Le informazioni su film e serie mostrate su questa piattaforma sono fornite da The Movie Database (TMDB). Tutti i diritti d'autore appartengono ai rispettivi proprietari.",
+        "description_project": "ZillaTV è una piattaforma dedicata a raccogliere informazioni su film e serie. Il suo obiettivo è offrire dettagli, sinossi e dati organizzati in modo semplice e accessibile, aiutandoti a scoprire e seguire le tue produzioni preferite.",
+        "copyright": "ZillaTV - Tutti i diritti riservati"
+    },
+    "ja-JP": {
+        "content_api": "コンテンツ & API",
+        "discover_follow": "お気に入りの映画やシリーズについてすべてを発見し、追いかけましょう！",
+        "about_project": "プロジェクトについて",
+        "description_api": "このプラットフォームで表示される映画やシリーズの情報は、The Movie Database (TMDB) によって提供されています。著作権はそれぞれの権利者に帰属します。",
+        "description_project": "ZillaTVは映画やシリーズに関する情報を収集することに特化したプラットフォームです。シンプルでアクセスしやすい形式で詳細、概要、整理されたデータを提供し、お気に入りの作品を発見・追跡する手助けをします。",
+        "copyright": "ZillaTV - 全著作権所有"
+    },
+    "ko-KR": {
+        "content_api": "콘텐츠 & API",
+        "discover_follow": "좋아하는 영화와 시리즈의 모든 것을 발견하고 함께하세요!",
+        "about_project": "프로젝트 소개",
+        "description_api": "이 플랫폼에 표시된 영화 및 시리즈 정보는 The Movie Database (TMDB)에서 제공됩니다. 모든 저작권은 각 소유자에게 있습니다.",
+        "description_project": "ZillaTV는 영화와 시리즈 정보를 모으는 데 전념하는 플랫폼입니다. 단순하고 접근하기 쉬운 방식으로 세부 정보, 줄거리, 정리된 데이터를 제공하여 사용자가 좋아하는 작품을 발견하고 팔로우할 수 있도록 돕습니다.",
+        "copyright": "ZillaTV - 모든 권리 보유"
+    },
+    "zh-CN": {
+        "content_api": "内容与API",
+        "discover_follow": "发现并追踪你最喜爱的电影和剧集的一切！",
+        "about_project": "关于项目",
+        "description_api": "此平台显示的电影和剧集信息由 The Movie Database (TMDB) 提供。所有版权归其各自所有者所有。",
+        "description_project": "ZillaTV 是一个专注于收集电影和剧集信息的平台。其目标是以简单易懂的方式提供详细信息、简介和整理的数据，帮助您发现并关注您喜欢的作品。",
+        "copyright": "ZillaTV - 版权所有"
+    },
+    "zh-TW": {
+        "content_api": "內容與API",
+        "discover_follow": "探索並追蹤你最喜愛的電影和影集的所有資訊！",
+        "about_project": "關於專案",
+        "description_api": "此平台顯示的電影與影集資訊由 The Movie Database (TMDB) 提供。所有版權皆屬其各自所有者所有。",
+        "description_project": "ZillaTV 是一個致力於收集電影與影集資訊的平台，目標是以簡單易懂的方式提供詳細資訊、簡介與整理後的資料，幫助您探索並追蹤喜愛的作品。",
+        "copyright": "ZillaTV - 版權所有"
+    },
+    "ru-RU": {
+        "content_api": "Контент и API",
+        "discover_follow": "Откройте и следите за всем, что связано с вашими любимыми фильмами и сериалами!",
+        "about_project": "О проекте",
+        "description_api": "Информация о фильмах и сериалах на этой платформе предоставляется The Movie Database (TMDB). Все авторские права принадлежат их владельцам.",
+        "description_project": "ZillaTV — это платформа, посвящённая сбору информации о фильмах и сериалах. Её цель — предоставлять детали, описания и структурированные данные в простом и доступном формате, помогая вам открывать и следить за любимыми проектами.",
+        "copyright": "ZillaTV - Все права защищены"
+    },
+    "ar-SA": {
+        "content_api": "المحتوى وواجهة API",
+        "discover_follow": "اكتشف وتابع كل ما يتعلق بأفلامك ومسلسلاتك المفضلة!",
+        "about_project": "حول المشروع",
+        "description_api": "يتم توفير معلومات الأفلام والمسلسلات المعروضة على هذه المنصة بواسطة قاعدة بيانات الأفلام (TMDB). جميع حقوق النشر محفوظة لأصحابها.",
+        "description_project": "ZillaTV هي منصة مخصصة لجمع المعلومات حول الأفلام والمسلسلات، وهدفها توفير التفاصيل والملخصات والبيانات المنظمة بطريقة بسيطة وسهلة الوصول، لمساعدتك على اكتشاف ومتابعة أعمالك المفضلة.",
+        "copyright": "ZillaTV - جميع الحقوق محفوظة"
+    }
+}
