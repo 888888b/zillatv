@@ -1,12 +1,13 @@
+// icons
 import { FaGithubSquare, FaLinkedin, FaWhatsappSquare } from "react-icons/fa";
-import { BsFillPlayFill } from "react-icons/bs";
-import { RiGlobalLine } from "react-icons/ri";
+// componentes
+import LangSelector from '@/components/molecules/langSelector';
 
 export default function Footer({ className }: { className?: string }) {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 ${className}`}>
+        <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 relative z-50 ${className}`} style={{overflow: 'visible'}}>
             <div className="page-padding page-max-width flex gap-12 flex-wrap items-center justify-between xl:flex-nowrap xl:justify-center xl:items-start xl:gap-16 xl:mx-auto">
                 <aside>
                     {/* logo do projeto */}
@@ -27,11 +28,7 @@ export default function Footer({ className }: { className?: string }) {
                         </a>
                     </div>
                     {/* selecionar / trocar idioma da pagina */}
-                    <button className="outline-0 h-[clamp(40px,4.8vw,48px)] rounded-md border-2 border-secondary/30 px-[1em] flex items-center font-semibold gap-x-2 [font-size:clamp(0.875rem,1vw,1rem)] cursor-pointer">
-                        <RiGlobalLine className="[font-size:clamp(22px,1.5vw,24px)]" />
-                        Português (Brazil)
-                        <BsFillPlayFill className="rotate-90" />
-                    </button>
+                    <LangSelector/>
                 </aside>
 
                 {/* informações adicionais sobre o projeto */}

@@ -14,6 +14,7 @@ import { GlobalProvider } from '@/contexts/global'
 import { UserProvider } from "@/contexts/user";
 import { ModalsProvider } from "@/contexts/modal";
 import { AuthProvider } from "@/contexts/auth";
+import { LanguageProvider } from "@/contexts/lang";
 // estilos
 import "./globals.css";
 import 'react-toastify/ReactToastify.css';
@@ -40,14 +41,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <AuthProvider>
               <UserProvider>
                 <ModalsProvider>
-                  <Loading />
-                  <Header />
-                  <LoginModal />
-                  <RegisterModal />
-                  {/* <ProfileModal/> */}
-                  <ToastContainer />
-                  {children}
-                  <Footer />
+                  <LanguageProvider>
+                    <Loading />
+                    <Header />
+                    <LoginModal />
+                    <RegisterModal />
+                    {/* <ProfileModal/> */}
+                    <ToastContainer />
+                    {children}
+                    <Footer />
+                  </LanguageProvider>
                 </ModalsProvider>
               </UserProvider>
             </AuthProvider>
