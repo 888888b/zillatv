@@ -2,17 +2,17 @@
 import useTmdbFetch from "@/hooks/tmdb";
 // componentes
 import HeaderCarousel from "@/components/organisms/heroCarousel";
-import MovieSerieCarousel from "@/components/organisms/moviesSeriesCarousel";
-import { CarouselTitle } from "@/components/atoms/carouselTitle";
 import { StopLoading } from "@/components/atoms/stopLoading";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
+import CarouselWrapper from './CarouselWrapper';
 // utilitarios
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { tmdbGenres } from "@/app/constants";
+import { homeCarouselGenres as titles } from "@/app/constants";
 // tipos
 import { TmdbMediaProps } from "@/app/types";
+import { CarouselTitleType } from "@/app/types";
 type CarouselDataType = {
-    [key: string]: { data: TmdbMediaProps[], title: string }
+    [key: string]: { data: TmdbMediaProps[], title?: CarouselTitleType }
 };
 
 export default async function HomePage() {
@@ -44,14 +44,11 @@ export default async function HomePage() {
             })
         )) as TmdbMediaProps[];
         const filteredHeaderSlides = headerSlides.filter((_, index) => index < 6);
-        carouselsData.headerSlides = {
-            data: [...filteredHeaderSlides],
-            title: ''
-        };
+        carouselsData.headerSlides = {data: [...filteredHeaderSlides]}
         // filmes / series em trending
         carouselsData.allTrending = {
             data: [...allTrendingsAvailable],
-            title: tmdbGenres.trending.title
+            title: titles.trending.title
         }
         // --- Netflix ---
         const netflixSeries = await fetchPlatformContent('netflix', 'tv');
@@ -62,7 +59,7 @@ export default async function HomePage() {
             data: [
                 ...filteredNetflixSeries.map(item => ({ ...item, media_type: 'tv' })),
                 ...filteredNetflixMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.netflix.title
+            title: titles.netflix.title
         };
         // --- Disney+ ---
         const disneySeries = await fetchPlatformContent("disneyPlus", "tv");
@@ -73,7 +70,7 @@ export default async function HomePage() {
             data: [
                 ...filteredDisneySeries.map(item => ({ ...item, media_type: 'tv' })),
                 ...filteredDisneyMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.disneyPlus.title
+            title: titles.disneyPlus.title
         };
 
         // --- HBO / Max ---
@@ -85,7 +82,7 @@ export default async function HomePage() {
             data: [
                 ...filteredHboSeries.map(item => ({ ...item, media_type: 'tv' })),
                 ...filteredHboMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.HBO.title
+            title: titles.HBO.title
         };
 
         // --- paramount ---
@@ -97,7 +94,7 @@ export default async function HomePage() {
             data: [
                 ...filteredParamountSeries.map(item => ({ ...item, media_type: 'tv' })),
                 ...filteredParamountMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.paramount.title
+            title: titles.paramount.title
         };
 
         // --- Prime Video ---
@@ -109,7 +106,7 @@ export default async function HomePage() {
             data: [
                 ...filteredPrimeSeries.map(item => ({ ...item, media_type: 'tv' })),
                 ...filteredPrimeMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: tmdbGenres.primeVideo.title
+            title: titles.primeVideo.title
         };
         isDataLoaded = true;
     } catch (error) {
@@ -126,26 +123,13 @@ export default async function HomePage() {
             {/* main carousels */}
             <div className="flex flex-col mt-12 mb-16 relative z-10 sm:-mt-[clamp(0px,5.5vw,56px)]">
                 {Object.values(carouselsData).map((carousel, index) => (
-                    index > 0 &&
-                    <div key={`home-main-carousel-${index}`}>
-                        {/* linha divisoria */}
-                        {index !== 1 &&
-                            <div className="w-full h-px my-8 bg-secondary/5 lg:bg-secondary/10 md:invisible" />
-                        }
-                        {/* Carousel com desenhos/animes */}
-                        <div className="flex flex-col gap-y-6 page-max-width">
-                            {/* Titulo */}
-                            <CarouselTitle className="justify-between sm:justify-start page-padding">
-                                {carousel.title}
-                            </CarouselTitle>
-                            {/* Carousel */}
-                            <MovieSerieCarousel
-                                slidesData={carousel.data}
-                                slidesType='mixed'
-                                className={carousel.title.toLowerCase()}
-                            />
-                        </div>
-                    </div>
+                    index > 0 && carousel.title &&
+                    <CarouselWrapper 
+                        key={`home-carousel-${carousel.title}`}
+                        title={carousel.title} 
+                        data={carousel.data}
+                        index={index}
+                    />
                 ))}
             </div>
             {/* volta ao top sempre que a pagina carrega */}
