@@ -1,6 +1,9 @@
 // hooks
-import {  ComponentProps, useCallback, useEffect, useRef } from "react";
+import {  useCallback, useEffect, useRef } from "react";
+import useLanguage from '@/hooks/lang';
 import { useRouter, usePathname } from "next/navigation";
+// translations
+import translations from '@/i18n/translations/buttons/translations.json';
 // componente
 import Image from "next/image";
 // estilo
@@ -20,6 +23,8 @@ export default function SearchBar(props: SearchBarProps) {
     const inputBoxRef = useRef<HTMLFormElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const resetBtnRef = useRef<HTMLButtonElement | null>(null);
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
 
     // ativada sempre que o mouse sai da area da barra de pesquisa 
     const onMouseOutSearchBar = useCallback((): void => {
@@ -96,7 +101,7 @@ export default function SearchBar(props: SearchBarProps) {
                 type='text'
                 name="search-input"
                 className='appearance-none outline-none border-none h-full text-base text-secondary placeholder:text-text placeholder:font-normal w-full font-medium px-10 lg:px-12'
-                placeholder='Buscar filmes e séries'
+                placeholder={text.search_movies_series}
                 autoComplete='additional-name webauthn'
                 maxLength={70}
                 ref={inputRef}

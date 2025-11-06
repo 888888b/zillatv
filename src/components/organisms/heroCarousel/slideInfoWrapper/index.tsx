@@ -1,6 +1,9 @@
 // hooks
 import { useCallback, useContext } from 'react';
 import { useRouter } from 'next/navigation';
+import useLanguage from '@/hooks/lang'
+// translations
+import translations from '@/i18n/translations/buttons/translations.json';
 // componentes
 import Title from "../title";
 import Logo from "../logo";
@@ -27,6 +30,8 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     const { high_resolution_logo } = tmdbConfig;
     const logo = getLogoPath(slideData?.images.logos, slideData?.id);
     const genres: string = slideData?.genres.map((genre: TmdbMediaProps) => (genre.name)).filter((_: string, index: number) => index < 2).join(', ');
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
 
     // lida com a nevegaçao entre paginas
     const navigateToPlayer = useCallback((): void => {
@@ -52,14 +57,17 @@ export default function SlideInfoWrapper(props: ComponentProps) {
                 {/* ver detalhes */}
                 <PlayButton onClick={navigateToPlayer}>
                     <FaPlay className='w-4 h-4' />
-                    Assistir Trailer
+                    {
+                        slideData.media_type === 'movie' ? 
+                        text.go_to_movie : text.go_to_series 
+                    }
                 </PlayButton>
                 {/* Adicionar aos favoritos */}
                 <AddToListButton />
             </div>
             {/* generos */}
             <Genres className='mt-4 order-4 sm:order-3 sm:mt-0 lg:mt-4 lg:order-4 '>
-                <span className="font-bold">Gêneros</span>: {genres}
+                <span className="font-bold">{text.genre}</span>: {genres}
             </Genres>
         </div>
     );

@@ -1,103 +1,116 @@
 'use client';
 // hooks
 import { useEffect, useRef, useContext, useCallback } from 'react';
-// componentes
+// components
 import SearchBar from '@/components/molecules/searchBar';
 import AuthButtons from './authButtons';
 import NavLinksBar from './navLinksBar';
 import MobileMenu from './mobileMenu';
 import ProfileIcon from './profileIcon';
 import Link from 'next/link';
-// contexto
+// contexts
 import { UserDataContext } from '@/contexts/user';
 
 import './styles.css';
 
 export default function Header() {
-    const headerRef = useRef<null | HTMLElement>(null);
-    const mobileSearchBar = useRef<HTMLDivElement | null>(null);
+    const headerRef = useRef<HTMLElement | null>(null);
+    const mobileSearchRef = useRef<HTMLDivElement | null>(null);
     const { isLoggedIn } = useContext(UserDataContext);
 
-    // utiliza a classe .is-scrolling para alterar altura e cor de fundo do header ao scrollar a pagina
-    const updateHeaderStyles = (): void => {
-        const el = headerRef.current;
-        if (!el) return;
-        window.scrollY > 10 ? el.classList.add('is-scrolling') : el.classList.remove('is-scrolling');
-    };
-
+    /** Atualiza o estilo do header ao scrollar */
     useEffect(() => {
-        if (!window) return;
-        updateHeaderStyles();
-        window.addEventListener('scroll', updateHeaderStyles);
-        return () => {
-            window.removeEventListener('scroll', updateHeaderStyles);
+        const header = headerRef.current;
+        if (!header) return;
+        const handleScroll = () => {
+            const isScrolling = window.scrollY > 10;
+            header.classList.toggle('is-scrolling', isScrolling);
         };
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const hideMobileSearchBar = useCallback((): void => {
-        const bar = mobileSearchBar.current;
-        if (bar) bar.classList.remove('active');
-    }, [mobileSearchBar]);
-
-    const showMobileSearchBar = useCallback((): void => {
-        const bar = mobileSearchBar.current;
-        if (bar) bar.classList.add('active');
-    }, [mobileSearchBar]);
+    /** Mobile search bar handlers */
+    const toggleMobileSearch = useCallback((show: boolean) => {
+        const bar = mobileSearchRef.current;
+        if (bar) bar.classList.toggle('active', show);
+    }, []);
 
     return (
         <MobileMenu>
-            <header ref={headerRef} className="fixed top-0 left-0 page-padding z-40 w-full flex items-center justify-between font-bold overflow-hidden max-w-[2000px] min-[2000px]:left-1/2 min-[2000px]:-translate-x-1/2">
+            <header
+                ref={headerRef}
+                className="
+          fixed top-0 left-0 page-padding z-40 w-full 
+          flex items-center justify-between font-bold overflow-hidden 
+          max-w-[2000px] min-[2000px]:left-1/2 min-[2000px]:-translate-x-1/2
+        "
+            >
+                {/* LEFT SIDE */}
                 <div className="flex items-center gap-x-10">
-                    {/* icone do menu mobile */}
-                    <label htmlFor='header-drawer' className="flex flex-col justify-center items-center gap-y-[3px] *:w-[20px] *:h-[2px] *:bg-secondary *:rounded-[0.04em] bg-secondary/15 h-10 w-[46px] rounded-md cursor-pointer lg:hidden">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    {/* Mobile menu icon */}
+                    <label
+                        htmlFor="header-drawer"
+                        className="
+              flex flex-col justify-center items-center gap-y-[3px]
+              *:w-[20px] *:h-[2px] *:bg-secondary *:rounded-[0.04em]
+              bg-secondary/15 h-10 w-[46px] rounded-md cursor-pointer lg:hidden
+            "
+                    >
+                        <span />
+                        <span />
+                        <span />
                     </label>
 
-                    {/* logo do projeto lado esquerdo */}
-                    <Link href={'/'}>
+                    {/* Logo */}
+                    <Link href="/">
                         <img
-                            src='/project_logo.svg'
-                            alt='Imagem logo do ZillaTV'
-                            loading='lazy'
-                            className='h-7 w-fit lg:h-[clamp(1.875rem,2vw,2rem)] cursor-pointer hidden lg:block'
+                            src="/project_logo.svg"
+                            alt="Logo"
+                            loading="lazy"
+                            className="h-7 w-fit lg:h-[clamp(1.875rem,2vw,2rem)] cursor-pointer hidden lg:block"
                         />
                     </Link>
 
-                    {/* barra com links para navegação meio */}
+                    {/* Nav Links */}
                     <NavLinksBar isUserLoggedIn={isLoggedIn} />
                 </div>
 
-                {/* barra de navegaçao direita */}
-                <div className='flex items-center gap-x-6'>
-                    {/* icone de pesquisa */}
+                {/* RIGHT SIDE */}
+                <div className="flex items-center gap-x-6">
+                    {/* mobile search icon */}
                     <img
-                        onClick={showMobileSearchBar}
-                        src='/search_icon.png'
-                        alt='Icone de lupa do ZillaTV'
-                        loading='eager'
-                        className='h-[26px] w-fit cursor-pointer lg:hidden'
+                        src="/search_icon.png"
+                        alt="Search"
+                        loading="eager"
+                        className="h-[26px] w-fit cursor-pointer lg:hidden"
+                        onClick={() => toggleMobileSearch(true)}
                     />
-                    {/* barra de pesquisa mobile */}
-                    <div ref={mobileSearchBar} className='w-full h-full absolute left-0 top-0 flex items-center justify-center page-padding mobile-search-bar'>
-                        <SearchBar 
-                            isAnimated={false} 
-                            className='lg:hidden w-full h-12' 
-                            callback={hideMobileSearchBar}/>
+
+                    {/* mobile search bar */}
+                    <div
+                        ref={mobileSearchRef}
+                        className="
+              w-full h-full absolute left-0 top-0 flex items-center 
+              justify-center page-padding mobile-search-bar
+            "
+                    >
+                        <SearchBar
+                            isAnimated={false}
+                            className="lg:hidden w-full h-12"
+                            callback={() => toggleMobileSearch(false)}
+                        />
                     </div>
-                    {/* barra de pesquisa em telas de 1024px a 1536px */}
-                    <SearchBar isAnimated={true} className='hidden lg:inline 2xl:hidden' />
-                    {/* barra de pesquisa em telas acima de 1536px */}
-                    <SearchBar isAnimated={false} className='hidden 2xl:inline w-[20vw]' />
-                    {!isLoggedIn ?
-                        /* botão de login/singup lado direito */
-                        <AuthButtons /> :
-                        /* dropdown com opções para gerencialmento de conta */
-                        <ProfileIcon />
-                    }
+
+                    {/* lg search bars */}
+                    <SearchBar isAnimated className="hidden lg:inline 2xl:hidden" />
+                    <SearchBar isAnimated={false} className="hidden 2xl:inline w-[20vw]" />
+
+                    {/* Auth or Profile */}
+                    {isLoggedIn ? <ProfileIcon /> : <AuthButtons />}
                 </div>
             </header>
         </MobileMenu>
     );
-};
+}

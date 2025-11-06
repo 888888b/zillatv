@@ -3,6 +3,9 @@ import { useRouter, usePathname } from "next/navigation";
 import { useRef, useEffect, useCallback, useContext } from "react";
 // contexto
 import { GlobalContext } from "@/contexts/global";
+import useLanguage from '@/hooks/lang';
+// translations
+import translations from '@/i18n/translations/header/translations.json';
 // tipos
 import { ReactNode } from "react";
 
@@ -14,6 +17,8 @@ export default function MobileMenu({ children }: { children: ReactNode }) {
     const pathname = usePathname();
     const { dispatch } = useContext(GlobalContext);
     const pagePath = usePathname();
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
 
     // ativa o loading e lida com a navegação
     const navigate = useCallback((path: string) => {
@@ -58,7 +63,7 @@ export default function MobileMenu({ children }: { children: ReactNode }) {
                             style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id="/">
-                            Início
+                            {text.home}
                         </li>
                         <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
                         <li
@@ -67,7 +72,7 @@ export default function MobileMenu({ children }: { children: ReactNode }) {
                             style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id="/movies">
-                            Filmes
+                            {text.movies}
                         </li>
                         <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
                         <li
@@ -76,7 +81,7 @@ export default function MobileMenu({ children }: { children: ReactNode }) {
                             style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id="/series">
-                            Séries
+                            {text.series}
                         </li>
                         <li className="w-full h-px bg-secondary/5 rounded-xl"></li>
                         <li
@@ -85,7 +90,7 @@ export default function MobileMenu({ children }: { children: ReactNode }) {
                             style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id='/favorites'>
-                            Favoritos
+                            {text.favorites}
                         </li>
                     </ul>
                 </div>

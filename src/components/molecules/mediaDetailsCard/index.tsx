@@ -1,3 +1,7 @@
+// hook
+import useLanguage from '@/hooks/lang'
+// translations
+import translations from '@/i18n/translations/buttons/translations.json';
 // icones
 import { PiPlayBold, PiBookmarkSimpleBold, PiBookmarkSimpleFill } from "react-icons/pi";
 // componentes
@@ -13,6 +17,8 @@ type ComponentProps = {
 
 export default function DetailsCard(props: ComponentProps) {
     const { media, navigate, updateFavorites } = props;
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
 
     // obtem a nota do publico sobre o conteudo
     const getImdbReviews = (vote_average: number, vote_count: number) => {
@@ -47,17 +53,17 @@ export default function DetailsCard(props: ComponentProps) {
             {/* ações de usuario */}
             <div className='flex items-center gap-3 flex-nowrap text-2xl text-primary/70 *:hover:text-primary *:duration-200 *:transition-colors   *:ease-in-out pointer-events-auto mt-auto'>
                 {/* ir para o player */}
-                <Tooltip msg='Assistir'>
+                <Tooltip msg={text.watch}>
                     <PiPlayBold onClick={() => navigate(media.id, media.media_type)} />
                 </Tooltip>
                 {/* adicionar/remover dos favoritos */}
                 {!media.isFavorite ?
-                    <Tooltip msg='Adicionar aos favoritos'>
+                    <Tooltip msg={text.add_to_favorites}>
                         <PiBookmarkSimpleBold
                             onClick={() => updateFavorites(media.id, media.media_type, media.isFavorite)}
                         />
                     </Tooltip> :
-                    <Tooltip msg='Remover dos favoritos'>
+                    <Tooltip msg={text.remove_from_favorites}>
                         <PiBookmarkSimpleFill
                             className='text-primary'
                             onClick={() => updateFavorites(media.id, media.media_type, media.isFavorite)}
@@ -65,7 +71,7 @@ export default function DetailsCard(props: ComponentProps) {
                     </Tooltip>
                 }
                 {/* compartilhar */}
-                <Tooltip msg='Compartilhar'>
+                <Tooltip msg={text.share}>
                     <ShareButton media={media}/>
                 </Tooltip>
             </div>

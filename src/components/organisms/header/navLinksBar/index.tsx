@@ -3,6 +3,9 @@ import { useContext, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 // contexto
 import { GlobalContext } from '@/contexts/global';
+import useLanguage from '@/hooks/lang';
+// translations
+import translations from '@/i18n/translations/header/translations.json';
 
 import './styles.css';
 
@@ -10,6 +13,8 @@ export default function NavLinksBar({ isUserLoggedIn }: { isUserLoggedIn: boolea
     const { dispatch } = useContext(GlobalContext);
     const { push } = useRouter();
     const pagePath = usePathname();
+    const lang = useLanguage().language.code
+    const text = translations[lang];
 
     // ativa o loading e lida com a navegação
     const navigate = useCallback((path: string) => {
@@ -22,20 +27,20 @@ export default function NavLinksBar({ isUserLoggedIn }: { isUserLoggedIn: boolea
         <nav className='hidden lg:block'>
             <ul className='flex gap-x-[25px] items-center'>
                 <li onClick={() => navigate('/')}>
-                    Início
+                    {text.home}
                 </li>
 
                 <li onClick={() => navigate('/movies')}>
-                    Filmes
+                    {text.movies}
                 </li>
 
                 <li onClick={() => navigate('/series')}>
-                    Séries
+                    {text.series}
                 </li>
 
                 {isUserLoggedIn && (
                     <li onClick={() => navigate('/favorites')}>
-                       Favoritos
+                       {text.favorites}
                     </li>
                 )}
             </ul>
