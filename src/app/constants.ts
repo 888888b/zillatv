@@ -82,6 +82,15 @@ export const tmdbSerieGenres = {
   western: { genre: '37', title: 'Faroeste' }
 };
 
+export const homeCarouselGenres = {
+  primeVideo: { genre: 'primeVideo', title: 'prime' },
+  disneyPlus: { genre: 'disneyPlus', title: 'disney' },
+  HBO: { genre: 'HBO', title: 'hbo' },
+  netflix: { genre: 'netflix', title: 'netflix' },
+  trending: { genre: 'trending', title: 'trending' },
+  paramount: {genre: 'paramount', title: 'paramount'},
+} as const;
+
 export const headerMoviesList = [
   "1233413",  // Pecadores
   "438631",   // Duna 1
