@@ -1,0 +1,28 @@
+.selector-wrapper.opened .selector {
+    position: relative;
+    z-index: 101;
+}
+
+.selector-wrapper .selector .arrow-right {
+    rotate: 90deg;
+}
+
+.selector-wrapper.opened .selector .arrow-right {
+    rotate: calc(90deg * -1);
+}
+
+.selector-wrapper.closed .overlay,
+.selector-wrapper.closed .selector-options {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease-in, visibility 0.1s ease-in;
+}
+
+.selector-wrapper.open .overlay,
+.selector-wrapper.open .selector-options {
+    transition: opacity 0.1s ease-out, visibility 0.1s ease-out;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+}
