@@ -1,38 +1,26 @@
 'use client';
 // hooks
-import {
-    useCallback,
-    useState,
-    useEffect
-} from "react";
+import { useCallback, useState, useEffect } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
+import useLanguage from "@/hooks/lang";
+// traduções
+import translations from "@/i18n/translations/movieGenres/translations.json";
 // componentes
 import GenreSelect from "@/components/molecules/genreSelect";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
-// utilitarios
+// utilitarios / constantes
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { tmdbGenres } from "@/app/constants";
+import { Platform, moviesProviders } from '@/app/constants';
 // tipos
 import { TmdbMediaProps } from "@/app/types";
-import { Platform, moviesProviders } from '@/app/constants';
-type ComponentProps = {
-    className?: string
-};
-export type GenreType = {
-    genre: string;
-    title: string;
-};
+export type GenreType = { genre: string, title: string };
 
-export default function MoviesSection(props: ComponentProps) {
-
-    const [selectedGenre, setSelectedGenre] = useState<GenreType>(tmdbGenres.trending);
+export default function MoviesSection({ className }: { className?: string }) {
+    const [contentData, setContentData] = useState<TmdbMediaProps[] | null>(null);
     const platforms = Object.keys(moviesProviders);
-    const [
-        contentData,
-        setContentData
-    ] = useState<TmdbMediaProps[] | null>(null);
-
-    // funções para buscar filmes
+    const lang = useLanguage().language.code;
+    const genres = translations[lang];
+    const [selectedGenre, setSelectedGenre] = useState<GenreType | undefined>();
     const {
         fetchMoviesByGenre,
         fetchReleasedMovies,
@@ -43,67 +31,56 @@ export default function MoviesSection(props: ComponentProps) {
 
     const getSelectedGenre = useCallback((genre: GenreType) => {
         setSelectedGenre(genre);
-    }, [setSelectedGenre]);
+    }, []);
 
-    // buscar filmes por genero
-    const fetchMovies = async () => {
-        const movies = await fetchMoviesByGenre(selectedGenre.genre);
-        const filtered = await checkAvailability(movies);
-        setContentData([...filtered]);
-    };
-
-    // buscar os filmes mais recentes
-    const fetchLatestMovies = async () => {
-        const movies = await fetchReleasedMovies();
-        const filtered = await checkAvailability(movies);
-        setContentData([...filtered]);
-    };
-
-    // buscar os filmes populares
-    const fetchPopular = async () => {
-        const movies = await fetchPopularMovies();
-        const filtered = await checkAvailability(movies);
-        setContentData([...filtered]);
-    };
-
-    // buscar os filmes em alta
-    const fetchTrending = async () => {
-        const movies = await fetchTrendingMovies();
-        const filtered = await checkAvailability(movies);
-        setContentData([...filtered]);
-    };
-
-    // buscar filmes por plataforma (netflix, hbo, disney, hulu, prime video)
-    const fetchMoviesByPlatform = async (platform: Platform) => {
-        const movies = await fetchPlatformContent(platform, 'movie');
-        const filtered = await checkAvailability(movies);
-        console.log(filtered);
-        setContentData([...filtered]);
-    };
+    const fetchAndFilter = useCallback(async (fetchFn: () => Promise<any>) => {
+        const data = await fetchFn();
+        const filtered = await checkAvailability(data);
+        setContentData(filtered);
+    }, []);
 
     useEffect(() => {
-        if (selectedGenre.genre === 'release') { fetchLatestMovies(); return };
-        if (selectedGenre.genre === 'popular') { fetchPopular(); return };
-        if (selectedGenre.genre === 'trending') { fetchTrending(); return };
-        if (platforms.includes(selectedGenre.genre)) {
-            fetchMoviesByPlatform(selectedGenre.genre as Platform);
+        if (!selectedGenre) return;
+        const genre = selectedGenre.genre;
+        const genreMap: Record<string, () => Promise<any>> = {
+            release: fetchReleasedMovies,
+            popular: fetchPopularMovies,
+            trending: fetchTrendingMovies
+        };
+        // Plataforma (Netflix, Prime, etc)
+        if (platforms.includes(genre)) {
+            fetchAndFilter(() => fetchPlatformContent(genre as Platform, 'movie'));
             return;
         };
-        fetchMovies();
-    }, [selectedGenre]);
-  
+        // release/popular/trending
+        if (genreMap[genre]) {
+            fetchAndFilter(genreMap[genre]);
+            return;
+        };
+        // Gênero normal
+        fetchAndFilter(() => fetchMoviesByGenre(genre));
+    }, [ selectedGenre]);
+
+    useEffect(() => {
+        setSelectedGenre({
+            genre: 'trending',
+            title: genres.trending
+        });
+    }, [lang]);
+
     return (
-        <div
-            className={`flex flex-col gap-y-8 page-padding page-max-width relative z-10 ${props.className}`}>
-            {tmdbGenres &&
+        <div className={`flex flex-col gap-y-8 page-padding page-max-width relative z-10 ${className}`}>
+            { selectedGenre &&
                 <GenreSelect
                     onSelectGenre={getSelectedGenre}
                     selectedGenre={selectedGenre}
-                    genres={tmdbGenres}
+                    genres={genres}
                 />
             }
             <div className="w-full h-px rounded-3xl bg-secondary/10 sm:hidden" />
-            {contentData && <MoviesSeriesSection data={contentData} mediaType="movie" />}
+            {contentData && (
+                <MoviesSeriesSection data={contentData} mediaType="movie" />
+            )}
         </div>
     );
-};
+}
