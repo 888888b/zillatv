@@ -1,6 +1,9 @@
 import { TmdbMediaProps } from '@/app/types';
 import { useRef, useEffect, useCallback } from 'react';
-
+import useLanguage from '@/hooks/lang';
+// traduções
+import titleTranslations from '@/i18n/translations/sections/translations.json';
+import buttonTranslations from '@/i18n/translations/buttons/translations.json';
 import './styles.css';
 
 type ComponentProps = {
@@ -14,13 +17,16 @@ export default function ContentDetails(props: ComponentProps) {
     const { mediaData, mediaType, className, updateMediaImgHeight } = props;
     const seeEpisodesBtnRef = useRef<HTMLAnchorElement | null>(null);
     const listRef = useRef<HTMLUListElement | null>(null);
+    const lang = useLanguage().language.code;
+    const titlesText = titleTranslations[lang];
+    const buttonsText = buttonTranslations[lang];
 
     // obtem a nota do publico sobre o conteudo
     const getImdbReviews = (vote_average: number, vote_count: number) => {
         const reviewsCount = vote_count >= 1000 ?
             `${(vote_count / 1000).toFixed(0)}k`
             :
-            `${vote_count} Avaliações`
+            `${vote_count} ${titlesText.review}`
         return `${vote_average.toFixed(1)} (${reviewsCount})`;
     };
     // --------------------------------------------------------------------
@@ -29,78 +35,76 @@ export default function ContentDetails(props: ComponentProps) {
         if (value < 1000000000) {
             if (value < 1000000) {
                 if (value < 1000) {
-                    if (value > 0) return `${value} dolares`;
-                    return 'Valor não disponivel';
+                    if (value > 0) return `${value} ${titlesText.dollars}`;
+                    return titlesText.not_available;
                 };
 
                 const division = parseInt((value / 1000).toFixed(0));
-                return `${division} mil dolares`;
+                return `${division} ${titlesText.thousand_dollars}`;
             };
 
             const division = parseInt((value / 1000000).toFixed(0));
-            return `${division} milhões de dolares`;
+            return `${division} ${titlesText.million_dollars}`;
 
         } else {
             if (value > 0) {
                 const division = parseInt((value / 1000000000).toString()[0]);
                 const rest = parseInt((value % 1000000000).toString()[0]);
-                return `${[division, rest].join('.')} bilhões de dolares`;
+                return `${[division, rest].join('.')} ${titlesText.billion_dollars}`;
             };
         };
-        return 'Valor não disponivel';
-    };
-    // --------------------------------------------------------------------
-    // Obtem o tempo de duração do filme 
-    const getRunTime = (runtime: number | null): string => {
-        if (!runtime || runtime === 0) return 'Duração não disponivel';
-        if (runtime < 60) return `${runtime}m`;
-        const hours = (runtime / 60).toFixed(0);
-        const minites = runtime % 60;
-        return `${hours}h ${minites}m`;
+        return titlesText.not_available;
     };
     // --------------------------------------------------------------------
     // Obtem o nome dos produtores do filme/serie
     const getContentProducers = (crew: TmdbMediaProps[]): string => {
         const producers = crew.filter(people => people.job === 'Producer');
-        if (!producers.length) return 'Informação não disponivel';
+        if (!producers.length) return titlesText.not_available;
         return producers.map(producer => producer.name).join(', ');
     };
     // --------------------------------------------------------------------
     // retorma o novo do criador da serie
     const getContentCreator = (creators: TmdbMediaProps[]): string => {
-        if (!creators || !creators.length) return 'Informação não disponivel';
+        if (!creators || !creators.length) return titlesText.not_available;
         return creators.map(creator => creator.name).join(', ');
     };
     // --------------------------------------------------------------------
     // retorna uma lista com todos os paises envolvidos na produção do filme/serie
     const getProductionCountries = (
         countriesList: Record<string, (string | number)>[]): string => {
-        if (!countriesList) return 'Informação não disponivel';
+        if (!countriesList) return titlesText.not_available;
         return countriesList.map(country => (country.name)).join(', ');
     };
     // --------------------------------------------------------------------
     // retorna uma lista com todos as produtoras envolvidas na produção do filme/serie
     const getProductionCompanies = (
         companiesList: Record<string, (string | number)>[]): string => {
-        if (!companiesList) return 'Informação não disponivel';
+        if (!companiesList) return titlesText.not_available;
         return companiesList.map(company => (company.name)).join(', ');
     };
     // --------------------------------------------------------------------
     // retorna uma lista com todos os generos do filme/serie
     const getGenres = (
         genresList: Record<string, (string | number)>[]): string => {
-        if (!genresList) return 'Informação não disponivel';
+        if (!genresList) return titlesText.not_available;
         return genresList.map(genre => (genre.name)).join(', ');
     };
     // retorna uma data no formato xx-xx-xxxx para x day de xx mes do ano xxxx
-    function formatDateToLong(dateString: string): string {
+    function formatDateToLong(date: string): string {
         const months = [
             "janeiro", "fevereiro", "março", "abril", "maio", "junho",
             "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
         ];
-        const [year, month, day] = dateString.split("-");
-        const monthIndex = parseInt(month, 10) - 1;
-        return `${parseInt(day)} de ${months[monthIndex]} de ${year}`;
+        if (lang === 'pt-BR') {
+            const [year, month, day] = date.split("-");
+            const monthIndex = parseInt(month, 10) - 1;
+            return `${parseInt(day)} de ${months[monthIndex]} de ${year}`;
+        };
+        return new Date(date).toLocaleDateString(lang, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
     };
 
     const onViewportResize = useCallback(() => {
@@ -117,7 +121,7 @@ export default function ContentDetails(props: ComponentProps) {
         onViewportResize();
         if (!window) return;
         window.addEventListener('resize', onViewportResize);
-        return () => {window.removeEventListener('resize', onViewportResize)};
+        return () => { window.removeEventListener('resize', onViewportResize) };
     }, [onViewportResize]);
 
     return (
@@ -125,7 +129,7 @@ export default function ContentDetails(props: ComponentProps) {
             <ul className="details-list" ref={listRef}>
                 {/* Avaliação */}
                 <li className="list-item">
-                    <span>Review</span>
+                    <span>{titlesText.review}</span>
                     <div className="flex items-center flex-wrap gap-x-2">
                         <img
                             src="/IMDB_icon.png"
@@ -137,82 +141,82 @@ export default function ContentDetails(props: ComponentProps) {
                 {/* Temporadas */}
                 {(mediaType === 'serie' || mediaType === 'tv') && (
                     <li className="list-item">
-                        <span>Temporadas</span>
+                        <span>{titlesText.seasons}</span>
                         {mediaData.number_of_seasons}
                     </li>
                 )}
                 {/* Gêneros */}
                 {mediaData.genres && (
                     <li className="list-item">
-                        <span>Gêneros</span> {
+                        <span>{titlesText.genres}</span> {
                             getGenres(mediaData.genres)}
                     </li>
                 )}
                 {/* Duração */}
                 {mediaType === 'movie' && (
                     <li className="list-item">
-                        <span>Duração</span>
-                        {getRunTime(mediaData.runtime)}
+                        <span>{titlesText.duration}</span>
+                        {mediaData.runtime} min
                     </li>
                 )}
                 {/* ir para o carousel de episodios */}
                 <li className="hidden lg:[display:initial] go-to-episodes">
-                    <a 
-                        ref={seeEpisodesBtnRef} 
-                        href={mediaType === 'movie' ? '#similar-movies' : '#episodes-carousel'} 
+                    <a
+                        ref={seeEpisodesBtnRef}
+                        href={mediaType === 'movie' ? '#similar-movies' : '#episodes-carousel'}
                         className="w-full rounded-md bg-secondary/10 h-12 flex justify-center items-center [font-size:clamp(1.0625rem,1.15vw,1.125rem)] font-medium text-secondary/90">
-                        { mediaType === 'movie' ? 'Ver similares' : 'Ver episódios' }
+                        {mediaType === 'movie' ? buttonsText.view_similar : buttonsText.view_episodes}
                     </a>
                 </li>
                 {/* Lançamento */}
                 <li className="list-item">
-                    <span>Lançamento</span>{' '}
+                    <span>{titlesText.released_date}</span>{' '}
                     {formatDateToLong(mediaData.release_date ?? mediaData.first_air_date)}
                 </li>
                 {/* Episódios */}
                 {(mediaType === 'serie' || mediaType === 'tv') && (
                     <li className="list-item">
-                        <span>Número de episódios</span>
+                        <span>{titlesText.number__of_episodes}</span>
                         {mediaData.number_of_episodes}
                     </li>
                 )}
                 {/* Criador da série */}
                 {(mediaType === 'serie' || mediaType === 'tv') && mediaData.created_by ? (
                     <li className="list-item">
-                        <span>Criador</span>
+                        <span>{titlesText.creator}</span>
                         {getContentCreator(mediaData.created_by)}
                     </li>
                 ) : null}
                 {/* Direção */}
                 {mediaData.credits.crew && (
                     <li className="list-item">
-                        <span>Direção</span>
+                        <span>{titlesText.direction}</span>
                         {getContentProducers(mediaData.credits.crew)}
                     </li>
                 )}
                 {/* Produtoras */}
                 {mediaData.production_companies && (
                     <li className="list-item">
-                        <span>Produtoras</span> {getProductionCompanies(mediaData.production_companies)}
+                        <span>{titlesText.Production_companies}</span> {getProductionCompanies(mediaData.production_companies)}
                     </li>
                 )}
                 {/* País de produção */}
                 {mediaData.production_countries && (
                     <li className="list-item">
-                        <span>País de produção</span> {getProductionCountries(mediaData.production_countries)}
+                        <span>{titlesText.production_country}</span> {getProductionCountries(mediaData.production_countries)}
                     </li>
                 )}
                 {/* Orçamento */}
                 {mediaType === 'movie' && mediaData.budget ? (
                     <li className="list-item">
-                        <span>Orçamento</span>
+                        <span>{titlesText.box_office}</span>
                         {handleBudgetAndRevenue(mediaData.budget)}
                     </li>
                 ) : null}
                 {/* Bilheteria */}
                 {mediaType === 'movie' && mediaData.revenue ? (
                     <li className="list-item">
-                        <span>Bilheteria</span>
+                        <span>{titlesText.box_office}</span>
                         {handleBudgetAndRevenue(mediaData.revenue)}
                     </li>
                 ) : null}

@@ -1,5 +1,8 @@
 'use client';
 import { useRef, MouseEvent, useCallback, useEffect } from "react";
+import useLanguage from '@/hooks/lang';
+// traduções
+import translations from '@/i18n/translations/sections/translations.json';
 // componentes
 import { CloseButton } from "@/components/atoms/closeButton";
 import SectionTitle from "../../sectionTitle";
@@ -18,6 +21,8 @@ type ComponentProps = {
 };
 
 export default function SelectSeason(props: ComponentProps) {
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
     const {
         seasonsList,
         getSelectedSeason,
@@ -72,7 +77,7 @@ export default function SelectSeason(props: ComponentProps) {
             <div className="modal" style={{ overflowY: 'visible', transition: 'all 0s linear' }} role="dialog">
                 {isModalActive &&
                     <div className="relative z-50 rounded-[10px] bg-surface overflow-visible p-7 md:p-10 border-2 border-secondary/5 my-10">
-                        <SectionTitle className="mb-8">Selecione uma temporada:</SectionTitle>
+                        <SectionTitle className="mb-8">{text.select_season}:</SectionTitle>
                         <div className="seasons-wrapper">
                             {/* Gerando as temporadas apartir da lista retornada pela api do TMDB */}
                             {seasonsList.map((season) => (

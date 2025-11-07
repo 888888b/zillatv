@@ -1,6 +1,9 @@
 'use client';
 // hooks
 import { useState, useCallback, useEffect } from 'react';
+import useLanguage from '@/hooks/lang';
+// traduções
+import translations from '@/i18n/translations/buttons/translations.json';
 // componentes
 import TrailerModal from '@/components/templates/playerPage/header/trailerModal';
 import LazyImage from '../lazyImage';
@@ -27,6 +30,8 @@ export default function Header(props: HeaderProps) {
     const [isPlayerActive, setIsPlayerActive] = useState(false);
     const [videoID, setVideoID] = useState<string | null>(null);
     const logo = getLogoPath(playerData.images.logos, playerData.id);
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
     const { 
         blur_resolution_backdrop, 
         blur_resolution_poster,
@@ -99,7 +104,7 @@ export default function Header(props: HeaderProps) {
                         {/* abre o modal do trailer */}
                         <PlayButton onClick={openPlayer} className={`${!videoID && 'opacity-70 pointer-events-none'}`}>
                             <FaPlay/>
-                            Assistir
+                            {text.watch}
                         </PlayButton>
                         {/* adicionar filme/serie aos favoritos */}
                         <AddToListButton className='opacity-70 pointer-events-none'/>

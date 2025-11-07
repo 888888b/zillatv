@@ -1,6 +1,9 @@
 'use client';
 // hooks
 import { CSSProperties, useCallback, useState } from 'react';
+import useLanguage from '@/hooks/lang';
+// traduções
+import translations from '@/i18n/translations/sections/translations.json';
 // componentes
 import ContentDetails from "./mediaDetails/index";
 import ActorsCarousel from "./actorsCarousel/index";
@@ -24,6 +27,8 @@ import { tmdbConfig } from "@/app/constants";
 export default function Main(props: ComponentProps) {
     const { mediaData, mediaType, streamingsData } = props
     const [mediaImgHeight, setMediaImgHeight] = useState(0);
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
     const {
         high_resolution_backdrop,
         high_resolution_poster,
@@ -60,7 +65,7 @@ export default function Main(props: ComponentProps) {
                         actor && actor.profile_path) &&
                         <div className='flex-col gap-y-6 hidden lg:flex '>
                             <SectionTitle className='text-center sm:text-left'>
-                                Elenco
+                                {text.cast}
                             </SectionTitle>
                             {/* carousel com o elenco do filme/serie */}
                             <ActorsCarousel actorsData={mediaData.credits.cast} />
@@ -73,7 +78,7 @@ export default function Main(props: ComponentProps) {
                     <div className='px-[var(--page-padding)] lg:px-0 page-max-width w-full lg:relative lg:w-full'>
                         {/* Titulo da seção */}
                         <SectionTitle className='text-center sm:text-left lg:max-w-[130px]'>
-                            Todos os detalhes
+                            {text.full_details}
                         </SectionTitle>
                         {/* Container com os detalhes */}
                         <div className="my-8 relative flex justify-end w-full max-w-[1024px] lg:static lg:justify-start">
@@ -99,7 +104,7 @@ export default function Main(props: ComponentProps) {
                         actor && actor.profile_path) &&
                         <div className='mt-10 flex flex-col gap-y-6 page-max-width lg:hidden'>
                             <SectionTitle className='text-center sm:text-left page-padding'>
-                                Elenco
+                                {text.cast}
                             </SectionTitle>
                             {/* carousel com o elenco do filme/serie */}
                             <ActorsCarousel actorsData={mediaData.credits.cast} />

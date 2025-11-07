@@ -2,6 +2,9 @@
 // hooks
 import { useEffect, useState, useCallback } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
+import useLanguage from '@/hooks/lang';
+// traduções
+import translations from '@/i18n/translations/sections/translations.json';
 // componentes
 import SeasonSelector from "../seasonSelector";
 import Carousel from "@/components/templates/playerPage/footer/episodesCarousel";
@@ -24,6 +27,8 @@ export default function EpisodesCarousel(props: ComponentProps) {
     const [selectedSeason, setSelectedSeason] = useState<string>('1')
     const [isModalActive, setIsModalActive] = useState<boolean>(false);
     const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
 
     // busca os dados da temporada selecionada assim que o componente carrega
     useEffect(() => {
@@ -46,7 +51,7 @@ export default function EpisodesCarousel(props: ComponentProps) {
         <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
             <div id='episodes-carousel' className="absolute -top-[116px] left-0" />
             <div className="page-padding flex items-center justify-between gap-x-6 gap-y-2 flex-wrap">
-                <SectionTitle className="text-left">Episódios</SectionTitle>
+                <SectionTitle className="text-left">{text.episodes}</SectionTitle>
                 {/* Seletor de temporada */}
                 <SeasonSelector 
                     selectedSeason={selectedSeason}

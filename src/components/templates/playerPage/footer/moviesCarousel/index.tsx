@@ -1,5 +1,8 @@
 // hooks
 import useTmdbFetch from "@/hooks/tmdb";
+import useLanguage from '@/hooks/lang';
+// traduções
+import translations from '@/i18n/translations/sections/translations.json';
 // componentes
 import MoviesSeriesCarousel from "@/components/organisms/moviesSeriesCarousel";
 import SectionTitle from "../../sectionTitle";
@@ -14,6 +17,8 @@ export default async function FetchCarouselData(props: carouselProps) {
     const { movieId, className } = props;
     const { fetchSimilarMovies } = useTmdbFetch();
     const movies = await fetchSimilarMovies(movieId)
+    const lang = useLanguage().language.code;
+    const text = translations[lang];
 
     if (movies) {
         const filteredMovies = await checkAvailability(movies);
@@ -24,7 +29,7 @@ export default async function FetchCarouselData(props: carouselProps) {
         <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
             <div id='similar-movies' className="absolute -top-[116px] left-0"/>
             <SectionTitle className="page-padding text-left">
-                Filmes similares
+                {text.similar_movies}
             </SectionTitle>
             <MoviesSeriesCarousel slidesData={moviesList} slidesType="movie" />
         </div>
