@@ -41,7 +41,7 @@ export default function LangSelector() {
             {/* opções do select */}
             {(btnRef.current) &&
                 <div className={isOpened ? 'opened-selector' : 'closed-selector'}>
-                    <div className='overlay fixed top-0 left-0 bg-background/80 w-full h-full z-[100]' />
+                    <div className='overlay fixed top-0 left-0 bg-background/80 w-full h-[100lvh] z-[100]' />
                     <div id='languages' ref={langsListRef} className='languages-list z-[101] absolute -translate-y-[calc(100%+clamp(40px,4.8vw,48px))] bg-surface rounded-t-md before:absolute before:-bottom-0.5 before:h-5 before:w-full before:bg-gradient-to-b before:from-transparent before:to-surface before:z-10 border-2 border-secondary/5' style={{ width: btnRef.current.offsetWidth }}>
                         <ul className="max-h-[70vh] overflow-y-scroll *:hover:underline *:px-4 *:py-3 py-3 *:cursor-pointer font-medium text-sm">
                             {languages.map(lang => (

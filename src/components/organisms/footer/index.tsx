@@ -14,7 +14,7 @@ export default function Footer({ className }: { className?: string }) {
     const data = Translations[lang];
 
     return (
-        <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 relative z-50 ${className}`} style={{overflow: 'visible'}}>
+        <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 ${className}`} style={{overflow: 'visible'}}>
             <div className="page-padding page-max-width flex gap-12 flex-wrap items-center justify-between xl:flex-nowrap xl:justify-center xl:items-start xl:gap-16 xl:mx-auto">
                 <aside>
                     {/* logo do projeto */}
