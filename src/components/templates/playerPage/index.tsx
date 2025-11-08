@@ -1,72 +1,77 @@
 // hooks
 import useTmdbFetch from '@/hooks/tmdb';
-import useWatchmode, { StreamingsInfo } from '@/hooks/watchmode';
+import useWatchmode from '@/hooks/watchmode';
+
 // componentes
 import Header from './header/index';
-import SeasonsCarousel from './footer/episodesCarouselWrapper';
-import Main from './main/index'
+import EpisodesCarousel from './footer/episodesCarouselWrapper';
+import Main from './main/index';
+import SimilarsCarousel from './footer/similarsCarouselWrapper';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
-import SimilarMovies from './footer/moviesCarousel';
 import { StopLoading } from '@/components/atoms/stopLoading';
+
 // tipos
 import { TmdbMediaProps } from '@/app/types';
-type ComponentProps = { contentId: string; contentType: 'serie' | 'movie' | 'tv' };
+
+type ComponentProps = {
+    contentId: string;
+    contentType: 'serie' | 'movie' | 'tv'
+};
 
 import './styles.css';
 
-export default async function PlayerPage(props: ComponentProps) {
+export default async function PlayerPage({ contentType, contentId }: ComponentProps) {
     const { fetchSeriebyId, fetchMovieById } = useTmdbFetch();
     const { searchInfoByTmdbId, searchStreamingsById } = useWatchmode();
-    const contentData: TmdbMediaProps[] = [];
-    const { contentType, contentId } = props;
-    let streamingsInfo: StreamingsInfo[] | undefined = undefined;
 
-    if (contentType === 'movie') {
-        const movie: TmdbMediaProps | undefined = await fetchMovieById(contentId);
-        if (movie) contentData.push(movie);
-    } else {
-        const serie: TmdbMediaProps | undefined = await fetchSeriebyId(contentId);
-        if (serie) contentData.push(serie);
+    // Busca TMDB (filme/série)
+    const mediaData: TmdbMediaProps | undefined =
+        contentType === 'movie'
+            ? await fetchMovieById(contentId)
+            : await fetchSeriebyId(contentId);
+
+    if (!mediaData) {
+        return <div className="page-max-width py-10 text-center text-gray-400">Conteúdo não encontrado</div>;
     };
+
+    // Busca streaming info
     const titleInfo = await searchInfoByTmdbId({
         tmdbId: contentId,
         idType: contentType === 'movie' ? 'tmdb_movie_id' : 'tmdb_tv_id'
     });
+
+    let streamingsInfo;
+
     if (titleInfo) {
-        streamingsInfo = await searchStreamingsById(titleInfo.id);
-        if (streamingsInfo) {
-            const updatedStreamingsInfo = streamingsInfo.map(streaming => ({
-                ...streaming,
-                domain: streaming.web_url.split(/[/?]/)[2]
-            }));
-            streamingsInfo = [...updatedStreamingsInfo];
-        };
+        const services = await searchStreamingsById(titleInfo.id);
+        streamingsInfo = services?.map(streaming => ({
+            ...streaming,
+            domain: streaming.web_url.split(/[/?]/)[2] // extrai domínio
+        }));
     };
 
-    return contentData && (
+    return (
         <>
-            <section className='mb-16 player-page'>
-                <Header playerData={contentData[0]} />
+            <section className="mb-16 player-page">
+                <Header playerData={mediaData} />
                 <Main
-                    mediaData={contentData[0]}
+                    mediaData={mediaData}
                     mediaType={contentType}
                     streamingsData={streamingsInfo}
                 />
-                {contentType === 'movie' ?
-                    <SimilarMovies className='w-full mt-16' movieId={contentId} />
-                    :
-                    <SeasonsCarousel
-                        className='w-full mt-16'
-                        serieName={contentData[0].name}
+                {contentType === 'movie' ? (
+                    <SimilarsCarousel className="w-full mt-16" movieId={contentId} />
+                ) : (
+                    <EpisodesCarousel
+                        className="w-full mt-16"
+                        serieName={mediaData.name}
                         serieId={contentId}
-                        seasons={contentData[0].seasons}
+                        seasons={mediaData.seasons}
                     />
-                }
+                )}
             </section>
-            {/* volta ao top sempre que a pagina carrega */}
             <ScrollToTop />
-            {/* encerra a animação de loading */}
             <StopLoading />
         </>
     );
-};
+}
