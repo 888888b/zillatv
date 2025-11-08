@@ -9,15 +9,14 @@ import CarouselWrapper from './CarouselWrapper';
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 import { homeCarouselGenres as titles } from "@/app/constants";
 // tipos
-import { TmdbMediaProps } from "@/app/types";
-import { CarouselTitleType } from "@/app/types";
-type CarouselDataType = {
-    [key: string]: { data: TmdbMediaProps[], title?: CarouselTitleType }
-};
+import { TmdbMediaProps, CarouselTitleType } from "@/app/types";
+
+type CarouselDataType = Record<string, {
+    data: TmdbMediaProps[];
+    title?: CarouselTitleType;
+}>;
 
 export default async function HomePage() {
-
-    const carouselsData: CarouselDataType = {};
     let isDataLoaded = false;
     const {
         fetchAllTrending,
@@ -25,117 +24,86 @@ export default async function HomePage() {
         fetchMovieById,
         fetchSeriebyId
     } = useTmdbFetch();
+    const carouselsData: CarouselDataType = {};
+    const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
+
+    const withMediaType = (arr: any[], type: "movie" | "tv") =>
+        arr.map(item => ({ ...item, media_type: type }));
 
     try {
-        // carousel do header
-        const allTrending = await fetchAllTrending('all');
-        const allTrendingsAvailable = await checkAvailability(allTrending);
-        const headerSlides = await Promise.all(allTrendingsAvailable.map((item) =>
-            new Promise(async (resolve, reject) => {
-                const res = item.media_type === 'movie' ?
-                    await fetchMovieById(item.id) :
-                    await fetchSeriebyId(item.id);
-                if (res) {
-                    const media = { ...res, media_type: item.media_type };
-                    resolve(media);
-                } else {
-                    reject();
-                };
-            })
-        )) as TmdbMediaProps[];
-        const filteredHeaderSlides = headerSlides.filter((_, index) => index < 6);
-        carouselsData.headerSlides = {data: [...filteredHeaderSlides]}
-        // filmes / series em trending
+        /** ---------------- HEADER / HERO CAROUSEL ---------------- */
+        const allTrending = await fetchAllTrending("all") ?? [];
+        const allTrendingsAvailable = await safeCheck(allTrending);
+        const headerSlides = (
+            await Promise.all(
+                allTrendingsAvailable.map(async (item) => {
+                    const res = item.media_type === "movie"
+                        ? await fetchMovieById(item.id)
+                        : await fetchSeriebyId(item.id);
+
+                    return res ? { ...res, media_type: item.media_type } : null;
+                })
+            )
+        ).filter(Boolean).slice(0, 6) as TmdbMediaProps[];
+        carouselsData.headerSlides = { data: headerSlides };
+
+        /** ---------------- TRENDING SECTION ---------------- */
         carouselsData.allTrending = {
-            data: [...allTrendingsAvailable],
+            data: allTrendingsAvailable,
             title: titles.trending.title
-        }
-        // --- Netflix ---
-        const netflixSeries = await fetchPlatformContent('netflix', 'tv');
-        const netflixMovies = await fetchPlatformContent('netflix', 'movie');
-        const filteredNetflixMovies = await checkAvailability(netflixMovies);
-        const filteredNetflixSeries = await checkAvailability(netflixSeries);
-        carouselsData.netflix = {
-            data: [
-                ...filteredNetflixSeries.map(item => ({ ...item, media_type: 'tv' })),
-                ...filteredNetflixMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: titles.netflix.title
-        };
-        // --- Disney+ ---
-        const disneySeries = await fetchPlatformContent("disneyPlus", "tv");
-        const disneyMovies = await fetchPlatformContent("disneyPlus", "movie");
-        const filteredDisneySeries = await checkAvailability(disneySeries);
-        const filteredDisneyMovies = await checkAvailability(disneyMovies);
-        carouselsData.disney = {
-            data: [
-                ...filteredDisneySeries.map(item => ({ ...item, media_type: 'tv' })),
-                ...filteredDisneyMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: titles.disneyPlus.title
         };
 
-        // --- HBO / Max ---
-        const hboSeries = await fetchPlatformContent("HBO", "tv");
-        const hboMovies = await fetchPlatformContent("HBO", "movie");
-        const filteredHboSeries = await checkAvailability(hboSeries);
-        const filteredHboMovies = await checkAvailability(hboMovies);
-        carouselsData.hbo = {
-            data: [
-                ...filteredHboSeries.map(item => ({ ...item, media_type: 'tv' })),
-                ...filteredHboMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: titles.HBO.title
-        };
+        /** ---------------- STREAMING PLATFORMS ---------------- */
+        const platforms = [
+            { key: "netflix", title: titles.netflix.title },
+            { key: "disneyPlus", title: titles.disneyPlus.title },
+            { key: "HBO", title: titles.HBO.title },
+            { key: "paramount", title: titles.paramount.title },
+            { key: "primeVideo", title: titles.primeVideo.title }
+        ] as const;
 
-        // --- paramount ---
-        const paramountSeries = await fetchPlatformContent("paramount", "tv");
-        const paramountMovies = await fetchPlatformContent("paramount", "movie");
-        const filteredParamountSeries = await checkAvailability(paramountSeries);
-        const filteredParamountMovies = await checkAvailability(paramountMovies);
-        carouselsData.hulu = {
-            data: [
-                ...filteredParamountSeries.map(item => ({ ...item, media_type: 'tv' })),
-                ...filteredParamountMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: titles.paramount.title
-        };
-
-        // --- Prime Video ---
-        const primeSeries = await fetchPlatformContent("primeVideo", "tv");
-        const primeMovies = await fetchPlatformContent("primeVideo", "movie");
-        const filteredPrimeSeries = await checkAvailability(primeSeries);
-        const filteredPrimeMovies = await checkAvailability(primeMovies);
-        carouselsData.prime = {
-            data: [
-                ...filteredPrimeSeries.map(item => ({ ...item, media_type: 'tv' })),
-                ...filteredPrimeMovies.map(item => ({ ...item, media_type: 'movie' }))],
-            title: titles.primeVideo.title
+        for (const { key, title } of platforms) {
+            const [series, movies] = await Promise.all([
+                fetchPlatformContent(key, "tv"),
+                fetchPlatformContent(key, "movie")
+            ]);
+            const filteredSeries = await safeCheck(series);
+            const filteredMovies = await safeCheck(movies);
+            const formatted = [
+                ...withMediaType(filteredSeries, "tv"),
+                ...withMediaType(filteredMovies, "movie")
+            ];
+            carouselsData[key] = { data: formatted, title };
         };
         isDataLoaded = true;
-    } catch (error) {
-        console.error(error);
+
+    } catch (err) {
+        console.error("HomePage fetch error:", err);
     };
 
     return (
         <section className="min-h-screen">
-            {/* hero carousel */}
+            {/* HERO */}
             <HeaderCarousel
-                slidesData={carouselsData.headerSlides.data}
+                slidesData={carouselsData.headerSlides?.data ?? []}
                 currentPage="home"
             />
-            {/* main carousels */}
+
+            {/* MAIN CAROUSELS */}
             <div className="flex flex-col mt-12 mb-16 relative z-10 sm:-mt-[clamp(0px,5.5vw,56px)]">
-                {Object.values(carouselsData).map((carousel, index) => (
-                    index > 0 && carousel.title &&
-                    <CarouselWrapper 
-                        key={`home-carousel-${carousel.title}`}
-                        title={carousel.title} 
-                        data={carousel.data}
-                        index={index}
-                    />
-                ))}
+                {Object.entries(carouselsData).map(([key, carousel], index) =>
+                    index > 0 && carousel?.title ? (
+                        <CarouselWrapper
+                            key={`home-carousel-${carousel.title}-${key}`}
+                            title={carousel.title}
+                            data={carousel.data}
+                            index={index}
+                        />
+                    ) : null
+                )}
             </div>
-            {/* volta ao top sempre que a pagina carrega */}
             <ScrollToTop />
-            {/* encerra a animação de loading */}
             {isDataLoaded && <StopLoading />}
-        </section >
+        </section>
     );
-};
+}
