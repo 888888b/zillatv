@@ -1,18 +1,20 @@
 import { TmdbMediaProps } from "@/app/types";
 
-export const fetchTrendingMovies = async (): Promise<TmdbMediaProps[] | undefined> => {
+export const fetchTrendingMovies = async (
+    lang: string = 'pt-BR'
+): Promise<TmdbMediaProps[] | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+    const region = lang.split('-')[0];
 
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${token}&language=pt-BR`, {
+        const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${token}&language=${lang}&include_image_language=${region},en,null`, {
             cache: 'force-cache',
             next: { revalidate: 43200 }
         });
         if (response.ok) {
-            const data = await response.json();
-            return data.results;
+            return (await response.json()).results;
         };
-    } catch (error) {
-        console.error('Erro ao buscar filmes em alta' + error);
+    } catch (err) {
+        console.error('Erro ao buscar filmes em alta' + err);
     };
 };

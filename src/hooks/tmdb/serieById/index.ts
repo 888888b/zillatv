@@ -1,17 +1,19 @@
 import { TmdbMediaProps } from "@/app/types";
 
 // faz uma busca mais detalhada de uma serie com o id fornecido
-export const fetchSeriebyId = async ( serieId: string ): Promise<TmdbMediaProps | undefined> => {
+export const fetchSeriebyId = async (
+    serieId: string,
+    lang: string = 'pt-BR',
+): Promise<TmdbMediaProps | undefined> => {
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-
+    const region = lang.split('-')[0];
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/tv/${serieId}?api_key=${token}&language=pt-BR&page=1&include_image_language=pt,en&append_to_response=videos,credits,images`);
-        
-        if ( response.ok ) {
-            const fetchData = await response.json();
-            return fetchData;
+        const response = await fetch(`https://api.themoviedb.org/3/tv/${serieId}?api_key=${token}&language=${lang}&append_to_response=videos,credits,images&include_image_language=${region},en`);
+        if (response.ok) {
+            return await response.json();
         };
-    } catch (error) {
-        console.error(error);
+
+    } catch (err) {
+        console.error(err);
     };
 };

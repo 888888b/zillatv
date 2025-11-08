@@ -2,18 +2,21 @@ import { TmdbMediaProps } from "@/app/types";
 import { fetchSeriebyId } from "../serieById";
 
 // Busca multiplas series a partir de uma lista de ids
-export const fetchSeriesByIdList = async ( idsList: string[] ): Promise<(TmdbMediaProps | undefined)[]> => {
-    return new Promise(( resolve, reject ) => {
+export const fetchSeriesByIdList = async (
+    idsList: string[],
+    lang: string = 'pt-BR'
+): Promise<(TmdbMediaProps | undefined)[]> => {
+    return new Promise((resolve, reject) => {
         try {
-            Promise.all(idsList.map(async ( id ) => {
-                const response = await fetchSeriebyId( id );
-                return response;
-            })).then( result => {
-                resolve( result );
+            Promise.all(idsList.map(async (id) => {
+                return await fetchSeriebyId(id, lang);
+            })).then(result => {
+                resolve(result);
             });
-        } catch (error) {
-            console.error( error );  
-            reject( error ); 
+
+        } catch (err) {
+            console.error(err);
+            reject(err);
         };
     });
 };
