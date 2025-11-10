@@ -1,6 +1,6 @@
 // tipos
-import { TmdbMediaProps } from "@/app/types";
-import { Platform, seriesNetworks, moviesProviders } from '@/app/constants';
+import { TmdbMediaProps } from "@/app/[lang]/types";
+import { Platform, seriesNetworks, moviesProviders } from '@/app/[lang]/constants';
 export type MediaType = "movie" | "tv" | 'serie';
 
 export const fetchPlatformContent = async (

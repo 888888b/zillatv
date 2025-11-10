@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 export const fetchTrendingMovies = async (
     lang: string = 'pt-BR'

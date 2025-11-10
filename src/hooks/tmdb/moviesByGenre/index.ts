@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // Busca filmes com base no genero fornecido
 export const fetchMoviesByGenre = async (

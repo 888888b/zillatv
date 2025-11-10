@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 import { fetchSeriebyId } from "../serieById";
 
 // Busca multiplas series a partir de uma lista de ids

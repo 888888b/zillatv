@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // Filtra e seleciona somente o filme/serie que possuir imagens disponiveis
 export const checkAvailability = async ( data: TmdbMediaProps[] | undefined | (TmdbMediaProps | undefined)[] ) => {

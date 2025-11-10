@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // busca as temporadas de uma serie com base no id da serie e numero da temporada
 export const fetchSeasons = async (

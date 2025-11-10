@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // busca series lançamentos com base na data fornecida
 export const fetchReleasedSeries = async (

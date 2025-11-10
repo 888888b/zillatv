@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from '@/app/types';
+import { TmdbMediaProps } from '@/app/[lang]/types';
 export type Path = { path: string, slide: string };
 
 // filtra a lista de imagens de logo buscando por uma imagem em portugues (caso houver logos disponiveis)

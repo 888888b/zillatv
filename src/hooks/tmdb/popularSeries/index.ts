@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // busca series populares entre os usuarios do TMDB
 export const fetchPopularSeries = async (

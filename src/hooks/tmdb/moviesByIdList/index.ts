@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 import { fetchMovieById } from "../movieById";
 
 // Busca multiplos filmes a partir de uma lista de ids

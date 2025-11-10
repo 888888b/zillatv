@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // faz uma busca mais detalhada de um filme com o id fornecido
 export const fetchMovieById = async (movieId: string, lang: string = 'pt-BR'): 

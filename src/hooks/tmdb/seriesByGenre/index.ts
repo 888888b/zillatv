@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // Busca series com base no genero fornecido
 export const fetchSeriesByGenre = async (

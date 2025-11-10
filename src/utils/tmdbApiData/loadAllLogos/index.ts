@@ -1,7 +1,7 @@
 // tipos
 export type Path = { path: string, slide: string };
 // utilitarios
-import { tmdbConfig } from "@/app/constants";
+import { tmdbConfig } from "@/app/[lang]/constants";
 
 export const loadAllLogos = async (logos: Path[]): Promise<Path[]> => {
     const {high_resolution_logo} = tmdbConfig;

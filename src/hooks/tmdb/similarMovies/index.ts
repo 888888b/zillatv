@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // busca filmes similares ao escolhido pelo usuario
 export const fetchSimilarMovies = async (

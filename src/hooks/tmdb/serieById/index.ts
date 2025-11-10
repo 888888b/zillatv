@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 
 // faz uma busca mais detalhada de uma serie com o id fornecido
 export const fetchSeriebyId = async (
