@@ -7,9 +7,8 @@ import translations from '@/i18n/translations/buttons/translations.json';
 import Image from "next/image";
 // estilo
 import './styles.css';
-// utilitarios
-import { formatLangCode } from "@/utils/i18n";
-// props
+// tipos
+import { LangCode } from "@/i18n/languages";
 type SearchBarProps = {
     className?: string;
     callback?: () => void;
@@ -24,8 +23,7 @@ export default function SearchBar(props: SearchBarProps) {
     const inputBoxRef = useRef<HTMLFormElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const resetBtnRef = useRef<HTMLButtonElement | null>(null);
-    const langCode = formatLangCode(lang);
-    const text = translations[langCode];
+    const text = translations[lang as LangCode];
 
     // ativada sempre que o mouse sai da area da barra de pesquisa 
     const onMouseOutSearchBar = useCallback((): void => {

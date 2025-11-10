@@ -7,6 +7,7 @@ import translations from "@/i18n/translations/buttons/translations.json";
 // tipos
 import { GenreType } from "@/components/templates/moviesPage/moviesSection";
 import { TmdbMediaProps } from "@/app/[lang]/types";
+import { LangCode } from "@/i18n/languages";
 type ComponentProps = {
     onSelectGenre: (genre: GenreType) => void;
     selectedGenre: GenreType;
@@ -15,16 +16,13 @@ type ComponentProps = {
 };
 // estilos
 import './styles.css';
-// utilitarios
-import { formatLangCode } from "@/utils/i18n";
 
 const GenreSelect = memo(({ 
     genres, onSelectGenre, selectedGenre, lang
 }: ComponentProps) => {
     const ref = useRef<HTMLButtonElement | null>(null);
     const [isOpened, setIsOpened] = useState(false);
-    const langCode = formatLangCode(lang);
-    const text = translations[langCode];
+    const text = translations[lang as LangCode];
 
     const toggleDropdown = useCallback(() => {
         const el = ref.current;

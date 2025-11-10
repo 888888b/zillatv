@@ -7,14 +7,13 @@ import { Tooltip } from "@/components/atoms/tooltip";
 import ShareButton from '@/components/molecules/shareButton';
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
+import { LangCode } from '@/i18n/languages';
 type ComponentProps = { 
     media: TmdbMediaProps;
     navigate: (mediaId: string, mediaType: string) => void;
     updateFavorites: (mediaId: string, mediaType: string, isFavorite: boolean) => void;
     lang: string
 };
-// utilitarios
-import { formatLangCode } from '@/utils/i18n';
 
 export default function DetailsCard(props: ComponentProps) {
     const {
@@ -23,8 +22,7 @@ export default function DetailsCard(props: ComponentProps) {
         updateFavorites, 
         lang
     } = props;
-    const langCode = formatLangCode(lang);
-    const text = translations[langCode];
+    const text = translations[lang as LangCode];
 
     // obtem a nota do publico sobre o conteudo
     const getImdbReviews = (vote_average: number, vote_count: number) => {

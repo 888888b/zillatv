@@ -6,17 +6,15 @@ import MoviesSeriesCarousel from "@/components/organisms/moviesSeriesCarousel";
 import SectionTitle from "../../sectionTitle";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
+import { LangCode } from '@/i18n/languages';
 type ComponentProps = { 
     data: TmdbMediaProps[];
     className?: string;
     lang: string;
 };
-// utilitarios
-import { formatLangCode } from '@/utils/i18n';
 
 export default function SimilarsCarousel({data, className, lang}:ComponentProps) {
-    const langCode = formatLangCode(lang);
-    const text = translations[langCode];
+    const text = translations[lang as LangCode];
 
     return data ? (
         <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
