@@ -1,4 +1,4 @@
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 // Icons com React-icons
 import { AiFillDelete } from "react-icons/ai";
 // Fornece funções para interação com serviços do firebase

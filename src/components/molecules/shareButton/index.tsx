@@ -1,7 +1,7 @@
 // icones
 import { PiShareFatBold } from "react-icons/pi";
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 type ComponentProps = {
     className?: string;
     media: TmdbMediaProps;

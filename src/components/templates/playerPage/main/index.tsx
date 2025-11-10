@@ -1,7 +1,6 @@
 'use client';
 // hooks
 import { CSSProperties, useCallback, useState } from 'react';
-import useLanguage from '@/hooks/lang';
 // traduções
 import translations from '@/i18n/translations/sections/translations.json';
 // componentes
@@ -14,21 +13,26 @@ import WhereToWatch from "./whereToWatch";
 import SectionTitle from '../sectionTitle';
 // tipos
 import { StreamingsInfo } from '@/hooks/watchmode';
-import { TmdbMediaProps } from '@/app/types';
+import { TmdbMediaProps } from '@/app/[lang]/types';
+import { LangCode } from '@/i18n/languages';
 type ComponentProps = { 
     mediaData: TmdbMediaProps; 
     mediaType: 'serie' | 'movie' | 'tv';
     streamingsData: StreamingsInfo[] | undefined;
+    lang: string;
 };
-type MediaImage = { lowResolutionImage: string, highResolutionImage: string };
+type MediaImage = { 
+    lowResolutionImage: string, 
+    highResolutionImage: string 
+};
 // utilitarios
-import { tmdbConfig } from "@/app/constants";
+import { tmdbConfig } from "@/app/[lang]/constants";
 
-export default function Main(props: ComponentProps) {
-    const { mediaData, mediaType, streamingsData } = props
+export default function Main({
+    mediaData, mediaType, streamingsData, lang
+}: ComponentProps) {
     const [mediaImgHeight, setMediaImgHeight] = useState(0);
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const text = translations[lang as LangCode];
     const {
         high_resolution_backdrop,
         high_resolution_poster,
@@ -59,7 +63,7 @@ export default function Main(props: ComponentProps) {
                 {/* GRID - LADO ESQUERDO */}
                 <div className="lg:flex lg:flex-col lg:gap-y-16 overflow-hidden w-full">
                     {/* Exibe opções de streamings para assistir o filme/serie */}
-                    <WhereToWatch data={streamingsData}/>
+                    <WhereToWatch data={streamingsData} lang={lang}/>
                     {/* carousel de atores em telas grandes  */}
                     {mediaData.credits.cast.some((actor: undefined | TmdbMediaProps) =>
                         actor && actor.profile_path) &&
@@ -96,6 +100,7 @@ export default function Main(props: ComponentProps) {
                                 mediaType={mediaType} 
                                 mediaData={mediaData} 
                                 updateMediaImgHeight={getMediaImgHeight}
+                                lang={lang}
                             />
                         </div>
                     </div>

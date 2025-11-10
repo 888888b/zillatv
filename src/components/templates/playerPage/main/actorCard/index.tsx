@@ -1,4 +1,4 @@
-import { tmdbConfig } from "@/app/constants";
+import { tmdbConfig } from "@/app/[lang]/constants";
 type ComponentProps = { path: string | undefined, actor: string };
 import { RiUser6Line } from "react-icons/ri";
 import { HiMiniUser } from "react-icons/hi2";

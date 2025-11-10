@@ -1,6 +1,5 @@
 // hooks
 import {  useCallback, useEffect, useRef } from "react";
-import useLanguage from '@/hooks/lang';
 import { useRouter, usePathname } from "next/navigation";
 // translations
 import translations from '@/i18n/translations/buttons/translations.json';
@@ -8,23 +7,25 @@ import translations from '@/i18n/translations/buttons/translations.json';
 import Image from "next/image";
 // estilo
 import './styles.css';
+// utilitarios
+import { formatLangCode } from "@/utils/i18n";
 // props
 type SearchBarProps = {
     className?: string;
     callback?: () => void;
     isAnimated?: boolean;
+    lang: string;
 };
 
 export default function SearchBar(props: SearchBarProps) {
-
     const { push } = useRouter();
-    const { className, callback, isAnimated } = props;
+    const { className, callback, isAnimated, lang } = props;
     const pathname = usePathname();
     const inputBoxRef = useRef<HTMLFormElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const resetBtnRef = useRef<HTMLButtonElement | null>(null);
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const langCode = formatLangCode(lang);
+    const text = translations[langCode];
 
     // ativada sempre que o mouse sai da area da barra de pesquisa 
     const onMouseOutSearchBar = useCallback((): void => {

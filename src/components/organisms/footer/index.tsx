@@ -3,15 +3,14 @@
 import { FaGithubSquare, FaLinkedin, FaWhatsappSquare } from "react-icons/fa";
 // componentes
 import LangSelector from '@/components/molecules/langSelector';
-// contexto
-import useLanguage from '@/hooks/lang';
 // translations
 import Translations from '@/i18n/translations/footer/translations.json';
+// tipos
+import { LangCode } from "@/i18n/languages";
 
-export default function Footer({ className }: { className?: string }) {
+export default function Footer({className, lang}: {className?: string, lang:string}) {
     const currentYear = new Date().getFullYear();
-    const lang = useLanguage().language.code;
-    const data = Translations[lang];
+    const data = Translations[lang as LangCode];
 
     return (
         <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 ${className}`} style={{overflow: 'visible'}}>

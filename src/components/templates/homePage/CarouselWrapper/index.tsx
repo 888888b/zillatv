@@ -1,24 +1,23 @@
 'use client';
-// hook
-import useLanguage from '@/hooks/lang';
 // componentes
 import { CarouselTitle } from "@/components/atoms/carouselTitle";
 import MovieSerieCarousel from '@/components/organisms/moviesSeriesCarousel';
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
+import { LangCode } from "@/i18n/languages";
 import { Key } from "react";
 type ComponentProps = { 
     key?: Key | null;
     data: TmdbMediaProps[];
     index: number;
     title: 'disney' | 'paramount' | 'hbo' | 'netflix' | 'prime' | 'trending';
+    lang: string
 };
 // translations 
 import translations from '@/i18n/translations/sections/translations.json';
 
-export default function CarouselWrapper({data, key, index, title} : ComponentProps) {
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+export default function CarouselWrapper({data, key, index, title, lang} : ComponentProps) {
+    const text = translations[lang as LangCode];
 
     return (
         <div key={key}>
@@ -37,6 +36,7 @@ export default function CarouselWrapper({data, key, index, title} : ComponentPro
                     slidesData={data}
                     slidesType='mixed'
                     className={title.toLowerCase()}
+                    lang={lang}
                 />
             </div>
         </div>

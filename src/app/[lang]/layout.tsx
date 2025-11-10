@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 // fontes
-import * as fonts from '@/app/fonts/index';
+import * as fonts from '@/app/[lang]/fonts/index';
 // componentes
 import Header from "@/components/organisms/header";
 import Footer from "@/components/organisms/footer";
@@ -15,6 +15,8 @@ import { UserProvider } from "@/contexts/user";
 import { ModalsProvider } from "@/contexts/modal";
 import { AuthProvider } from "@/contexts/auth";
 import { LanguageProvider } from "@/contexts/lang";
+// utilitarios
+import { formatLangCode } from "@/utils/i18n";
 // estilos
 import "./globals.css";
 import 'react-toastify/ReactToastify.css';
@@ -27,7 +29,11 @@ export const viewport: Viewport = {
   themeColor: '#020515'
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout(
+  { children, params }:
+    Readonly<{ children: React.ReactNode, params: Promise<{lang: string}> }>) {
+  const {lang} = await params;
+  const langCode = formatLangCode(lang);
 
   return (
     <html lang="pt-br">
@@ -43,13 +49,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <ModalsProvider>
                   <LanguageProvider>
                     <Loading />
-                    <Header />
+                    <Header lang={langCode}/>
                     <LoginModal />
                     <RegisterModal />
                     {/* <ProfileModal/> */}
                     <ToastContainer />
                     {children}
-                    <Footer />
+                    <Footer lang={langCode}/>
                   </LanguageProvider>
                 </ModalsProvider>
               </UserProvider>

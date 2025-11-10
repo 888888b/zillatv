@@ -2,7 +2,6 @@
 // hooks
 import { useCallback, useState, useEffect } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
-import useLanguage from "@/hooks/lang";
 // traduções
 import translations from "@/i18n/translations/movieGenres/translations.json";
 // componentes
@@ -10,16 +9,17 @@ import GenreSelect from "@/components/molecules/genreSelect";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
 // utilitarios / constantes
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { Platform, moviesProviders } from '@/app/constants';
+import { Platform, moviesProviders } from '@/app/[lang]/constants';
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { LangCode } from "@/i18n/languages";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 export type GenreType = { genre: string, title: string };
+type ComponentProps = {className?: string, lang: string}
 
-export default function MoviesSection({ className }: { className?: string }) {
+export default function MoviesSection({className, lang}:ComponentProps) {
     const [contentData, setContentData] = useState<TmdbMediaProps[] | null>(null);
     const platforms = Object.keys(moviesProviders);
-    const lang = useLanguage().language.code;
-    const genres = translations[lang];
+    const genres = translations[lang as LangCode];
     const [selectedGenre, setSelectedGenre] = useState<GenreType | undefined>();
     const {
         fetchMoviesByGenre,
@@ -39,17 +39,21 @@ export default function MoviesSection({ className }: { className?: string }) {
         setContentData(filtered);
     }, []);
 
+    const fetchTrendings = useCallback(() => fetchTrendingMovies(lang), [lang]);
+    const fetchPopulars = useCallback(() => fetchPopularMovies(lang), [lang]);
+    const fetchReleases = useCallback(() => fetchReleasedMovies(1, lang), [lang]);
+
     useEffect(() => {
         if (!selectedGenre) return;
         const genre = selectedGenre.genre;
         const genreMap: Record<string, () => Promise<any>> = {
-            release: fetchReleasedMovies,
-            popular: fetchPopularMovies,
-            trending: fetchTrendingMovies
+            release: fetchReleases,
+            popular: fetchPopulars,
+            trending: fetchTrendings
         };
         // Plataforma (Netflix, Prime, etc)
         if (platforms.includes(genre)) {
-            fetchAndFilter(() => fetchPlatformContent(genre as Platform, 'movie'));
+            fetchAndFilter(() => fetchPlatformContent(genre as Platform, 'movie', 1, lang));
             return;
         };
         // release/popular/trending
@@ -58,8 +62,8 @@ export default function MoviesSection({ className }: { className?: string }) {
             return;
         };
         // Gênero normal
-        fetchAndFilter(() => fetchMoviesByGenre(genre));
-    }, [ selectedGenre]);
+        fetchAndFilter(() => fetchMoviesByGenre(genre, 1, lang));
+    }, [selectedGenre]);
 
     useEffect(() => {
         setSelectedGenre({
@@ -75,11 +79,16 @@ export default function MoviesSection({ className }: { className?: string }) {
                     onSelectGenre={getSelectedGenre}
                     selectedGenre={selectedGenre}
                     genres={genres}
+                    lang={lang}
                 />
             }
             <div className="w-full h-px rounded-3xl bg-secondary/10 sm:hidden" />
             {contentData && (
-                <MoviesSeriesSection data={contentData} mediaType="movie" />
+                <MoviesSeriesSection 
+                    data={contentData}
+                    mediaType="movie" 
+                    lang={lang}
+                />
             )}
         </div>
     );

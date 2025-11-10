@@ -13,7 +13,7 @@ import { UserDataContext } from '@/contexts/user';
 
 import './styles.css';
 
-export default function Header() {
+export default function Header({ lang }: { lang: string }) {
     const headerRef = useRef<HTMLElement | null>(null);
     const mobileSearchRef = useRef<HTMLDivElement | null>(null);
     const { isLoggedIn } = useContext(UserDataContext);
@@ -38,7 +38,7 @@ export default function Header() {
     }, []);
 
     return (
-        <MobileMenu>
+        <MobileMenu lang={lang}>
             <header
                 ref={headerRef}
                 className="
@@ -74,7 +74,7 @@ export default function Header() {
                     </Link>
 
                     {/* Nav Links */}
-                    <NavLinksBar isUserLoggedIn={isLoggedIn} />
+                    <NavLinksBar isUserLoggedIn={isLoggedIn} lang={lang}/>
                 </div>
 
                 {/* RIGHT SIDE */}
@@ -100,15 +100,16 @@ export default function Header() {
                             isAnimated={false}
                             className="lg:hidden w-full h-12"
                             callback={() => toggleMobileSearch(false)}
+                            lang={lang}
                         />
                     </div>
 
                     {/* lg search bars */}
-                    <SearchBar isAnimated className="hidden lg:inline 2xl:hidden" />
-                    <SearchBar isAnimated={false} className="hidden 2xl:inline w-[20vw]" />
+                    <SearchBar isAnimated className="hidden lg:inline 2xl:hidden" lang={lang}/>
+                    <SearchBar isAnimated={false} className="hidden 2xl:inline w-[20vw]" lang={lang}/>
 
                     {/* Auth or Profile */}
-                    {isLoggedIn ? <ProfileIcon /> : <AuthButtons />}
+                    {isLoggedIn ? <ProfileIcon /> : <AuthButtons lang={lang}/>}
                 </div>
             </header>
         </MobileMenu>

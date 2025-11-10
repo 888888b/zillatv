@@ -9,8 +9,8 @@ import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
 import { getRunTime } from "@/utils/tmdbApiData/runtime";
 import { getImdbReviews } from "@/utils/tmdbApiData/reviews";
 // tipos
-import { TmdbMediaProps } from "@/app/types";
-import { tmdbConfig } from "@/app/constants";
+import { TmdbMediaProps } from "@/app/[lang]/types";
+import { tmdbConfig } from "@/app/[lang]/constants";
 
 type ComponentProps = {
     contentData: TmdbMediaProps[]

@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 // contextos
 import { UserDataContext } from "@/contexts/user";
 // componentes

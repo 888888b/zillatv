@@ -1,7 +1,6 @@
 'use client';
 // hooks
 import { useState, useCallback, useEffect } from 'react';
-import useLanguage from '@/hooks/lang';
 // traduções
 import translations from '@/i18n/translations/buttons/translations.json';
 // componentes
@@ -14,10 +13,14 @@ import AddToListButton from '@/components/molecules/addToListButton';
 import { FaPlay } from "react-icons/fa";
 // utilitarios
 import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
-import { tmdbConfig } from '@/app/constants';
+import { tmdbConfig } from '@/app/[lang]/constants';
 // tipos
-import { TmdbMediaProps } from '@/app/types';
-type HeaderProps = { playerData: TmdbMediaProps };
+import { TmdbMediaProps } from '@/app/[lang]/types';
+import { LangCode } from '@/i18n/languages';
+type HeaderProps = { 
+    playerData: TmdbMediaProps, 
+    lang: string 
+};
 type MediaImages = {
     lowResolutionImage: string;
     highResolutionImage: string;
@@ -26,12 +29,11 @@ type MediaImages = {
 };
 
 export default function Header(props: HeaderProps) {
-    const playerData = props.playerData;
+    const { playerData, lang } = props;
     const [isPlayerActive, setIsPlayerActive] = useState(false);
     const [videoID, setVideoID] = useState<string | null>(null);
-    const logo = getLogoPath(playerData.images.logos, playerData.id);
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const logo = getLogoPath(playerData.images.logos, playerData.id, lang);
+    const text = translations[lang as LangCode];
     const { 
         blur_resolution_backdrop, 
         blur_resolution_poster,

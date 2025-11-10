@@ -1,26 +1,30 @@
 // hooks
 import { memo, useCallback, useState, useRef } from "react";
-import useLanguage from "@/hooks/lang";
 // componentes
 import { ArrowRight } from "@/components/atoms/arrowRightIcon";
 // traduções
 import translations from "@/i18n/translations/buttons/translations.json";
 // tipos
 import { GenreType } from "@/components/templates/moviesPage/moviesSection";
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 type ComponentProps = {
     onSelectGenre: (genre: GenreType) => void;
     selectedGenre: GenreType;
     genres: TmdbMediaProps;
+    lang: string
 };
 // estilos
 import './styles.css';
+// utilitarios
+import { formatLangCode } from "@/utils/i18n";
 
-const GenreSelect = memo(({ genres, onSelectGenre, selectedGenre }: ComponentProps) => {
+const GenreSelect = memo(({ 
+    genres, onSelectGenre, selectedGenre, lang
+}: ComponentProps) => {
     const ref = useRef<HTMLButtonElement | null>(null);
     const [isOpened, setIsOpened] = useState(false);
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const langCode = formatLangCode(lang);
+    const text = translations[langCode];
 
     const toggleDropdown = useCallback(() => {
         const el = ref.current;

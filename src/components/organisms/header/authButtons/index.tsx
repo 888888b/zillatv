@@ -2,14 +2,14 @@
 import { useContext, useCallback } from "react";
 // contextos
 import { ModalsContext } from "@/contexts/modal";
-import useLanguage from '@/hooks/lang';
 // translations
 import translations from '@/i18n/translations/buttons/translations.json';
+// tipos
+import { LangCode } from "@/i18n/languages";
 
-export default function AuthButtons() {
+export default function AuthButtons({lang}:{lang:string}) {
     const {dispatch} = useContext(ModalsContext);
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const text = translations[lang as LangCode];
 
     const handleLoginButton = useCallback(() => {
         dispatch({type: 'IS_LOGIN_MODAL_ACTIVE', payload: true});

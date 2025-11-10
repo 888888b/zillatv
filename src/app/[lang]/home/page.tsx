@@ -1,7 +1,8 @@
 import HomePage from "@/components/templates/homePage";
 
-export default function Home() {
+export default async function Home({params}:{params: Promise<{lang: string}>}) {
+  const { lang } = await params;
   return (
-    <HomePage />
+    <HomePage lang={lang} />
   );
 }

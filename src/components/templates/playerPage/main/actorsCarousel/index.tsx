@@ -3,7 +3,7 @@
 import EmblaCarousel from "@/components/organisms/emblaSlides";
 import ActorCard from "../actorCard";
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 type ComponentProps = { actorsData: TmdbMediaProps[], className?: string };
 
 export default function MainActors(props: ComponentProps) {

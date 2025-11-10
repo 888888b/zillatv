@@ -3,18 +3,19 @@ import { useContext, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 // contexto
 import { GlobalContext } from '@/contexts/global';
-import useLanguage from '@/hooks/lang';
 // translations
 import translations from '@/i18n/translations/header/translations.json';
+// tipo
+import { LangCode } from '@/i18n/languages';
 
 import './styles.css';
 
-export default function NavLinksBar({ isUserLoggedIn }: { isUserLoggedIn: boolean }) {
+export default function NavLinksBar(
+    {isUserLoggedIn, lang}:{isUserLoggedIn: boolean, lang:string}) {
     const { dispatch } = useContext(GlobalContext);
     const { push } = useRouter();
     const pagePath = usePathname();
-    const lang = useLanguage().language.code
-    const text = translations[lang];
+    const text = translations[lang as LangCode];
 
     // ativa o loading e lida com a navegação
     const navigate = useCallback((path: string) => {

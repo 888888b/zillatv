@@ -4,13 +4,25 @@ import SimilarsCarousel from '../similarsCarousel';
 // funções utilitarias
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
 // tipo
-type ComponentProps = { movieId: string, className?: string };
+type ComponentProps = { 
+    movieId: string;
+    className?: string;
+    lang: string;
+};
 
-export default async function SimilarsCarouselWrapper(props: ComponentProps) {
-    const { movieId, className } = props;
+export default async function SimilarsCarouselWrapper({
+    movieId, className, lang
+}: ComponentProps) {
     const { fetchSimilarMovies } = useTmdb();
-    const similars = await fetchSimilarMovies(movieId);
+    const langCode = [lang.split('-')[0], lang.split('-')[1].toUpperCase()].join('-')
+    const similars = await fetchSimilarMovies(movieId, langCode);
     const filtered = await checkAvailability(similars);
     const carouselData = [...filtered];
-    return <SimilarsCarousel data={carouselData} className={className}/>
+    return (
+        <SimilarsCarousel 
+            data={carouselData} 
+            className={className}
+            lang={lang}
+        />
+    );
 };

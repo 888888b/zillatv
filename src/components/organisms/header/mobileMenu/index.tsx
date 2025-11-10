@@ -3,22 +3,20 @@ import { useRouter, usePathname } from "next/navigation";
 import { useRef, useEffect, useCallback, useContext } from "react";
 // contexto
 import { GlobalContext } from "@/contexts/global";
-import useLanguage from '@/hooks/lang';
 // translations
 import translations from '@/i18n/translations/header/translations.json';
 // tipos
 import { ReactNode } from "react";
+import { LangCode } from "@/i18n/languages";
 
-export default function MobileMenu({ children }: { children: ReactNode }) {
-
+export default function MobileMenu({children, lang}:{children: ReactNode, lang:string}) {
     const drawerInputRef = useRef<null | HTMLInputElement>(null);
     const navLinksRef = useRef<(HTMLLIElement | null)[]>([]);
     const { push } = useRouter();
     const pathname = usePathname();
     const { dispatch } = useContext(GlobalContext);
     const pagePath = usePathname();
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const text = translations[lang as LangCode];
 
     // ativa o loading e lida com a navegação
     const navigate = useCallback((path: string) => {

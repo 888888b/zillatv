@@ -7,17 +7,19 @@ import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 import CarouselWrapper from './CarouselWrapper';
 // utilitarios
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { homeCarouselGenres as titles } from "@/app/constants";
+import { homeCarouselGenres as titles } from "@/app/[lang]/constants";
+import { formatLangCode } from "@/utils/i18n";
 // tipos
-import { TmdbMediaProps, CarouselTitleType } from "@/app/types";
+import { TmdbMediaProps, CarouselTitleType } from "@/app/[lang]/types";
 
 type CarouselDataType = Record<string, {
     data: TmdbMediaProps[];
     title?: CarouselTitleType;
 }>;
 
-export default async function HomePage() {
+export default async function HomePage({ lang }: { lang: string }) {
     let isDataLoaded = false;
+    const langCode = formatLangCode(lang);
     const {
         fetchAllTrending,
         fetchPlatformContent,
@@ -32,14 +34,14 @@ export default async function HomePage() {
 
     try {
         /** ---------------- HEADER / HERO CAROUSEL ---------------- */
-        const allTrending = await fetchAllTrending("all") ?? [];
+        const allTrending = await fetchAllTrending("all", lang) ?? [];
         const allTrendingsAvailable = await safeCheck(allTrending);
         const headerSlides = (
             await Promise.all(
                 allTrendingsAvailable.map(async (item) => {
                     const res = item.media_type === "movie"
-                        ? await fetchMovieById(item.id)
-                        : await fetchSeriebyId(item.id);
+                        ? await fetchMovieById(item.id, lang)
+                        : await fetchSeriebyId(item.id, lang);
 
                     return res ? { ...res, media_type: item.media_type } : null;
                 })
@@ -64,8 +66,8 @@ export default async function HomePage() {
 
         for (const { key, title } of platforms) {
             const [series, movies] = await Promise.all([
-                fetchPlatformContent(key, "tv"),
-                fetchPlatformContent(key, "movie")
+                fetchPlatformContent(key, "tv", 1, lang),
+                fetchPlatformContent(key, "movie", 1, lang)
             ]);
             const filteredSeries = await safeCheck(series);
             const filteredMovies = await safeCheck(movies);
@@ -87,6 +89,7 @@ export default async function HomePage() {
             <HeaderCarousel
                 slidesData={carouselsData.headerSlides?.data ?? []}
                 currentPage="home"
+                lang={langCode}
             />
 
             {/* MAIN CAROUSELS */}
@@ -98,6 +101,7 @@ export default async function HomePage() {
                             title={carousel.title}
                             data={carousel.data}
                             index={index}
+                            lang={langCode}
                         />
                     ) : null
                 )}

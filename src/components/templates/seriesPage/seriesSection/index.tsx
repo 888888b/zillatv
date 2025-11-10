@@ -2,7 +2,6 @@
 // hooks
 import { useCallback, useState, useEffect } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
-import useLanguage from "@/hooks/lang";
 // traduções
 import translations from "@/i18n/translations/serieGenres/translations.json";
 // componentes
@@ -10,17 +9,17 @@ import GenreSelect from "@/components/molecules/genreSelect";
 import MoviesSeriesSection from "@/components/organisms/moviesSeriesSection";
 // utilitarios / constantes
 import { checkAvailability } from "@/utils/tmdbApiData/availability";
-import { Platform, seriesNetworks } from '@/app/constants';
+import { Platform, seriesNetworks } from '@/app/[lang]/constants';
 // tipos
-import { TmdbMediaProps } from "@/app/types";
-
+import { TmdbMediaProps } from "@/app/[lang]/types";
+import { LangCode } from "@/i18n/languages";
 export type GenreType = { genre: string, title: string };
+type ComponentProps = {className?: string, lang: string}
 
-export default function SeriesSection({ className }: { className?: string }) {
+export default function SeriesSection({className, lang}:ComponentProps) {
     const [contentData, setContentData] = useState<TmdbMediaProps[] | null>(null);
     const platforms = Object.keys(seriesNetworks);
-    const lang = useLanguage().language.code;
-    const genres = translations[lang];
+    const genres = translations[lang as LangCode];
     const [selectedGenre, setSelectedGenre] = useState<GenreType | undefined>();
     const {
         fetchSeriesByGenre,
@@ -29,8 +28,6 @@ export default function SeriesSection({ className }: { className?: string }) {
         fetchAllTrending,
         fetchPlatformContent
     } = useTmdbFetch();
-
-    const fetchTrendingSeries = useCallback(() => fetchAllTrending('tv'), []);
 
     const getSelectedGenre = useCallback((genre: GenreType) => {
         setSelectedGenre(genre);
@@ -42,17 +39,21 @@ export default function SeriesSection({ className }: { className?: string }) {
         setContentData(filtered);
     }, []);
 
+    const fetchTrendings = useCallback(() => fetchAllTrending('tv', lang), [lang]);
+    const fetchPopulars = useCallback(() => fetchPopularSeries(lang), [lang]);
+    const fetchReleases = useCallback(() => fetchReleasedSeries(1, lang), [lang]);
+
     useEffect(() => {
         if (!selectedGenre) return;
         const genre = selectedGenre.genre;
         const genreMap: Record<string, () => Promise<any>> = {
-            release: fetchReleasedSeries,
-            popular: fetchPopularSeries,
-            trending: fetchTrendingSeries
+            release: fetchReleases,
+            popular: fetchPopulars,
+            trending: fetchTrendings
         };
         // Plataforma
         if (platforms.includes(genre)) {
-            fetchAndFilter(() => fetchPlatformContent(genre as Platform, 'tv'));
+            fetchAndFilter(() => fetchPlatformContent(genre as Platform, 'tv', 1, lang));
             return;
         };
         // release/popular/trending
@@ -78,10 +79,17 @@ export default function SeriesSection({ className }: { className?: string }) {
                     onSelectGenre={getSelectedGenre}
                     selectedGenre={selectedGenre}
                     genres={genres}
+                    lang={lang}
                 />
             )}
             <div className="w-full h-px rounded-3xl bg-secondary/10 sm:hidden" />
-            {contentData && <MoviesSeriesSection data={contentData} mediaType="tv" />}
+            {contentData && 
+                <MoviesSeriesSection 
+                    data={contentData} 
+                    mediaType="tv" 
+                    lang={lang}
+                />
+            }
         </div>
     );
 }

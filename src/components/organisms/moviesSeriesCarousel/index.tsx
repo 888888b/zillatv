@@ -14,8 +14,8 @@ import { GlobalContext } from "@/contexts/global";
 import { ModalsContext } from '@/contexts/modal';
 import { AuthContext } from '@/contexts/auth';
 // utilitarios
-import { TmdbMediaProps } from '@/app/types';
-import { tmdbConfig } from '@/app/constants';
+import { TmdbMediaProps } from '@/app/[lang]/types';
+import { tmdbConfig } from '@/app/[lang]/constants';
 import { openRegisterModal } from '@/utils/context/openRegisterModal';
 import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
 
@@ -25,6 +25,7 @@ type ComponentProps = {
     slidesData: TmdbMediaProps[] | undefined;
     slidesType: 'movie' | 'serie' | 'mixed';
     className?: string;
+    lang: string;
 };
 
 export default function MoviesSeriesCarousel(props: ComponentProps) {
@@ -39,7 +40,8 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
     const {
         slidesType,
         className,
-        slidesData
+        slidesData,
+        lang
     } = props;
     const {
         addUserFavoritesToDb,
@@ -136,6 +138,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                                 updateFavorites={updateFavorites}
                                 navigate={navigateToPlayer}
                                 media={media}
+                                lang={lang}
                             />
                         </div>
                     ) : null

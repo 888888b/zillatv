@@ -1,5 +1,3 @@
-// hook
-import useLanguage from '@/hooks/lang'
 // translations
 import translations from '@/i18n/translations/buttons/translations.json';
 // icones
@@ -8,24 +6,30 @@ import { PiPlayBold, PiBookmarkSimpleBold, PiBookmarkSimpleFill } from "react-ic
 import { Tooltip } from "@/components/atoms/tooltip";
 import ShareButton from '@/components/molecules/shareButton';
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 type ComponentProps = { 
     media: TmdbMediaProps;
     navigate: (mediaId: string, mediaType: string) => void;
     updateFavorites: (mediaId: string, mediaType: string, isFavorite: boolean) => void;
+    lang: string
 };
+// utilitarios
+import { formatLangCode } from '@/utils/i18n';
 
 export default function DetailsCard(props: ComponentProps) {
-    const { media, navigate, updateFavorites } = props;
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const {
+        media, 
+        navigate, 
+        updateFavorites, 
+        lang
+    } = props;
+    const langCode = formatLangCode(lang);
+    const text = translations[langCode];
 
     // obtem a nota do publico sobre o conteudo
     const getImdbReviews = (vote_average: number, vote_count: number) => {
         const reviewsCount = vote_count >= 1000 ?
-            `${(vote_count / 1000).toFixed(0)}k`
-            :
-            `${vote_count} Notas`
+            `${(vote_count / 1000).toFixed(0)}k` : vote_count
         return `${vote_average.toFixed(1)} (${reviewsCount})`;
     };
 

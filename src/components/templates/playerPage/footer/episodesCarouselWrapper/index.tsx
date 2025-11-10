@@ -2,7 +2,6 @@
 // hooks
 import { useEffect, useState, useCallback } from "react";
 import useTmdbFetch from "@/hooks/tmdb";
-import useLanguage from '@/hooks/lang';
 // traduções
 import translations from '@/i18n/translations/sections/translations.json';
 // componentes
@@ -12,28 +11,30 @@ import SectionTitle from "../../sectionTitle";
 // funções utilitarias
 import { handlePromise } from "@/utils/tmdbApiData/promise";
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
+import { LangCode } from "@/i18n/languages";
 type ComponentProps = {
     seasons: TmdbMediaProps[];
     serieId: string;
     serieName: string;
     className?: string;
+    lang: string;
 };
 
-export default function EpisodesCarousel(props: ComponentProps) {
-    const { seasons, serieId, serieName, className } = props;
+export default function EpisodesCarousel({
+    seasons, serieId, serieName, className, lang
+}: ComponentProps) {
     const { fetchSeasons } = useTmdbFetch();
     const [seasonData, setSeasonData] = useState<TmdbMediaProps>();
     const [selectedSeason, setSelectedSeason] = useState<string>('1')
     const [isModalActive, setIsModalActive] = useState<boolean>(false);
     const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
+    const text = translations[lang as LangCode];
 
     // busca os dados da temporada selecionada assim que o componente carrega
     useEffect(() => {
         (async () => {
-            const season = await handlePromise(fetchSeasons(serieId, selectedSeason));
+            const season = await handlePromise(fetchSeasons(serieId, selectedSeason, lang));
             setSeasonData(season);
             setIsDataLoading(state => !state);
         })();
@@ -59,6 +60,7 @@ export default function EpisodesCarousel(props: ComponentProps) {
                     seasonsList={seasons}
                     setIsModalActive={setModalState}
                     isModalActive={isModalActive}
+                    lang={lang}
                 />
             </div>
 

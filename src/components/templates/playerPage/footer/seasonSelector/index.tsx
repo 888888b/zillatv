@@ -1,6 +1,5 @@
 'use client';
 import { useRef, MouseEvent, useCallback, useEffect } from "react";
-import useLanguage from '@/hooks/lang';
 // traduções
 import translations from '@/i18n/translations/sections/translations.json';
 // componentes
@@ -11,25 +10,27 @@ import { IoPlay } from "react-icons/io5";
 // utilitarios
 import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
 // tipos
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
+import { LangCode } from "@/i18n/languages";
 type ComponentProps = {
     seasonsList: TmdbMediaProps[];
     getSelectedSeason: (id: string) => void;
     selectedSeason: string;
     isModalActive: boolean;
     setIsModalActive: (isActive: boolean) => void;
+    lang: string
 };
 
 export default function SelectSeason(props: ComponentProps) {
-    const lang = useLanguage().language.code;
-    const text = translations[lang];
     const {
         seasonsList,
         getSelectedSeason,
         selectedSeason,
         isModalActive,
-        setIsModalActive
+        setIsModalActive,
+        lang
     } = props;
+    const text = translations[lang as LangCode];
     const checkboxInputRef = useRef<HTMLInputElement | null>(null);
     const selectedSeasonNameRef = useRef<HTMLSpanElement | null>(null);
 

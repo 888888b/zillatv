@@ -6,21 +6,22 @@ import EmblaCarousel from '@/components/organisms/emblaSlides';
 import SlideInfoWrapper from './slideInfoWrapper'
 import Image from './image';
 // tipos
-import { TmdbMediaProps } from '@/app/types';
+import { TmdbMediaProps } from '@/app/[lang]/types';
 import { Path } from '@/utils/tmdbApiData/getLogoPath';
 type HeaderCarouselProps = {
     currentPage: 'home' | 'movies' | 'series';
-    slidesData: TmdbMediaProps[] | undefined
+    slidesData: TmdbMediaProps[] | undefined;
+    lang: string;
 };
 // utilitarios
 import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
 import { loadAllLogos } from '@/utils/tmdbApiData/loadAllLogos';
-import { tmdbConfig } from '@/app/constants';
+import { tmdbConfig } from '@/app/[lang]/constants';
 
 import './styles.css';
 
 export default function HeroCarousel(props: HeaderCarouselProps) {
-    const { slidesData } = props;
+    const { slidesData, lang } = props;
     const ref = useRef<HTMLElement | null>(null);
     const [width, setWidth] = useState(0);
     const imageQuality = (width <= 768) ? 'low' : (width <= 1280 ? 'medium' : 'high');
@@ -70,7 +71,7 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
         (async () => {
             const logos: Path[] = [];
             slidesData.forEach(slide => {
-                const logo = getLogoPath(slide.images.logos, slide.id);
+                const logo = getLogoPath(slide.images.logos, slide.id, lang);
                 logo && logos.push(logo);
             });
             await loadAllLogos(logos);
@@ -94,7 +95,7 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                 {slides}
             </EmblaCarousel>
             {/* Informações sobre o filme/Serie exp:(Titulo, Imagem, Descrição, Generos...) */}
-            <SlideInfoWrapper slideData={activeSlideData} />
+            <SlideInfoWrapper slideData={activeSlideData} lang={lang}/>
         </section>
     ) : null;
 };

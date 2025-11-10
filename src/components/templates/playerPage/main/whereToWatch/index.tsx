@@ -1,4 +1,3 @@
-import useLanguage from '@/hooks/lang';
 // traduções
 import titleTranslations from '@/i18n/translations/sections/translations.json';
 import buttonTranslations from '@/i18n/translations/buttons/translations.json';
@@ -9,15 +8,18 @@ import { FaPlay } from "react-icons/fa";
 // tipos
 import { StreamingsInfo } from "@/hooks/watchmode";
 import { watchmodeTypeTranslation } from "@/hooks/watchmode";
-type ComponentProps = { data: StreamingsInfo[] | undefined };
+type ComponentProps = { 
+    data: StreamingsInfo[] | undefined;
+    lang: string;
+};
+import { LangCode } from '@/i18n/languages';
 
 import './styles.css';
 
-export default function WhereToWatch({ data }: ComponentProps) {
+export default function WhereToWatch({ data, lang }: ComponentProps) {
     const token = process.env.NEXT_PUBLIC_LOGO_DEV_API_KEY;
-    const lang = useLanguage().language.code;
-    const titlesText = titleTranslations[lang];
-    const buttonsText = buttonTranslations[lang];
+    const titlesText = titleTranslations[lang as LangCode];
+    const buttonsText = buttonTranslations[lang as LangCode];
 
     const formatService = (price: number | null, type: string) => {
         const priceType = (type === 'sub' || type === 'rent') ? ' R$ / mês' : ' R$';

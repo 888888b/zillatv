@@ -1,25 +1,26 @@
-import { TmdbMediaProps } from '@/app/types';
+import { TmdbMediaProps } from '@/app/[lang]/types';
 import { useRef, useEffect, useCallback } from 'react';
-import useLanguage from '@/hooks/lang';
 // traduções
 import titleTranslations from '@/i18n/translations/sections/translations.json';
 import buttonTranslations from '@/i18n/translations/buttons/translations.json';
 import './styles.css';
-
+// tipos
+import { LangCode } from '@/i18n/languages';
 type ComponentProps = {
     mediaData: TmdbMediaProps;
     mediaType: 'serie' | 'movie' | 'tv';
     className?: string;
     updateMediaImgHeight: (height: number) => void;
+    lang: string;
 };
 
-export default function ContentDetails(props: ComponentProps) {
-    const { mediaData, mediaType, className, updateMediaImgHeight } = props;
+export default function ContentDetails({
+    mediaData, mediaType, className, updateMediaImgHeight, lang
+}: ComponentProps) {
     const seeEpisodesBtnRef = useRef<HTMLAnchorElement | null>(null);
     const listRef = useRef<HTMLUListElement | null>(null);
-    const lang = useLanguage().language.code;
-    const titlesText = titleTranslations[lang];
-    const buttonsText = buttonTranslations[lang];
+    const titlesText = titleTranslations[lang as LangCode];
+    const buttonsText = buttonTranslations[lang as LangCode];
 
     // obtem a nota do publico sobre o conteudo
     const getImdbReviews = (vote_average: number, vote_count: number) => {

@@ -11,19 +11,22 @@ import { GlobalContext } from "@/contexts/global";
 import { ModalsContext } from '@/contexts/modal';
 import { AuthContext } from '@/contexts/auth';
 // utilitarios
-import { tmdbConfig } from '@/app/constants';
+import { tmdbConfig } from '@/app/[lang]/constants';
 import { openRegisterModal } from '@/utils/context/openRegisterModal';
 import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
 // componentes
 import DetailsCard from '@/components/molecules/mediaDetailsCard';
 // tipos
-import { TmdbMediaProps } from "@/app/types";
-type ComponentProps = { data: TmdbMediaProps[], mediaType?: string };
+import { TmdbMediaProps } from "@/app/[lang]/types";
+type ComponentProps = { 
+    data: TmdbMediaProps[]; 
+    mediaType?: string;
+    lang: string;
+};
 
 import './styles.css';
 
-export default function MoviesSeriesSection(props: ComponentProps) {
-    const { data } = props;
+export default function MoviesSeriesSection({data, lang}: ComponentProps) {
     const { push } = useRouter();
     const setEvent = useContext(GlobalContext).dispatch;
     const setModal = useContext(ModalsContext).dispatch;
@@ -108,6 +111,7 @@ export default function MoviesSeriesSection(props: ComponentProps) {
                                 updateFavorites={updateFavorites}
                                 navigate={navigateToPlayer}
                                 media={media}
+                                lang={lang}
                             />
                         </div>
                     ) : null

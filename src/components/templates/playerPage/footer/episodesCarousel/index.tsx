@@ -6,10 +6,10 @@ import EmblaCarousel from "@/components/organisms/emblaSlides";
 import LazyImage from '../../lazyImage';
 //utilitarios
 import { getRunTime } from "@/utils/tmdbApiData/runtime";
-import { tmdbConfig } from "@/app/constants";
+import { tmdbConfig } from "@/app/[lang]/constants";
 import { setTimeout } from 'timers';
 // tipos
-import { TmdbMediaProps } from '@/app/types';
+import { TmdbMediaProps } from '@/app/[lang]/types';
 type ComponentProps = {
     episodes: TmdbMediaProps[];
     serieName: string;

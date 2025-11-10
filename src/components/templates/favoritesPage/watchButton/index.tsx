@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 // Icons com React-icons
 import { FaPlay } from "react-icons/fa";
-import { TmdbMediaProps } from "@/app/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
 type WatchButtonProps = {
     content: TmdbMediaProps;
 };
