@@ -39,8 +39,8 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     const navigateToPlayer = useCallback((): void => {
         if (!slideData) return;
         dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
-        push(`/player/${slideData.media_type}/${slideData.id}`);
-    }, [push, slideData]);
+        push(`/${lang.toLowerCase()}/player/${slideData.media_type}/${slideData.id}`);
+    }, [push, slideData, lang]);
 
     return slideData && (
         <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>

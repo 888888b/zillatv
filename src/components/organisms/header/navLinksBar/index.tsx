@@ -16,31 +16,32 @@ export default function NavLinksBar(
     const { push } = useRouter();
     const pagePath = usePathname();
     const text = translations[lang as LangCode];
+    const lowerCaseLang = lang.toLowerCase();
 
     // ativa o loading e lida com a navegação
     const navigate = useCallback((path: string) => {
         if (path === pagePath) return;
         dispatch({type: 'IS_LOADING_ACTIVE', payload: true});
-        push(path);
-    }, [push, pagePath, dispatch]);
+        push(`/${lang.toLowerCase()}${path}`);
+    }, [push, pagePath, dispatch, lang]);
 
     return (
         <nav className='hidden lg:block'>
             <ul className='flex gap-x-[25px] items-center'>
-                <li onClick={() => navigate('/')}>
+                <li onClick={() => navigate(`/home`)}>
                     {text.home}
                 </li>
 
-                <li onClick={() => navigate('/movies')}>
+                <li onClick={() => navigate(`/movies`)}>
                     {text.movies}
                 </li>
 
-                <li onClick={() => navigate('/series')}>
+                <li onClick={() => navigate(`/series`)}>
                     {text.series}
                 </li>
 
                 {isUserLoggedIn && (
-                    <li onClick={() => navigate('/favorites')}>
+                    <li onClick={() => navigate(`/favorites`)}>
                        {text.favorites}
                     </li>
                 )}

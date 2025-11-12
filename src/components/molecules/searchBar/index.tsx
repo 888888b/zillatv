@@ -24,6 +24,7 @@ export default function SearchBar(props: SearchBarProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const resetBtnRef = useRef<HTMLButtonElement | null>(null);
     const text = translations[lang as LangCode];
+    const lowerCaseLang = lang.toLowerCase();
 
     // ativada sempre que o mouse sai da area da barra de pesquisa 
     const onMouseOutSearchBar = useCallback((): void => {
@@ -47,7 +48,7 @@ export default function SearchBar(props: SearchBarProps) {
 
     // reseta o input sempre que a pagina muda
     useEffect(() => {
-        if (pathname !== '/search') onResetInput();
+        if (pathname !== `/${lowerCaseLang}/search`) onResetInput();
     }, [pathname, inputRef]);
 
     // ativada sempre que o mouse entra da area da barra de pesquisa 
@@ -63,10 +64,10 @@ export default function SearchBar(props: SearchBarProps) {
         const reset = resetBtnRef.current;
         if (!input || !reset) return;
         if (input.value) {
-            push(`/search?keyword=${input.value}`);
+            push(`/${lowerCaseLang}/search?keyword=${input.value}`);
             if (isAnimated) reset.style.display = 'flex';
         } else {
-            push('/');
+            push(`/${lowerCaseLang}/home`);
             if (isAnimated) reset.style.display = 'none';
         };
         isAnimated && onMouseOverSearchBar();
@@ -75,7 +76,7 @@ export default function SearchBar(props: SearchBarProps) {
     // reseta o input e retorna ao home
     const returnToHome = useCallback(() => {
         onResetInput();
-        if (pathname === '/search') push('/');
+        if (pathname === `/${lowerCaseLang}/search`) push(`/${lowerCaseLang}/home`);
     }, [onResetInput, push, pathname]);
 
     // adiciona os eventos de mouse para que a animaçao funcione

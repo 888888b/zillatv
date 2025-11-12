@@ -88,11 +88,11 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
     const navigateToPlayer = useCallback((mediaId: string, mediaType: string): void => {
         setEvent({ type: 'IS_LOADING_ACTIVE', payload: true });
         if (slidesType === 'mixed' && mediaType) {
-            push(`/player/${mediaType}/${mediaId}`);
+            push(`/${lang.toLowerCase()}/player/${mediaType}/${mediaId}`);
             return;
         };
-        push(`/player/${slidesType}/${mediaId}`);
-    }, [slidesType, setEvent, push]);
+        push(`/${lang.toLowerCase()}/player/${slidesType}/${mediaId}`);
+    }, [slidesType, setEvent, push, lang]);
 
     return carouselData ? (
         <div className={`movie-serie-carousel ${className}`}>

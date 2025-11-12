@@ -22,9 +22,9 @@ export default function MobileMenu({children, lang}:{children: ReactNode, lang:s
     const navigate = useCallback((path: string) => {
         if (path === pagePath) return;
         dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
-        push(path);
+        push(`/${lang.toLowerCase()}${path}`);
         drawerInputRef.current?.click();
-    }, [push, pagePath, dispatch]);
+    }, [push, pagePath, dispatch, lang]);
 
     const updateLinkStyle = () => {
         navLinksRef.current.forEach(link => {
@@ -57,7 +57,7 @@ export default function MobileMenu({children, lang}:{children: ReactNode, lang:s
                     <ul className="font-semibold text-text mt-12 flex flex-col gap-y-6 text-base *:cursor-pointer">
                         <li
                             ref={(e) => { navLinksRef.current[0] = e }}
-                            onClick={() => navigate('/')}
+                            onClick={() => navigate('/home')}
                             style={{ animationTimingFunction: 'ease' }}
                             className="hover:text-primary duration-300"
                             id="/">

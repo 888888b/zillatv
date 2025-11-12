@@ -79,8 +79,8 @@ export default function MoviesSeriesSection({data, lang}: ComponentProps) {
     // leva para a pagina do player
     const navigateToPlayer = useCallback((mediaId: string, mediaType: string) => {
         setEvent({ type: 'IS_LOADING_ACTIVE', payload: true });
-        push(`player/${mediaType}/${mediaId}`);
-    }, [push, setEvent]);
+        push(`/${lang.toLowerCase()}/player/${mediaType}/${mediaId}`);
+    }, [push, setEvent, lang]);
 
     return cardsData ? (
         <>
