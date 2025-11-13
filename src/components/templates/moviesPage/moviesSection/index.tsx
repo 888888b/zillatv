@@ -36,7 +36,8 @@ export default function MoviesSection({className, lang}:ComponentProps) {
     const fetchAndFilter = useCallback(async (fetchFn: () => Promise<any>) => {
         const data = await fetchFn();
         const filtered = await checkAvailability(data);
-        setContentData(filtered);
+        const movies = filtered.map(movie => ({...movie, media_type: 'movie'}));
+        setContentData(movies);
     }, []);
 
     const fetchTrendings = useCallback(() => fetchTrendingMovies(lang), [lang]);
