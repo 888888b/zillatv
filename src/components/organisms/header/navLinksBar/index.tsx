@@ -16,11 +16,10 @@ export default function NavLinksBar(
     const { push } = useRouter();
     const pagePath = usePathname();
     const text = translations[lang as LangCode];
-    const lowerCaseLang = lang.toLowerCase();
 
     // ativa o loading e lida com a navegação
     const navigate = useCallback((path: string) => {
-        if (path === pagePath) return;
+        if (`/${lang.toLowerCase()}${path}` === pagePath) return;
         dispatch({type: 'IS_LOADING_ACTIVE', payload: true});
         push(`/${lang.toLowerCase()}${path}`);
     }, [push, pagePath, dispatch, lang]);
