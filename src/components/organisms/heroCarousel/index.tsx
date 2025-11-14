@@ -1,6 +1,12 @@
 'use client';
 // hooks
-import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
+import { 
+    useState, 
+    useCallback, 
+    useRef, 
+    useMemo, 
+    useEffect, 
+} from 'react';
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
 import SlideInfoWrapper from './slideInfoWrapper'
@@ -33,6 +39,9 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
         medium_resolution_backdrop,
         medium_resolution_poster
     } = tmdbConfig;
+    const memorizedSlidesData: TmdbMediaProps[] | undefined = useMemo(() => {
+        return slidesData;
+    }, [slidesData]);
 
     const getPath = useCallback((media: TmdbMediaProps, quality: "low" | "medium" | "high"): string => {
         if (media.backdrop_path) {
@@ -47,7 +56,7 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
     }, []);
 
     const slides = useMemo(() => {
-        return slidesData?.map((slide, index) => (
+        return memorizedSlidesData?.map((slide, index) => (
             <div key={`hero-slide-${slide.id}`} className="embla__slide">
                 <Image
                     lowSrc={getPath(slide, "low")}
@@ -58,8 +67,8 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                 />
             </div>
         ));
-    }, [slidesData, getPath, indexInView, width]);
-    const activeSlideData = slidesData && slidesData[indexInView];
+    }, [memorizedSlidesData, getPath, indexInView, width]);
+    const activeSlideData = memorizedSlidesData && memorizedSlidesData[indexInView];
 
     // recebe o index do slide ativo na tela
     const getIndexInView = useCallback((index: number): void => {
@@ -67,35 +76,35 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
     }, [setIndexInView]);
 
     useEffect(() => {
-        if (!slidesData) return;
+        if (!memorizedSlidesData) return;
         (async () => {
             const logos: Path[] = [];
-            slidesData.forEach(slide => {
+            memorizedSlidesData.forEach(slide => {
                 const logo = getLogoPath(slide.images.logos, slide.id, lang);
                 logo && logos.push(logo);
             });
             await loadAllLogos(logos);
         })();
-    }, [slidesData]);
+    }, [memorizedSlidesData]);
 
     useEffect(() => {
         if (window !== undefined) setWidth(window.innerWidth);
     }, []);
 
-    return slidesData ? (
+    return memorizedSlidesData ? (
         <section ref={ref} className='hero-carousel'>
             <EmblaCarousel
                 navigationType="header"
                 slidesPerView={1}
                 autoplay={true}
                 loop={true}
-                duration={15}
+                duration={10}
                 fadeAnimation={true}
                 selectedSnap={getIndexInView}>
                 {slides}
             </EmblaCarousel>
             {/* Informações sobre o filme/Serie exp:(Titulo, Imagem, Descrição, Generos...) */}
-            <SlideInfoWrapper slideData={activeSlideData} lang={lang}/>
+            <SlideInfoWrapper slideData={activeSlideData} lang={lang} />
         </section>
     ) : null;
 };

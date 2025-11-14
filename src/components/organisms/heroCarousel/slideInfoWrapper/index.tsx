@@ -43,32 +43,43 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     }, [push, slideData, lang]);
 
     return slideData && (
-        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
+        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
             {/* titulo*/}
             {logo ?
                 <Logo
                     src={high_resolution_logo + logo.path}
                     alt={`Logo ${slideData.media_type === 'movie' ? 'do filme' : 'da série'} ${slideData.title ?? slideData.name}`}
-                    className='slide-logo mb-4  order-1'
+                    className='slide-logo  order-1'
                 />
                 :
-                <Title className='mb-4 order-1'>{slideData.name ?? slideData.title}</Title>
+                <Title className='order-1'>{slideData.name ?? slideData.title}</Title>
             }
-            <Description className='sm:h-0 lg:h-auto order-2 '>{slideData.overview}</Description>
-            <div className='mt-4 flex items-center gap-x-4 order-3 sm:order-4 lg:order-3'>
+            {/* desrcição */}
+            { slideData.overview &&
+                <Description className='sm:h-0 lg:h-auto order-2 '>
+                    {slideData.overview}
+                </Description>
+            }
+
+            <div className='flex items-center gap-x-4 order-3 sm:order-4 lg:order-3'>
                 {/* ver detalhes */}
                 <PlayButton onClick={navigateToPlayer}>
-                    <FaPlay className='w-4 h-4' />
+                    <FaPlay className='[font-size:clamp(1rem,2vw,1.25rem)] lg:[font-size:clamp(1.25rem,1.5vw,1.5rem)]'/>
                     {
                         slideData.media_type === 'movie' ? 
                         text.go_to_movie : text.go_to_series 
                     }
                 </PlayButton>
                 {/* Adicionar aos favoritos */}
-                <AddToListButton />
+                <AddToListButton 
+                    mediaId={slideData.id} 
+                    mediaType={slideData.media_type}
+                    isFavorite={slideData.isFavorite}
+                />
             </div>
+
             {/* generos */}
-            <Genres className='mt-4 order-4 sm:order-3 sm:mt-0 lg:mt-4 lg:order-4 '>
+            <Genres className='order-4 sm:order-3 sm:mt-0 lg:order-4 '>
                 <span className="font-bold">{text.genre}</span>: {genres}
             </Genres>
         </div>
