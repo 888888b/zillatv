@@ -11,8 +11,8 @@ import { StopLoading } from '@/components/atoms/stopLoading';
 // tipos
 import { TmdbMediaProps } from '@/app/[lang]/types';
 type ComponentProps = {
-    contentId: string;
-    contentType: 'serie' | 'movie' | 'tv';
+    mediaId: string;
+    mediaType: 'serie' | 'movie' | 'tv';
     lang: string;
 };
 // utilitarios
@@ -20,25 +20,25 @@ import { formatLangCode } from '@/utils/i18n';
 
 import './styles.css';
 
-export default async function PlayerPage({ contentType, contentId, lang }: ComponentProps) {
+export default async function PlayerPage({ mediaType, mediaId, lang }: ComponentProps) {
     const { fetchSeriebyId, fetchMovieById } = useTmdbFetch();
     const { searchInfoByTmdbId, searchStreamingsById } = useWatchmode();
     const langCode = formatLangCode(lang);
 
     // Busca TMDB (filme/série)
-    const mediaData: TmdbMediaProps | undefined =
-        contentType === 'movie'
-            ? await fetchMovieById(contentId, langCode)
-            : await fetchSeriebyId(contentId, langCode);
+    const media: TmdbMediaProps | undefined =
+        mediaType === 'movie'
+            ? await fetchMovieById(mediaId, langCode)
+            : await fetchSeriebyId(mediaId, langCode);
 
-    if (!mediaData) {
+    if (!media) {
         return <div className="page-max-width py-10 text-center text-gray-400">Conteúdo não encontrado</div>;
     };
 
     // Busca streaming info
     const titleInfo = await searchInfoByTmdbId({
-        tmdbId: contentId,
-        idType: contentType === 'movie' ? 'tmdb_movie_id' : 'tmdb_tv_id'
+        tmdbId: mediaId,
+        idType: mediaType === 'movie' ? 'tmdb_movie_id' : 'tmdb_tv_id'
     });
 
     let streamingsInfo;
@@ -54,25 +54,29 @@ export default async function PlayerPage({ contentType, contentId, lang }: Compo
     return (
         <>
             <section className="mb-16 player-page">
-                <Header playerData={mediaData} lang={langCode}/>
+                <Header 
+                    media={media} 
+                    lang={langCode}
+                    type={mediaType}
+                />
                 <Main
-                    mediaData={mediaData}
-                    mediaType={contentType}
+                    mediaData={media}
+                    mediaType={mediaType}
                     streamingsData={streamingsInfo}
                     lang={langCode}
                 />
-                {contentType === 'movie' ? (
+                {mediaType === 'movie' ? (
                     <SimilarsCarousel 
                         className="w-full mt-16" 
-                        movieId={contentId}
+                        movieId={mediaId}
                         lang={langCode} 
                     />
                 ) : (
                     <EpisodesCarousel
                         className="w-full mt-16"
-                        serieName={mediaData.name}
-                        serieId={contentId}
-                        seasons={mediaData.seasons}
+                        serieName={media.name}
+                        serieId={mediaId}
+                        seasons={media.seasons}
                         lang={langCode}
                     />
                 )}
