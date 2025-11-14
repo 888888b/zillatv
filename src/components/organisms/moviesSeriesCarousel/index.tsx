@@ -60,7 +60,19 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
         };
     });
 
-    // Define se o filme/serie e favorito ou nao, caso seja, salva no banco de dados
+    const addToFavorites = useCallback(async (mediaId: string, mediaType: string): Promise<void> => {
+        const addingMsg = mediaType === 'movie' ? 'Filme adicionado ✅' : 'Série adicionada ✅';
+        await addUserFavoritesToDb(mediaId, mediaType, setUserData);
+        showSuccessMsg(addingMsg);
+    }, [showSuccessMsg, addUserFavoritesToDb]);
+
+    const removeFromFavorites = useCallback(async (mediaId: string, mediaType: string): Promise<void> => {
+        const removingMsg = mediaType === 'movie' ? 'Filme removido ✅' : 'Série removida ✅';
+        await deleteUserFavoritesOnDb(mediaId, mediaType);
+        showSuccessMsg(removingMsg);
+    }, [deleteUserFavoritesOnDb, showSuccessMsg]);
+
+    // lida com adição/remoção do filme/series da lista de favoritos
     const updateFavorites = useCallback(
         async (mediaId: string, mediaType: string, isOnDb: boolean)
             : Promise<void> => {
@@ -73,16 +85,8 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
                 );
                 return;
             };
-            const addingMsg = mediaType === 'movie' ? 'Filme adicionado ✅' : 'Série adicionada ✅';
-            const removingMsg = mediaType === 'movie' ? 'Filme removido ✅' : 'Série removida ✅';
-            if (isOnDb) {
-                await deleteUserFavoritesOnDb(mediaId, mediaType);
-                showSuccessMsg(removingMsg);
-            } else {
-                await addUserFavoritesToDb(mediaId, mediaType, setUserData);
-                showSuccessMsg(addingMsg);
-            };
-        }, [setError, setModal, isLoggedIn, deleteUserFavoritesOnDb, addUserFavoritesToDb]);
+            isOnDb ? removeFromFavorites(mediaId, mediaType) : addToFavorites(mediaId, mediaType);
+        }, [isLoggedIn, addToFavorites, removeFromFavorites]);
 
     // leva para a pagina do player
     const navigateToPlayer = useCallback((mediaId: string, mediaType: string): void => {
