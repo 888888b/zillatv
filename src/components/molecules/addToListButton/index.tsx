@@ -16,7 +16,6 @@ import { ComponentPropsWithRef } from "react";
 type ComponentProps = ComponentPropsWithRef<'button'> & {
     mediaId: string; 
     mediaType: string;
-    isFavorite?: boolean;
 };
 
 const AddToListButton = memo((props : ComponentProps) => {

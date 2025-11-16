@@ -1,11 +1,11 @@
 'use client';
 // hooks
-import { 
-    useState, 
-    useCallback, 
-    useRef, 
-    useMemo, 
-    useEffect, 
+import {
+    useState,
+    useCallback,
+    useRef,
+    useMemo,
+    useEffect,
 } from 'react';
 // componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
@@ -27,10 +27,9 @@ import { tmdbConfig } from '@/app/[lang]/constants';
 import './styles.css';
 
 export default function HeroCarousel(props: HeaderCarouselProps) {
-    const { slidesData, lang } = props;
+    const { lang } = props;
     const ref = useRef<HTMLElement | null>(null);
     const [width, setWidth] = useState(0);
-    const imageQuality = (width <= 768) ? 'low' : (width <= 1280 ? 'medium' : 'high');
     const [indexInView, setIndexInView] = useState(0);
     const {
         low_resolution_backdrop,
@@ -39,9 +38,8 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
         medium_resolution_backdrop,
         medium_resolution_poster
     } = tmdbConfig;
-    const memorizedSlidesData: TmdbMediaProps[] | undefined = useMemo(() => {
-        return slidesData;
-    }, [slidesData]);
+    const [slidesData, setSlidesData] = useState(props.slidesData);
+    const [isLoading, setIsLoading] = useState(true);
 
     const getPath = useCallback((media: TmdbMediaProps, quality: "low" | "medium" | "high"): string => {
         if (media.backdrop_path) {
@@ -56,42 +54,62 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
     }, []);
 
     const slides = useMemo(() => {
-        return memorizedSlidesData?.map((slide, index) => (
+        const quality =
+            width <= 768 ? "low" :
+                width <= 1600 ? "medium" :
+                    "high";
+
+        if (width === 0) return null;
+        return slidesData?.map(slide => (
             <div key={`hero-slide-${slide.id}`} className="embla__slide">
                 <Image
-                    lowSrc={getPath(slide, "low")}
-                    highSrc={getPath(slide, imageQuality)}
-                    indexInView={indexInView}
-                    imageIndex={index}
+                    src={getPath(slide, quality)}
                     className="slide-img"
+                    alt={`Imagem poster de ${slide.name ?? slide.title}`}
                 />
             </div>
         ));
-    }, [memorizedSlidesData, getPath, indexInView, width]);
-    const activeSlideData = memorizedSlidesData && memorizedSlidesData[indexInView];
+    }, [slidesData, width]);
 
     // recebe o index do slide ativo na tela
     const getIndexInView = useCallback((index: number): void => {
         setIndexInView(index);
     }, [setIndexInView]);
 
+    // carrega as logos dos filmes/series e adiciona aos dados do carousel 
     useEffect(() => {
-        if (!memorizedSlidesData) return;
-        (async () => {
-            const logos: Path[] = [];
-            memorizedSlidesData.forEach(slide => {
-                const logo = getLogoPath(slide.images.logos, slide.id, lang);
-                logo && logos.push(logo);
-            });
-            await loadAllLogos(logos);
-        })();
-    }, [memorizedSlidesData]);
+        if (!slidesData) return;
 
+        const addLogos = (logos: (Path | undefined)[]) => {
+            const updateData = slidesData.map((data, index) => (
+                { ...data, logo: logos[index] }
+            ));
+            setSlidesData([...updateData]);
+            setIsLoading(false);
+        };
+
+        (async () => {
+            const logos = slidesData.map(slide => {
+                return getLogoPath(slide.images.logos, slide.id, lang);
+            });
+            await loadAllLogos(logos.filter(logo => logo !== undefined));
+            addLogos(logos);
+        })();
+    }, [lang]);
+
+    // pega o width total da viewport
     useEffect(() => {
-        if (window !== undefined) setWidth(window.innerWidth);
+        if (typeof window === "undefined") return;
+        const setCurrentWidth = () => {
+            if (!window) return;
+            setWidth(window.innerWidth);
+        };
+        setCurrentWidth();
+        window.addEventListener('resize', setCurrentWidth);
+        return () => { window.removeEventListener('resize', setCurrentWidth) };
     }, []);
 
-    return memorizedSlidesData ? (
+    return slidesData ? (
         <section ref={ref} className='hero-carousel'>
             <EmblaCarousel
                 navigationType="header"
@@ -104,7 +122,18 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                 {slides}
             </EmblaCarousel>
             {/* Informações sobre o filme/Serie exp:(Titulo, Imagem, Descrição, Generos...) */}
-            <SlideInfoWrapper slideData={activeSlideData} lang={lang} />
+            {!isLoading &&
+                slidesData.map((data, index) => (
+                    <SlideInfoWrapper
+                        data={data}
+                        lang={lang}
+                        key={`hero-slide-${data.id}-info`}
+                        logo={data.logo}
+                        isVisible={index === indexInView}
+                        pageWidth={width}
+                    />
+                ))
+            }
         </section>
     ) : null;
 };

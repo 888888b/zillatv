@@ -1,5 +1,5 @@
 // hooks
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 // translations
 import translations from '@/i18n/translations/buttons/translations.json';
@@ -11,12 +11,16 @@ import PlayButton from "@/components/atoms/playButton";
 import AddToListButton from "@/components/molecules/addToListButton";
 import Genres from '../genres';
 // tipos
+import { Path } from '@/utils/tmdbApiData/getLogoPath';
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { LangCode } from '@/i18n/languages';
 import { ComponentPropsWithRef } from 'react';
-type ComponentProps = { 
-    slideData: TmdbMediaProps | undefined;
+type ComponentProps = {
+    data: TmdbMediaProps;
     lang: string;
+    logo: Path | undefined;
+    pageWidth: number;
+    isVisible: boolean;
 } & ComponentPropsWithRef<'div'>;
 // icones
 import { FaPlay } from 'react-icons/fa';
@@ -24,57 +28,79 @@ import { FaPlay } from 'react-icons/fa';
 import { GlobalContext } from '@/contexts/global';
 // utilitarios
 import { tmdbConfig } from '@/app/[lang]/constants';
-import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
 
 export default function SlideInfoWrapper(props: ComponentProps) {
-    const { className, slideData, lang, ...rest } = props;
+    const {
+        className,
+        data,
+        pageWidth,
+        lang,
+        logo,
+        isVisible,
+        ...rest
+    } = props;
     const text = translations[lang as LangCode];
     const { dispatch } = useContext(GlobalContext);
     const { push } = useRouter();
-    const { high_resolution_logo } = tmdbConfig;
-    const logo = getLogoPath(slideData?.images.logos, slideData?.id, lang);
-    const genres: string = slideData?.genres.map((genre: TmdbMediaProps) => (genre.name)).filter((_: string, index: number) => index < 2).join(', ');
+    const { high_resolution_logo, medium_resolution_logo } = tmdbConfig;
+    const genres = useMemo(() => {
+        return data.genres
+            .map((g: Record<string, string>) => g.name)
+            .slice(0, 2)
+            .join(', ');
+    }, [data]);
+    const quality = pageWidth < 1600 ? 'low' : 'high';
 
     // lida com a nevegaçao entre paginas
     const navigateToPlayer = useCallback((): void => {
-        if (!slideData) return;
+        if (!data) return;
         dispatch({ type: 'IS_LOADING_ACTIVE', payload: true });
-        push(`/${lang.toLowerCase()}/player/${slideData.media_type}/${slideData.id}`);
-    }, [push, slideData, lang]);
+        push(`/${lang.toLowerCase()}/player/${data.media_type}/${data.id}`);
+    }, [push, data, lang]);
 
-    return slideData && (
-        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
+    const getPath = useCallback((path: string, quality: "low" | "high"): string => {
+        return quality === 'low' ? medium_resolution_logo + path :
+            high_resolution_logo + path;
+    }, []);
+
+    const mediaTitle = useMemo(() => {
+        console.log('Renderizou o titulo');
+        return logo ?
+            <Logo
+                src={getPath(logo.path, quality)}
+                alt={`Logo ${data.media_type === 'movie' ? 'do filme' : 'da série'} ${data.title ?? data.name}`}
+                className='slide-logo  order-1'
+                loading='eager'
+                decoding='sync'
+            />
+            :
+            <Title className='order-1'>{data.name ?? data.title}</Title>
+    }, [logo, data, quality]);
+
+    return data && pageWidth && (
+        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${isVisible ? 'visible pointer-events-auto' : 'invisible pointer-events-none'} ${className}`}>
             {/* titulo*/}
-            {logo ?
-                <Logo
-                    src={high_resolution_logo + logo.path}
-                    alt={`Logo ${slideData.media_type === 'movie' ? 'do filme' : 'da série'} ${slideData.title ?? slideData.name}`}
-                    className='slide-logo  order-1'
-                />
-                :
-                <Title className='order-1'>{slideData.name ?? slideData.title}</Title>
-            }
+            {mediaTitle}
             {/* desrcição */}
-            { slideData.overview &&
+            {data.overview &&
                 <Description className='sm:h-0 lg:h-auto order-2 '>
-                    {slideData.overview}
+                    {data.overview}
                 </Description>
             }
 
             <div className='flex items-center gap-x-4 order-3 sm:order-4 lg:order-3'>
                 {/* ver detalhes */}
                 <PlayButton onClick={navigateToPlayer}>
-                    <FaPlay className='[font-size:clamp(1rem,2vw,1.25rem)] lg:[font-size:clamp(1.25rem,1.5vw,1.5rem)]'/>
+                    <FaPlay className='[font-size:clamp(1rem,2vw,1.25rem)] lg:[font-size:clamp(1.25rem,1.5vw,1.5rem)]' />
                     {
-                        slideData.media_type === 'movie' ? 
-                        text.go_to_movie : text.go_to_series 
+                        data.media_type === 'movie' ?
+                            text.go_to_movie : text.go_to_series
                     }
                 </PlayButton>
                 {/* Adicionar aos favoritos */}
-                <AddToListButton 
-                    mediaId={slideData.id} 
-                    mediaType={slideData.media_type}
-                    isFavorite={slideData.isFavorite}
+                <AddToListButton
+                    mediaId={data.id}
+                    mediaType={data.media_type}
                 />
             </div>
 
