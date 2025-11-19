@@ -62,7 +62,6 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     }, []);
 
     const mediaTitle = useMemo(() => {
-        console.log('Renderizou o titulo');
         return logo ?
             <Logo
                 src={getPath(logo.path, quality)}
@@ -80,7 +79,7 @@ export default function SlideInfoWrapper(props: ComponentProps) {
             {/* titulo*/}
             {mediaTitle}
             {/* desrcição */}
-            {data.overview &&
+            {data.overview && (pageWidth < 640 || pageWidth > 1023) &&
                 <Description className='sm:h-0 lg:h-auto order-2 '>
                     {data.overview}
                 </Description>

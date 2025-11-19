@@ -28,9 +28,9 @@ import './styles.css';
 
 export default function HeroCarousel(props: HeaderCarouselProps) {
     const { lang } = props;
+    const langCode = lang.split('-')[0];
     const ref = useRef<HTMLElement | null>(null);
     const [width, setWidth] = useState(0);
-    const [indexInView, setIndexInView] = useState(0);
     const {
         low_resolution_backdrop,
         high_resolution_backdrop,
@@ -83,11 +83,6 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
         ));
     }, [slidesData, width, lang, isLoading]);
 
-    // recebe o index do slide ativo na tela
-    const getIndexInView = useCallback((index: number): void => {
-        setIndexInView(index);
-    }, [setIndexInView]);
-
     // carrega as logos dos filmes/series e adiciona aos dados do carousel 
     useEffect(() => {
         if (!slidesData) return;
@@ -102,7 +97,7 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
 
         (async () => {
             const logos = slidesData.map(slide => {
-                return getLogoPath(slide.images.logos, slide.id, lang);
+                return getLogoPath(slide.images.logos, slide.id, langCode);
             });
             await loadAllLogos(logos.filter(logo => logo !== undefined));
             addLogos(logos);
@@ -129,8 +124,7 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                 autoplay={true}
                 loop={true}
                 duration={10}
-                fadeAnimation={true}
-                selectedSnap={getIndexInView}>
+                fadeAnimation={true}>
                 {slides}
             </EmblaCarousel>
         </section>

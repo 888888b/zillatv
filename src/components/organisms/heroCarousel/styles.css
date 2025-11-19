@@ -46,7 +46,7 @@
 .hero-carousel .slide-logo {
   filter: brightness(1.05) contrast(1.1) saturate(1.2);
   max-height: clamp(70px, 8.8vw, 120px);
-  max-width: 70%;
+  max-width: 60vw;
 }
 
 .hero-carousel ul li {
@@ -72,7 +72,7 @@
   }
 
   .hero-carousel .slide-logo {
-    max-width: clamp(350px, 45vw, 500px);
+    max-width: 30vw;
   }
 
   .hero-carousel .slide-img {
@@ -89,7 +89,7 @@
         var(--color-gradient-0) 100%);
   }
 
-  .hero-carousel .embla__slide .img-wrapper::before {
+  .hero-carousel .embla__slide .img-wrapper::after {
     content: '';
     position: absolute;
     width: 100%;
