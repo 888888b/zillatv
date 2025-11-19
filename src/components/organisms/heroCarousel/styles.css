@@ -10,16 +10,21 @@
 
 .hero-carousel {
   position: relative;
-  padding-bottom: 40px;
-  min-height: 575px;
 }
 
 .hero-carousel .embla__slide {
   width: 100%;
   overflow: hidden;
+  position: relative;
+  padding-bottom: 40px;
+  min-height: 575px;
 }
 
-.hero-carousel .embla::before {
+.hero-carousel .embla__slide .img-wrapper {
+  position: relative;
+}
+
+.hero-carousel .embla__slide .img-wrapper::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -61,7 +66,7 @@
 }
 
 @media screen and (width>=640px) {
-  .hero-carousel {
+  .hero-carousel .embla__slide {
     padding-bottom: 0;
     min-height: auto;
   }
@@ -76,7 +81,7 @@
     max-height: 100vh;
   }
 
-  .hero-carousel .embla::before {
+  .hero-carousel .embla__slide .img-wrapper::before {
     height: 100%;
     background-image: linear-gradient(to top,
         var(--color-gradient-base) 0%,
@@ -84,7 +89,7 @@
         var(--color-gradient-0) 100%);
   }
 
-  .hero-carousel .embla::after {
+  .hero-carousel .embla__slide .img-wrapper::before {
     content: '';
     position: absolute;
     width: 100%;

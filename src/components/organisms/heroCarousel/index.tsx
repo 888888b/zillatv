@@ -62,14 +62,26 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
         if (width === 0) return null;
         return slidesData?.map(slide => (
             <div key={`hero-slide-${slide.id}`} className="embla__slide">
-                <Image
-                    src={getPath(slide, quality)}
-                    className="slide-img"
-                    alt={`Imagem poster de ${slide.name ?? slide.title}`}
-                />
+                <div className='img-wrapper'>
+                    <Image
+                        src={getPath(slide, quality)}
+                        className="slide-img"
+                        alt={`Imagem poster de ${slide.name ?? slide.title}`}
+                    />
+                </div>
+                {/* Informações sobre o filme/Serie exp:(Titulo, Imagem, Descrição, Generos...) */}
+                { !isLoading &&
+                    <SlideInfoWrapper
+                        data={slide}
+                        lang={lang}
+                        key={`hero-slide-${slide.id}-info`}
+                        logo={slide.logo}
+                        pageWidth={width}
+                    />
+                }
             </div>
         ));
-    }, [slidesData, width]);
+    }, [slidesData, width, lang, isLoading]);
 
     // recebe o index do slide ativo na tela
     const getIndexInView = useCallback((index: number): void => {
@@ -121,19 +133,6 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                 selectedSnap={getIndexInView}>
                 {slides}
             </EmblaCarousel>
-            {/* Informações sobre o filme/Serie exp:(Titulo, Imagem, Descrição, Generos...) */}
-            {!isLoading &&
-                slidesData.map((data, index) => (
-                    <SlideInfoWrapper
-                        data={data}
-                        lang={lang}
-                        key={`hero-slide-${data.id}-info`}
-                        logo={data.logo}
-                        isVisible={index === indexInView}
-                        pageWidth={width}
-                    />
-                ))
-            }
         </section>
     ) : null;
 };

@@ -20,7 +20,6 @@ type ComponentProps = {
     lang: string;
     logo: Path | undefined;
     pageWidth: number;
-    isVisible: boolean;
 } & ComponentPropsWithRef<'div'>;
 // icones
 import { FaPlay } from 'react-icons/fa';
@@ -36,7 +35,6 @@ export default function SlideInfoWrapper(props: ComponentProps) {
         pageWidth,
         lang,
         logo,
-        isVisible,
         ...rest
     } = props;
     const text = translations[lang as LangCode];
@@ -78,7 +76,7 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     }, [logo, data, quality]);
 
     return data && pageWidth && (
-        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${isVisible ? 'visible pointer-events-auto' : 'invisible pointer-events-none'} ${className}`}>
+        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
             {/* titulo*/}
             {mediaTitle}
             {/* desrcição */}
