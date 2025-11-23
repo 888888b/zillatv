@@ -1,28 +1,31 @@
 'use client';
 // icons
 import { FaGithubSquare, FaLinkedin, FaWhatsappSquare } from "react-icons/fa";
-// componentes
-import LangSelector from '@/components/molecules/langSelector';
 // translations
 import Translations from '@/i18n/translations/footer/translations.json';
 // tipos
 import { LangCode } from "@/i18n/languages";
 
-export default function Footer({className, lang}: {className?: string, lang:string}) {
+export default function Footer({ className, lang }: { className?: string, lang: string }) {
     const currentYear = new Date().getFullYear();
     const data = Translations[lang as LangCode];
 
     return (
-        <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 ${className}`} style={{overflow: 'visible'}}>
+        <footer className={`flex flex-col pt-4 gap-12 mx-auto xl:gap-16 ${className}`} style={{ overflow: 'visible' }}>
             <div className="page-padding page-max-width flex gap-12 flex-wrap items-center justify-between xl:flex-nowrap xl:justify-center xl:items-start xl:gap-16 xl:mx-auto">
                 <aside>
                     {/* logo do projeto */}
-                    <img src="/white_project_logo.svg" alt="Logo do Zilla TV" className='h-[clamp(22px,2.4vw,24px)]' />
+                    <img
+                        src="/white_logo.svg"
+                        alt="Logo do Zillatv"
+                        loading="lazy"
+                        className="w-[clamp(85px,9.2vw,98px)] cursor-pointer"
+                    />
                     <p className="mt-2 font-medium [font-size:clamp(0.875rem,1vw,1rem)] max-w-[360px]">
                         {data.discover_follow}
                     </p>
                     {/* redes sociais / contato */}
-                    <div className="flex items-center gap-x-4 mt-3 mb-6 [font-size:clamp(24px,1.65vw,26px)] ">
+                    <div className="flex items-center gap-x-4 mt-3 [font-size:clamp(24px,1.65vw,26px)] ">
                         <a href="https://www.linkedin.com/in/vitor-araujo-2054622a6" target="_blank" rel="noopener noreferrer">
                             <FaLinkedin />
                         </a>
@@ -30,11 +33,9 @@ export default function Footer({className, lang}: {className?: string, lang:stri
                             <FaGithubSquare />
                         </a>
                         <a href="https://wa.me/5562998648742" target="_blank" rel="noopener noreferrer">
-                            <FaWhatsappSquare/>
+                            <FaWhatsappSquare />
                         </a>
                     </div>
-                    {/* selecionar / trocar idioma da pagina */}
-                    <LangSelector/>
                 </aside>
 
                 {/* informações adicionais sobre o projeto */}

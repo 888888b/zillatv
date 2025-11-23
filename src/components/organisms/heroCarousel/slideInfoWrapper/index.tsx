@@ -75,8 +75,8 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     }, [logo, data, quality]);
 
     return data && pageWidth && (
-        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
-            {/* titulo*/}
+        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[calc(56vw*0.25)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
+            {/* titulo*/} 
             {mediaTitle}
             {/* desrcição */}
             {data.overview && (pageWidth < 640 || pageWidth > 1023) &&

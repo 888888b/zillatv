@@ -31,7 +31,7 @@ export default async function MoviesPage({lang}:{lang:string}) {
                     lang={langCode}
                 />
                 <MoviesSection 
-                    className='mt-12 mb-16 sm:-mt-[clamp(0px,4.5vw,46px)]' 
+                    className='mt-12 mb-16 sm:-mt-[calc((56vw*0.25)-100px)]' 
                     lang={langCode}
                 />
             </div>

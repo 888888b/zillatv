@@ -9,12 +9,9 @@ import { UserDataContext } from "@/contexts/user";
 // import { AiOutlineDelete } from "react-icons/ai";
 import { RiUser6Line } from "react-icons/ri";
 
-// componentes
-import Image from "next/image";
-
 import './styles.css';
 
-export default function ProfileIcon() {
+export default function AccountDropdown() {
 
     // const [ isClosingAccount, setIsClosingAccount ] = useState( false );
     // const [ isSigningOut, setIsSigningOut ] = useState( false );
@@ -23,7 +20,7 @@ export default function ProfileIcon() {
     const {
         photoUrl,
         name
-    } = useContext( UserDataContext );
+    } = useContext(UserDataContext);
 
     // ações de usuario
     // const {
@@ -57,31 +54,25 @@ export default function ProfileIcon() {
     return (
         <div className="account-info">
             <div className="flex items-center gap-x-3">
-                <div className="w-12 h-12 rounded-full relative overflow-hidden cursor-pointer">
+                <div className="w-6 aspect-square rounded-full relative overflow-hidden cursor-pointer">
                     {/* foto de perfil de usuario */}
-                    { photoUrl ? (
-                        <Image
-                            src={photoUrl}
-                            alt="user profile photo"
-                            fill
-                            sizes="100%"
-                        />
+                    {photoUrl ? (
+                        <img src={photoUrl} alt={`Imagem de perfil de ${name}`} />
                     ) : (
-                        <div className="w-full h-full rounded-full bg-secondary/10 flex items-center justify-center text-2xl text-secondary">
-                            <RiUser6Line/>
-                        </div>
+                        <RiUser6Line strokeWidth={0.1} className="w-[clamp(24px,1.65vw,26px)] 
+                        h-[clamp(24px,1.65vw,26px)]"/>
                     )}
                 </div>
                 {/* nome de usuario */}
-                { name &&
+                {/* {name &&
                     <p className="hidden sm:flex lg:hidden xl:flex font-normal text-text font-raleway text-xl xl:text-lg items-center gap-x-1">
-                        Olá, 
-                        <span 
-                        className="font-bold text-secondary max-w-32 line-clamp-1 truncate">
-                        {name.split(' ')[0]}
+                        Olá,
+                        <span
+                            className="font-bold text-secondary max-w-32 line-clamp-1 truncate">
+                            {name.split(' ')[0]}
                         </span>
                     </p>
-                }
+                } */}
             </div>
         </div>
     );

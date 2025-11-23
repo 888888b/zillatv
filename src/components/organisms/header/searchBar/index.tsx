@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import translations from '@/i18n/translations/buttons/translations.json';
 // componente
 import Image from "next/image";
+import { SearchIcon } from "@/components/atoms/searchIcon";
 // estilo
 import './styles.css';
 // tipos
@@ -86,13 +87,11 @@ export default function SearchBar(props: SearchBarProps) {
     } : {};
 
     return (
-        <form className={`rounded-md border-[0.1rem] overflow-hidden border-secondary/15 relative hover:border-secondary/40 transition-all duration-300 h-10 lg:h-12 ${isAnimated && 'w-10 lg:w-12'} ${className}`} onSubmit={(e) => e.preventDefault()} {...inputMouseEvents} ref={inputBoxRef}>
+        <form className={`flex items-center rounded-md border-[0.1rem] overflow-hidden border-secondary/10 lg:border-secondary/40 relative h-12 text-text ${className}`} onSubmit={(e) => e.preventDefault()} {...inputMouseEvents} ref={inputBoxRef}>
             {/* icone de lupa */}
-            <Image
-                src={'/search_icon.svg'}
-                alt={'search icon'}
-                width={24}
-                height={24}
+            <SearchIcon
+                size={24}
+                strokeWidth={0.1}
                 className="absolute top-1/2 -translate-y-1/2 left-5 md:left-[19px] lg:left-[22px] -translate-x-1/2"
             />
 
@@ -100,7 +99,7 @@ export default function SearchBar(props: SearchBarProps) {
             <input
                 type='text'
                 name="search-input"
-                className='appearance-none outline-none border-none h-full text-base text-secondary placeholder:text-text placeholder:font-normal w-full font-medium px-10 lg:px-12'
+                className='appearance-none outline-none border-none h-full [font-size:clamp(1rem,1.15vw,1.125rem)] text-secondary placeholder:text-text lg:placeholder:text-secondary/70 placeholder:font-normal w-full font-medium px-10 lg:px-12'
                 placeholder={text.search_movies_series}
                 autoComplete='additional-name webauthn'
                 maxLength={70}

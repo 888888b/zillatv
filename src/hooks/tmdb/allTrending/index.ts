@@ -9,7 +9,7 @@ export const fetchAllTrending = async (type: MediaType = 'all', lang: string = '
     try {
         const response = await fetch(`https://api.themoviedb.org/3/trending/${type}/day?api_key=${token}&language=${lang}&include_image_language=${region},en,null`, {
             cache: 'force-cache',
-            next: { revalidate: 43200 }
+            next: { revalidate: 14400 }
         });
         if (response.ok) {
             return (await response.json()).results;

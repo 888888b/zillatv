@@ -17,7 +17,7 @@
 
 :root {
   --bullet-width: clamp(2rem, 2.5vw, 2.5rem);
-  --bullet-height: clamp(0.5rem, 0.64vw, 0.625rem);
+  --bullet-height: clamp(0.375rem, 0.50vw, 0.5rem);
 }
 
 .bullets-bar {
@@ -71,7 +71,7 @@
 
 @media screen and (width >=640px) {
   .bullets-bar {
-    bottom: clamp(60px, 11.8vw, 110px);
+    bottom: calc(56vw * 0.25 - 40px);
     transform: none;
     left: var(--page-padding);
   }

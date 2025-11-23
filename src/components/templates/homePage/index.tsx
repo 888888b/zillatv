@@ -93,7 +93,7 @@ export default async function HomePage({ lang }: { lang: string }) {
             />
 
             {/* MAIN CAROUSELS */}
-            <div className="flex flex-col mt-12 mb-16 relative z-10 sm:-mt-[clamp(0px,5.5vw,56px)]">
+            <div className="flex flex-col mt-12 mb-16 relative z-10 sm:-mt-[calc((56vw*0.25)-100px)]">
                 {Object.entries(carouselsData).map(([key, carousel], index) =>
                     index > 0 && carousel?.title ? (
                         <CarouselWrapper
