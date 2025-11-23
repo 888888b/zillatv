@@ -22,7 +22,7 @@ import "./globals.css";
 import 'react-toastify/ReactToastify.css';
 
 export const metadata: Metadata = {
-  title: "ZilluTV - Descubra filmes, séries e muito mais!",
+  title: "ZillaTV - Explore filmes, séries e tudo o que você gosta.",
 };
 
 export const viewport: Viewport = {
