@@ -13,15 +13,15 @@ import SlideInfoWrapper from './slideInfoWrapper'
 import Image from './image';
 // tipos
 import { TmdbMediaProps } from '@/app/[lang]/types';
-import { Path } from '@/utils/tmdbApiData/getLogoPath';
+import { Path } from '@/utils/tmdb/getLogoPath';
 type HeaderCarouselProps = {
     currentPage: 'home' | 'movies' | 'series';
     slidesData: TmdbMediaProps[] | undefined;
     lang: string;
 };
 // utilitarios
-import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
-import { loadAllLogos } from '@/utils/tmdbApiData/loadAllLogos';
+import { getLogoPath } from '@/utils/tmdb/getLogoPath';
+import { loadAllLogos } from '@/utils/tmdb/loadAllLogos';
 import { tmdbConfig } from '@/app/[lang]/constants';
 
 import './styles.css';

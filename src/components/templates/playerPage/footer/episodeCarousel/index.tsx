@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import EmblaCarousel from "@/components/organisms/emblaSlides";
 import LazyImage from '../../lazyImage';
 //utilitarios
-import { getRunTime } from "@/utils/tmdbApiData/runtime";
+import { getRunTime } from "@/utils/tmdb/getRuntime";
 import { tmdbConfig } from "@/app/[lang]/constants";
 import { setTimeout } from 'timers';
 // tipos

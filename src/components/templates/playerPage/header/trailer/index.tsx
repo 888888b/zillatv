@@ -2,7 +2,7 @@
 // hooks
 import { useEffect, useRef } from "react";
 // componentes
-import { CloseButton } from "@/components/atoms/closeButton";
+import { CloseButton } from "@/components/molecules/closeButton";
 import YoutubePlayer from '../../youtubePlayer';
 
 type ComponentProps = {

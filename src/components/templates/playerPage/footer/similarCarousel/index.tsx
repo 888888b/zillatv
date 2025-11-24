@@ -2,7 +2,7 @@
 // traduções
 import translations from '@/i18n/translations/sections/translations.json';
 // componentes
-import MoviesSeriesCarousel from "@/components/organisms/moviesSeriesCarousel";
+import MoviesSeriesCarousel from "@/components/organisms/mediaCarousel";
 import SectionTitle from "../../sectionTitle";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";

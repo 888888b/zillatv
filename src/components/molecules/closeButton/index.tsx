@@ -1,5 +1,5 @@
 import { ComponentPropsWithRef } from "react";
-import { CloseIcon } from "../closeIcon";
+import { CloseIcon } from "../../atoms/closeIcon";
 
 type ComponentProps = ComponentPropsWithRef<'button'>;
 

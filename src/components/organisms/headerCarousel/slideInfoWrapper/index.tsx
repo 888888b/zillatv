@@ -7,11 +7,11 @@ import translations from '@/i18n/translations/buttons/translations.json';
 import Title from "../title";
 import Logo from "../logo";
 import Description from "../description";
-import PlayButton from "@/components/atoms/playButton";
+import PlayButton from "@/components/molecules/playButton";
 import AddToListButton from "@/components/molecules/addToListButton";
 import Genres from '../genres';
 // tipos
-import { Path } from '@/utils/tmdbApiData/getLogoPath';
+import { Path } from '@/utils/tmdb/getLogoPath';
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { LangCode } from '@/i18n/languages';
 import { ComponentPropsWithRef } from 'react';

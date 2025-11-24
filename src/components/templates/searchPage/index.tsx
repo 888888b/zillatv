@@ -1,13 +1,13 @@
 // hooks
 import useTmdbFetch from '@/hooks/tmdb';
 // componentes
-import SearchResults from '@/components/organisms/moviesSeriesSection';
+import SearchResults from '@/components/organisms/mediaSection';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
 // tipos
 import { TmdbMediaProps } from '@/app/[lang]/types';
 // funções utilitarias
-import { checkAvailability } from '@/utils/tmdbApiData/availability';
+import { checkAvailability } from '@/utils/tmdb/checkAvailability';
 import { formatLangCode } from '@/utils/i18n';
 
 import './styles.css';

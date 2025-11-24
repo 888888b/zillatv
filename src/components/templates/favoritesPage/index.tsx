@@ -11,7 +11,7 @@ import UnauthenticatedUserMsg from "./unauthenticatedUser";
 import NoFavoritesMsg from "./emptyFavoritesList";
 import FavoritesList from "./favoritesList";
 // funções utilitarias
-import { checkAvailability } from "@/utils/tmdbApiData/availability";
+import { checkAvailability } from "@/utils/tmdb/checkAvailability";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 
 export default function FavoritesPage() {

@@ -1,8 +1,8 @@
 import useTmdb from '@/hooks/tmdb';
 // componentes
-import SimilarsCarousel from '../similarsCarousel';
+import SimilarsCarousel from '../similarCarousel';
 // funções utilitarias
-import { checkAvailability } from "@/utils/tmdbApiData/availability";
+import { checkAvailability } from "@/utils/tmdb/checkAvailability";
 // tipo
 type ComponentProps = { 
     movieId: string;

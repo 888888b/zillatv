@@ -5,9 +5,9 @@ import useFirebase from "@/hooks/firebase";
 import { FaPlay } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 // funções utilitarias
-import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
-import { getRunTime } from "@/utils/tmdbApiData/runtime";
-import { getImdbReviews } from "@/utils/tmdbApiData/reviews";
+import { getReleaseDate } from "@/utils/tmdb/getReleaseDate";
+import { getRunTime } from "@/utils/tmdb/getRuntime";
+import { getImdbReviews } from "@/utils/tmdb/getReviews";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { tmdbConfig } from "@/app/[lang]/constants";

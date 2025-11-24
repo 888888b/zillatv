@@ -16,7 +16,7 @@ import { AuthContext } from "@/contexts/auth";
 import { toast } from "react-toastify";
 import { addUserFavoritesToDb } from "./addUserFavoritesToDb";
 import { getUserFavoritesOnDb } from "./getUserFavoritesOnDb";
-import { CommentProps, ReplyProps } from "@/components/templates/playerPage/main/commentsSection";
+import { CommentProps, ReplyProps } from "@/components/templates/playerPage/main/commentSection";
 
 interface UserDataOnDb {
     name: string | null,

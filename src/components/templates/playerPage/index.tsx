@@ -3,9 +3,9 @@ import useTmdbFetch from '@/hooks/tmdb';
 import useWatchmode from '@/hooks/watchmode';
 // componentes
 import Header from './header/index';
-import EpisodesCarousel from './footer/episodesCarouselWrapper';
+import EpisodesCarousel from './footer/episodeCarouselWrapper';
 import Main from './main/index';
-import SimilarsCarousel from './footer/similarsCarouselWrapper';
+import SimilarsCarousel from './footer/similarCarouselWrapper';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
 // tipos

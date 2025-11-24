@@ -6,10 +6,10 @@ import useTmdbFetch from "@/hooks/tmdb";
 import translations from '@/i18n/translations/sections/translations.json';
 // componentes
 import SeasonSelector from "../seasonSelector";
-import Carousel from "@/components/templates/playerPage/footer/episodesCarousel";
+import Carousel from "@/components/templates/playerPage/footer/episodeCarousel";
 import SectionTitle from "../../sectionTitle";
 // funções utilitarias
-import { handlePromise } from "@/utils/tmdbApiData/promise";
+import { handlePromise } from "@/utils/tmdb/handlePromise";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { LangCode } from "@/i18n/languages";

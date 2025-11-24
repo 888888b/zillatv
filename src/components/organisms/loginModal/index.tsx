@@ -14,8 +14,8 @@ import { ModalsContext } from "@/contexts/modal";
 import { RiUser6Line } from "react-icons/ri";
 // componentes
 import LoginForm from './form';
-import { CloseButton } from "@/components/atoms/closeButton";
-import { GoogleAuthButton } from "@/components/atoms/googleAuthButton";
+import { CloseButton } from "@/components/molecules/closeButton";
+import { GoogleAuthButton } from "@/components/molecules/googleAuthButton";
 import { ModalTitle } from "@/components/molecules/authModalTitle";
 import { InputErrorMsg } from "@/components/atoms/inputErrorMessage";
 import { FormLineSeparator } from "@/components/atoms/authModalFormSeparator";

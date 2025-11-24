@@ -1,7 +1,7 @@
 'use client';
 // componentes
 import { CarouselTitle } from "@/components/atoms/carouselTitle";
-import MovieSerieCarousel from '@/components/organisms/moviesSeriesCarousel';
+import MovieSerieCarousel from '@/components/organisms/mediaCarousel';
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { LangCode } from "@/i18n/languages";

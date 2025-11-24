@@ -3,12 +3,12 @@ import { useRef, MouseEvent, useCallback, useEffect } from "react";
 // traduções
 import translations from '@/i18n/translations/sections/translations.json';
 // componentes
-import { CloseButton } from "@/components/atoms/closeButton";
+import { CloseButton } from "@/components/molecules/closeButton";
 import SectionTitle from "../../sectionTitle";
 // icones
 import { IoPlay } from "react-icons/io5";
 // utilitarios
-import { getReleaseDate } from "@/utils/tmdbApiData/releaseDate";
+import { getReleaseDate } from "@/utils/tmdb/getReleaseDate";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { LangCode } from "@/i18n/languages";

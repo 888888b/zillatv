@@ -5,9 +5,9 @@ import { CSSProperties, useCallback, useState } from 'react';
 import translations from '@/i18n/translations/sections/translations.json';
 // componentes
 import ContentDetails from "./mediaDetails/index";
-import ActorsCarousel from "./actorsCarousel/index";
+import ActorsCarousel from "./castCarousel/index";
 import LazyImage from '../lazyImage';
-import Description from './description';
+import Description from './mediaDescription';
 import WhereToWatch from "./whereToWatch";
 // import UsersComments from "../commentsSection/index";
 import SectionTitle from '../sectionTitle';

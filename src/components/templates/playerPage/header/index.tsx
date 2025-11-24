@@ -4,15 +4,15 @@ import { useState, useCallback, useEffect } from 'react';
 // traduções
 import translations from '@/i18n/translations/buttons/translations.json';
 // componentes
-import TrailerModal from '@/components/templates/playerPage/header/trailerModal';
+import TrailerModal from '@/components/templates/playerPage/header/trailer';
 import LazyImage from '../lazyImage';
-import PlayButton from '@/components/atoms/playButton';
-import Title from '@/components/organisms/heroCarousel/title';
+import PlayButton from '@/components/molecules/playButton';
+import Title from '@/components/organisms/headerCarousel/title';
 import AddToListButton from '@/components/molecules/addToListButton';
 // icons
 import { FaPlay } from "react-icons/fa";
 // utilitarios
-import { getLogoPath } from '@/utils/tmdbApiData/getLogoPath';
+import { getLogoPath } from '@/utils/tmdb/getLogoPath';
 import { tmdbConfig } from '@/app/[lang]/constants';
 // tipos
 import { TmdbMediaProps } from '@/app/[lang]/types';

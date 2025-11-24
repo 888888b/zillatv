@@ -1,12 +1,12 @@
 // hooks
 import useTmdbFetch from "@/hooks/tmdb";
 // componentes
-import HeaderCarousel from "@/components/organisms/heroCarousel";
+import HeaderCarousel from "@/components/organisms/headerCarousel";
 import { StopLoading } from "@/components/atoms/stopLoading";
 import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 import CarouselWrapper from './CarouselWrapper';
 // utilitarios
-import { checkAvailability } from "@/utils/tmdbApiData/availability";
+import { checkAvailability } from "@/utils/tmdb/checkAvailability";
 import { homeCarouselGenres as titles } from "@/app/[lang]/constants";
 import { formatLangCode } from "@/utils/i18n";
 // tipos

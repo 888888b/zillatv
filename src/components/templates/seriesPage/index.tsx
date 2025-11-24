@@ -1,15 +1,15 @@
 // hooks
 import useTmdbFetch from '@/hooks/tmdb';
 // componentes
-import HeaderCarousel from '@/components/organisms/heroCarousel';
-import SeriesSection from './seriesSection';
+import HeaderCarousel from '@/components/organisms/headerCarousel';
+import SeriesSection from './mediaSection';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
 // tipos
 import { TmdbMediaProps } from '@/app/[lang]/types';
 // utilitarios
-import { checkAvailability } from '@/utils/tmdbApiData/availability';
-import { getContentId } from '@/utils/tmdbApiData/id';
+import { checkAvailability } from '@/utils/tmdb/checkAvailability';
+import { getContentId } from '@/utils/tmdb/getIdList';
 import { formatLangCode } from '@/utils/i18n';
 
 
