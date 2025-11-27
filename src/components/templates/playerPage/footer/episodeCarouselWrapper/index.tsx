@@ -51,7 +51,7 @@ export default function EpisodesCarousel({
     return seasonData?.episodes ? (
         <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
             <div id='episodes-carousel' className="absolute -top-[116px] left-0" />
-            <div className="page-padding flex items-center justify-between gap-x-6 gap-y-2 flex-wrap">
+            <div className="page-padding flex flex-col gap-y-2">
                 <SectionTitle className="text-left">{text.episodes}</SectionTitle>
                 {/* Seletor de temporada */}
                 <SeasonSelector 

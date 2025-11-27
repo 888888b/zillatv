@@ -47,6 +47,12 @@
     background-color: var(--color-gradient-80);
 }
 
+.episodes-carousel .default-navigation .bullets-bar {
+    position: absolute;
+    top: -32px;
+    right: var(--page-padding);
+}
+
 @media screen and (width >=640px) {
     .episodes-carousel .embla__slide {
         width: calc((100% - var(--page-padding) * 2 - 8px) / 2);
@@ -80,5 +86,9 @@
 
     .episodes-carousel .embla__slide:last-of-type {
         margin-right: 0;
+    }
+
+    .episodes-carousel .default-navigation .bullets-bar {
+        right: 0;
     }
 }

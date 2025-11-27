@@ -1,5 +1,4 @@
 import { HTMLAttributes, ReactNode } from "react";
-import { ArrowRight } from "../arrowRightIcon";
 
 type ElementProps = {
     children: ReactNode
@@ -15,10 +14,9 @@ export const CarouselTitle = ( props: ElementProps ) => {
     return (
         <h2 
             { ...rest } 
-            className={`[font-size:clamp(1.1875rem,3vw,1.375rem)] font-black font-raleway text-secondary flex items-center gap-x-[10px] flex-nowrap hover:text-primary cursor-pointer transition-colors duration-300 lg:[font-size:clamp(1.375rem,1.4vw,1.5rem)] ${className}`}
+            className={`w-fit [font-size:clamp(1.1875rem,3vw,1.375rem)] font-black font-raleway text-secondary hover:text-primary cursor-pointer transition-colors duration-300 lg:[font-size:clamp(1.375rem,1.4vw,1.5rem)] ${className}`}
             >
             { children }
-            <ArrowRight stroke="2" width={24} height={24}/>
         </h2>
     );
 };

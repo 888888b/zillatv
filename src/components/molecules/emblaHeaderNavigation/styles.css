@@ -20,19 +20,19 @@
   --bullet-height: clamp(0.375rem, 0.50vw, 0.5rem);
 }
 
-.bullets-bar {
+.hero-navigation .bullets-bar {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  column-gap: var(--bullet-height);
+  column-gap: 8px;
   align-items: center;
   z-index: 30;
   pointer-events: all;
 }
 
-.bullets-bar .bullet {
+.hero-navigation .bullets-bar .bullet {
   border-radius: 6px;
   border: none;
   outline: none;
@@ -43,19 +43,21 @@
   background-color: color-mix(in oklab, var(--color-secondary) 20%, transparent);
 }
 
-.bullets-bar .active-bullet {
+.hero-navigation .bullets-bar .active-bullet {
   background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
   animation: active-slide 0.15s linear 1s forwards;
 }
 
-.bullets-bar .active-animated-bullet {
+.hero-navigation .bullets-bar .active-animated-bullet {
   background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
   position: relative;
   overflow: hidden;
   width: calc(var(--bullet-width) * 2);
 }
 
-.bullets-bar .active-animated-bullet::before {
+.hero-navigation 
+.bullets-bar 
+.active-animated-bullet::before {
   content: '';
   position: absolute;
   left: 0;
@@ -70,7 +72,7 @@
 }
 
 @media screen and (width >=640px) {
-  .bullets-bar {
+  .hero-navigation .bullets-bar {
     bottom: calc(56vw * 0.25 - 40px);
     transform: none;
     left: var(--page-padding);
@@ -78,13 +80,15 @@
 }
 
 @media screen and (width>=1024px) {
-  .bullets-bar .bullet:not(.active-animated-bullet, .active-bullet):hover {
+  .hero-navigation 
+  .bullets-bar 
+  .bullet:not(.active-animated-bullet, .active-bullet):hover {
     background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
   }
 }
 
 @media screen and (width >=1536px) {
-  .bullets-bar {
+  .hero-navigation .bullets-bar {
     left: calc((100% - 1536px) / 2 + 64px);
   }
 }

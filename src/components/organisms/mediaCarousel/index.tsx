@@ -99,7 +99,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
     }, [slidesType, setEvent, push, lang]);
 
     return carouselData ? (
-        <div className={`movie-serie-carousel ${className}`}>
+        <div className={`media-carousel ${className}`}>
             <EmblaCarousel
                 navigationType='default'
                 slidesPerView={'auto'}

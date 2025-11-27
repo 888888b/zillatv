@@ -1,13 +1,13 @@
-.movie-serie-carousel .embla {
+.media-carousel .embla {
     position: relative;
     padding: 0 var(--page-padding);
 }
 
-.movie-serie-carousel .embla__container {
+.media-carousel .embla__container {
     column-gap: 0.5rem;
 }
 
-.movie-serie-carousel .embla__slide {
+.media-carousel .embla__slide {
     width: calc((100% - 16px) / 3);
     transition: opacity 1s ease-out, visibility 0.1s none;
     position: relative;
@@ -15,16 +15,16 @@
     visibility: hidden;
 }
 
-.movie-serie-carousel .embla__slide.is-in-view {
-  opacity: 1;
-  visibility: visible;
-}   
+.media-carousel .embla__slide.is-in-view {
+    opacity: 1;
+    visibility: visible;
+}
 
-.movie-serie-carousel .embla__slide:last-of-type {
+.media-carousel .embla__slide:last-of-type {
     margin-right: 0.5rem;
 }
 
-.movie-serie-carousel .img-box {
+.media-carousel .img-box {
     position: relative;
     aspect-ratio: 1 / 1.4;
     overflow: hidden;
@@ -32,93 +32,107 @@
     background-color: var(--color-surface);
 }
 
-.movie-serie-carousel .img {
+.media-carousel .img {
     width: 100%;
     height: 100%;
     cursor: pointer;
 }
 
+.media-carousel .default-navigation .bullets-bar {
+    position: absolute;
+    top: -32px;
+    right: var(--page-padding);
+}
+
 @media screen and (width>=640px) {
-    .movie-serie-carousel .embla__slide {
+    .media-carousel .embla__slide {
         width: calc((100% - 16px) / 3);
     }
 }
 
 @media screen and (width >=768px) {
-    .movie-serie-carousel .embla__slide {
+    .media-carousel .embla__slide {
         width: calc((100% - 24px) / 4);
     }
 }
 
 @media screen and (width >=1024px) {
-    .movie-serie-carousel .embla {
+    .media-carousel .embla {
         padding: 0;
     }
 
-    .movie-serie-carousel .embla__slide {
+    .media-carousel .embla__slide {
         width: calc((100% - 32px - var(--page-padding) * 2) / 5);
         cursor: pointer;
         overflow: visible;
     }
 
-    .movie-serie-carousel .img {
+    .media-carousel .img {
         transition: opacity 0.2s ease-in-out;
     }
 
-    .movie-serie-carousel .embla__slide:hover .img {
+    .media-carousel .embla__slide:hover .img {
         opacity: 0;
     }
 
-    .movie-serie-carousel .embla__slide .bookmark-icon {
+    .media-carousel .embla__slide .bookmark-icon {
         transition: opacity 0.2s ease-in-out, pointer-events 0.2s linear;
     }
 
-    .movie-serie-carousel .embla__slide:hover .bookmark-icon {
+    .media-carousel .embla__slide:hover .bookmark-icon {
         opacity: 0;
         pointer-events: none;
     }
 
-    .movie-serie-carousel .embla__slide .media-details {
+    .media-carousel .embla__slide .media-details {
         opacity: 0;
         border: 2px solid transparent;
         transition: all 0.2s ease-in-out;
         border-radius: 6px;
     }
 
-    .movie-serie-carousel .embla__slide:hover .media-details {
+    .media-carousel .embla__slide:hover .media-details {
         opacity: 1;
         border: 2px solid color-mix(in oklab, var(--color-secondary) 10%, transparent);
     }
 
-    .movie-serie-carousel .prev-slide-box,
-    .movie-serie-carousel .next-slide-box {
+    .media-carousel .prev-slide-box,
+    .media-carousel .next-slide-box {
         background-color: var(--color-gradient-80);
     }
 }
 
 @media screen and (width >=1280px) {
-    .movie-serie-carousel .embla__slide {
+    .media-carousel .embla__slide {
         width: calc((100% - 40px - var(--page-padding) * 2) / 6);
     }
 }
 
 @media screen and (width >=1536px) {
-    .movie-serie-carousel .embla {
+    .media-carousel .embla {
         width: calc(var(--page-max-width) - var(--page-padding) * 2);
         margin-inline: auto;
+    }
+
+    .media-carousel .embla__viewport {
         overflow-x: hidden;
     }
-    .movie-serie-carousel .embla__slide {
+
+    .media-carousel .embla__slide {
         width: calc((100% - 48px) / 7);
     }
-    .movie-serie-carousel .prev-slide-box,
-    .movie-serie-carousel .next-slide-box {
+
+    .media-carousel .prev-slide-box,
+    .media-carousel .next-slide-box {
         display: none;
     }
 
-    .movie-serie-carousel .embla:hover .prev-slide-box,
-    .movie-serie-carousel .embla:hover .next-slide-box {
+    .media-carousel .embla:hover .prev-slide-box,
+    .media-carousel .embla:hover .next-slide-box {
         display: flex;
     }
-}
 
+    .media-carousel .default-navigation .bullets-bar {
+        right: 0;
+    }
+}

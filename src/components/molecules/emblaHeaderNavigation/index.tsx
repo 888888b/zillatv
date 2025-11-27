@@ -47,7 +47,7 @@ const HeaderNavigation = memo((props: HeaderNavigationProps) => {
     }, [onReset, onNextButtonClick]);
 
     return (
-        <>
+        <div className="hero-navigation">
             {/* barra de bullets de navegaçao */}
             <div ref={bulletsBarRef} className="bullets-bar">
                 {scrollSnaps.map((_, index) => (
@@ -66,7 +66,7 @@ const HeaderNavigation = memo((props: HeaderNavigationProps) => {
             <div onClick={navigateToNextSlide} className="navigation-controlls absolute top-[calc((100%-200px)/2)] -translate-y-1/2 right-5 lg:right-8 translate-x-1/2 mt-[72px] z-15">
                 <ArrowRight width={35} height={35} stroke="1.7" />
             </div>
-        </>
+        </div>
     )
 });
 

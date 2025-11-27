@@ -51,6 +51,12 @@
     background-color: color-mix(in oklab, var(--color-surface) 85%, transparent);
 }
 
+.player-page .actors-carousel .default-navigation .bullets-bar {
+    position: absolute;
+    top: -32px;
+    right: var(--page-padding);
+}
+
 .seasons-wrapper {
     width: auto;
     display: grid;
@@ -93,6 +99,10 @@
     .player-page .actors-carousel .embla:hover .next-slide-box {
         display: flex;
     }
+
+    .player-page .actors-carousel .default-navigation .bullets-bar {
+        right: 0;
+    }
 }
 
 @media screen and (width >=1280px) {
@@ -108,6 +118,9 @@
 
     .player-page .embla {
         margin-inline: auto;
+    }
+
+    .player-page .embla__viewport {
         overflow-x: hidden;
     }
 

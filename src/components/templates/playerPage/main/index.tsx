@@ -68,7 +68,7 @@ export default function Main({
                     {mediaData.credits.cast.some((actor: undefined | TmdbMediaProps) =>
                         actor && actor.profile_path) &&
                         <div className='flex-col gap-y-6 hidden lg:flex '>
-                            <SectionTitle className='text-center sm:text-left'>
+                            <SectionTitle>
                                 {text.cast}
                             </SectionTitle>
                             {/* carousel com o elenco do filme/serie */}
@@ -108,7 +108,7 @@ export default function Main({
                     {mediaData.credits.cast.some((actor: undefined | TmdbMediaProps) =>
                         actor && actor.profile_path) &&
                         <div className='mt-10 flex flex-col gap-y-6 page-max-width lg:hidden'>
-                            <SectionTitle className='text-center sm:text-left page-padding'>
+                            <SectionTitle className='page-padding text-left'>
                                 {text.cast}
                             </SectionTitle>
                             {/* carousel com o elenco do filme/serie */}

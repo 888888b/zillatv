@@ -104,10 +104,14 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
 
                 {props.navigationType === 'default' ? (
                     <DefaultNavigation
+                        scrollSnaps={scrollSnaps}
+                        selectedIndex={selectedIndex}
+                        onDotButtonClick={onDotButtonClick}
                         onNextButtonClick={onNextButtonClick}
                         onPrevButtonClick={onPrevButtonClick}
                         prevBtnDisabled={prevBtnDisabled}
                         nextBtnDisabled={nextBtnDisabled}
+                        
                     />
                 ) : (
                     <HeaderNavigation
