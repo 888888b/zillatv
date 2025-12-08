@@ -7,7 +7,11 @@ import { UsePrevNextButtonsType } from "@/hooks/embla/usePrevNextButtons";
 import { DotButton } from "@/components/atoms/dotButton";
 // tipos
 import { UseDotButtonType } from "@/hooks/embla/useDotButton";
-type ComponentProps = UsePrevNextButtonsType & UseDotButtonType;
+type ComponentProps = 
+UsePrevNextButtonsType & 
+UseDotButtonType & {
+    isBulletBarActive: boolean;
+};
 
 import './styles.css';
 
@@ -18,21 +22,24 @@ const EmblaNavigation = memo((props: ComponentProps) => {
         nextBtnDisabled,
         scrollSnaps,
         onDotButtonClick,
-        selectedIndex
+        selectedIndex,
+        isBulletBarActive
     } = props;
 
     return (
         <div className="default-navigation">
             {/* barra de bullets de navegaçao */}
-            <div className="bullets-bar">
-                {scrollSnaps.map((_, index) => (
-                    <DotButton
-                        key={index}
-                        onClick={() => onDotButtonClick(index)}
-                        className={`bullet ${selectedIndex === index && 'active-bullet'}`}
-                    />
-                ))}
-            </div>
+            { isBulletBarActive &&
+                <div className="bullets-bar">
+                    {scrollSnaps.map((_, index) => (
+                        <DotButton
+                            key={index}
+                            onClick={() => onDotButtonClick(index)}
+                            className={`bullet ${selectedIndex === index && 'active-bullet'}`}
+                        />
+                    ))}
+                </div>
+            }
             {/* Botão para o slide anterior */}
             {!props.prevBtnDisabled &&
                 <div className="prev-slide-box absolute left-0 top-0 z-50 flex items-center justify-center w-[var(--page-padding)] h-full">

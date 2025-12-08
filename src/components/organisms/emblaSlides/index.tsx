@@ -20,10 +20,11 @@ type EmblaCarouselProps = {
     slidesPerView?: 'auto' | number;
     duration?: number;
     autoplay?: boolean;
-    navigationType: 'default' | 'header';
+    navigationType: 'default' | 'header' | 'featured';
     dragFree?: boolean;
     fadeAnimation?: boolean;
     breakpoints?: Record<string, any>;
+    align?: 'start' | 'center' | 'end';
     selectedSnap?: (index: number) => void;
 }
 export type EmblaStateProps = {
@@ -41,7 +42,8 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
         slidesToScroll: props.slidesPerView,
         duration: props.duration ?? 25,
         dragFree: props.dragFree,
-        breakpoints: props.breakpoints
+        breakpoints: props.breakpoints,
+        align: props.align ?? 'center'
     };
     // plugins
     const emblaPlugins = [ClassNames()];
@@ -51,7 +53,7 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
     const [
         emblaRef,
         emblaApi
-    ] = useEmblaCarousel({...emblaConfig, align: 'center'}, emblaPlugins);
+    ] = useEmblaCarousel({...emblaConfig}, emblaPlugins);
     // iniciar barra de progresso do autoplay
     const { isAutoplayActive, timeUntilNextSlide } = useAutoplayProgress(emblaApi);
     // iniciar bullets de navegaçao
@@ -102,7 +104,10 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
                     </div>
                 </div>
 
-                {props.navigationType === 'default' ? (
+                {(  
+                    props.navigationType === 'default' || 
+                    props.navigationType === 'featured'
+                ) ? (
                     <DefaultNavigation
                         scrollSnaps={scrollSnaps}
                         selectedIndex={selectedIndex}
@@ -111,7 +116,9 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
                         onPrevButtonClick={onPrevButtonClick}
                         prevBtnDisabled={prevBtnDisabled}
                         nextBtnDisabled={nextBtnDisabled}
-                        
+                        isBulletBarActive={
+                            props.navigationType === 'default' ? true : false
+                        }
                     />
                 ) : (
                     <HeaderNavigation

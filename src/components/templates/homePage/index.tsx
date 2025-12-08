@@ -7,14 +7,16 @@ import { ScrollToTop } from "@/utils/globalActions/scrollToTop";
 import CarouselWrapper from './CarouselWrapper';
 // utilitarios
 import { checkAvailability } from "@/utils/tmdb/checkAvailability";
-import { homeCarouselGenres as titles } from "@/app/[lang]/constants";
 import { formatLangCode } from "@/utils/i18n";
 // tipos
-import { TmdbMediaProps, CarouselTitleType } from "@/app/[lang]/types";
+import { TmdbMediaProps } from "@/app/[lang]/types";
+// traduções
+import translations from '@/i18n/translations/sections/translations.json';
 
-type CarouselDataType = Record<string, {
+type CarouselProps = Record<string, {
     data: TmdbMediaProps[];
-    title?: CarouselTitleType;
+    title: string;
+    type: 'default' | 'featured' | 'hero';
 }>;
 
 export default async function HomePage({ lang }: { lang: string }) {
@@ -24,9 +26,11 @@ export default async function HomePage({ lang }: { lang: string }) {
         fetchAllTrending,
         fetchPlatformContent,
         fetchMovieById,
-        fetchSeriebyId
+        fetchSeriebyId,
+        fetchTopRatedSeries
     } = useTmdbFetch();
-    const carouselsData: CarouselDataType = {};
+    const carouselsData: CarouselProps = {};
+    const titles = translations[langCode];
     const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
 
     const withMediaType = (arr: any[], type: "movie" | "tv") =>
@@ -47,21 +51,43 @@ export default async function HomePage({ lang }: { lang: string }) {
                 })
             )
         ).filter(Boolean).slice(0, 6) as TmdbMediaProps[];
-        carouselsData.headerSlides = { data: headerSlides };
+        carouselsData.headerSlides = { 
+            data: headerSlides,
+            title: '',
+            type: 'hero' 
+        };
 
         /** ---------------- TRENDING SECTION ---------------- */
         carouselsData.allTrending = {
             data: allTrendingsAvailable,
-            title: titles.trending.title
+            title: titles.trending,
+            type: 'default'
         };
+
+        /** ---------------- TOP RATED SECTION ---------------- */
+        const topRated = await fetchTopRatedSeries(lang);
+        const topRatedAvailable = await safeCheck(topRated) ?? [];
+        const topSeries = (
+            await Promise.all(
+                topRatedAvailable.map(async (serie) => {
+                    const res = await fetchSeriebyId(serie.id, lang);
+                    return res ? { ...res, media_type: 'tv' } : null;
+                })
+            ) as TmdbMediaProps[]
+        );
+        carouselsData.topRatedSeries = {
+            data: topSeries,
+            title: titles.top_10_series,
+            type: 'featured'
+        }
 
         /** ---------------- STREAMING PLATFORMS ---------------- */
         const platforms = [
-            { key: "netflix", title: titles.netflix.title },
-            { key: "disneyPlus", title: titles.disneyPlus.title },
-            { key: "HBO", title: titles.HBO.title },
-            { key: "paramount", title: titles.paramount.title },
-            { key: "primeVideo", title: titles.primeVideo.title }
+            { key: "netflix", title: titles.netflix },
+            { key: "disneyPlus", title: titles.disney },
+            { key: "HBO", title: titles.hbo },
+            { key: "paramount", title: titles.paramount },
+            { key: "primeVideo", title: titles.prime }
         ] as const;
 
         for (const { key, title } of platforms) {
@@ -75,7 +101,11 @@ export default async function HomePage({ lang }: { lang: string }) {
                 ...withMediaType(filteredSeries, "tv"),
                 ...withMediaType(filteredMovies, "movie")
             ];
-            carouselsData[key] = { data: formatted, title };
+            carouselsData[key] = {
+                data: formatted,
+                title,
+                type: 'default'
+            };
         };
         isDataLoaded = true;
 
@@ -93,15 +123,16 @@ export default async function HomePage({ lang }: { lang: string }) {
             />
 
             {/* MAIN CAROUSELS */}
-            <div className="flex flex-col mt-12 mb-16 relative z-10 sm:-mt-[calc((56vw*0.25)-100px)]">
+            <div className="flex flex-col mt-12 mb-8 relative z-10 sm:-mt-[calc((56vw*0.25)-100px)]">
                 {Object.entries(carouselsData).map(([key, carousel], index) =>
-                    index > 0 && carousel?.title ? (
+                    index > 0 && carousel.title ? (
                         <CarouselWrapper
                             key={`home-carousel-${carousel.title}-${key}`}
                             title={carousel.title}
                             data={carousel.data}
                             index={index}
                             lang={langCode}
+                            carouselType={carousel.type !== 'hero' ? carousel.type : 'default'}
                         />
                     ) : null
                 )}
