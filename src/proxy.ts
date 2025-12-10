@@ -8,7 +8,7 @@ const supportedLangs = [
     'ko-kr', 'zh-cn', 'zh-tw', 'ru-ru', 'ar-sa'
 ];
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
     const { pathname } = req.nextUrl;
     const pathnameLower = pathname.toLowerCase();
 

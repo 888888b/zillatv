@@ -101,7 +101,7 @@ export default function MoviesSeriesCarousel(props: ComponentProps) {
     return carouselData ? (
         <div className={`media-carousel ${className}`}>
             <EmblaCarousel
-                navigationType='default'
+                navigationType='featured'
                 slidesPerView={'auto'}
                 breakpoints={{
                     '(min-width: 1px)': { duration: 20, dragFree: true, loop: true },
