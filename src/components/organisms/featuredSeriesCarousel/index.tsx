@@ -82,11 +82,11 @@ export default function FeaturedSeriesCarousel(props: ComponentProps) {
                     (media.poster_path || media.backdrop_path) ? (
                         <div className='embla__slide' key={`default-slide-${media.id}`}>
                             <div className="hover-animation">
-                                <span className='[line-height:1] custom-stroke'>{index + 1}</span>
+                                <span className='leading-none custom-stroke'>{index + 1}</span>
                                 <div onClick={() => navigateToPlayer(media.id, media.media_type)} className='img-box'>
                                     {/* icone de favorito */}
                                     {media.isFavorite &&
-                                        <div className='bookmark-icon bg-background/60 w-[clamp(28px,3.55vw,36px)] aspect-square rounded-full flex items-center justify-center z-30 absolute top-[clamp(4px,1.2vw,12px)] right-[clamp(4px,1.2vw,12px)] text-primary [font-size:clamp(0.875rem,1.6vw,1rem)]'>
+                                        <div className='bookmark-icon bg-background/60 w-[clamp(28px,3.55vw,36px)] aspect-square rounded-full flex items-center justify-center z-30 absolute top-[clamp(4px,1.2vw,12px)] right-[clamp(4px,1.2vw,12px)] text-primary text-[clamp(0.875rem,1.6vw,1rem)]'>
                                             <FaBookmark />
                                         </div>
                                     }

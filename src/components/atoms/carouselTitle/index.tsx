@@ -14,7 +14,7 @@ export const CarouselTitle = ( props: ElementProps ) => {
     return (
         <h2 
             { ...rest } 
-            className={`w-fit [font-size:clamp(1.1875rem,3vw,1.375rem)] font-black font-raleway text-secondary hover:text-primary cursor-pointer transition-colors duration-300 lg:[font-size:clamp(1.375rem,1.4vw,1.5rem)] ${className}`}
+            className={`w-fit text-[clamp(1.1875rem,3vw,1.375rem)] font-black font-raleway text-secondary hover:text-primary cursor-pointer transition-colors duration-300 lg:text-[clamp(1.375rem,1.6vw,1.5625rem)] 2xl:text-[clamp(1.5625rem,1.6vw,2rem)] ${className}`}
             >
             { children }
         </h2>

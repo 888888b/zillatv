@@ -32,7 +32,7 @@ export default function DetailsCard(props: ComponentProps) {
     };
 
     return (
-        <div className='media-details hidden lg:flex flex-col gap-2 absolute top-0 left-0 z-10 p-3 w-full h-full pointer-events-none font-medium [font-size:clamp(0.875rem,1vw,1rem)]'>
+        <div className='media-details hidden lg:flex flex-col gap-2 absolute top-0 left-0 z-10 p-3 w-full h-full pointer-events-none font-medium text-[clamp(0.875rem,1vw,1rem)]'>
             {/* titulo */}
             <h3 className="text-secondary line-clamp-2">
                 {media.title ?? media.name}

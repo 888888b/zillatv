@@ -1,3 +1,16 @@
+:root {
+    --page-overflow: auto;
+}
+
+:root:has(.loading-wrapper.show) {
+    --page-overflow: hidden;
+}
+
+html,
+body {
+  overflow: var(--page-overflow);
+}
+
 .loading-wrapper {
     opacity: 0;
     visibility: hidden;

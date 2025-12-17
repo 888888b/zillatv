@@ -21,7 +21,7 @@ export default function CarouselWrapper(props: ComponentProps) {
     return (
         <div key={key}>
             {/* linha divisoria */}
-            <div className={`flex flex-col gap-y-6 page-max-width overflow-hidden ${index > 1 ? 'py-8' : 'pb-8'}`}>
+            <div className={`flex flex-col gap-y-5 page-max-width overflow-hidden ${index > 1 ? 'py-6' : 'pb-6'}`}>
                 {/* Titulo */}
                 <CarouselTitle className="justify-between sm:justify-start page-padding">
                     {title}

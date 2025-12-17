@@ -17,7 +17,7 @@
 
 :root {
   --bullet-width: clamp(2rem, 2.5vw, 2.5rem);
-  --bullet-height: clamp(0.375rem, 0.50vw, 0.5rem);
+  --bullet-height: clamp(0.375rem, 0.44vw, 0.44rem);
 }
 
 .hero-navigation .bullets-bar {
@@ -84,11 +84,5 @@
   .bullets-bar 
   .bullet:not(.active-animated-bullet, .active-bullet):hover {
     background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
-  }
-}
-
-@media screen and (width >=1536px) {
-  .hero-navigation .bullets-bar {
-    left: calc((100% - 1536px) / 2 + 64px);
   }
 }

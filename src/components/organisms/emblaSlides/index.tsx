@@ -25,6 +25,8 @@ type EmblaCarouselProps = {
     fadeAnimation?: boolean;
     breakpoints?: Record<string, any>;
     align?: 'start' | 'center' | 'end';
+    className?: string;
+    containerClass?: string;
     selectedSnap?: (index: number) => void;
 }
 export type EmblaStateProps = {
@@ -97,9 +99,9 @@ const EmblaCarousel = memo((props: EmblaCarouselProps) => {
 
     return (
         <div>
-            <div className="embla">
+            <div className={`embla ${props.className}`}>
                 <div className="embla__viewport" ref={emblaRef}>
-                    <div className="embla__container">
+                    <div className={`embla__container ${props.containerClass}`}>
                         {props.children}
                     </div>
                 </div>

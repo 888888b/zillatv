@@ -63,7 +63,9 @@
   --title-height: 12px;
   --details-height: 8px;
   --page-padding: 20px;
-  --page-max-width: 1536px;
+  --page-max-width: 2000px;
+  --media-carousel-gap: 8px;
+  --featured-carousel-gap: 24px;
 
   --color-gradient-0: color-mix(in oklab, var(--color-background) 0%, transparent);
   --color-gradient-10: color-mix(in oklab, var(--color-background) 10%, transparent);
@@ -87,6 +89,10 @@ body {
   background-color: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-inter), helvetica, sans-serif;
+}
+
+html {
+  scrollbar-gutter: stable;
 }
 
 body h1,

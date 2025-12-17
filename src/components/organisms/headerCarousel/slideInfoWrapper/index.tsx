@@ -75,7 +75,7 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     }, [logo, data, quality]);
 
     return data && pageWidth && (
-        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:-mt-0 sm:bottom-[calc(56vw*0.25)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
+        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:mt-0 sm:bottom-[calc(56vw*0.25)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
             {/* titulo*/} 
             {mediaTitle}
             {/* desrcição */}
@@ -88,7 +88,7 @@ export default function SlideInfoWrapper(props: ComponentProps) {
             <div className='flex items-center gap-x-4 order-3 sm:order-4 lg:order-3'>
                 {/* ver detalhes */}
                 <PlayButton onClick={navigateToPlayer}>
-                    <FaPlay className='[font-size:clamp(1rem,2vw,1.25rem)] lg:[font-size:clamp(1.25rem,1.5vw,1.5rem)]' />
+                    <FaPlay className='text-[clamp(1rem,2vw,1.25rem)] lg:text-[clamp(1.25rem,1.5vw,1.5rem)]' />
                     {
                         data.media_type === 'movie' ?
                             text.go_to_movie : text.go_to_series

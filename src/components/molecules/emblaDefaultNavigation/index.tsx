@@ -42,7 +42,7 @@ const EmblaNavigation = memo((props: ComponentProps) => {
             }
             {/* Botão para o slide anterior */}
             {!props.prevBtnDisabled &&
-                <div className="prev-slide-box absolute left-0 top-0 z-50 flex items-center justify-center w-[var(--page-padding)] h-full">
+                <div className="prev-slide-box absolute left-0 top-0 z-50 flex items-center justify-center w-[calc(var(--page-padding)-var(--media-carousel-gap)+2px)] h-full">
                     <div className="navigation-controlls" onClick={onPrevButtonClick}>
                         <ArrowLeft width={35} height={35} stroke="1.7" />
                     </div>
@@ -51,7 +51,7 @@ const EmblaNavigation = memo((props: ComponentProps) => {
 
             {/* Botão para o proximo slide */}
             {!nextBtnDisabled &&
-                <div className="next-slide-box absolute right-0 top-0 z-50 flex items-center justify-center w-[var(--page-padding)] h-full">
+                <div className="next-slide-box absolute right-0 top-0 z-50 flex items-center justify-center w-[calc(var(--page-padding)-var(--media-carousel-gap)+2px)] h-full">
                     <div className='navigation-controlls' onClick={onNextButtonClick}>
                         <ArrowRight width={35} height={35} stroke="1.7" />
                     </div>
