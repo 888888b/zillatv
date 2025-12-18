@@ -14,13 +14,11 @@ import { AuthContext } from '@/contexts/auth';
 import { tmdbConfig } from '@/app/[lang]/constants';
 import { openRegisterModal } from '@/utils/context/openRegisterModal';
 import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
-// componentes
-import DetailsCard from '@/components/molecules/mediaDetailsCard';
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
 type ComponentProps = {
     data: TmdbMediaProps[];
-    mediaType?: string;
+    mediaType?: "tv" | "movie" | "serie";
     lang: string;
 };
 
@@ -87,40 +85,55 @@ export default function MoviesSeriesSection({ data, lang }: ComponentProps) {
     }, [push, setEvent, lang]);
 
     return cardsData ? (
-        <>
-            <div className='movie-serie-section'>
-                {cardsData.map(media => (
-                    media.media_type !== 'person' ? (
-                        <div key={`card-${media.id}`} className='card'>
-                            <div onClick={() => navigateToPlayer(media.id, media.media_type)} className='card-img'>
-                                {/* icone de favorito */}
-                                {media.isFavorite &&
-                                    <div className='bookmark-icon bg-background/60 w-[clamp(28px,3.55vw,36px)] aspect-square rounded-full flex items-center justify-center z-30 absolute top-[clamp(4px,1.2vw,12px)] right-[clamp(4px,1.2vw,12px)] text-primary [font-size:clamp(0.875rem,1.6vw,1rem)]'>
-                                        <FaBookmark />
-                                    </div>
+        <div
+            className="
+            media-section
+            grid w-full gap-2
+            pb-2
+            grid-cols-[repeat(auto-fill,minmax(calc((100%-16px)/3),1fr))]
+            md:grid-cols-[repeat(auto-fill,minmax(calc((100%-24px)/4),1fr))]
+            lg:grid-cols-[repeat(auto-fill,minmax(calc((100%-32px)/5),1fr))]
+            xl:grid-cols-[repeat(auto-fill,minmax(calc((100%-40px)/6),1fr))]
+            2xl:grid-cols-[repeat(auto-fill,minmax(calc((100%-48px)/7),1fr))]
+            ">
+            {cardsData.map(media =>
+                media.media_type !== 'person' ? (
+                    <div key={`card-${media.id}`} className="card relative [transition:transform_0.25s_ease-out] hover:transform-[scale(1.06)] will-change-transform origin-center cursor-pointer">
+                        <div
+                            onClick={() => navigateToPlayer(media.id, media.media_type)}
+                            className="relative w-full overflow-hidden rounded-md aspect-[1/1.4] bg-surface"
+                        >
+                            {media.isFavorite && (
+                                <div className="
+                                    bookmark-icon
+                                    absolute z-30
+                                    top-[clamp(4px,1.2vw,12px)]
+                                    right-[clamp(4px,1.2vw,12px)]
+                                    w-[clamp(28px,3.55vw,36px)]
+                                    aspect-square
+                                    rounded-full
+                                    flex items-center justify-center
+                                    bg-background/60
+                                    text-primary
+                                    text-[clamp(0.875rem,1.6vw,1rem)]">
+                                    <FaBookmark />
+                                </div>
+                            )}
+
+                            <img
+                                src={
+                                    media.poster_path
+                                        ? `${low_resolution_poster}${media.poster_path}`
+                                        : `${low_resolution_backdrop}${media.backdrop_path}`
                                 }
-                                {/* Imagem do filme/serie */}
-                                <img
-                                    src={
-                                        media.poster_path ?
-                                            `${low_resolution_poster}${media.poster_path}` :
-                                            `${low_resolution_backdrop}${media.backdrop_path}`
-                                    }
-                                    alt={`Imagem poster de ${media.title ?? media.name}`}
-                                    loading='lazy'
-                                    className="img"
-                                />
-                            </div>
-                            <DetailsCard
-                                updateFavorites={updateFavorites}
-                                navigate={navigateToPlayer}
-                                media={media}
-                                lang={lang}
+                                alt={`Imagem poster de ${media.title ?? media.name}`}
+                                loading="lazy"
+                                className="img w-full h-full object-cover"
                             />
                         </div>
-                    ) : null
-                ))}
-            </div>
-        </>
-    ) : null;
+                    </div>
+                ) : null
+            )}
+        </div>
+    ) : null
 };

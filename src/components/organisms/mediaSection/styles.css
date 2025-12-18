@@ -1,88 +1,10 @@
-.movie-serie-section {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(calc((100% - 16px) / 3), 1fr));
-    gap: 8px;
+.media-section .card .bookmark-icon {
+    transition: opacity 0.25s ease-out;
 }
 
-.movie-serie-section .card {
-    position: relative;
-}
-
-.movie-serie-section .card-img {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 6px;
-    aspect-ratio: 1 / 1.4;
-    background-color: var(--color-surface);
-}
-
-.movie-serie-section .img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-@media screen and (width >=768px) {
-    .movie-serie-section {
-        grid-template-columns: repeat(auto-fill, minmax(calc((100% - 24px) / 4), 1fr));
-    }
-}
-
-@media screen and (width >=1024px) {
-    .movie-serie-section {
-        grid-template-columns: repeat(auto-fill, minmax(calc((100% - 32px) / 5), 1fr));
-    }
-
-    .movie-serie-section .card {
-        cursor: pointer;
-    }
-
-     .movie-serie-section .img {
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    .movie-serie-section .card:hover .img {
-        opacity: 0;
-    }
-
-    .movie-serie-section .card .bookmark-icon {
-        transition: opacity 0.2s ease-in-out, pointer-events 0.2s linear;
-    }
-
-    .movie-serie-section .card:hover .bookmark-icon {
+@media (hover: hover) {
+    .media-section .card:hover .bookmark-icon {
         opacity: 0;
         pointer-events: none;
-    }
-
-    .movie-serie-section .card .media-details {
-        opacity: 0;
-        border: 2px solid transparent;
-        transition: opacity 0.2s ease-in-out, border 0.2s ease-in-out;
-        border-radius: 6px;
-    }
-
-    .movie-serie-section .card:hover .media-details {
-        opacity: 1;
-        border: 2px solid color-mix(in oklab, var(--color-secondary) 10%, transparent);
-    }
-}
-
-@media screen and (width >=1280px) {
-    .movie-serie-section {
-        grid-template-columns: repeat(auto-fill, minmax(calc((100% - 40px) / 6), 1fr));
-    }
-}
-
-@media screen and (width >=1536px) {
-    .movie-serie-section {
-        grid-template-columns: repeat(auto-fill, minmax(calc((100% - 48px) / 7), 1fr));
-    }
-}
-
-@media screen and (width >=1792px) {
-    .movie-serie-section {
-        grid-template-columns: repeat(auto-fill, minmax(calc((100% - 56px) / 8), 1fr));
     }
 }

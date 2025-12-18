@@ -5,7 +5,7 @@ import { ArrowRight } from "@/components/atoms/arrowRightIcon";
 // traduções
 import translations from "@/i18n/translations/buttons/translations.json";
 // tipos
-import { GenreType } from "@/components/templates/moviesPage/mediaSection";
+import { GenreType } from "@/components/templates/moviesPage/mediaSectionWrapper";
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { LangCode } from "@/i18n/languages";
 type ComponentProps = {

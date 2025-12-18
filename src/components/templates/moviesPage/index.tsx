@@ -2,7 +2,7 @@
 import useTmdbFetch from '@/hooks/tmdb';
 // componentes
 import HeaderCarousel from '@/components/organisms/headerCarousel';
-import MoviesSection from './mediaSection';
+import MediaSectionWrapper from './mediaSectionWrapper';
 import { StopLoading } from '@/components/atoms/stopLoading';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 // tipos
@@ -30,8 +30,8 @@ export default async function MoviesPage({lang}:{lang:string}) {
                     currentPage='movies'
                     lang={langCode}
                 />
-                <MoviesSection 
-                    className='mt-12 mb-16 sm:-mt-[calc((56vw*0.25)-100px)]' 
+                <MediaSectionWrapper 
+                    className='mt-12 mb-14 sm:-mt-[calc((56vw*0.25)-100px)]' 
                     lang={langCode}
                 />
             </div>
