@@ -85,11 +85,10 @@
   .hero-carousel .embla__slide .img-wrapper::before {
     height: 100%;
     background-image: linear-gradient(to top,
-      var(--color-gradient-base) 0%,
-      var(--color-gradient-0) 50%,
-      var(--color-gradient-0) 85%,
-      var(--color-gradient-base) 100%
-    );
+        var(--color-gradient-base) 0%,
+        var(--color-gradient-0) 50%,
+        var(--color-gradient-0) 85%,
+        var(--color-gradient-base) 100%);
   }
 
   .hero-carousel .embla__slide .img-wrapper::after {
@@ -101,8 +100,19 @@
     pointer-events: none;
     left: 0;
     background-image: linear-gradient(to right,
-      var(--color-gradient-base),
-      var(--color-gradient-0));
+        var(--color-gradient-base),
+        var(--color-gradient-0));
+    z-index: 4;
+  }
+}
+
+@media screen and (width >=1024px) {
+  .hero-carousel .embla__slide .img-wrapper::after {
+    background-image: linear-gradient(to right,
+      var(--color-gradient-base) 0%,
+      var(--color-gradient-base) 30%,
+      var(--color-gradient-0)
+    );
     z-index: 4;
   }
 }

@@ -22,12 +22,17 @@
     position: absolute;
     top: -32px;
     right: var(--page-padding);
+    visibility: hidden;
 }
 
-@media screen and (width >=1024px) {
+@media screen and (width >= 1024px) {
     .media-carousel .prev-slide-box,
     .media-carousel .next-slide-box {
         background-color: var(--color-gradient-80);
+    }
+
+    .media-carousel .bullets-bar {
+        visibility: visible !important;
     }
 }
 

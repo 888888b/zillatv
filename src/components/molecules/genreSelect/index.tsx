@@ -43,7 +43,7 @@ const GenreSelect = memo(({
 
     return (
         <div className={`relative selector-wrapper ${isOpened ? 'opened' : 'closed'}`}>
-            <h3 className="font-medium mb-1 text-center sm:text-left [font-size:clamp(1rem,1.15vw,1.125rem)]">
+            <h3 className="font-medium mb-1 text-center sm:text-left text-[clamp(1rem,1.15vw,1.125rem)]">
                 {text.genre}
             </h3>
 
@@ -51,7 +51,7 @@ const GenreSelect = memo(({
             <button
                 ref={ref}
                 onClick={toggleDropdown}
-                className={`selector border border-secondary/20 rounded-md flex items-center gap-8 cursor-pointer md:hover:border-secondary transition-all duration-300 text-secondary font-medium w-fit [font-size:clamp(1.125rem,1.3vw,1.25rem)] h-12 pl-6 pr-2 overflow-hidden mx-auto sm:mx-0`}>
+                className={`selector border border-secondary/20 rounded-(--radius-button) flex items-center gap-8 cursor-pointer md:hover:border-secondary transition-all duration-300 text-secondary font-medium w-fit text-[clamp(1.125rem,1.3vw,1.25rem)] h-12 pl-6 pr-2 overflow-hidden mx-auto sm:mx-0`}>
                 <span className="min-w-[150px] text-left pointer-events-none">
                     {selectedGenre.title}
                 </span>
@@ -67,11 +67,11 @@ const GenreSelect = memo(({
                 </div>
             </button>
             {/* overlay */}
-            <div className='overlay fixed top-0 left-0 bg-background/80 w-full h-[100lvh] z-[100]' />
+            <div className='overlay fixed top-0 left-0 bg-background/80 w-full h-lvh z-100' />
             {/* Dropdown */}
             <div
-                className={`selector-options absolute left-0 top-[86px] w-full sm:w-fit max-w-[768px] md:max-w-[80vw] lg:max-w-[60vw] bg-surface border-2 border-secondary/5 rounded-md px-6 py-8 z-[101]`}>
-                <ul className="grid grid-cols-[auto] justify-items-center sm:grid-cols-[auto_auto_auto] md:grid-cols-[auto_auto_auto_auto] gap-8 sm:gap-y-5 sm:gap-x-10 max-h-[50vh] overflow-y-scroll [font-size:clamp(1.0625rem,1.2vw,1.1875rem)] *:cursor-pointer *:hover:underline">
+                className={`selector-options absolute left-0 top-[86px] w-full sm:w-fit max-w-3xl md:max-w-[80vw] lg:max-w-[60vw] bg-surface border-2 border-secondary/5 rounded-(--radius-box) px-6 py-8 z-101`}>
+                <ul className="grid grid-cols-[auto] justify-items-center sm:grid-cols-[auto_auto_auto] md:grid-cols-[auto_auto_auto_auto] gap-8 sm:gap-y-5 sm:gap-x-10 max-h-[50vh] overflow-y-scroll text-[clamp(1.0625rem,1.2vw,1.1875rem)] *:cursor-pointer *:hover:underline">
                     {Object.entries(genres).map((genre) => (
                         // index 0 === genero / index 1 === titulo a ser exibido
                         <li

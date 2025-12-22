@@ -40,6 +40,7 @@ export default async function RootLayout(
       <body className={` 
         ${fonts.raleway.variable} 
         ${fonts.inter.variable}
+        ${fonts.roboto.variable}
         antialiased
       `}>
         <div className="relative overflow-x-hidden max-w-[2000px] mx-auto">

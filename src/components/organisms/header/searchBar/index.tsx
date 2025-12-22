@@ -87,11 +87,11 @@ export default function SearchBar(props: SearchBarProps) {
     } : {};
 
     return (
-        <form className={`flex items-center rounded-md border-[0.1rem] overflow-hidden border-secondary/10 lg:border-secondary/40 relative h-12 text-text ${className}`} onSubmit={(e) => e.preventDefault()} {...inputMouseEvents} ref={inputBoxRef}>
+        <form className={`flex items-center rounded-(--radius-button) border-[0.1rem] overflow-hidden border-secondary/10 lg:border-secondary/40 relative h-12 text-text ${className}`} onSubmit={(e) => e.preventDefault()} {...inputMouseEvents} ref={inputBoxRef}>
             {/* icone de lupa */}
             <SearchIcon
                 size={24}
-                strokeWidth={0.1}
+                pathClass="stroke-0"
                 className="absolute top-1/2 -translate-y-1/2 left-5 md:left-[19px] lg:left-[22px] -translate-x-1/2"
             />
 
@@ -99,7 +99,7 @@ export default function SearchBar(props: SearchBarProps) {
             <input
                 type='text'
                 name="search-input"
-                className='appearance-none outline-none border-none h-full [font-size:clamp(1rem,1.15vw,1.125rem)] text-secondary placeholder:text-text lg:placeholder:text-secondary/70 placeholder:font-normal w-full font-medium px-10 lg:px-12'
+                className='appearance-none outline-none border-none h-full text-[clamp(1rem,1.15vw,1.125rem)] text-secondary placeholder:text-text lg:placeholder:text-secondary/70 placeholder:font-normal w-full font-medium lg:font-normal px-10 lg:px-12'
                 placeholder={text.search_movies_series}
                 autoComplete='additional-name webauthn'
                 maxLength={70}

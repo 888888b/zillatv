@@ -1,3 +1,7 @@
+.featured-series {
+    font-family: var(--font-inter), 'sans-serif';
+}
+
 .featured-series .embla {
     position: relative;
     max-width: var(--page-max-width);
@@ -18,7 +22,7 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: end;
-    transition: transform 0.2s ease-out;
+    transition: transform 0.15s ease-out;
 }
 
 .featured-series .embla__slide:not(:first-of-type) {
@@ -39,9 +43,9 @@
     height: clamp(16vw, round(calc(((100vw - 16px - var(--page-padding) * 2) / 3) * 1.4), 1px), 200px);
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: var(--radius-box);
     background-color: var(--color-surface);
-    transition: box-shadow 0.2s ease-out;
+    transition: box-shadow 0.15s ease-out;
     box-shadow: 0 0 0 3px transparent;
 
 }
@@ -63,13 +67,14 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.15s ease-in-out;
 }
 
 .featured-series .default-navigation .bullets-bar {
     position: absolute;
     top: -32px;
     right: var(--page-padding);
+    visibility: hidden;
 }
 
 .featured-series .embla__slide .custom-stroke {
@@ -79,7 +84,7 @@
     display: inline-block;
     color: transparent;
     margin-block: auto;
-    transition: -webkit-text-stroke-color 0.2s ease-out;
+    transition: -webkit-text-stroke-color 0.15s ease-out;
 }
 
 .featured-series .embla__slide:not(:first-of-type, :last-of-type) .custom-stroke {
@@ -88,8 +93,8 @@
 }
 
 .featured-series .embla__slide:first-of-type .custom-stroke {
-    transform: translateX(round(calc(clamp(130px, 15vw, 210px) * 0.15), 1px));
-    margin-left: round(calc(clamp(130px, 15vw, 210px) * -0.15), 1px);
+    transform: translateX(round(calc(clamp(130px, 15vw, 210px) * 0.10), 1px));
+    margin-left: round(calc(clamp(130px, 15vw, 210px) * -0.10), 1px);
 }
 
 .featured-series .embla__slide:last-of-type .custom-stroke {
@@ -109,7 +114,7 @@
 }
 
 .featured-series .embla__slide .bookmark-icon {
-    transition: opacity 0.2s ease-in-out, pointer-events 0.2s linear;
+    transition: opacity 0.15s ease-in-out, pointer-events 0.15s linear;
 }
 
 .featured-series .prev-slide-box,
@@ -120,10 +125,15 @@
     transition: visibility 0.15s ease-out, opacity 0.15s ease-out;
 }
 
+
 @media screen and (width >=1024px) {
     .featured-series .embla__slide .hover-animation {
         will-change: transform;
         transform-origin: center;
+    }
+
+    .featured-series .bullets-bar {
+        visibility: visible !important;
     }
 }
 
@@ -142,8 +152,8 @@
     }
 
     .featured-series .embla__slide:first-of-type .custom-stroke {
-        transform: translateX(round(calc(clamp(210px, 13vw, 260px) * 0.15), 1px));
-        margin-left: round(calc(clamp(210px, 13vw, 260px) * -0.15), 1px);
+        transform: translateX(round(calc(clamp(210px, 13vw, 260px) * 0.10), 1px));
+        margin-left: round(calc(clamp(210px, 13vw, 260px) * -0.10), 1px);
     }
 
     .featured-series .embla__slide:last-of-type .custom-stroke {

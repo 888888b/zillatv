@@ -59,7 +59,7 @@ export default function AccountDropdown() {
                     {photoUrl ? (
                         <img src={photoUrl} alt={`Imagem de perfil de ${name}`} />
                     ) : (
-                        <RiUser6Line strokeWidth={0.1} className="w-[clamp(24px,1.65vw,26px)] 
+                        <RiUser6Line strokeWidth={0.1} stroke="0" className="w-[clamp(24px,1.65vw,26px)] 
                         h-[clamp(24px,1.65vw,26px)]"/>
                     )}
                 </div>

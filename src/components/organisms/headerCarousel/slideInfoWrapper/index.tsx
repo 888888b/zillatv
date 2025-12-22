@@ -88,17 +88,17 @@ export default function SlideInfoWrapper(props: ComponentProps) {
             <div className='flex items-center gap-x-4 order-3 sm:order-4 lg:order-3'>
                 {/* ver detalhes */}
                 <PlayButton onClick={navigateToPlayer}>
-                    <FaPlay className='text-[clamp(1rem,2vw,1.25rem)] lg:text-[clamp(1.25rem,1.5vw,1.5rem)]' />
+                    {/* <FaPlay className='text-[clamp(1rem,2vw,1.25rem)] lg:text-[clamp(1.25rem,1.5vw,1.5rem)]' /> */}
                     {
                         data.media_type === 'movie' ?
                             text.go_to_movie : text.go_to_series
                     }
                 </PlayButton>
                 {/* Adicionar aos favoritos */}
-                <AddToListButton
+                {/* <AddToListButton
                     mediaId={data.id}
                     mediaType={data.media_type}
-                />
+                /> */}
             </div>
 
             {/* generos */}

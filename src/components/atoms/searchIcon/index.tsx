@@ -3,6 +3,7 @@ import { ComponentPropsWithoutRef } from "react";
 type ComponentProps = ComponentPropsWithoutRef<'svg'> & {
     stroke?: number | string;
     size?: number | string;
+    pathClass?: string;
 };
 
 export const SearchIcon = ({
@@ -13,9 +14,10 @@ export const SearchIcon = ({
     viewBox,
     height,
     width,
+    pathClass,
     ...rest
 }: ComponentProps) => {
     return (
-        <svg {...rest} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height={size} width={size}><g id="search"><path id="Union" stroke="currentColor" fill="currentColor" d="M11 2c4.9706 0 9 4.02944 9 9 0 2.125 -0.7381 4.0766 -1.9697 5.6162l3.4267 3.4268c0.3906 0.3905 0.3906 1.0235 0 1.414 -0.3905 0.3906 -1.0235 0.3906 -1.414 0l-3.4268 -3.4267C15.0766 19.2619 13.125 20 11 20c-4.97056 0 -9 -4.0294 -9 -9 0 -4.97056 4.02944 -9 9 -9m0 2c-3.86599 0 -7 3.13401 -7 7 0 3.866 3.13401 7 7 7 3.866 0 7 -3.134 7 -7 0 -3.86599 -3.134 -7 -7 -7" strokeWidth={strokeWidth}/></g></svg>
+        <svg {...rest} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height={size} width={size}><g id="search"><path className={pathClass} id="Union" stroke="currentColor" fill="currentColor" d="M11 2c4.9706 0 9 4.02944 9 9 0 2.125 -0.7381 4.0766 -1.9697 5.6162l3.4267 3.4268c0.3906 0.3905 0.3906 1.0235 0 1.414 -0.3905 0.3906 -1.0235 0.3906 -1.414 0l-3.4268 -3.4267C15.0766 19.2619 13.125 20 11 20c-4.97056 0 -9 -4.0294 -9 -9 0 -4.97056 4.02944 -9 9 -9m0 2c-3.86599 0 -7 3.13401 -7 7 0 3.866 3.13401 7 7 7 3.866 0 7 -3.134 7 -7 0 -3.86599 -3.134 -7 -7 -7" strokeWidth={strokeWidth}/></g></svg>
     );
 };

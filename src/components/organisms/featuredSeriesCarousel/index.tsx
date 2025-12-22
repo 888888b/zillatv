@@ -71,7 +71,7 @@ export default function FeaturedSeriesCarousel(props: ComponentProps) {
     return carouselData ? (
         <div className={`featured-series ${className}`}>
             <EmblaCarousel
-                navigationType='featured'
+                navigationType='default'
                 slidesPerView={'auto'}
                 align='start'
                 breakpoints={{

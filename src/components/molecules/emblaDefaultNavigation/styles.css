@@ -1,6 +1,6 @@
 :root {
-    --bullet-w: clamp(1rem, 1.5vw, 1.5rem);
-    --bullet-h: clamp(0.125rem, 0.25vw, 0.25rem);
+    --bullet-w: 16px;
+    --bullet-h: 2px;
 }
 
 .default-navigation .bullets-bar {

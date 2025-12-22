@@ -1,4 +1,4 @@
-import { Raleway, Inter } from "next/font/google";
+import { Raleway, Inter, Roboto, Poppins } from "next/font/google";
 
 export const raleway = Raleway({
   subsets: ['latin-ext'], 
@@ -8,6 +8,12 @@ export const raleway = Raleway({
 
 export const inter = Inter({
   subsets: ['latin-ext'],
-  weight: ['300', '400', '500', '600', '700', '900'],
+  weight: ['400', '500', '600', '700', '900'],
   variable: '--font-inter',
 });
+
+export const roboto = Roboto({
+  subsets: ['latin-ext'],
+  weight: ['400', '500', '600', '700', '900'],
+  variable: '--font-roboto'
+})

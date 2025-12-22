@@ -54,8 +54,8 @@ export default function Header({ lang }: { lang: string }) {
                         htmlFor="header-drawer"
                         className="
                         flex flex-col justify-center items-center gap-y-[3px]
-                        *:w-[20px] *:h-[2px] *:bg-secondary *:rounded-[0.04em]
-                        bg-secondary/15 h-10 w-[46px] rounded-md cursor-pointer lg:hidden
+                        *:w-5 *:h-0.5 *:bg-secondary 
+                        bg-secondary/15 h-10 w-[46px] rounded-(--radius-button) cursor-pointer lg:hidden
                         ">
                         <span />
                         <span />
@@ -81,7 +81,7 @@ export default function Header({ lang }: { lang: string }) {
                     <div className='search-wrapper' ref={searchWrapperRef}>
                         {/* visible icon that opens the search bar */}
                         <SearchIcon
-                            strokeWidth={0.1}
+                        pathClass='stroke-[0.1] lg:stroke-0'
                             onClick={() => setIsMobileSearchActive(true)}
                             className='search-icon cursor-pointer w-[clamp(24px,1.65vw,26px)] 
                         h-[clamp(24px,1.65vw,26px)]'
@@ -89,12 +89,12 @@ export default function Header({ lang }: { lang: string }) {
                         {/* mobile search bar */}
                         <div
                             className="w-full h-full absolute left-0 top-0 search-bar z-10 
-                            lg:relative px-[var(--page-padding)] lg:w-fit lg:h-fit lg:px-0">
+                            lg:relative px-(--page-padding) lg:w-fit lg:h-fit lg:px-0">
                             <SearchBar
                                 isAnimated={false}
                                 callback={() => setIsMobileSearchActive(false)}
                                 lang={lang}
-                                className='absolute left-0 top-1/2 -translate-y-1/2 lg:relative lg:-translate-y-0 lg:top-0'
+                                className='absolute left-0 top-1/2 -translate-y-1/2 lg:relative lg:translate-y-0 lg:top-0'
                             />
                         </div>
                     </div>

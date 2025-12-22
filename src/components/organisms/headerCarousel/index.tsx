@@ -123,7 +123,10 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                 slidesPerView={1}
                 autoplay={true}
                 loop={true}
-                duration={10}
+                breakpoints={{
+                    '(min-width: 1px)': { duration: 10 },
+                    '(min-width: 1024px)': { duration: 15 },
+                }}
                 fadeAnimation={true}>
                 {slides}
             </EmblaCarousel>

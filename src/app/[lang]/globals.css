@@ -18,6 +18,7 @@
 @theme {
   --font-inter: var(--font-inter), "sans-serif";
   --font-raleway: var(--font-raleway), "sans-serif";
+  --font-roboto: var(--font-roboto), "sans-serif";
   --color-primary: #ffff13
     /*cor primaria para textos e botoes com destaque*/
   ;
@@ -27,13 +28,13 @@
   --color-primary-content: #333333
     /*contraste com a cor acima, para textos de botoes e outros*/
   ;
-  --color-background: #060D17
+  --color-background: #111111;
     /*cor de fundo da pagina*/
   ;
   --color-text: #b3b4b8
     /*cor padrão para textos*/
   ;
-  --color-surface: #0F1621
+  --color-surface: #141414
     /*contraste com a cor de fundo da pagina, para cards e seçoes*/
   ;
   --color-accent: #333333
@@ -48,6 +49,8 @@
   --radius-selector: 1rem;
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
+  --radius-button: 0px;
+  --radius-box: 0px;
 
   /* base sizes */
   --size-selector: 0.25rem;
@@ -88,7 +91,7 @@ html {
 body {
   background-color: var(--color-background);
   color: var(--color-text);
-  font-family: var(--font-inter), helvetica, sans-serif;
+  font-family: var(--font-roboto), helvetica, sans-serif;
 }
 
 html {
@@ -99,7 +102,9 @@ body h1,
 body h2,
 body h3,
 body h4,
-body h5 {
+body h5,
+button,
+input {
   line-height: 1.25;
   letter-spacing: 0.025em;
 }

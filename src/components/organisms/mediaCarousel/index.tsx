@@ -91,13 +91,13 @@ export default function MoviesSeriesCarousel(
     return (
         <div className={`w-full media-carousel ${className}`}>
             <EmblaCarousel
-                navigationType="featured"
+                navigationType="default"
                 slidesPerView="auto"
                 breakpoints={{
                     '(min-width: 1px)': { duration: 20, dragFree: true, loop: true },
                     '(min-width: 1024px)': { duration: 25, dragFree: false },
                 }}
-                className="relative px-(--page-padding) lg:px-0 min-[2000px]:w-[round(calc(var(--page-max-width)-var(--page-padding)*2),1px)] min-[2000px]:m-auto min-[2000px]:overflow-x-clip min-[2000px]:px-(--media-carousel-gap) min-[2000px]:box-border"
+                className="relative pl-(--page-padding) lg:pl-0 min-[2000px]:w-[round(calc(var(--page-max-width)-var(--page-padding)*2),1px)] min-[2000px]:m-auto min-[2000px]:overflow-x-clip min-[2000px]:px-(--media-carousel-gap) min-[2000px]:box-border"
                 containerClass="gap-2"
             >
                 {carouselData.map((media) =>
@@ -106,15 +106,15 @@ export default function MoviesSeriesCarousel(
                             key={`slide-${media.id}`}
                             className="embla__slide group opacity-0 invisible transition-opacity duration-300
                             w-[round(calc((100%-16px)/3),1px)] md:w-[round(calc((100%-24px)/4),1px)] lg:w-[round(calc((100%-32px-var(--page-padding)*2)/5),1px)] xl:w-[round(calc((100%-40px-var(--page-padding)*2)/6),1px)] 2xl:w-[round(calc((100%-48px-var(--page-padding)*2)/7),1px)] min-[2000px]:w-[round(calc((100%-48px)/7),1px)]">
-                            <div className='[transition:transform_0.25s_ease-out] group-hover:transform-[scale(1.06)] will-change-transform origin-center'>
+                            <div className='[transition:transform_0.15s_ease-out] group-hover:transform-[scale(1.06)] will-change-transform origin-center'>
                                 <div
-                                    className="relative aspect-[1/1.4] overflow-hidden rounded-md bg-surface"
+                                    className="relative aspect-[1/1.4] overflow-hidden rounded-(--radius-button) bg-surface"
                                     onClick={() => navigateToPlayer(media.id, media.media_type)}>
                                     {media.isFavorite && (
                                         <div
                                             className="bookmark-icon absolute top-1.5 right-1.5 z-30 flex items-center justify-center rounded-full
                                             bg-background/60 w-[clamp(28px,3.55vw,36px)] h-[clamp(28px,3.55vw,36px)] text-primary text-[clamp(0.875rem,1.6vw,1rem)]
-                                            [transition:opacity_0.25s_ease-out] lg:group-hover:opacity-0 lg:group-hover:pointer-events-none">
+                                            [transition:opacity_0.15s_ease-out] lg:group-hover:opacity-0 lg:group-hover:pointer-events-none">
                                             <FaBookmark />
                                         </div>
                                     )}

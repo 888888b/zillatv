@@ -101,7 +101,7 @@ export default function MoviesSeriesSection({ data, lang }: ComponentProps) {
                     <div key={`card-${media.id}`} className="card relative [transition:transform_0.25s_ease-out] hover:transform-[scale(1.06)] will-change-transform origin-center cursor-pointer">
                         <div
                             onClick={() => navigateToPlayer(media.id, media.media_type)}
-                            className="relative w-full overflow-hidden rounded-md aspect-[1/1.4] bg-surface"
+                            className="relative w-full overflow-hidden rounded-(--radius-button) aspect-[1/1.4] bg-surface"
                         >
                             {media.isFavorite && (
                                 <div className="

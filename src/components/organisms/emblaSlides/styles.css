@@ -30,7 +30,8 @@
 
 @media screen and (width >=1024px) {
     .embla .navigation-controlls {
-        transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
+        color: color-mix(in oklab, var(--color-secondary) 20%, transparent);
+        transition: color 0.15s ease-out, transform 0.15s ease-out;
     }
 
     .embla:hover .navigation-controlls {
