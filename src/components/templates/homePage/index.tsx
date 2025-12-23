@@ -32,7 +32,6 @@ export default async function HomePage({ lang }: { lang: string }) {
     const carouselsData: CarouselProps = {};
     const titles = translations[langCode];
     const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
-
     const withMediaType = (arr: any[], type: "movie" | "tv") =>
         arr.map(item => ({ ...item, media_type: type }));
 

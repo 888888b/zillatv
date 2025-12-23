@@ -3,12 +3,12 @@
     z-index: 101;
 }
 
-.selector-wrapper .selector .arrow-right {
-    rotate: 90deg;
+.selector-wrapper .selector .arrow-down {
+    transition: transform 0.15s ease-out;
 }
 
-.selector-wrapper.opened .selector .arrow-right {
-    rotate: calc(90deg * -1);
+.selector-wrapper.opened .selector .arrow-down {
+    transform: rotate(-180deg);
 }
 
 .selector-wrapper.closed .overlay,
@@ -16,12 +16,12 @@
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.1s ease-in, visibility 0.1s ease-in;
+    transition: opacity 0.15s ease-in, visibility 0.15s ease-in;
 }
 
 .selector-wrapper.open .overlay,
 .selector-wrapper.open .selector-options {
-    transition: opacity 0.1s ease-out, visibility 0.1s ease-out;
+    transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
     visibility: visible;
     opacity: 1;
     pointer-events: all;

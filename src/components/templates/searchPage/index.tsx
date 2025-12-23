@@ -48,6 +48,7 @@ export default async function SearchPage(props: SearchPageProps) {
                         data={contentData} 
                         mediaType={contentType}
                         lang={langCode}
+                        className="pb-16"
                     />
                 </div>
             </section>

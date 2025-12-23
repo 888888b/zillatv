@@ -9,18 +9,21 @@ import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { TmdbMediaProps } from "@/app/[lang]/types";
 // funções utilitarias
 import { checkAvailability } from '@/utils/tmdb/checkAvailability';
-import { getContentId } from '@/utils/tmdb/getIdList';
 import { formatLangCode } from '@/utils/i18n';
 
 export default async function MoviesPage({lang}:{lang:string}) {
     const contentData: TmdbMediaProps[]  = [];
     const langCode = formatLangCode(lang);
     const { fetchMoviesByIdList, fetchReleasedMovies } = useTmdbFetch();
-    const releaseMovies = await fetchReleasedMovies();
-    const moviesIdList = await getContentId(releaseMovies);
-    const movies = await fetchMoviesByIdList(moviesIdList, langCode);
-    const filtered = await checkAvailability(movies);
-    contentData.push(...filtered.map(item => ({ ...item, media_type: 'movie' })).filter((_, index) => index < 6));
+    const releasedMovies = await fetchReleasedMovies(1, lang);
+    const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
+    const filtered1 = await safeCheck(releasedMovies);
+    const idsList = filtered1.map(movie => movie.id);
+    const moviesById = await fetchMoviesByIdList(idsList, lang);
+    const filtered2 = await safeCheck(moviesById);
+    const moviesWithLogo = filtered2.filter(movie => movie.images?.logos.length);
+    const carouselMovies = moviesWithLogo.filter((_, index) => index < 8);
+    contentData.push(...carouselMovies.map(item => ({ ...item, media_type: 'movie' })).filter((_, index) => index < 6));
 
     return contentData ? (
         <>
@@ -31,7 +34,7 @@ export default async function MoviesPage({lang}:{lang:string}) {
                     lang={langCode}
                 />
                 <MediaSectionWrapper 
-                    className='mt-12 mb-14 sm:-mt-[calc((56vw*0.25)-100px)]' 
+                    className='mt-12 sm:-mt-[calc((56vw*0.25)-100px)]' 
                     lang={langCode}
                 />
             </div>

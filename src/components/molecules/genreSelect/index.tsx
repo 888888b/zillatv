@@ -1,9 +1,9 @@
 // hooks
 import { memo, useCallback, useState, useRef } from "react";
-// componentes
-import { ArrowRight } from "@/components/atoms/arrowRightIcon";
 // traduções
 import translations from "@/i18n/translations/buttons/translations.json";
+// icones
+import { RiArrowDownSLine } from "react-icons/ri";
 // tipos
 import { GenreType } from "@/components/templates/moviesPage/mediaSectionWrapper";
 import { TmdbMediaProps } from "@/app/[lang]/types";
@@ -43,7 +43,7 @@ const GenreSelect = memo(({
 
     return (
         <div className={`relative selector-wrapper ${isOpened ? 'opened' : 'closed'}`}>
-            <h3 className="font-medium mb-1 text-center sm:text-left text-[clamp(1rem,1.15vw,1.125rem)]">
+            <h3 className="font-normal mb-1 text-center sm:text-left text-[clamp(1rem,1.15vw,1.125rem)]">
                 {text.genre}
             </h3>
 
@@ -51,19 +51,16 @@ const GenreSelect = memo(({
             <button
                 ref={ref}
                 onClick={toggleDropdown}
-                className={`selector border border-secondary/20 rounded-(--radius-button) flex items-center gap-8 cursor-pointer md:hover:border-secondary transition-all duration-300 text-secondary font-medium w-fit text-[clamp(1.125rem,1.3vw,1.25rem)] h-12 pl-6 pr-2 overflow-hidden mx-auto sm:mx-0`}>
-                <span className="min-w-[150px] text-left pointer-events-none">
+                className={`selector border border-secondary/20 rounded-(--radius-button) flex items-center gap-8 
+                cursor-pointer md:hover:border-secondary transition-all duration-300 text-secondary font-bold 
+                w-fit text-[clamp(0.875rem,1.15vw,1.0625rem)] h-[clamp(3rem,3.5vw,3.5rem)] pl-6 pr-2 overflow-hidden mx-auto sm:mx-0`}>
+                <span className="min-w-[150px] text-left pointer-events-none uppercase tracking-[0.035em]">
                     {selectedGenre.title}
                 </span>
 
                 {/* Ícone */}
                 <div className="relative px-6 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-px before:h-8 before:bg-secondary/20">
-                    <ArrowRight
-                        width={24}
-                        height={24}
-                        stroke="2"
-                        className={'arrow-right'}
-                    />
+                    <RiArrowDownSLine className="stroke-0 w-[clamp(1.5rem,1.75vw,1.75rem)] h-[clamp(1.5rem,1.75vw,1.75rem)] arrow-down"/>
                 </div>
             </button>
             {/* overlay */}

@@ -74,7 +74,7 @@ export default function MoviesSection({className, lang}:ComponentProps) {
     }, [lang]);
 
     return (
-        <div className={`flex flex-col gap-y-8 page-padding page-max-width relative z-10 ${className}`}>
+        <div className={`flex flex-col gap-y-6 page-padding page-max-width relative z-10 ${className}`}>
             { selectedGenre &&
                 <GenreSelect
                     onSelectGenre={getSelectedGenre}
@@ -83,12 +83,12 @@ export default function MoviesSection({className, lang}:ComponentProps) {
                     lang={lang}
                 />
             }
-            <div className="w-full h-px rounded-3xl bg-secondary/10 sm:hidden" />
             {contentData && (
                 <MediaSection 
                     data={contentData}
                     mediaType="movie" 
                     lang={lang}
+                    className="pb-16"
                 />
             )}
         </div>

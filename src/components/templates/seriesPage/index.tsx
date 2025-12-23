@@ -17,7 +17,7 @@ export default async function MoviesPage({lang}:{lang:string}) {
     const headerSlides: TmdbMediaProps[] = [];
     const langCode = formatLangCode(lang);
     const { fetchSeriesByIdList, fetchAllTrending } = useTmdbFetch();
-    const trendingSeries = await fetchAllTrending('tv');
+    const trendingSeries = await fetchAllTrending('tv', lang);
     const seriesIdsList = await getContentId( trendingSeries );
     const seriesByIdList = await fetchSeriesByIdList(seriesIdsList, lang);
     const filtered = await checkAvailability(seriesByIdList);
@@ -32,7 +32,7 @@ export default async function MoviesPage({lang}:{lang:string}) {
                     lang={langCode}
                 />
                 <MediaSectionWrapper 
-                    className='mt-12 mb-14 sm:-mt-[calc((56vw*0.25)-100px)]'
+                    className='mt-12 sm:-mt-[calc((56vw*0.25)-100px)]'
                     lang={langCode}
                 />
             </div>

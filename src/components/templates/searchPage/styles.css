@@ -4,7 +4,6 @@
     width: 100%;
     min-height: 100vh;
     position: relative;
-    margin-bottom: 56px;
     transition: opacity 0.2s ease-in-out;
 }
 

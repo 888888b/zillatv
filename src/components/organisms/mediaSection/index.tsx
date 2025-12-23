@@ -20,11 +20,12 @@ type ComponentProps = {
     data: TmdbMediaProps[];
     mediaType?: "tv" | "movie" | "serie";
     lang: string;
+    className?: string;
 };
 
 import './styles.css';
 
-export default function MoviesSeriesSection({ data, lang }: ComponentProps) {
+export default function MoviesSeriesSection({ data, lang, className }: ComponentProps) {
     const { push } = useRouter();
     const setEvent = useContext(GlobalContext).dispatch;
     const setModal = useContext(ModalsContext).dispatch;
@@ -86,16 +87,15 @@ export default function MoviesSeriesSection({ data, lang }: ComponentProps) {
 
     return cardsData ? (
         <div
-            className="
+            className={`
             media-section
             grid w-full gap-2
-            pb-2
             grid-cols-[repeat(auto-fill,minmax(calc((100%-16px)/3),1fr))]
             md:grid-cols-[repeat(auto-fill,minmax(calc((100%-24px)/4),1fr))]
             lg:grid-cols-[repeat(auto-fill,minmax(calc((100%-32px)/5),1fr))]
             xl:grid-cols-[repeat(auto-fill,minmax(calc((100%-40px)/6),1fr))]
             2xl:grid-cols-[repeat(auto-fill,minmax(calc((100%-48px)/7),1fr))]
-            ">
+           ${className}`}>
             {cardsData.map(media =>
                 media.media_type !== 'person' ? (
                     <div key={`card-${media.id}`} className="card relative [transition:transform_0.25s_ease-out] hover:transform-[scale(1.06)] will-change-transform origin-center cursor-pointer">
