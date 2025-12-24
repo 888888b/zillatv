@@ -88,7 +88,7 @@ export default function SeriesSection({className, lang}:ComponentProps) {
                     data={contentData} 
                     mediaType="tv" 
                     lang={lang}
-                    className="pb-16"
+                    className="pb-12"
                 />
             }
         </div>

@@ -9,7 +9,7 @@ export const fetchMoviesByGenre = async (
     const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
     const region = lang.split('-')[0];
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${token}&with_genres=${genre}&language=${lang}&page=${page}&include_image_language=${region},en,null`, {
+        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${token}&with_genres=${genre}&language=${lang}&include_image_language=${region},en,null&page=${page}`, {
             cache: 'force-cache',
             next: { revalidate: 43200 }
         });
