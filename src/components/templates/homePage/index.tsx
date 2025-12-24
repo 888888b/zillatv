@@ -8,8 +8,10 @@ import CarouselWrapper from './CarouselWrapper';
 // utilitarios
 import { checkAvailability } from "@/utils/tmdb/checkAvailability";
 import { formatLangCode } from "@/utils/i18n";
+import { sortByVoteAverageDesc } from "@/utils/tmdb/sortByAverageNote";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
+import { Platform } from "@/app/[lang]/constants";
 // traduções
 import translations from '@/i18n/translations/sections/translations.json';
 
@@ -20,20 +22,37 @@ type CarouselProps = Record<string, {
 }>;
 
 export default async function HomePage({ lang }: { lang: string }) {
-    let isDataLoaded = false;
     const langCode = formatLangCode(lang);
     const {
         fetchAllTrending,
         fetchPlatformContent,
         fetchMovieById,
         fetchSeriebyId,
-        fetchTopRatedSeries
+        fetchTopRatedSeries,
+        fetchReleasedMovies,
+        fetchReleasedSeries,
+        fetchMovieClassics
     } = useTmdbFetch();
     const carouselsData: CarouselProps = {};
     const titles = translations[langCode];
     const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
-    const withMediaType = (arr: any[], type: "movie" | "tv") =>
-        arr.map(item => ({ ...item, media_type: type }));
+    const withMediaType = (arr: any[], type: "movie" | "tv", streaming?: Platform) =>
+        arr.map(item => ({ ...item, media_type: type, streaming }));
+
+    const shuffle = (array: TmdbMediaProps[]) => {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    };
+
+    const makeMediaUnique = (medias: TmdbMediaProps[]) => {
+        return Array.from(
+            new Map(medias.map(media => [media.id, media])).values()
+        );
+    };
 
     try {
         /** ---------------- HEADER / HERO CAROUSEL ---------------- */
@@ -50,10 +69,10 @@ export default async function HomePage({ lang }: { lang: string }) {
                 })
             )
         ).filter(Boolean).slice(0, 6) as TmdbMediaProps[];
-        carouselsData.headerSlides = { 
+        carouselsData.headerSlides = {
             data: headerSlides,
             title: '',
-            type: 'hero' 
+            type: 'hero'
         };
 
         /** ---------------- TRENDING SECTION ---------------- */
@@ -78,35 +97,54 @@ export default async function HomePage({ lang }: { lang: string }) {
             data: topSeries,
             title: titles.top_10_series,
             type: 'featured'
-        }
+        };
 
-        /** ---------------- STREAMING PLATFORMS ---------------- */
-        const platforms = [
-            { key: "netflix", title: titles.netflix },
-            { key: "disneyPlus", title: titles.disney },
-            { key: "HBO", title: titles.hbo },
-            { key: "paramount", title: titles.paramount },
-            { key: "primeVideo", title: titles.prime }
-        ] as const;
+        /** ----------------- RELESEAD MEDIA ------------------ */
+        const releasedMovies = await fetchReleasedMovies(1, lang);
+        const releasedMoviesFiltered = (await safeCheck(releasedMovies)).filter((_, index) => index <= 14);
+        const releasedSeries = await fetchReleasedSeries(1, lang);
+        const releasedSeriesFiltered = (await safeCheck(releasedSeries)).filter((_, index) => index <= 14);
+        const releasedMedia = shuffle([...releasedMoviesFiltered, ...releasedSeriesFiltered]);
+        carouselsData.releasedMedia = {
+            data: releasedMedia,
+            title: titles.releases,
+            type: 'default'
+        };
 
-        for (const { key, title } of platforms) {
+        /** ---------------- THE BEST OF STREAMING ---------------- */
+        const bestStreamingMedia: TmdbMediaProps[] = [];
+        const platforms: Platform[] = ["netflix", "disneyPlus", "HBO", "paramount", "primeVideo", "crunchyroll"];
+        for (const platform of platforms) {
             const [series, movies] = await Promise.all([
-                fetchPlatformContent(key, "tv", 1, lang),
-                fetchPlatformContent(key, "movie", 1, lang)
+                fetchPlatformContent(platform as Platform, "tv", 1, langCode),
+                fetchPlatformContent(platform as Platform, "movie", 1, langCode)
             ]);
             const filteredSeries = await safeCheck(series);
             const filteredMovies = await safeCheck(movies);
-            const formatted = [
-                ...withMediaType(filteredSeries, "tv"),
-                ...withMediaType(filteredMovies, "movie")
+            const bestMedias = [
+                ...sortByVoteAverageDesc(withMediaType(filteredSeries, "tv", platform)).filter((_, index) => index < 5),
+                ...sortByVoteAverageDesc(withMediaType(filteredMovies, "movie", platform)).filter((_, index) => index < 5)
             ];
-            carouselsData[key] = {
-                data: formatted,
-                title,
-                type: 'default'
-            };
+            bestStreamingMedia.push(...bestMedias);
         };
-        isDataLoaded = true;
+        carouselsData.bestOfStreamings = {
+            data: shuffle(makeMediaUnique(bestStreamingMedia)),
+            title: titles.best_streamings,
+            type: 'default'
+        };
+
+        /** ---------------- Movie classics ----------------- */
+        const [classicMovies, classicSeries] = await Promise.all([
+            fetchMovieClassics('movie', 1, langCode),
+            fetchMovieClassics('tv', 1, langCode)
+        ]);
+        const filteredClassicMovies = await safeCheck(classicMovies);
+        const filteredClassicSeries = await safeCheck(classicSeries);
+        carouselsData.movieClassics = {
+            data: shuffle([...filteredClassicMovies, ...filteredClassicSeries]),
+            title: titles.cinema_classics,
+            type: 'default'
+        };
 
     } catch (err) {
         console.error("HomePage fetch error:", err);
@@ -137,7 +175,7 @@ export default async function HomePage({ lang }: { lang: string }) {
                 )}
             </div>
             <ScrollToTop />
-            {isDataLoaded && <StopLoading />}
+            <StopLoading />
         </section>
     );
 }

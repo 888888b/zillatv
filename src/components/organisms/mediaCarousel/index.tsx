@@ -1,21 +1,26 @@
 'use client';
+// hooks
 import { useContext, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import useFirebase from '@/hooks/firebase';
+// componentes
 import EmblaCarousel from '@/components/organisms/emblaSlides';
-import DetailsCard from '@/components/molecules/mediaDetailsCard';
+// icones
 import { FaBookmark } from 'react-icons/fa6';
+// contextos
 import { UserDataContext } from '@/contexts/user';
 import { GlobalContext } from '@/contexts/global';
 import { ModalsContext } from '@/contexts/modal';
 import { AuthContext } from '@/contexts/auth';
-import { TmdbMediaProps } from '@/app/[lang]/types';
-import { tmdbConfig } from '@/app/[lang]/constants';
+
+// utilitarios
+import { tmdbConfig, platformsDomains, Platform } from '@/app/[lang]/constants';
 import { openRegisterModal } from '@/utils/context/openRegisterModal';
 import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
-
+// estilos
 import "./styles.css";
-
+// tipos
+import { TmdbMediaProps } from '@/app/[lang]/types';
 type ComponentProps = {
     slidesData: TmdbMediaProps[] | undefined;
     slidesType: 'movie' | 'serie' | 'mixed';
@@ -27,13 +32,12 @@ export default function MoviesSeriesCarousel(
     { slidesData, slidesType, className = '', lang }
         : ComponentProps) {
     const { push } = useRouter();
+    const token = process.env.NEXT_PUBLIC_LOGO_DEV_API_KEY;
     const setEvent = useContext(GlobalContext).dispatch;
     const setModal = useContext(ModalsContext).dispatch;
     const setError = useContext(AuthContext).dispatch;
-
     const { low_resolution_poster, low_resolution_backdrop } = tmdbConfig;
     const { addUserFavoritesToDb, deleteUserFavoritesOnDb } = useFirebase();
-
     const { favoriteMovies, favoriteSeries, isLoggedIn, setUserData } = useContext(UserDataContext);
 
     const carouselData: TmdbMediaProps[] | undefined = slidesData?.map((slide) => ({
@@ -90,6 +94,7 @@ export default function MoviesSeriesCarousel(
 
     return (
         <div className={`w-full media-carousel ${className}`}>
+            {/* Componente do carousel */}
             <EmblaCarousel
                 navigationType="default"
                 slidesPerView="auto"
@@ -102,14 +107,18 @@ export default function MoviesSeriesCarousel(
             >
                 {carouselData.map((media) =>
                     media.poster_path || media.backdrop_path ? (
+                        // Slide
                         <div
                             key={`slide-${media.id}`}
                             className="embla__slide group opacity-0 invisible transition-opacity duration-300
                             w-[round(calc((100%-16px)/3),1px)] md:w-[round(calc((100%-24px)/4),1px)] lg:w-[round(calc((100%-32px-var(--page-padding)*2)/5),1px)] xl:w-[round(calc((100%-40px-var(--page-padding)*2)/6),1px)] 2xl:w-[round(calc((100%-48px-var(--page-padding)*2)/7),1px)] min-[2000px]:w-[round(calc((100%-48px)/7),1px)]">
+                            {/* Wrapper pra animação de hover */}
                             <div className='[transition:transform_0.15s_ease-out] group-hover:transform-[scale(1.06)] will-change-transform origin-center'>
+                                {/* Wrapper pra imagem do slide, icone de favoritos e logo de streaming */}
                                 <div
                                     className="relative aspect-[1/1.4] overflow-hidden rounded-(--radius-button) bg-surface"
                                     onClick={() => navigateToPlayer(media.id, media.media_type)}>
+                                    {/* Icone de favoritos */}
                                     {media.isFavorite && (
                                         <div
                                             className="bookmark-icon absolute top-1.5 right-1.5 z-30 flex items-center justify-center rounded-full
@@ -118,6 +127,7 @@ export default function MoviesSeriesCarousel(
                                             <FaBookmark />
                                         </div>
                                     )}
+                                    {/* Imagem do filme/serie */}
                                     <img
                                         src={
                                             media.poster_path
@@ -128,6 +138,16 @@ export default function MoviesSeriesCarousel(
                                         loading="lazy"
                                         className="w-full h-full cursor-pointer transition-opacity duration-200"
                                     />
+                                    {/* Logo de streaming */}
+                                    { media.streaming &&
+                                        <div className='w-2/5 aspect-square absolute bottom-0 right-0 z-30 bg-background pl-2 pt-2'>
+                                            <img
+                                                src={`https://img.logo.dev/${platformsDomains[media.streaming as Platform]}?token=${token}&format=webp`}
+                                                alt={`Logo da ${media.streaming}`}
+                                                className="w-full"
+                                            />
+                                        </div>
+                                    }
                                 </div>
                                 {/* Info mobile */}
                                 <div className="mt-2 pr-2 max-w-[140px] md:max-w-[200px] xl:max-w-56 lg:hidden">

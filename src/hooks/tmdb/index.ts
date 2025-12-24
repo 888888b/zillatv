@@ -16,6 +16,7 @@ import { fetchMultiTypes } from "./multiTypesPerRequest";
 import { fetchTrendingMovies } from "./moviesTrending";
 import { fetchPlatformContent } from './moviesSeriesByPlataform';
 import { fetchTopRatedSeries } from "./topSeries";
+import { fetchMovieClassics } from "./classics";
 
 export default function useTmdbFetch() {
     return { 
@@ -35,6 +36,7 @@ export default function useTmdbFetch() {
         fetchMultiTypes,
         fetchTrendingMovies,
         fetchPlatformContent,
-        fetchTopRatedSeries
+        fetchTopRatedSeries,
+        fetchMovieClassics
     };
 };

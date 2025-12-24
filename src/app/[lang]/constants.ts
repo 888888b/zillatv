@@ -126,6 +126,18 @@ export type Platform =
   | "appleTV"
   | "crunchyroll";
 
+export const platformsDomains: Record<Platform, string> = {
+  netflix: "netflix.com",
+  disneyPlus: "disneyplus.com",
+  HBO: "hbomax.com",
+  primeVideo: "primevideo.com",
+  paramount: "paramountplus.com",
+  plutoTV: "pluto.tv",
+  globoPlay: "globoplay.globo.com",
+  appleTV: "tv.apple.com",
+  crunchyroll: "crunchyroll.com"
+};
+
 // id como provedor de filmes 
 export const moviesProviders: Record<Platform, string> = {
   disneyPlus: '337',
