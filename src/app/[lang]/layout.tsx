@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next";
 import * as fonts from '@/app/[lang]/fonts/index';
 // componentes
 import Header from "@/components/organisms/header";
-import Footer from "@/components/organisms/footer";
 import LoginModal from "@/components/organisms/loginModal";
 import RegisterModal from "@/components/organisms/registerModal";
 // import ProfileModal from "@/components/profileModal";
@@ -31,8 +30,8 @@ export const viewport: Viewport = {
 
 export default async function RootLayout(
   { children, params }:
-    Readonly<{ children: React.ReactNode, params: Promise<{lang: string}> }>) {
-  const {lang} = await params;
+    Readonly<{ children: React.ReactNode, params: Promise<{ lang: string }> }>) {
+  const { lang } = await params;
   const langCode = formatLangCode(lang);
 
   return (
@@ -50,13 +49,12 @@ export default async function RootLayout(
                 <ModalsProvider>
                   <LanguageProvider>
                     <Loading />
-                    <Header lang={langCode}/>
+                    <Header lang={langCode} />
                     <LoginModal />
                     <RegisterModal />
                     {/* <ProfileModal/> */}
                     <ToastContainer />
                     {children}
-                    <Footer lang={langCode}/>
                   </LanguageProvider>
                 </ModalsProvider>
               </UserProvider>
