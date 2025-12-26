@@ -9,6 +9,7 @@ import CarouselWrapper from './CarouselWrapper';
 import { checkAvailability } from "@/utils/tmdb/checkAvailability";
 import { formatLangCode } from "@/utils/i18n";
 import { sortByVoteAverageDesc } from "@/utils/tmdb/sortByAverageNote";
+import { makeMediaUnique } from "@/utils/tmdb/removeDuplicates";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
 import { Platform } from "@/app/[lang]/constants";
@@ -46,12 +47,6 @@ export default async function HomePage({ lang }: { lang: string }) {
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
         return arr;
-    };
-
-    const makeMediaUnique = (medias: TmdbMediaProps[]) => {
-        return Array.from(
-            new Map(medias.map(media => [media.id, media])).values()
-        );
     };
 
     try {

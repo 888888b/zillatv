@@ -10,6 +10,7 @@ import GenreSelect from "@/components/molecules/genreSelect";
 import MediaSection from "@/components/organisms/mediaSection";
 // utilitarios / constantes
 import { checkAvailability } from "@/utils/tmdb/checkAvailability";
+import { makeMediaUnique } from "@/utils/tmdb/removeDuplicates";
 import { Platform, moviesProviders } from '@/app/[lang]/constants';
 // tipos
 import { LangCode } from "@/i18n/languages";
@@ -61,10 +62,10 @@ export default function MoviesSection({ className, lang }: ComponentProps) {
 
             setSectionData(prev => {
                 if (!prev || prev.genre !== selectedGenre?.genre) {
-                    return { genre: selectedGenre?.genre ?? '', data: movies };
+                    return { genre: selectedGenre?.genre ?? '', data: makeMediaUnique(movies) };
                 };
 
-                return { ...prev, data: [...prev.data, ...movies] };
+                return { ...prev, data: makeMediaUnique([...prev.data, ...movies]) };
             });
         },
         [selectedGenre]
