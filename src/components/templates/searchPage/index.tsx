@@ -1,17 +1,17 @@
 // hooks
 import useTmdbFetch from '@/hooks/tmdb';
 // componentes
-import MediaSection from '@/components/organisms/mediaSection';
 import { ScrollToTop } from '@/utils/globalActions/scrollToTop';
 import { StopLoading } from '@/components/atoms/stopLoading';
+import MediaSectionWrapper from './mediaSectionWrapper';
 // tipos
 import { TmdbMediaProps } from '@/app/[lang]/types';
 // funções utilitarias
 import { checkAvailability } from '@/utils/tmdb/checkAvailability';
 import { formatLangCode } from '@/utils/i18n';
-
+// estilos
 import './styles.css';
-
+// tipos
 type SearchPageProps = {
     keyword: string | undefined,
     lang: string
@@ -19,36 +19,33 @@ type SearchPageProps = {
 
 export default async function SearchPage(props: SearchPageProps) {
     const {keyword, lang} = props;
-    const contentData: TmdbMediaProps[] = [];
-    let contentType: "tv" | "movie" | "serie" | undefined;
+    const mediaData: TmdbMediaProps[] = [];
     const langCode = formatLangCode(lang);
     const {
-        fetchMoviesByGenre,
+        fetchReleasedMovies,
         fetchMultiTypes
     } = useTmdbFetch();
 
     if (keyword) {
-        const content = await fetchMultiTypes(keyword, lang, '1');
-        const filtered = await checkAvailability(content);
-        contentData.push(...filtered);
-        contentType = undefined;
+        const media = await fetchMultiTypes(keyword, lang, 1);
+        const checked = await checkAvailability(media);
+        mediaData.push(...checked);
     } else {
-        const movies = await fetchMoviesByGenre('878', 1, lang);
-        const filtered = await checkAvailability(movies);
-        contentData.push(...filtered);
-        contentType = 'movie';
+        const movies = await fetchReleasedMovies(1, lang);
+        const checked = await checkAvailability(movies);
+        const withMediaType = checked.map(movie => ({...movie, media_type: 'movie'}));
+        mediaData.push(...withMediaType);
     };
 
-    return contentData ? (
+    return mediaData ? (
         <>
             <section className='search-page-container page-max-width page-padding'>
                 <div className='overlay' />
                 <div className='z-2 mt-[clamp(6rem,9vw,7.5rem)] flex flex-col items-start gap-y-5'>
-                    <MediaSection 
-                        data={contentData} 
-                        mediaType={contentType}
+                    <MediaSectionWrapper
+                        serverData={mediaData}
                         lang={langCode}
-                        className="pb-16"
+                        keyword={keyword}
                     />
                 </div>
             </section>

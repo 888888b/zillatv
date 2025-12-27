@@ -18,7 +18,6 @@ import { showSuccessMsg } from '@/utils/toastfy/showSuccessMsg';
 import { TmdbMediaProps } from "@/app/[lang]/types";
 type ComponentProps = {
     data: TmdbMediaProps[];
-    mediaType?: "tv" | "movie" | "serie";
     lang: string;
     className?: string;
 };

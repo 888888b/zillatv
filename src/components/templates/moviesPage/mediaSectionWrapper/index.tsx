@@ -21,7 +21,7 @@ type SectionData = { genre: string, data: TmdbMediaProps[] };
 
 export default function MoviesSection({ className, lang }: ComponentProps) {
     const [sectionData, setSectionData] = useState<SectionData | null>(null);
-    const [page, setPage] = useState(3);
+    const [page, setPage] = useState(1);
     const platforms = Object.keys(moviesProviders);
     const genres = translations[lang as LangCode];
     const [selectedGenre, setSelectedGenre] = useState<GenreType | undefined>();
@@ -118,7 +118,6 @@ export default function MoviesSection({ className, lang }: ComponentProps) {
             {sectionData && (
                 <MediaSection
                     data={sectionData.data}
-                    mediaType="movie"
                     lang={lang}
                     className="pb-12"
                 />

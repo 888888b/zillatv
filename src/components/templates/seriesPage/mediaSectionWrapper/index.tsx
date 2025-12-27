@@ -86,7 +86,6 @@ export default function SeriesSection({className, lang}:ComponentProps) {
             {contentData && 
                 <MediaSection 
                     data={contentData} 
-                    mediaType="tv" 
                     lang={lang}
                     className="pb-12"
                 />
