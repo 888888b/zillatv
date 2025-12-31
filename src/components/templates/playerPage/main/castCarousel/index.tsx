@@ -18,11 +18,12 @@ export default function MainActors(props: ComponentProps) {
                 slidesPerView={'auto'}>
                 {actorsData.map((actor: TmdbMediaProps, index) => (
                     // slide
-                    <div className="embla__slide flex flex-col gap-y-3 items-center bg-secondary/10 lg:bg-surface rounded-md p-4" key={`actor-${index}-${actor.id}`}>
+                    <div className="embla__slide flex flex-col gap-y-3 items-center bg-secondary/5 lg:bg-secondary/3 rounded-(--radius-button) p-4" key={`actor-${index}-${actor.id}`}>
                         {/* imagem do ator/atora */}
                         <ActorCard path={actor.profile_path} actor={actor.name} />
                         {/* detalhes sobre */}
-                        <p className="text-center [font-size:clamp(1rem,1.7vw,1.0625rem)] lg:[font-size:clamp(1.0625rem,1.2vw,1.1875rem)] font-normal line-clamp-3 overflow-ellipsis">
+                        <p className="text-center text-[clamp(1rem,1.7vw,1.0625rem)] lg:text-[clamp(1.0625rem,1.2vw,1.1875rem)] 
+                        font-normal line-clamp-3 overflow-ellipsis">
                             {actor.name}
                             <span className="text-secondary/90 block overflow-ellipsis font-semibold">
                                 {actor.character ?? ''}

@@ -75,7 +75,10 @@ const AddToListButton = memo((props : ComponentProps) => {
         <button
             {...rest}
             onClick={() => updateFavorites(mediaId, mediaType, isFavorite)}
-            className={`pointer-events-auto outline-none w-[clamp(2.5rem,4.7vw,3rem)] aspect-square rounded-md border-2 border-primary/70 text-primary/70 active:scale-95 transition-transform duration-200 flex items-center justify-center cursor-pointer [font-size:clamp(1.25rem,2.4vw,1.5rem)] lg:[font-size:clamp(1.5rem,1.75vw,1.75rem)] ${className}`}>
+            className={`pointer-events-auto outline-none w-[clamp(2.5rem,4.7vw,3rem)] aspect-square rounded-(--radius-button) 
+            border-[clamp(0.125rem,0.1875vw,0.1875rem)] border-primary/70 text-primary/70 active:scale-95 transition-transform duration-200 flex 
+            items-center justify-center cursor-pointer text-[clamp(1.25rem,2.4vw,1.5rem)] 
+            lg:text-[clamp(1.5rem,1.75vw,1.75rem)] ${className}`}>
             { isFavorite ? 
                 <PiBookmarkSimpleFill className='text-primary'/>
                 :

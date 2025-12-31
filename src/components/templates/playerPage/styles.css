@@ -6,6 +6,11 @@
     column-gap: 8px;
 }
 
+.player-page .similar-carousel .embla__container {
+    padding-top: 24px;
+    padding-bottom: 12px;
+}
+
 .player-page .embla__slide {
     transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
 }
@@ -46,15 +51,12 @@
     padding: 0 var(--page-padding);
 }
 
-.player-page .actors-carousel .prev-slide-box,
-.player-page .actors-carousel .next-slide-box {
-    background-color: color-mix(in oklab, var(--color-surface) 85%, transparent);
-}
-
-.player-page .actors-carousel .default-navigation .bullets-bar {
-    position: absolute;
+.player-page .actors-carousel .bullets-bar,
+.player-page .episodes-carousel .bullets-bar {
+    /* position: absolute;
     top: -32px;
-    right: var(--page-padding);
+    right: var(--page-padding); */
+    display: none;
 }
 
 .seasons-wrapper {
@@ -63,6 +65,11 @@
     gap: 20px;
     grid-template-columns: auto;
     justify-content: center;
+}
+
+.player-page .actors-carousel .prev-slide-box,
+.player-page .actors-carousel .next-slide-box {
+    display: none;
 }
 
 @media screen and (width >=640px) {
@@ -91,7 +98,6 @@
 
     .player-page .actors-carousel .prev-slide-box,
     .player-page .actors-carousel .next-slide-box {
-        display: none;
         background-color: color-mix(in oklab, var(--color-background) 85%, transparent);
     }
 
@@ -114,6 +120,10 @@
 @media screen and (width >=1536px) {
     .player-page .actors-carousel .embla {
         width: 100%;
+    } 
+
+    .player-page .episodes-carousel .embla {
+        padding-inline: var(--page-padding);
     }
 
     .player-page .embla {
@@ -124,13 +134,17 @@
         overflow-x: hidden;
     }
 
-    .player-page .prev-slide-box,
-    .player-page .next-slide-box {
+    .player-page .actors-carousel .prev-slide-box,
+    .player-page .actors-carousel .next-slide-box,
+    .player-page .episodes-carousel .prev-slide-box,
+    .player-page .episodes-carousel .next-slide-box {
         display: none;
     }
 
-    .player-page .embla:hover .prev-slide-box,
-    .player-page .embla:hover .next-slide-box {
+    .player-page .actors-carousel .embla:hover .prev-slide-box,
+    .player-page .actors-carousel .embla:hover .next-slide-box,
+    .player-page .episodes-carousel .embla:hover .prev-slide-box,
+    .player-page .episodes-carousel .embla:hover .next-slide-box {
         display: flex;
     }
 }

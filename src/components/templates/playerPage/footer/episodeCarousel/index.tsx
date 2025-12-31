@@ -49,29 +49,32 @@ export default function EpisodesCarousel(props: ComponentProps) {
                 {episodesList?.map((episode: TmdbMediaProps) => (
                     episode.still_path ? (
                         // slide/episodio
-                        <div className="embla__slide bg-surface" key={`episode-${episode.id}`}>
+                        <div className="embla__slide bg-secondary/3" key={`episode-${episode.id}`}>
                             <div className='px-2 pt-2'>
                                 {/* imagem */}
                                 <LazyImage
                                     lowSrc={low_resolution_still + episode.still_path}
                                     highSrc={high_resolution_still + episode.still_path}
                                     alt={`Poster da temporada ${seasonNumber} da serie ${serieName}`}
-                                    className='w-full aspect-video object-cover rounded-md bg-secondary/5'
+                                    className='w-full aspect-video object-cover rounded-(--radius-button) bg-secondary/5'
                                 />
                             </div>
 
                             {/* informações do episodeo */}
                             <div className="p-6 overflow-ellipsis">
                                 {/* titulo */}
-                                <h3 className="[font-size:clamp(1.0625rem,1.8vw,1.125rem)] line-clamp-1 font-raleway font-bold text-secondary lg:[font-size:clamp(1.125rem,1.21vw,1.1875rem)]">
+                                <h3 className="text-[clamp(1.0625rem,1.8vw,1.125rem)] line-clamp-2 font-raleway 
+                                font-bold text-secondary lg:text-[clamp(1.125rem,1.21vw,1.1875rem)]">
                                     {episode.name ?? ''}
                                 </h3>
                                 {/* Duração do episodio */}
-                                <p className='font-medium [font-size:clamp(1rem,1.7vw,1.0625rem)] lg:[font-size:clamp(1.0625rem,1.15vw,1.125rem)] text-secondary'>
+                                <p className='font-medium text-[clamp(1rem,1.7vw,1.0625rem)] lg:text-[clamp(1.0625rem,1.15vw,1.125rem)] 
+                                text-secondary'>
                                     {getRunTime(episode.runtime)}
                                 </p>
                                 {/* Descrição */}
-                                <p className="[font-size:clamp(1rem,1.7vw,1.0625rem)] lg:[font-size:clamp(1.0625rem,1.15vw,1.125rem)] line-clamp-4 font-normal mt-[6px]">
+                                <p className="text-[clamp(1rem,1.7vw,1.0625rem)] lg:text-[clamp(1.0625rem,1.15vw,1.125rem)] 
+                                line-clamp-4 font-normal mt-1.5">
                                     {episode.overview}
                                 </p>
                             </div>

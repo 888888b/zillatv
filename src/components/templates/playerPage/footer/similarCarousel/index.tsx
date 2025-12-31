@@ -17,7 +17,7 @@ export default function SimilarsCarousel({data, className, lang}:ComponentProps)
     const text = translations[lang as LangCode];
 
     return data ? (
-        <div className={`flex flex-col gap-y-6 page-max-width relative ${className}`}>
+        <div className={`similar-carousel flex flex-col page-max-width relative ${className}`}>
             <div id='similar-movies' className="absolute -top-[116px] left-0"/>
             <SectionTitle className="page-padding text-left">
                 {text.similar_movies}

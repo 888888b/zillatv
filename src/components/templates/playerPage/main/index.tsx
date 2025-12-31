@@ -59,11 +59,11 @@ export default function Main({
                 <Description overview={mediaData.overview} />
             )}
             {/* GRID - WIDTH >= 1024PX */}
-            <div className="flex flex-col gap-y-8 custom-grid lg:px-[var(--page-padding)] lg:gap-x-[var(--page-padding)] lg:grid lg:[grid-template-columns:1fr_clamp(300px,30vw,450px)]">
+            <div className="flex flex-col gap-y-8 custom-grid lg:px-(--page-padding) lg:gap-x-(--page-padding) lg:grid lg:grid-cols-[1fr_clamp(300px,30vw,450px)]">
                 {/* GRID - LADO ESQUERDO */}
                 <div className="lg:flex lg:flex-col lg:gap-y-16 overflow-hidden w-full">
                     {/* Exibe opções de streamings para assistir o filme/serie */}
-                    <WhereToWatch data={streamingsData} lang={lang}/>
+                    {streamingsData?.length ? <WhereToWatch data={streamingsData} lang={lang}/> : null}
                     {/* carousel de atores em telas grandes  */}
                     {mediaData.credits.cast.some((actor: undefined | TmdbMediaProps) =>
                         actor && actor.profile_path) &&
@@ -79,13 +79,13 @@ export default function Main({
                 {/* GRID - LADO DIREITO */}
                 {/* seção com mais detalhes */}
                 <section className="pt-8 flex w-full flex-col bg-surface lg:bg-transparent lg:pt-0">
-                    <div className='px-[var(--page-padding)] lg:px-0 page-max-width w-full lg:relative lg:w-full'>
+                    <div className='px-(--page-padding) lg:px-0 page-max-width w-full lg:relative lg:w-full'>
                         {/* Titulo da seção */}
                         <SectionTitle className='text-center sm:text-left lg:max-w-[130px]'>
                             {text.full_details}
                         </SectionTitle>
                         {/* Container com os detalhes */}
-                        <div className="my-8 relative flex justify-end w-full max-w-[1024px] lg:static lg:justify-start">
+                        <div className="my-8 relative flex justify-end w-full max-w-5xl lg:static lg:justify-start">
                             {/* Imagem do filme/serie */}
                             <LazyImage
                                 lowSrc={mediaImage.lowResolutionImage}
@@ -93,7 +93,7 @@ export default function Main({
                                 alt={`Poster do filme/serie ${mediaData.title ?? mediaData.name}`}
                                 loading='lazy'
                                 style={{"--media-img-height": `${mediaImgHeight}px`} as CSSProperties}
-                                className={`w-[35%] rounded-md object-cover absolute top-0 left-0 h-full lg:w-[clamp(140px,14.5vw,220px)] lg:left-auto lg:right-0 lg:h-[var(--media-img-height)]`}
+                                className={`w-[35%] rounded-(--radius-button) object-cover absolute top-0 left-0 h-full lg:w-[clamp(140px,14.5vw,220px)] lg:left-auto lg:right-0 lg:h-(--media-img-height)`}
                             />
                             {/* todos os detalhes do filme/serie */}
                             <ContentDetails 

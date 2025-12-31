@@ -165,7 +165,8 @@ export default function ContentDetails({
                     <a
                         ref={seeEpisodesBtnRef}
                         href={mediaType === 'movie' ? '#similar-movies' : '#episodes-carousel'}
-                        className="w-full rounded-md bg-secondary/10 h-12 flex justify-center items-center [font-size:clamp(1.0625rem,1.15vw,1.125rem)] font-medium text-secondary/90">
+                        className="w-full rounded-(--radius-button) bg-secondary/5 h-12 flex justify-center items-center 
+                        text-[clamp(1.0625rem,1.15vw,1.125rem)] font-medium text-secondary/90">
                         {mediaType === 'movie' ? buttonsText.view_similar : buttonsText.view_episodes}
                     </a>
                 </li>

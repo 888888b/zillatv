@@ -29,7 +29,7 @@
 .episodes-carousel .embla__slide {
     width: calc(100% - var(--page-padding) * 2);
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: var(--radius-button);
     display: flex;
     flex-direction: column;
 }
@@ -65,17 +65,13 @@
     }
 }
 
-@media screen and (width >=1440px) {
+@media screen and (width >= 1440px) {
     .episodes-carousel .embla__slide {
         width: calc((100% - var(--page-padding) * 2 - 24px) / 4);
     }
 }
 
 @media screen and (width >=1536px) {
-    .episodes-carousel .embla {
-        width: calc(var(--page-max-width) - var(--page-padding) * 2);
-    }
-
     .episodes-carousel .embla__slide {
         width: calc((100% - 24px) / 4);
     }

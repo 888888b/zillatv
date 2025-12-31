@@ -85,11 +85,14 @@ export default function Header(props: HeaderProps) {
                         lowSrc={mediaImages.lowResolutionImage}
                         highSrc={mediaImages.highResolutionImage}
                         alt={`Poster do filme/serie ${media.name ?? media.title}`}
-                        className='media-image h-[335px] w-full aspect-video object-cover object-center sm:h-auto sm:max-h-[100vh] sm:min-h-[400px] transition-opacity duration-300 ease-out' />
+                        className='media-image h-[335px] w-full aspect-video object-cover object-center sm:h-auto 
+                        sm:max-h-screen sm:min-h-[400px] transition-opacity duration-300 ease-out' />
                 </div>
 
                 {/* Informações do filme/serie */}
-                <div className='w-full page-padding page-max-width flex flex-col items-center gap-y-4 z-10 relative mx-auto -mt-10 sm:absolute sm:pointer-events-none sm:-mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2'>
+                <div className='w-full page-padding page-max-width flex flex-col items-center gap-y-4 z-10 relative mx-auto 
+                -mt-10 sm:absolute sm:pointer-events-none sm:mt-0 sm:bottom-[clamp(116px,17.2vw,166px)] left-0 sm:items-start 
+                2xl:left-1/2 2xl:-translate-x-1/2'>
                     {/* titulo */}
                     {!logo ?
                         // texto
@@ -106,7 +109,6 @@ export default function Header(props: HeaderProps) {
                     <div className='flex items-center justify-center gap-x-4 flex-nowrap'>
                         {/* abre o modal do trailer */}
                         <PlayButton onClick={openPlayer} className={`${!videoID && 'opacity-70 pointer-events-none'}`}>
-                            <FaPlay className='[font-size:clamp(1rem,2vw,1.25rem)] lg:[font-size:clamp(1.25rem,1.5vw,1.5rem)]'/>
                             {text.watch}
                         </PlayButton>
                         {/* adicionar filme/serie aos favoritos */}

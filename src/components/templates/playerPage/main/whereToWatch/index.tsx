@@ -40,7 +40,7 @@ export default function WhereToWatch({ data, lang }: ComponentProps) {
                 <SectionTitle className="sm:px-6 lg:px-0">{titlesText.where_to_watch}</SectionTitle>
                 <div className="lg:bg-surface lg:mt-6">
                     {/* guia dos cards */}
-                    <div className="columns-titles px-6 *:uppercase font-semibold [font-size:clamp(1.0625rem,1.8vw,1.125rem)] lg:[font-size:clamp(1.125rem,1.2vw,1.1875rem)] py-6 lg:pb-10">
+                    <div className="columns-titles px-6 *:uppercase font-semibold text-[clamp(1.0625rem,1.8vw,1.125rem)] lg:text-[clamp(1.125rem,1.2vw,1.1875rem)] py-6 lg:pb-10">
                         <h3>{titlesText.streaming}</h3>
                         <h3 className="ml-auto md:ml-0 lg:ml-auto xl:ml-0">{titlesText.service}</h3>
                         <h3>{titlesText.info}</h3>
@@ -50,13 +50,14 @@ export default function WhereToWatch({ data, lang }: ComponentProps) {
                     <div className="streaming-list">
                         {data.map((streaming, index) => (
                             // streaming card
-                            <div key={`streaming-${index}`} className="streaming-card p-6 w-full [font-size:clamp(1rem,1.7vw,1.0625rem)] lg:[font-size:clamp(1.0625rem,1.15vw,1.125rem)]">
+                            <div key={`streaming-${index}`} className="streaming-card p-6 w-full text-[clamp(1rem,1.7vw,1.0625rem)] 
+                            lg:text-[clamp(1.0625rem,1.15vw,1.125rem)]">
                                 {/* icone do streaming */}
                                 { streaming.domain ? 
                                     <img
                                         src={`https://img.logo.dev/${streaming.domain}?token=${token}&format=webp`}
                                         alt={`Logo da ${streaming.name}`}
-                                        className="h-10 rounded-md my-auto"
+                                        className="h-10 rounded-(--radius-button) my-auto"
                                     />
                                     :
                                     <h4 className="text-secondary/90 font-semibold text-end md:text-start lg:text-end xl:text-start">
@@ -79,7 +80,10 @@ export default function WhereToWatch({ data, lang }: ComponentProps) {
                                     {streaming.format}
                                 </p>
                                 {/* link/botao para ir a pagina do serviço */}
-                                <a href={streaming.web_url} target="_blank" className="ml-auto my-auto md:ml-0 lg:ml-auto xl:ml-0 bg-secondary/10 text-secondary/90 [font-size:clamp(1rem,1.15vw,1.125rem)] h-[clamp(2.5rem,4.7vw,3rem)] outline-none border-none w-fit rounded-md font-bold px-[1.5em] active:scale-95 transition-transform duration-200 flex items-center gap-[6px] justify-center cursor-pointer">
+                                <a href={streaming.web_url} target="_blank" className="ml-auto my-auto md:ml-0 lg:ml-auto 
+                                xl:ml-0 bg-secondary/10 text-secondary/90 text-[clamp(1rem,1.15vw,1.125rem)] h-[clamp(2.5rem,4.7vw,3rem)] 
+                                outline-none border-none w-fit rounded-(--radius-button) font-bold px-[1.5em] active:scale-95 transition-transform duration-200 
+                                flex items-center gap-1.5 justify-center cursor-pointer">
                                     <FaPlay />
                                     {buttonsText.watch}
                                 </a>

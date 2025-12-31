@@ -53,7 +53,7 @@ export default async function PlayerPage({ mediaType, mediaId, lang }: Component
 
     return (
         <>
-            <section className="mb-16 player-page">
+            <section className="mb-12 player-page">
                 <Header 
                     media={media} 
                     lang={langCode}
