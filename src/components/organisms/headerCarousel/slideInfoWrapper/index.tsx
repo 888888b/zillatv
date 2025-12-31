@@ -8,7 +8,6 @@ import Title from "../title";
 import Logo from "../logo";
 import Description from "../description";
 import PlayButton from "@/components/molecules/playButton";
-import AddToListButton from "@/components/molecules/addToListButton";
 import Genres from '../genres';
 // tipos
 import { Path } from '@/utils/tmdb/getLogoPath';
@@ -75,7 +74,9 @@ export default function SlideInfoWrapper(props: ComponentProps) {
     }, [logo, data, quality]);
 
     return data && pageWidth && (
-        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:mt-0 sm:bottom-[calc(56vw*0.25)] left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
+        <div {...rest} className={`slide-details w-full page-padding page-max-width flex flex-col gap-y-4 
+        items-center z-10 absolute mx-auto bottom-10 sm:pointer-events-none sm:mt-0 sm:bottom-[calc(56vw*0.25)] 
+        left-0 sm:items-start 2xl:left-1/2 2xl:-translate-x-1/2 ${className}`}>
             {/* titulo*/} 
             {mediaTitle}
             {/* desrcição */}

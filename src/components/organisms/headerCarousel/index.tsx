@@ -11,6 +11,7 @@ import {
 import EmblaCarousel from '@/components/organisms/emblaSlides';
 import SlideInfoWrapper from './slideInfoWrapper'
 import Image from './image';
+import SlideInfoSkeleton from './slideInfoSkeleton';
 // tipos
 import { TmdbMediaProps } from '@/app/[lang]/types';
 import { Path } from '@/utils/tmdb/getLogoPath';
@@ -70,7 +71,7 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                     />
                 </div>
                 {/* Informações sobre o filme/Serie exp:(Titulo, Imagem, Descrição, Generos...) */}
-                { !isLoading &&
+                { !isLoading ?
                     <SlideInfoWrapper
                         data={slide}
                         lang={lang}
@@ -78,6 +79,8 @@ export default function HeroCarousel(props: HeaderCarouselProps) {
                         logo={slide.logo}
                         pageWidth={width}
                     />
+                    :
+                    <SlideInfoSkeleton/>
                 }
             </div>
         ));

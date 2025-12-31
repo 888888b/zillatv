@@ -10,8 +10,8 @@
   default: true;
   prefersdark: true;
   color-scheme: dark;
-  --color-base-300: #e5e7eb;
-  --color-base-100: #ffffff;
+  --color-base-300: color-mix(in oklab, var(--color-secondary) 5%, transparent);
+  --color-base-100: color-mix(in oklab, var(--color-secondary) 7%, transparent);
 }
 
 /* cores e fontes utilizadas no projeto */
@@ -46,9 +46,9 @@
 
 :root {
   /* border radius */
-  --radius-selector: 1rem;
-  --radius-field: 0.25rem;
-  --radius-box: 0.5rem;
+  --radius-selector: 0px;
+  --radius-field: 0px;
+  --radius-box: 0px;
   --radius-button: 0px;
   --radius-box: 0px;
 
