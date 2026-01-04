@@ -97,7 +97,7 @@ export default async function HomePage({ lang }: { lang: string }) {
         /** ----------------- RELESEAD MEDIA ------------------ */
         const releasedMovies = await fetchReleasedMovies(1, lang);
         const releasedMoviesFiltered = (await safeCheck(releasedMovies)).filter((_, index) => index <= 14);
-        const releasedSeries = await fetchReleasedSeries(1, lang);
+        const releasedSeries = await fetchReleasedSeries(lang);
         const releasedSeriesFiltered = (await safeCheck(releasedSeries)).filter((_, index) => index <= 14);
         const releasedMedia = shuffle([...releasedMoviesFiltered, ...releasedSeriesFiltered]);
         carouselsData.releasedMedia = {

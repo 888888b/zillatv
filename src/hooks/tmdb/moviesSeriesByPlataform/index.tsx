@@ -15,8 +15,11 @@ export const fetchPlatformContent = async (
         const providerId = moviesProviders[platform];
         const region = lang.split('-')[1];
         const imgLang = lang.split('-')[0];
-        const url = `https://api.themoviedb.org/3/discover/${type}?api_key=${token}&${type === 'movie' ? `with_watch_providers=${providerId}` : `with_networks=${networkId}`}&watch_region=${region}&language=${lang}&page=${page}&include_image_language=${imgLang},en,null`;
-        const res = await fetch(url);
+        const url = `https://api.themoviedb.org/3/discover/${type}?api_key=${token}&${type === 'movie' ? `with_watch_providers=${providerId}` : `with_networks=${networkId}`}&watch_region=${region}&language=${lang}&include_image_language=${imgLang},en,null&page=${page}`;
+        const res = await fetch(url, {
+            cache: page === 1 ? 'force-cache' : 'no-store',
+            next: { revalidate: page === 1 && 14400 } // 4 horas
+        });
         if (!res.ok) {
             throw new Error(`Erro ao buscar ${type} da plataforma ${platform}: ${res.status}`);
         };

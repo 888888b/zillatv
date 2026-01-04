@@ -12,28 +12,28 @@ import { checkAvailability } from '@/utils/tmdb/checkAvailability';
 import { getContentId } from '@/utils/tmdb/getIdList';
 import { formatLangCode } from '@/utils/i18n';
 
-
 export default async function MoviesPage({lang}:{lang:string}) {
-    const headerSlides: TmdbMediaProps[] = [];
-    const langCode = formatLangCode(lang);
+    const heroCarouselData: TmdbMediaProps[] = [];
+    const language = formatLangCode(lang);
     const { fetchSeriesByIdList, fetchAllTrending } = useTmdbFetch();
     const trendingSeries = await fetchAllTrending('tv', lang);
-    const seriesIdsList = await getContentId( trendingSeries );
+    const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
+    const seriesIdsList = await getContentId(trendingSeries);
     const seriesByIdList = await fetchSeriesByIdList(seriesIdsList, lang);
-    const filtered = await checkAvailability(seriesByIdList);
-    headerSlides.push(...filtered.map(item => ({ ...item, media_type: 'serie' })).filter((_, index) => index < 6));
+    const filtered = await safeCheck(seriesByIdList);
+    heroCarouselData.push(...filtered.map(item => ({ ...item, media_type: 'serie' })).filter((_, index) => index < 6));
 
-    return headerSlides && (
+    return heroCarouselData && (
         <>
             <div className='w-full min-h-screen'>
                 <HeaderCarousel
-                    slidesData={headerSlides}
+                    slidesData={heroCarouselData}
                     currentPage='series'
-                    lang={langCode}
+                    lang={language}
                 />
                 <MediaSectionWrapper 
                     className='mt-12 sm:-mt-[calc((56vw*0.25)-100px)]'
-                    lang={langCode}
+                    lang={language}
                 />
             </div>
             {/* força rolagem para o topo da pagina apos o carregamento */}
