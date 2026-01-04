@@ -14,16 +14,14 @@ import { formatLangCode } from '@/utils/i18n';
 export default async function MoviesPage({lang}:{lang:string}) {
     const contentData: TmdbMediaProps[]  = [];
     const langCode = formatLangCode(lang);
-    const { fetchMoviesByIdList, fetchReleasedMovies } = useTmdbFetch();
-    const releasedMovies = await fetchReleasedMovies(1, lang);
+    const { fetchMoviesByIdList, fetchTrendingMovies } = useTmdbFetch();
+    // BUSCA / FILTRA / PREPARA DADOS DO CARROSSEL HERO
+    const trendingMovies = await fetchTrendingMovies(lang);
     const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
-    const filtered1 = await safeCheck(releasedMovies);
-    const idsList = filtered1.map(movie => movie.id);
-    const moviesById = await fetchMoviesByIdList(idsList, lang);
-    const filtered2 = await safeCheck(moviesById);
-    const moviesWithLogo = filtered2.filter(movie => movie.images?.logos.length);
-    const carouselMovies = moviesWithLogo.filter((_, index) => index < 8);
-    contentData.push(...carouselMovies.map(item => ({ ...item, media_type: 'movie' })).filter((_, index) => index < 6));
+    const moviesIdsList = (await safeCheck(trendingMovies?.results)).map(movie => movie.id).slice(0, 9);
+    const moviesByIdList = await fetchMoviesByIdList(moviesIdsList, lang);
+    const moviesWithLogo = (await safeCheck(moviesByIdList)).filter(movie => movie.images?.logos.length).slice(0, 6);
+    contentData.push(...moviesWithLogo.map(item => ({ ...item, media_type: 'movie' })));
 
     return contentData ? (
         <>

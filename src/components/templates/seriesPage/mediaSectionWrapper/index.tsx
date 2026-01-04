@@ -14,15 +14,16 @@ import { Platform, seriesNetworks } from '@/app/[lang]/constants';
 import { makeMediaUnique } from "@/utils/tmdb/removeDuplicates";
 // tipos
 import { TmdbMediaProps } from "@/app/[lang]/types";
+import { FetchReturn } from "@/hooks/tmdb/types";
 import { LangCode } from "@/i18n/languages";
 export type GenreType = { genre: string, title: string };
 type ComponentProps = { className?: string, lang: string }
-type SectionData = { genre: string, data: TmdbMediaProps[] };
+type SectionData = { genre: string, data: TmdbMediaProps[], pages: number };
 
 export default function SeriesSection({ className, lang }: ComponentProps) {
     const [sectionData, setSectionData] = useState<SectionData | null>(null);
     const [page, setPage] = useState(1);
-    // const [isDataLoading, setIsDataLoading] = useState(false);
+    const [isDataLoading, setIsDataLoading] = useState(false);
     const platforms = Object.keys(seriesNetworks);
     const genres = translations[lang as LangCode];
     const [selectedGenre, setSelectedGenre] = useState<GenreType | undefined>();
@@ -35,8 +36,8 @@ export default function SeriesSection({ className, lang }: ComponentProps) {
         fetchPlatformContent
     } = useTmdbFetch();
 
-    const observer = useInfiniteScroll(() => {
-        if (cooldownRef.current || !sectionData) return;
+    const observer = useInfiniteScroll((): void => {
+        if (cooldownRef.current || !sectionData || page >= sectionData.pages) return;
 
         cooldownRef.current = true;
         setPage(prev => prev + 1);
@@ -46,30 +47,34 @@ export default function SeriesSection({ className, lang }: ComponentProps) {
         }, 200);
     });
 
-    const getSelectedGenre = useCallback((genre: GenreType) => {
+    const getSelectedGenre = useCallback((genre: GenreType): void => {
         setSelectedGenre(genre);
         setPage(1);
     }, []);
 
     const fetchAndFilter = useCallback(
-        async (fetchFn: () => Promise<any>) => {
+        async (fetchFn: () => Promise<FetchReturn | undefined>) => {
             const data = await fetchFn();
-            const filtered = await checkAvailability(data);
-            const series = filtered.map(serie => ({
+            if (!data) return;
+            const checked = await checkAvailability(data.results ?? []) ?? [];
+            const series = checked.map(serie => ({
                 ...serie,
                 media_type: 'serie'
             }));
 
             setSectionData(prev => {
                 if (!prev || prev.genre !== selectedGenre?.genre) {
-                    return { genre: selectedGenre?.genre ?? '', data: makeMediaUnique(series) };
+                    return {
+                        genre: selectedGenre?.genre ?? '',
+                        data: makeMediaUnique(series),
+                        pages: data.pages
+                    };
                 };
 
                 return { ...prev, data: makeMediaUnique([...prev.data, ...series]) };
             });
-            // setIsDataLoading(false);
-        },
-        [selectedGenre])
+            setIsDataLoading(false);
+        }, [selectedGenre]);
 
     const fetchTrendings = useCallback(() => fetchAllTrending('tv', lang, page), [lang, page]);
     const fetchPopulars = useCallback(() => fetchPopularSeries(lang, page), [lang, page]);
@@ -77,13 +82,14 @@ export default function SeriesSection({ className, lang }: ComponentProps) {
 
     useEffect(() => {
         if (!selectedGenre) return;
+        if (selectedGenre.genre === sectionData?.genre && page > sectionData.pages) return;
         const genre = selectedGenre.genre;
         const genreMap: Record<string, () => Promise<any>> = {
             release: fetchReleases,
             popular: fetchPopulars,
             trending: fetchTrendings
         };
-        // setIsDataLoading(true);
+        setIsDataLoading(true);
         // Plataforma (Netflix, Prime, etc)
         if (platforms.includes(genre)) {
             fetchAndFilter(() => fetchPlatformContent(genre as Platform, 'tv', page, lang));
@@ -119,12 +125,12 @@ export default function SeriesSection({ className, lang }: ComponentProps) {
                 <MediaSection
                     data={sectionData.data}
                     lang={lang}
-                    className="pb-12"
+                    className={isDataLoading ? 'pb-15' : 'pb-12'}
                 />
             }
             <div ref={observer} className="h-px" />
-            {/* <div className={`transition-[transform_0.3s_ease-out] loading loading-spinner loading-xl absolute 
-                bottom-6 left-1/2 -translate-x-1/2 ${isDataLoading ? 'scale-100' : 'scale-0'}`}/> */}
+            <div className={`duration-200 transition-transform loading loading-spinner loading-xl absolute 
+                bottom-6 left-1/2 -translate-x-1/2 ${isDataLoading && page ? 'transform-[scale(1)]' : 'transform-[scale(0)]'}`} />
         </div>
     );
 }

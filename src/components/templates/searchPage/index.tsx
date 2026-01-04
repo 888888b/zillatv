@@ -12,6 +12,7 @@ import { formatLangCode } from '@/utils/i18n';
 // estilos
 import './styles.css';
 // tipos
+import { FetchReturn } from '@/hooks/tmdb/types';
 type SearchPageProps = {
     keyword: string | undefined,
     lang: string
@@ -19,22 +20,25 @@ type SearchPageProps = {
 
 export default async function SearchPage(props: SearchPageProps) {
     const {keyword, lang} = props;
-    const mediaData: TmdbMediaProps[] = [];
+    const mediaData: FetchReturn = { pages: 1, results: [] };
     const langCode = formatLangCode(lang);
     const {
         fetchReleasedMovies,
         fetchMultiTypes
     } = useTmdbFetch();
+    const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
 
     if (keyword) {
-        const media = await fetchMultiTypes(keyword, lang, 1);
-        const checked = await checkAvailability(media);
-        mediaData.push(...checked);
+        const media = await fetchMultiTypes(keyword, lang);
+        const checked = await safeCheck(media?.results);
+        mediaData.pages = media?.pages ?? 1;
+        mediaData.results.push(...checked);
     } else {
-        const movies = await fetchReleasedMovies(1, lang);
-        const checked = await checkAvailability(movies);
+        const movies = await fetchReleasedMovies(lang);
+        const checked = await safeCheck(movies?.results);
         const withMediaType = checked.map(movie => ({...movie, media_type: 'movie'}));
-        mediaData.push(...withMediaType);
+        mediaData.pages = movies?.pages ?? 1;
+        mediaData.results.push(...withMediaType);
     };
 
     return mediaData ? (

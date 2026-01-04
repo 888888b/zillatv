@@ -51,8 +51,8 @@ export default async function HomePage({ lang }: { lang: string }) {
 
     try {
         /** ---------------- HEADER / HERO CAROUSEL ---------------- */
-        const allTrending = await fetchAllTrending("all", lang) ?? [];
-        const allTrendingsAvailable = await safeCheck(allTrending);
+        const allTrending = await fetchAllTrending("all", lang);
+        const allTrendingsAvailable = await safeCheck(allTrending?.results);
         const headerSlides = (
             await Promise.all(
                 allTrendingsAvailable.map(async (item) => {
@@ -70,14 +70,14 @@ export default async function HomePage({ lang }: { lang: string }) {
             type: 'hero'
         };
 
-        /** ---------------- TRENDING SECTION ---------------- */
+        /** ---------------- FILMES E SERIES EM ALTA ---------------- */
         carouselsData.allTrending = {
             data: allTrendingsAvailable,
             title: titles.trending,
             type: 'default'
         };
 
-        /** ---------------- TOP RATED SECTION ---------------- */
+        /** ---------------- TOP SERIES E FILMES ---------------- */
         const topRated = await fetchTopRatedSeries(lang);
         const topRatedAvailable = await safeCheck(topRated) ?? [];
         const topSeries = (
@@ -94,19 +94,19 @@ export default async function HomePage({ lang }: { lang: string }) {
             type: 'featured'
         };
 
-        /** ----------------- RELESEAD MEDIA ------------------ */
-        const releasedMovies = await fetchReleasedMovies(1, lang);
-        const releasedMoviesFiltered = (await safeCheck(releasedMovies)).filter((_, index) => index <= 14);
-        const releasedSeries = await fetchReleasedSeries(lang);
-        const releasedSeriesFiltered = (await safeCheck(releasedSeries)).filter((_, index) => index <= 14);
-        const releasedMedia = shuffle([...releasedMoviesFiltered, ...releasedSeriesFiltered]);
+        /** ----------------- LANÇAMENTOS ------------------ */
+        const releasedMovies = (await fetchReleasedMovies(lang))?.results ?? [];
+        const releasedChecked = (await safeCheck(releasedMovies)).slice(0, 14);
+        const releasedSeries = (await fetchReleasedSeries(lang))?.results ?? [];
+        const releasedSeriesChecked = (await safeCheck(releasedSeries)).slice(0, 14);
+        const releasedMedia = shuffle([...releasedChecked, ...releasedSeriesChecked]);
         carouselsData.releasedMedia = {
             data: releasedMedia,
             title: titles.releases,
             type: 'default'
         };
 
-        /** ---------------- THE BEST OF STREAMING ---------------- */
+        /** ---------------- O MELHOR DOS STREAMINGS ---------------- */
         const bestStreamingMedia: TmdbMediaProps[] = [];
         const platforms: Platform[] = ["netflix", "disneyPlus", "HBO", "paramount", "primeVideo", "crunchyroll"];
         for (const platform of platforms) {
@@ -114,11 +114,11 @@ export default async function HomePage({ lang }: { lang: string }) {
                 fetchPlatformContent(platform as Platform, "tv", 1, langCode),
                 fetchPlatformContent(platform as Platform, "movie", 1, langCode)
             ]);
-            const filteredSeries = await safeCheck(series);
-            const filteredMovies = await safeCheck(movies);
+            const checkedSeries = await safeCheck(series?.results);
+            const checkedMovies = await safeCheck(movies?.results);
             const bestMedias = [
-                ...sortByVoteAverageDesc(withMediaType(filteredSeries, "tv", platform)).filter((_, index) => index < 5),
-                ...sortByVoteAverageDesc(withMediaType(filteredMovies, "movie", platform)).filter((_, index) => index < 5)
+                ...sortByVoteAverageDesc(withMediaType(checkedSeries, "tv", platform)).slice(0, 4),
+                ...sortByVoteAverageDesc(withMediaType(checkedMovies, "movie", platform)).slice(0, 4)
             ];
             bestStreamingMedia.push(...bestMedias);
         };
@@ -128,15 +128,15 @@ export default async function HomePage({ lang }: { lang: string }) {
             type: 'default'
         };
 
-        /** ---------------- Movie classics ----------------- */
+        /** ---------------- FILMES CLASSICOS ----------------- */
         const [classicMovies, classicSeries] = await Promise.all([
             fetchMovieClassics('movie', 1, langCode),
             fetchMovieClassics('tv', 1, langCode)
         ]);
-        const filteredClassicMovies = await safeCheck(classicMovies);
-        const filteredClassicSeries = await safeCheck(classicSeries);
+        const checkedClassicMovies = await safeCheck(classicMovies);
+        const checkedClassicSeries = await safeCheck(classicSeries);
         carouselsData.movieClassics = {
-            data: shuffle([...filteredClassicMovies, ...filteredClassicSeries]),
+            data: shuffle([...checkedClassicMovies, ...checkedClassicSeries]),
             title: titles.cinema_classics,
             type: 'default'
         };
@@ -147,7 +147,7 @@ export default async function HomePage({ lang }: { lang: string }) {
 
     return (
         <section className="min-h-screen">
-            {/* HERO */}
+            {/* HERO CAROUSEL */}
             <HeaderCarousel
                 slidesData={carouselsData.headerSlides?.data ?? []}
                 currentPage="home"

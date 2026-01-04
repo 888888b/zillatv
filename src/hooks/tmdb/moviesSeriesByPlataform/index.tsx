@@ -1,5 +1,5 @@
 // tipos
-import { TmdbMediaProps } from "@/app/[lang]/types";
+import { FetchReturn } from "../types";
 import { Platform, seriesNetworks, moviesProviders } from '@/app/[lang]/constants';
 export type MediaType = "movie" | "tv" | 'serie';
 
@@ -8,7 +8,7 @@ export const fetchPlatformContent = async (
     type: MediaType = "tv",
     page: number = 1,
     lang: string = 'pt-BR'
-): Promise<TmdbMediaProps[] | undefined> => {
+): Promise<FetchReturn | undefined> => {
     try {
         const token = process.env.NEXT_PUBLIC_TMDB_API_KEY;
         const networkId = seriesNetworks[platform];
@@ -20,10 +20,13 @@ export const fetchPlatformContent = async (
             cache: page === 1 ? 'force-cache' : 'no-store',
             next: { revalidate: page === 1 && 14400 } // 4 horas
         });
+        
         if (!res.ok) {
             throw new Error(`Erro ao buscar ${type} da plataforma ${platform}: ${res.status}`);
         };
-        return (await res.json()).results;
+
+        const data = await res.json();
+        return { pages: data.total_pages, results: data.results };
 
     } catch (err) {
         console.error('Erro ao buscar filmes em alta' + err);

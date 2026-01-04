@@ -9,19 +9,19 @@ import { StopLoading } from '@/components/atoms/stopLoading';
 import { TmdbMediaProps } from '@/app/[lang]/types';
 // utilitarios
 import { checkAvailability } from '@/utils/tmdb/checkAvailability';
-import { getContentId } from '@/utils/tmdb/getIdList';
 import { formatLangCode } from '@/utils/i18n';
 
 export default async function MoviesPage({lang}:{lang:string}) {
     const heroCarouselData: TmdbMediaProps[] = [];
     const language = formatLangCode(lang);
     const { fetchSeriesByIdList, fetchAllTrending } = useTmdbFetch();
+    // BUSCA / FILTRA / PREPARA DADOS DO CARROSSEL HERO
     const trendingSeries = await fetchAllTrending('tv', lang);
     const safeCheck = async (data: any) => await checkAvailability(data ?? []) ?? [];
-    const seriesIdsList = await getContentId(trendingSeries);
+    const seriesIdsList = (await safeCheck(trendingSeries?.results)).map(series => series.id).slice(0, 9);
     const seriesByIdList = await fetchSeriesByIdList(seriesIdsList, lang);
-    const filtered = await safeCheck(seriesByIdList);
-    heroCarouselData.push(...filtered.map(item => ({ ...item, media_type: 'serie' })).filter((_, index) => index < 6));
+    const seriesWithLogo = (await safeCheck(seriesByIdList)).filter(series => series.images?.logos.length).slice(0, 6);
+    heroCarouselData.push(...seriesWithLogo.map(item => ({ ...item, media_type: 'serie' })));
 
     return heroCarouselData && (
         <>
