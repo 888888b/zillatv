@@ -31,8 +31,11 @@
   --color-background: #111111;
     /*cor de fundo da pagina*/
   ;
-  --color-text: #b3b4b8
+  --color-text: #c4c4c4
     /*cor padrão para textos*/
+  ;
+  --color-text-500: #7d7d7d
+    /* cor de texto mais escura */
   ;
   --color-surface: #141414
     /*contraste com a cor de fundo da pagina, para cards e seçoes*/

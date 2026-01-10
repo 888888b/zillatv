@@ -21,26 +21,60 @@ header:not(.is-scrolling) {
     transition: background-color 0.2s ease-in;
 }
 
-header .search-wrapper:not(.active-bar) .search-bar {
-    display: none;
+header .search-bar,
+header .search-icon {
+    transition: opacity 0.2s ease-out;
+}
+
+header .search-bar:has(:not(.has-value)) {
     opacity: 0;
-    background-color: transparent;
-    transition: opacity 0.1s ease-in, display 0.1s ease-in, background-color 0.1s ease-in;
+    pointer-events: none;
 }
 
-header .search-wrapper.active-bar .search-icon {
-    display: none;
-}
-
-header .search-wrapper.active-bar .search-bar {
+header .search-bar:has(.has-value) {
     opacity: 1;
-    display: block;
-    transition: opacity 0.1s ease-out, display 0.1s ease-out, background-color 0.1s ease-out;
-    background-color: var(--color-surface);
+    pointer-events: auto;
+}
+
+header .search-bar-wrapper:has(.has-value) .search-icon {
+    opacity: 0;
+    pointer-events: none;
 }
 
 @media screen and (width >=1024px) {
     header .search-wrapper.active-bar .search-bar {
         background-color: transparent;
+    }
+}
+
+@media (hover:hover) {
+    header .search-bar-wrapper #search-bar-checkbox {
+        display: none;
+    }
+
+    header .search-bar-wrapper:hover .search-bar {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    header .search-bar-wrapper:hover .search-icon {
+        pointer-events: none;
+        opacity: 0;
+    }
+}
+
+@media (hover:none) {
+    header .search-bar-wrapper #search-bar-checkbox {
+        display: initial;
+    }
+
+    header .search-bar-wrapper:has(input:checked) .search-bar  {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    header .search-bar-wrapper:has(input:checked) .search-icon {
+        pointer-events: none;
+        opacity: 0;
     }
 }

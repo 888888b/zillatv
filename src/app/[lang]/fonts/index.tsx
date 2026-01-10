@@ -14,6 +14,6 @@ export const inter = Inter({
 
 export const roboto = Roboto({
   subsets: ['latin-ext'],
-  weight: ['400', '500', '600', '700', '900'],
+  weight: ['300', '400', '500', '600', '700', '900'],
   variable: '--font-roboto'
 })

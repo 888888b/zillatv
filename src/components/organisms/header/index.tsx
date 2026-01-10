@@ -78,31 +78,33 @@ export default function Header({ lang }: { lang: string }) {
 
                 {/* RIGHT SIDE */}
                 <div className="flex items-center gap-x-5 text-secondary">
-                    <div className='search-wrapper' ref={searchWrapperRef}>
-                        {/* visible icon that opens the search bar */}
+                    <div className='search-bar-wrapper relative' ref={searchWrapperRef}>
+                        {/* icone de lupa */}
+                        {/* Mostra barra de pesquisa ao ser clicado */}
                         <SearchIcon
-                        pathClass='stroke-[0.1] lg:stroke-0'
+                            pathClass='stroke-[0.1] lg:stroke-0'
                             onClick={() => setIsMobileSearchActive(true)}
                             className='search-icon cursor-pointer w-[clamp(24px,1.65vw,26px)] 
-                        h-[clamp(24px,1.65vw,26px)]'
+                            h-[clamp(24px,1.65vw,26px)]'
                         />
-                        {/* mobile search bar */}
+
+                        {/* checkbox para controlar abertura/fechamento da search bar no mobile */}
+                        <input type="checkbox" id='search-bar-checkbox' className='absolute top-1/2 -translate-y-1/2 
+                        right-0 w-[clamp(24px,1.65vw,26px)] appearance-none h-[clamp(24px,1.65vw,26px)]'/>
+
+                        {/* barra de pesquisa*/}
                         <div
-                            className="w-full h-full absolute left-0 top-0 search-bar z-10 
-                            lg:relative px-(--page-padding) lg:w-fit lg:h-fit lg:px-0">
+                            className="w-screen fixed left-0 top-0 search-bar z-2 h-[75px] flex items-center justify-center bg-surface
+                            lg:-translate-y-1/2 lg:h-fit lg:absolute lg:top-1/2 lg:right-0 lg:left-auto px-(--page-padding) lg:w-fit lg:px-0">
                             <SearchBar
-                                isAnimated={false}
                                 callback={() => setIsMobileSearchActive(false)}
                                 lang={lang}
-                                className='absolute left-0 top-1/2 -translate-y-1/2 lg:relative lg:translate-y-0 lg:top-0'
                             />
                         </div>
                     </div>
 
-                    {/* Auth or Profile */}
                     <AccountDropdown />
-
-                    {/* dropdown with available laguages */}
+                    {/* exibe lista com opções de idiomas */}
                     <LangSelector/>
                 </div>
             </header>
